@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Master-spec бренд-дизайна и UI Kit проекта Курс на Север для продуктовой и инженерной команды.">
+  <title>Курс на Север — Master Brand Spec</title>
+  <link rel="stylesheet" href="styles/brand.css">
+</head>
+<body>
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero__panel">
+          <span class="hero__label">Master Brand Specification · 2026</span>
+          <h1>Курс на Север</h1>
+          <p>
+            Единая система визуальных и UX-правил для всех экранов платформы.
+            Этот документ — источник истины для дизайнеров, frontend и backend команды.
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>1. Бренд-платформа</h2>
+        <p class="intro">
+          Характер: уверенный, чистый, современный. Визуальный язык: editorial-подача,
+          строгая сетка, много воздуха, холодный акцент, функциональный motion.
+        </p>
+        <div class="grid-4" style="margin-top:24px;">
+          <article class="card">
+            <h3>Clarity</h3>
+            <p>Контент строится в понятной иерархии: headline, тезис, действие.</p>
+          </article>
+          <article class="card">
+            <h3>Trust</h3>
+            <p>Коммуникация фактичная, без визуального шума и скрытых условий.</p>
+          </article>
+          <article class="card">
+            <h3>Human UX</h3>
+            <p>Любой сценарий должен завершаться за 1–2 шага без перегрузки.</p>
+          </article>
+          <article class="card">
+            <h3>Arctic Tone</h3>
+            <p>Монохромная база + холодный акцент как отличительная черта платформы.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>2. Токены (source of truth)</h2>
+        <p class="intro">Те же переменные используются в `styles/main.css` и `styles/brand.css`.</p>
+
+        <div class="grid-4" style="margin-top:24px;">
+          <article class="swatch">
+            <div class="swatch__tone" style="background:#0b1118"></div>
+            <div class="swatch__meta"><strong>--color-ink-900</strong><span>#0B1118 · primary text</span></div>
+          </article>
+          <article class="swatch">
+            <div class="swatch__tone" style="background:#f6f8fb"></div>
+            <div class="swatch__meta"><strong>--color-surface-200</strong><span>#F6F8FB · neutral surface</span></div>
+          </article>
+          <article class="swatch">
+            <div class="swatch__tone" style="background:#d7dde7"></div>
+            <div class="swatch__meta"><strong>--color-line</strong><span>#D7DDE7 · borders</span></div>
+          </article>
+          <article class="swatch">
+            <div class="swatch__tone" style="background:#0d5c8f"></div>
+            <div class="swatch__meta"><strong>--color-accent-600</strong><span>#0D5C8F · action/accent</span></div>
+          </article>
+        </div>
+
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Token group</th>
+                <th>Key tokens</th>
+                <th>Usage</th>
+                <th>Component examples</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Color</td>
+                <td><code>--color-ink-900</code>, <code>--color-accent-600</code>, <code>--color-line</code></td>
+                <td>Контраст, акцент, границы</td>
+                <td>Buttons, links, cards, modal shells</td>
+              </tr>
+              <tr>
+                <td>Type scale</td>
+                <td><code>clamp(40px..96px)</code>, <code>clamp(34px..62px)</code>, <code>18px body</code></td>
+                <td>Hero / section / body hierarchy</td>
+                <td>Hero title, section title, long-form text</td>
+              </tr>
+              <tr>
+                <td>Spacing</td>
+                <td><code>--space-1..--space-7</code></td>
+                <td>Вертикальный ритм, grid gaps</td>
+                <td>Section padding, card internals, form spacing</td>
+              </tr>
+              <tr>
+                <td>Radius</td>
+                <td><code>--radius-1..--radius-4</code></td>
+                <td>Иерархия мягкости UI</td>
+                <td>Inputs, cards, hero frames, modal dialogs</td>
+              </tr>
+              <tr>
+                <td>Elevation</td>
+                <td><code>--elevation-1</code>, <code>--elevation-2</code></td>
+                <td>Глубина интерактивов</td>
+                <td>Feature cards, overlay surfaces</td>
+              </tr>
+              <tr>
+                <td>Motion</td>
+                <td><code>--motion-fast/base/slow/linger</code>, <code>--ease-standard</code></td>
+                <td>Feedback и микро-переходы</td>
+                <td>Hover, reveal, modal open/close, nav transitions</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>3. Типографика</h2>
+        <p class="intro">Self-host шрифты без CDN-зависимости: `Onest Local` + `Manrope Local`.</p>
+
+        <div class="grid-2" style="margin-top:24px;">
+          <article class="card">
+            <h3>Display family</h3>
+            <p class="type-sample-display">Карьерный маршрут в Арктику</p>
+            <p>Шрифт: <code>--font-display</code>, веса 500–800, плотный трекинг для обложечного эффекта.</p>
+          </article>
+          <article class="card">
+            <h3>Body family</h3>
+            <p class="type-sample-body">Проект сопровождает участника от заявки до переезда, трудоустройства и адаптации в регионе.</p>
+            <p>Шрифт: <code>--font-body</code>, веса 400–600, повышенная читаемость на мобильных.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>4. Motion guide (premium subtle)</h2>
+        <p class="intro">Анимации применяются только для иерархии и обратной связи, без декоративной перегрузки.</p>
+
+        <div class="motion-grid">
+          <article class="motion-chip"><strong>Fast · 120ms</strong><span>hover states, focus rings</span></article>
+          <article class="motion-chip"><strong>Base · 180ms</strong><span>button transitions, chips</span></article>
+          <article class="motion-chip"><strong>Slow · 260ms</strong><span>card transform, small reveals</span></article>
+          <article class="motion-chip"><strong>Linger · 420ms</strong><span>section reveal, hero settle</span></article>
+        </div>
+
+        <div class="grid-2 do-dont">
+          <article class="card">
+            <h3>Do</h3>
+            <ul class="list">
+              <li>Анимируйте только opacity/transform.</li>
+              <li>Подчеркивайте переход между блоками при скролле.</li>
+              <li>Используйте мягкие easing-кривые.</li>
+              <li>Поддерживайте <code>prefers-reduced-motion</code>.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <h3>Don't</h3>
+            <ul class="list">
+              <li>Не используйте бесконечные декоративные циклы.</li>
+              <li>Не делайте резких scale/rotate анимаций.</li>
+              <li>Не скрывайте критичный контент до JS-init.</li>
+              <li>Не используйте motion дольше 500ms для обычных действий.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>5. Компоненты и состояния</h2>
+        <p class="intro">Ниже базовые блоки, на которых строится интерфейс главной страницы и внутренних экранов.</p>
+
+        <div class="grid-2" style="margin-top:24px;">
+          <article class="card">
+            <h3>Buttons</h3>
+            <div class="component-row" style="margin-top:12px;">
+              <a href="#" class="btn btn--primary">Primary CTA</a>
+              <a href="#" class="btn btn--secondary">Secondary</a>
+              <a href="#" class="btn btn--soft">Ghost</a>
+              <span class="btn btn--disabled">Disabled</span>
+            </div>
+          </article>
+
+          <article class="card">
+            <h3>Inputs</h3>
+            <div class="component-row" style="margin-top:12px;">
+              <input class="input" placeholder="Текстовое поле">
+              <select class="select"><option>Выберите направление</option></select>
+              <textarea class="textarea" placeholder="Комментарий"></textarea>
+            </div>
+          </article>
+        </div>
+
+        <div class="state-grid" style="margin-top:16px;">
+          <article class="state-card"><strong>Default</strong><input class="input" value="Нормальное состояние"></article>
+          <article class="state-card is-hover"><strong>Hover</strong><input class="input" value="Наведение"></article>
+          <article class="state-card is-focus"><strong>Focus</strong><input class="input" value="Фокус"></article>
+          <article class="state-card is-error"><strong>Error</strong><input class="input" value="Ошибка валидации"></article>
+          <article class="state-card is-success"><strong>Success</strong><input class="input" value="Успешная отправка"></article>
+          <article class="state-card"><strong>Loading</strong><input class="input" value="Отправка данных..."></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>6. Content patterns</h2>
+        <p class="intro">Паттерны для текстов в лендинге, карточках и модальных деталях.</p>
+
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Pattern</th>
+                <th>Формула</th>
+                <th>Где использовать</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Hero headline</td>
+                <td>Глагол действия + контекст региона</td>
+                <td>Первый экран</td>
+              </tr>
+              <tr>
+                <td>Section lead</td>
+                <td>1 факт + 1 польза + 1 следующий шаг</td>
+                <td>Вступления к разделам</td>
+              </tr>
+              <tr>
+                <td>Support card summary</td>
+                <td>Тема + 2–3 ключевые меры</td>
+                <td>Карточки направлений</td>
+              </tr>
+              <tr>
+                <td>Modal detail</td>
+                <td>Логические блоки + маркированные пункты + source link</td>
+                <td>Подробности мер поддержки</td>
+              </tr>
+              <tr>
+                <td>Form helper</td>
+                <td>Короткий action-oriented текст</td>
+                <td>Подписи/подсказки формы</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>7. Dev rules + integration states</h2>
+
+        <div class="spec-table">
+          <table>
+            <thead>
+              <tr>
+                <th>Область</th>
+                <th>Стандарт</th>
+                <th>Пример</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Классы</td>
+                <td>component + state modifier</td>
+                <td><code>.support-card</code>, <code>.support-card.is-active</code></td>
+              </tr>
+              <tr>
+                <td>Формы</td>
+                <td>Field-level + global feedback</td>
+                <td><code>data-field-error</code> + верхний статус</td>
+              </tr>
+              <tr>
+                <td>API error</td>
+                <td><code>{ message, requestId, errors[] }</code></td>
+                <td>422: подсветка полей; 5xx: глобальный alert</td>
+              </tr>
+              <tr>
+                <td>Animation safety</td>
+                <td>Контент видим без JS</td>
+                <td><code>.js .reveal.is-pending</code> gate only</td>
+              </tr>
+              <tr>
+                <td>A11y baseline</td>
+                <td>Keyboard-first + ARIA</td>
+                <td>Dialog role, ESC close, focus trap</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>8. Release checklist</h2>
+        <p class="intro">Контроль перед публикацией главной страницы.</p>
+        <div class="grid-2" style="margin-top:24px;">
+          <article class="card">
+            <ul class="list">
+              <li>Шрифты загружаются локально из <code>assets/fonts</code> (без обязательного CDN).</li>
+              <li>Токены в <code>styles/main.css</code> и <code>styles/brand.css</code> синхронизированы.</li>
+              <li>Контент видим без JS; reveal запускается только при <code>.is-pending</code>.</li>
+              <li><code>prefers-reduced-motion</code> отключает несущественные анимации.</li>
+              <li>Контраст, фокус и клавиатурная навигация соответствуют a11y-базе.</li>
+            </ul>
+          </article>
+          <article class="card">
+            <ul class="list">
+              <li>Семантика legacy-контента сохранена в новой IA без потери ключевых фактов.</li>
+              <li>Модалки: фокус-трап, закрытие по ESC и overlay, возврат фокуса к триггеру.</li>
+              <li>Форма: field-level ошибки для <code>422</code>, глобальный статус с <code>requestId</code>.</li>
+              <li>Fallback словаря сфер работает при недоступном <code>/dictionaries/spheres</code>.</li>
+              <li>Мобильное меню корректно работает на touch/keyboard сценариях.</li>
+            </ul>
+          </article>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <p>Master Brand Spec · Курс на Север · Версия 2.0</p>
+    </div>
+  </footer>
+</body>
+</html>
