@@ -180,52 +180,76 @@
         </div>
 
         <div class="cards-grid" id="support-cards">
-          <article class="support-card" data-category="general">
-            <span class="support-card__type">Базовый пакет</span>
-            <h3>Общие меры поддержки</h3>
-            <p>Надбавки за работу в районах Крайнего Севера, отпуск и компенсации расходов при переезде.</p>
-            <ul>
-              <li>Северная надбавка до 80%, районные коэффициенты 1.4–1.8.</li>
-              <li>Дополнительный отпуск +24 дня и льготы по проезду.</li>
-              <li>Компенсация переезда и провоза багажа до 5 тонн на семью.</li>
-            </ul>
-            <button class="btn btn--ghost" type="button" data-open-modal="support-general">Подробнее</button>
+          <article class="support-card" data-category="general" data-card-order="01">
+            <div class="support-card__head">
+              <span class="support-card__type">Базовый пакет</span>
+            </div>
+            <div class="support-card__body">
+              <h3>Общие меры поддержки</h3>
+              <p class="support-card__lead">Надбавки за работу в районах Крайнего Севера, отпуск и компенсации расходов при переезде.</p>
+              <ul class="support-card__list">
+                <li>Северная надбавка до 80%, районные коэффициенты 1.4–1.8.</li>
+                <li>Дополнительный отпуск +24 дня и льготы по проезду.</li>
+                <li>Компенсация переезда и провоза багажа до 5 тонн на семью.</li>
+              </ul>
+            </div>
+            <div class="support-card__footer">
+              <button class="btn btn--ghost" type="button" data-open-modal="support-general">Подробнее</button>
+            </div>
           </article>
 
-          <article class="support-card" data-category="education">
-            <span class="support-card__type">Сфера образования</span>
-            <h3>Меры для педагогов</h3>
-            <p>Федеральные программы, региональные выплаты, надбавки и расширенные отпускные условия.</p>
-            <ul>
-              <li>Конкурс «Арктический учитель»: до 1 000 000 ₽.</li>
-              <li>Надбавки 10 000–15 000 ₽ по категории.</li>
-              <li>Компенсация аренды жилья до 25 000 ₽ в месяц.</li>
-            </ul>
-            <button class="btn btn--ghost" type="button" data-open-modal="support-education">Подробнее</button>
+          <article class="support-card" data-category="education" data-card-order="02">
+            <div class="support-card__head">
+              <span class="support-card__type">Сфера образования</span>
+            </div>
+            <div class="support-card__body">
+              <h3>Меры для педагогов</h3>
+              <p class="support-card__lead">Федеральные программы, региональные выплаты, надбавки и расширенные отпускные условия.</p>
+              <ul class="support-card__list">
+                <li>Конкурс «Арктический учитель»: до 1 000 000 ₽.</li>
+                <li>Надбавки 10 000–15 000 ₽ по категории.</li>
+                <li>Компенсация аренды жилья до 25 000 ₽ в месяц.</li>
+              </ul>
+            </div>
+            <div class="support-card__footer">
+              <button class="btn btn--ghost" type="button" data-open-modal="support-education">Подробнее</button>
+            </div>
           </article>
 
-          <article class="support-card" data-category="medicine">
-            <span class="support-card__type">Сфера здравоохранения</span>
-            <h3>Меры для медиков</h3>
-            <p>Поддержка трудоустройства, жилья, переезда и долгосрочной работы в регионе.</p>
-            <ul>
-              <li>«Земский доктор/фельдшер»: до 2 000 000 ₽.</li>
-              <li>Региональные выплаты на дефицитные ставки до 1 500 000 ₽.</li>
-              <li>Компенсация аренды и расходы на ЖКХ, льготы на релокацию.</li>
-            </ul>
-            <button class="btn btn--ghost" type="button" data-open-modal="support-medicine">Подробнее</button>
+          <article class="support-card" data-category="medicine" data-card-order="03">
+            <div class="support-card__head">
+              <span class="support-card__type">Сфера здравоохранения</span>
+            </div>
+            <div class="support-card__body">
+              <h3>Меры для медиков</h3>
+              <p class="support-card__lead">Поддержка трудоустройства, жилья, переезда и долгосрочной работы в регионе.</p>
+              <ul class="support-card__list">
+                <li>«Земский доктор/фельдшер»: до 2 000 000 ₽.</li>
+                <li>Региональные выплаты на дефицитные ставки до 1 500 000 ₽.</li>
+                <li>Компенсация аренды и расходы на ЖКХ, льготы на релокацию.</li>
+              </ul>
+            </div>
+            <div class="support-card__footer">
+              <button class="btn btn--ghost" type="button" data-open-modal="support-medicine">Подробнее</button>
+            </div>
           </article>
 
-          <article class="support-card" data-category="students">
-            <span class="support-card__type">Старт карьеры</span>
-            <h3>Для студентов</h3>
-            <p>Стажировки на предприятиях области и выход на трудоустройство после практики.</p>
-            <ul>
-              <li>Карьерные треки для студентов разных специальностей.</li>
-              <li>Погружение в проекты региона во время обучения.</li>
-              <li>Поддержка перехода от стажировки к офферу.</li>
-            </ul>
-            <button class="btn btn--ghost" type="button" data-open-modal="support-students">Подробнее</button>
+          <article class="support-card" data-category="students" data-card-order="04">
+            <div class="support-card__head">
+              <span class="support-card__type">Старт карьеры</span>
+            </div>
+            <div class="support-card__body">
+              <h3>Для студентов</h3>
+              <p class="support-card__lead">Стажировки на предприятиях области и выход на трудоустройство после практики.</p>
+              <ul class="support-card__list">
+                <li>Карьерные треки для студентов разных специальностей.</li>
+                <li>Погружение в проекты региона во время обучения.</li>
+                <li>Поддержка перехода от стажировки к офферу.</li>
+              </ul>
+            </div>
+            <div class="support-card__footer">
+              <button class="btn btn--ghost" type="button" data-open-modal="support-students">Подробнее</button>
+            </div>
           </article>
         </div>
       </div>
