@@ -1,0 +1,12 @@
+name: kurs_na_site
+
+services:
+  web:
+    image: nginx:1.27-alpine
+    container_name: kurs_na_site
+    restart: unless-stopped
+    ports:
+      - "8105:80"
+    volumes:
+      - ./:/usr/share/nginx/html:ro
+      - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf:ro
