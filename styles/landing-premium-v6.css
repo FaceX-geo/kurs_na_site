@@ -1,0 +1,741 @@
+/*
+ * Landing v6 — regional art direction.
+ * One documentary rhythm: people, tactile instruments, exact geography and
+ * sparse natural motifs. Loaded after the legacy art layers by design.
+ */
+
+/* Regional background chapters */
+
+.vacancies-section {
+  overflow: hidden;
+  background:
+    linear-gradient(180deg, rgba(238, 245, 249, 0.96), rgba(229, 239, 246, 0.98)),
+    #eaf2f7;
+}
+
+.vacancies-section .section-heading,
+.vacancies-section .filter-row,
+.vacancies-section .vacancy-grid {
+  position: relative;
+  z-index: 2;
+}
+
+.section-parallax__layer--sea {
+  top: 2%;
+  right: -18%;
+  bottom: auto;
+  left: auto;
+  width: min(88vw, 1320px);
+  height: 78%;
+  opacity: 0.16;
+  filter: saturate(0.72) contrast(0.9);
+  mix-blend-mode: multiply;
+  -webkit-mask-image:
+    radial-gradient(ellipse 82% 72% at 72% 44%, #000 12%, rgba(0, 0, 0, 0.84) 54%, transparent 88%);
+  mask-image:
+    radial-gradient(ellipse 82% 72% at 72% 44%, #000 12%, rgba(0, 0, 0, 0.84) 54%, transparent 88%);
+}
+
+.section-parallax__layer--sea img {
+  object-position: 68% 46%;
+}
+
+.route-section {
+  overflow: hidden;
+}
+
+.route-section > .section-parallax {
+  inset: 0;
+}
+
+.route-section .section-parallax__layer--khibiny {
+  inset: auto -6% -7% auto;
+  width: min(68vw, 1040px);
+  height: 54%;
+  opacity: 0.12;
+  filter: saturate(0.64) contrast(0.86);
+  mix-blend-mode: multiply;
+  -webkit-mask-image:
+    radial-gradient(ellipse 88% 82% at 72% 86%, #000 0%, rgba(0, 0, 0, 0.82) 48%, transparent 90%);
+  mask-image:
+    radial-gradient(ellipse 88% 82% at 72% 86%, #000 0%, rgba(0, 0, 0, 0.82) 48%, transparent 90%);
+}
+
+.route-section .section-parallax__layer--khibiny img {
+  object-position: 72% 68%;
+  transform: scale(1.035);
+}
+
+.support-section .section-parallax__layer--whale {
+  top: -4%;
+  right: -9%;
+  bottom: auto;
+  left: auto;
+  width: min(84vw, 1240px);
+  height: 98%;
+  opacity: 0.2;
+  filter: saturate(0.78) brightness(1.28) contrast(0.94);
+  mix-blend-mode: screen;
+  -webkit-mask-image:
+    radial-gradient(ellipse 84% 76% at 70% 48%, #000 8%, rgba(0, 0, 0, 0.86) 62%, transparent 94%);
+  mask-image:
+    radial-gradient(ellipse 84% 76% at 70% 48%, #000 8%, rgba(0, 0, 0, 0.86) 62%, transparent 94%);
+}
+
+.support-section .section-parallax__layer--whale img {
+  object-fit: contain;
+  object-position: 100% 38%;
+  transform: rotate(-7deg) scale(0.98);
+}
+
+.support-detail__photo {
+  object-position: var(--support-position-desktop, 78% 42%);
+  transition:
+    opacity 220ms ease,
+    transform 650ms var(--ease);
+}
+
+.support-detail.is-media-changing .support-detail__photo {
+  opacity: 0.64;
+}
+
+.support-detail.is-media-error {
+  background:
+    radial-gradient(circle at 82% 18%, rgba(92, 220, 230, 0.15), transparent 32%),
+    #020d26;
+}
+
+.support-detail.is-media-error .support-detail__photo {
+  opacity: 0;
+}
+
+.about-section {
+  position: relative;
+  overflow: hidden;
+}
+
+.about-section .section-parallax__layer--crab {
+  right: -8%;
+  bottom: -12%;
+  left: auto;
+  width: min(74vw, 1120px);
+  height: 86%;
+  opacity: 0.16;
+  filter: saturate(0.72) contrast(0.94);
+  mix-blend-mode: multiply;
+  -webkit-mask-image:
+    radial-gradient(ellipse 82% 78% at 76% 66%, #000 18%, rgba(0, 0, 0, 0.82) 62%, transparent 93%);
+  mask-image:
+    radial-gradient(ellipse 82% 78% at 76% 66%, #000 18%, rgba(0, 0, 0, 0.82) 62%, transparent 93%);
+}
+
+.about-section .section-parallax__layer--crab img {
+  object-fit: contain;
+  object-position: 100% 100%;
+  transform: rotate(-8deg) scale(0.96);
+}
+
+.application-section .section-parallax__layer--port {
+  top: -12%;
+  right: -10%;
+  bottom: -12%;
+  left: 38%;
+  width: auto;
+  height: auto;
+  opacity: 0.13;
+  filter: saturate(0.62) contrast(1.06);
+  mix-blend-mode: screen;
+  -webkit-mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.68) 22%, #000 58%, rgba(0, 0, 0, 0.52) 100%);
+  mask-image:
+    linear-gradient(90deg, transparent 0%, rgba(0, 0, 0, 0.68) 22%, #000 58%, rgba(0, 0, 0, 0.52) 100%);
+}
+
+/* Career composition */
+
+.vacancy-grid--v6 {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 16px;
+}
+
+.vacancy-grid--v6 .vacancy-grid__human {
+  display: grid;
+  grid-template-columns: minmax(0, 7fr) minmax(0, 5fr);
+  gap: 16px;
+}
+
+.vacancy-grid--v6 .vacancy-grid__objects {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.vacancy-grid--v6 .vacancy-card {
+  position: relative;
+  isolation: isolate;
+  display: block;
+  grid-column: auto;
+  grid-row: auto;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(15, 46, 84, 0.09);
+  border-radius: 30px;
+  color: #071735;
+  box-shadow:
+    0 28px 72px rgba(6, 31, 69, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.68);
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  transition:
+    transform 520ms cubic-bezier(0.2, 0.75, 0.25, 1),
+    box-shadow 520ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.vacancy-grid--v6 .vacancy-card[hidden] {
+  display: none;
+}
+
+.vacancy-grid--v6 .vacancy-card:hover {
+  transform: translateY(-5px);
+  box-shadow:
+    0 36px 92px rgba(6, 31, 69, 0.15),
+    inset 0 1px 0 rgba(255, 255, 255, 0.74);
+}
+
+.vacancy-grid--v6 .vacancy-card::before,
+.vacancy-grid--v6 .vacancy-card::after {
+  pointer-events: none;
+}
+
+.vacancy-grid--v6 .vacancy-card::after {
+  z-index: 5;
+  inset: 1px;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 29px;
+  background: none;
+}
+
+.vacancy-grid--v6 .vacancy-card__body {
+  position: absolute;
+  z-index: 3;
+  display: flex;
+  flex-direction: column;
+}
+
+.vacancy-grid--v6 .vacancy-card__top {
+  justify-content: space-between;
+}
+
+.vacancy-grid--v6 .vacancy-card__badge {
+  width: max-content;
+  border: 1px solid currentColor;
+  background: transparent;
+  color: inherit;
+  opacity: 0.7;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+}
+
+.vacancy-grid--v6 .vacancy-card__index {
+  color: currentColor;
+  font: 650 12px/1 var(--font-body);
+  letter-spacing: 0.16em;
+  opacity: 0.42;
+}
+
+.vacancy-grid--v6 .vacancy-card__location {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  margin: 0;
+  padding: 0;
+  color: inherit;
+  font-size: 12px;
+  opacity: 0.68;
+}
+
+.vacancy-grid--v6 .vacancy-card__location img {
+  width: 15px;
+  height: 15px;
+}
+
+.vacancy-grid--v6 .vacancy-card h3 {
+  margin: 0;
+  color: inherit;
+  letter-spacing: -0.06em;
+  text-shadow: none;
+}
+
+.vacancy-grid--v6 .vacancy-card__description {
+  margin: 0;
+  color: inherit;
+  opacity: 0.7;
+}
+
+/* Two documentary human cards */
+
+.vacancy-grid--v6 .vacancy-card--human {
+  height: 606px;
+  background: #071735;
+  color: #fff;
+}
+
+.vacancy-grid--v6 .vacancy-card--human::before {
+  z-index: 2;
+  inset: 0;
+  border-radius: inherit;
+  content: "";
+}
+
+.vacancy-grid--v6 .vacancy-card--human .vacancy-card__media {
+  z-index: 1;
+  border-radius: 0;
+}
+
+.vacancy-grid--v6 .vacancy-card--human .vacancy-card__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transform: scale(1.001);
+  transition: transform 900ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.vacancy-grid--v6 .vacancy-card--human:hover .vacancy-card__media img {
+  transform: scale(1.025);
+}
+
+.vacancy-grid--v6 .vacancy-card--featured .vacancy-card__media {
+  inset: 0 0 0 42%;
+}
+
+.vacancy-grid--v6 .vacancy-card--featured .vacancy-card__media img {
+  object-position: 52% 18%;
+}
+
+.vacancy-grid--v6 .vacancy-card--featured::before {
+  background:
+    linear-gradient(90deg, #071735 0%, #071735 39%, rgba(7, 23, 53, 0.96) 48%, rgba(7, 23, 53, 0.2) 71%, transparent 100%),
+    linear-gradient(180deg, transparent 52%, rgba(4, 14, 34, 0.2) 100%);
+}
+
+.vacancy-grid--v6 .vacancy-card--featured .vacancy-card__body {
+  inset: 0 auto 0 0;
+  width: 52%;
+  padding: 34px;
+}
+
+.vacancy-grid--v6 .vacancy-card--featured .vacancy-card__location {
+  margin-top: auto;
+}
+
+.vacancy-grid--v6 .vacancy-card--featured h3 {
+  margin-top: 12px;
+  font-size: clamp(48px, 4.8vw, 72px);
+  line-height: 0.92;
+}
+
+.vacancy-grid--v6 .vacancy-card--featured .vacancy-card__description {
+  max-width: 430px;
+  margin-top: 16px;
+  font-size: 15px;
+  line-height: 1.55;
+}
+
+.vacancy-grid--v6 .vacancy-card--human .vacancy-card__action {
+  position: relative;
+  align-self: flex-start;
+  min-height: 48px;
+  margin-top: 26px;
+  color: #071735;
+}
+
+.vacancy-grid--v6 .vacancy-card--human .vacancy-card__action::before {
+  display: none;
+}
+
+.vacancy-grid--v6 .vacancy-card--human .vacancy-card__action img {
+  flex: 0 0 18px;
+  width: 18px;
+  height: 18px;
+  filter: none;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__media {
+  inset: 0 0 28%;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__media img {
+  object-position: 50% 40%;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor::before {
+  background:
+    linear-gradient(180deg, transparent 0%, transparent 53%, rgba(7, 23, 53, 0.22) 63%, #071735 73%, #071735 100%);
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__body {
+  inset: auto 0 0;
+  height: 44%;
+  padding: 26px 28px 28px;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__location {
+  margin-top: auto;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor h3 {
+  margin-top: 8px;
+  font-size: clamp(35px, 3.4vw, 50px);
+  line-height: 0.94;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__description {
+  display: none;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__action {
+  margin-top: 18px;
+}
+
+/* Four tactile object cards */
+
+.vacancy-grid--v6 .vacancy-card--object {
+  height: 304px;
+}
+
+.vacancy-grid--v6 .vacancy-card--object::before {
+  z-index: 0;
+  inset: auto -28% -46% 18%;
+  width: auto;
+  height: 80%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(69, 177, 202, 0.16), transparent 72%);
+  content: "";
+}
+
+.vacancy-grid--v6 .vacancy-card--object .vacancy-card__body {
+  z-index: 2;
+  inset: 0;
+  padding: 22px;
+}
+
+.vacancy-grid--v6 .vacancy-card__object {
+  position: absolute;
+  z-index: 1;
+  top: 30px;
+  right: -12px;
+  width: 58%;
+  height: 54%;
+  object-fit: contain;
+  object-position: center;
+  filter: drop-shadow(0 20px 24px rgba(5, 25, 57, 0.16));
+  transition: transform 700ms cubic-bezier(0.2, 0.75, 0.25, 1);
+}
+
+.vacancy-grid--v6 .vacancy-card--object:hover .vacancy-card__object {
+  transform: translateY(-5px) rotate(-1.5deg);
+}
+
+.vacancy-grid--v6 .vacancy-card--object .vacancy-card__location {
+  margin-top: auto;
+}
+
+.vacancy-grid--v6 .vacancy-card--object h3 {
+  max-width: 78%;
+  margin-top: 8px;
+  font-size: clamp(24px, 2.1vw, 31px);
+  line-height: 0.98;
+}
+
+.vacancy-grid--v6 .vacancy-card--object .vacancy-card__description {
+  max-width: 72%;
+  margin-top: 9px;
+  font-size: 12px;
+  line-height: 1.4;
+}
+
+.vacancy-card__object-action {
+  position: absolute;
+  right: 20px;
+  bottom: 20px;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid rgba(7, 23, 53, 0.2);
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.5);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    transform 180ms ease;
+}
+
+.vacancy-card__object-action:hover,
+.vacancy-card__object-action:focus-visible {
+  background: #fff;
+  transform: translateX(3px);
+}
+
+.vacancy-card__object-action:focus-visible {
+  outline: 3px solid rgba(79, 211, 227, 0.48);
+  outline-offset: 3px;
+}
+
+.vacancy-card__object-action img {
+  width: 18px;
+  height: 18px;
+}
+
+.vacancy-grid--v6 .vacancy-card--education {
+  background:
+    linear-gradient(145deg, rgba(249, 252, 251, 0.97), rgba(212, 231, 235, 0.96));
+}
+
+.vacancy-grid--v6 .vacancy-card--port {
+  border-color: rgba(115, 191, 211, 0.18);
+  background:
+    radial-gradient(circle at 84% 18%, rgba(72, 196, 213, 0.14), transparent 34%),
+    linear-gradient(145deg, #061735, #092958);
+  color: #fff;
+}
+
+.vacancy-grid--v6 .vacancy-card--port .vacancy-card__object-action {
+  border-color: rgba(255, 255, 255, 0.28);
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.vacancy-grid--v6 .vacancy-card--port .vacancy-card__object-action img,
+.vacancy-grid--v6 .vacancy-card--port .vacancy-card__location img {
+  filter: brightness(0) invert(1);
+}
+
+.vacancy-grid--v6 .vacancy-card--energy {
+  background:
+    linear-gradient(145deg, rgba(252, 249, 244, 0.98), rgba(232, 224, 213, 0.96));
+}
+
+.vacancy-grid--v6 .vacancy-card--analytics {
+  background:
+    radial-gradient(circle at 84% 28%, rgba(100, 66, 136, 0.14), transparent 34%),
+    linear-gradient(145deg, rgba(248, 247, 252, 0.98), rgba(221, 219, 233, 0.96));
+}
+
+.vacancy-grid--v6 .vacancy-card--analytics .vacancy-card__object {
+  top: 18px;
+  right: -3px;
+  height: 58%;
+}
+
+@media (max-width: 1100px) {
+  .vacancy-grid--v6 .vacancy-grid__human {
+    grid-template-columns: minmax(0, 1fr) minmax(330px, 0.72fr);
+  }
+
+  .vacancy-grid--v6 .vacancy-grid__objects {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .vacancy-grid--v6 .vacancy-card--object {
+    height: 292px;
+  }
+}
+
+@media (max-width: 720px) {
+  .support-detail {
+    --support-media-height: clamp(350px, 108vw, 420px);
+    min-height: calc(var(--support-media-height) + 390px);
+    background: #020d26;
+  }
+
+  .section-parallax__layer--sea {
+    top: 6%;
+    right: -56%;
+    width: 156vw;
+    height: 46%;
+    opacity: 0.1;
+  }
+
+  .route-section .section-parallax__layer--khibiny {
+    inset: auto -58% 1% auto;
+    width: 164vw;
+    height: 32%;
+    opacity: 0.07;
+  }
+
+  .support-section .section-parallax__layer--whale {
+    top: 8%;
+    right: -58%;
+    width: 176vw;
+    height: 72%;
+    opacity: 0.12;
+  }
+
+  .about-section .section-parallax__layer--crab {
+    right: -42%;
+    bottom: -1%;
+    width: 142vw;
+    height: 56%;
+    opacity: 0.09;
+  }
+
+  .application-section .section-parallax__layer--port {
+    top: 0;
+    right: -46%;
+    bottom: 0;
+    left: 24%;
+    opacity: 0.08;
+  }
+
+  .support-detail__photo {
+    bottom: auto;
+    height: var(--support-media-height);
+    object-position: var(--support-position-mobile, 88% 50%);
+  }
+
+  .support-detail__shade {
+    background:
+      linear-gradient(180deg,
+        rgba(2, 13, 38, 0.02) 0,
+        rgba(2, 13, 38, 0.08) calc(var(--support-media-height) - 92px),
+        rgba(2, 13, 38, 0.78) calc(var(--support-media-height) - 16px),
+        #020d26 var(--support-media-height),
+        #020d26 100%),
+      linear-gradient(90deg, rgba(2, 13, 38, 0.12), rgba(2, 13, 38, 0.01) 88%);
+  }
+
+  .support-detail__content {
+    min-height: calc(var(--support-media-height) + 390px);
+    justify-content: flex-start;
+    padding: calc(var(--support-media-height) + 22px) 24px 28px;
+  }
+
+  .support-detail h3 {
+    font-size: clamp(40px, 12vw, 48px);
+  }
+
+  .vacancy-grid--v6 {
+    display: block;
+  }
+
+  .vacancy-grid--v6 .vacancy-grid__human {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--human {
+    height: 492px;
+    border-radius: 26px;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured .vacancy-card__media,
+  .vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__media {
+    inset: 0 0 28%;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured .vacancy-card__media img {
+    object-position: 50% 18%;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__media img {
+    object-position: 50% 40%;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured::before,
+  .vacancy-grid--v6 .vacancy-card--doctor::before {
+    background:
+      linear-gradient(180deg, transparent 0%, transparent 52%, rgba(7, 23, 53, 0.3) 64%, #071735 74%, #071735 100%);
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured .vacancy-card__body,
+  .vacancy-grid--v6 .vacancy-card--doctor .vacancy-card__body {
+    inset: auto 0 0;
+    width: 100%;
+    height: 44%;
+    padding: 22px;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--human .vacancy-card__location {
+    margin-top: auto;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured h3,
+  .vacancy-grid--v6 .vacancy-card--doctor h3 {
+    margin-top: 8px;
+    font-size: 39px;
+    line-height: 0.94;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--featured h3 br,
+  .vacancy-grid--v6 .vacancy-card--doctor h3 br {
+    display: none;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--human .vacancy-card__description {
+    display: none;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--human .vacancy-card__action {
+    min-height: 43px;
+    margin-top: 15px;
+    padding: 10px 16px;
+    font-size: 13px;
+  }
+
+  .vacancy-grid--v6 .vacancy-grid__objects {
+    display: flex;
+    gap: 12px;
+    margin: 12px -12px 0 0;
+    padding: 0 12px 12px 0;
+    overflow-x: auto;
+    scroll-padding-inline: 0 12px;
+    scroll-snap-type: x mandatory;
+    scrollbar-width: none;
+  }
+
+  .vacancy-grid--v6 .vacancy-grid__objects::-webkit-scrollbar {
+    display: none;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--object {
+    flex: 0 0 min(82vw, 322px);
+    height: 276px;
+    border-radius: 26px;
+    scroll-snap-align: start;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--object .vacancy-card__body {
+    padding: 20px;
+  }
+
+  .vacancy-grid--v6 .vacancy-card__object {
+    top: 28px;
+    right: -8px;
+    width: 56%;
+    height: 50%;
+  }
+
+  .vacancy-grid--v6 .vacancy-card--object h3 {
+    max-width: 78%;
+    font-size: 27px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .vacancy-grid--v6 .vacancy-card,
+  .vacancy-grid--v6 .vacancy-card__object,
+  .vacancy-grid--v6 .vacancy-card--human .vacancy-card__media img {
+    transition: none;
+  }
+
+  .vacancy-grid--v6 .vacancy-card:hover,
+  .vacancy-grid--v6 .vacancy-card--object:hover .vacancy-card__object,
+  .vacancy-grid--v6 .vacancy-card--human:hover .vacancy-card__media img {
+    transform: none;
+  }
+}

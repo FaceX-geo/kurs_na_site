@@ -23,7 +23,8 @@
 
 ## 5. Motion policy
 - Allowed: opacity/transform transitions.
-- Disallowed: decorative infinite loops and aggressive rotations/scales.
+- Allowed: one low-frequency atmospheric loop per viewport when it carries a real regional motif, has a visible pause/resume control, stops outside the viewport and respects `prefers-reduced-motion`.
+- Disallowed: generic decorative infinite loops, rapid flashing and aggressive rotations/scales.
 - Critical content must stay visible when JS fails.
 - Reveal policy: `.reveal` is visible by default, animation state only via `.js .reveal.is-pending`.
 - Mandatory `prefers-reduced-motion: reduce` support.

@@ -33,33 +33,26 @@
 
 ## Quick Start
 
-### 1. Локальный запуск через Docker
+Docker Engine для этого проекта работает только на удалённом сервере Bravo.
+На macOS находятся исходники и Docker CLI, но локальные контексты
+`default`/`desktop-linux` не используются ни для сборки, ни для запуска.
 
 ```bash
-docker compose up -d
+./scripts/bravo-compose.sh config
+./scripts/bravo-compose.sh build web
+./scripts/bravo-compose.sh up -d web
+./scripts/bravo-compose.sh ps
+./scripts/bravo-compose.sh logs --tail=120 web
 ```
 
 После старта сайт доступен по адресу:
 
 ```txt
-http://localhost:8105
+http://192.168.0.108:8105/
 ```
 
-Остановка:
-
-```bash
-docker compose down
-```
-
-### 2. Локальный запуск без Docker
-
-Подойдет любой статический сервер. Например:
-
-```bash
-python3 -m http.server 8105
-```
-
-Но production-поведение ближе всего к `docker compose`, потому что там уже настроен `nginx` и fallback на `index.html`.
+Подробный регламент и защитные ограничения:
+[docs/BRAVO_REMOTE_DOCKER.md](docs/BRAVO_REMOTE_DOCKER.md).
 
 ## Runtime Topology
 
@@ -79,7 +72,9 @@ python3 -m http.server 8105
 │   ├── api-contract.md        # договор по API
 │   ├── brand-spec.md          # визуальные правила
 │   └── content-map.md         # карта переноса контента со старого сайта
-├── docker-compose.yml         # локальный контейнерный запуск
+├── scripts/
+│   └── bravo-compose.sh       # guarded Compose runner для Bravo
+├── docker-compose.yml         # удалённый runtime на Bravo
 └── docker/nginx/default.conf  # конфиг nginx
 ```
 

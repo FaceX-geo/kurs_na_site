@@ -32,6 +32,7 @@ Creates candidate application.
     "phone": "+7 (911) 111-22-33"
   },
   "application": {
+    "applicantType": "relocation",
     "referralCode": "ABC1234567",
     "region": "Санкт-Петербург",
     "sphere": "medicine",
@@ -56,6 +57,62 @@ Creates candidate application.
   }
 }
 ```
+
+`application.applicantType` is required and accepts:
+
+- `relocation` — work and relocation route. `sphere` and `wishPost` are required; `wishSalary` is optional.
+- `student` — student, graduate, internship or first-job route. Relocation-only fields are omitted and `studentProfile` is required.
+
+Student request variant:
+
+```json
+{
+  "personal": {
+    "surname": "Петрова",
+    "name": "Анна",
+    "middlename": "Сергеевна",
+    "birthdate": "2004-09-18",
+    "email": "anna@example.com",
+    "phone": "+7 (921) 111-22-33"
+  },
+  "application": {
+    "applicantType": "student",
+    "referralCode": "",
+    "region": "Республика Карелия",
+    "studentProfile": {
+      "institution": "Петрозаводский государственный университет",
+      "specialty": "Промышленная теплоэнергетика",
+      "graduationYear": 2027,
+      "status": "3",
+      "practicePeriod": {
+        "start": "2027-06",
+        "end": "2027-08"
+      }
+    },
+    "comment": "Ищу производственную практику с возможностью дальнейшего трудоустройства"
+  },
+  "consents": {
+    "privacyAccepted": true
+  },
+  "attachments": {
+    "resumeFileId": null
+  },
+  "meta": {
+    "source": "web",
+    "entryPoint": {
+      "source": "students-section",
+      "applicantType": "student"
+    },
+    "utm": {},
+    "timestamp": "2026-07-31T10:25:00.000Z",
+    "clientFingerprint": "fp_182739812"
+  }
+}
+```
+
+Backend validation must reject mixed payloads: `studentProfile` must not be accepted for `relocation`, and `sphere`, `wishPost`, `wishSalary` must not be accepted for `student`.
+
+For `studentProfile.status = "graduated"`, `practicePeriod` is omitted and must not be required. For course values `"1"` through `"6"`, both `practicePeriod.start` and `practicePeriod.end` are required in `YYYY-MM` format.
 
 ### Success `201`
 ```json
@@ -121,6 +178,12 @@ Also supported response shape:
 - Field alias mapping in UI:
   - `consents.privacyAccepted` -> `agreeTerms`
   - `application.referralCode` -> `referral`
+  - `application.studentProfile.institution` -> `studentInstitution`
+  - `application.studentProfile.specialty` -> `studentSpecialty`
+  - `application.studentProfile.graduationYear` -> `graduationYear`
+  - `application.studentProfile.status` -> `studentStatus`
+  - `application.studentProfile.practicePeriod.start` -> `practiceStart`
+  - `application.studentProfile.practicePeriod.end` -> `practiceEnd`
   - `attachments.resumeFileId` -> `resume`
 - `requestId` from any error => show in global feedback for support diagnostics.
 - Submit button lock during `loading`.

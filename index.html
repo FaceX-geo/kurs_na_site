@@ -3,511 +3,892 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="description" content="Курс на Север — проект поддержки переезда, трудоустройства и адаптации специалистов в Мурманской области.">
-  <title>Курс на Север — карьера и переезд в Арктику</title>
+  <meta name="description" content="Курс на Север — вакансии, меры поддержки и персональный маршрут переезда в Мурманскую область.">
+  <meta name="theme-color" content="#081b4b">
+  <title>Курс на Север — карьера и переезд в Мурманскую область</title>
   <script>document.documentElement.classList.add("js");</script>
-  <link rel="stylesheet" href="styles/main.css">
-  <noscript>
-    <style>
-      .reveal { opacity: 1 !important; transform: none !important; }
-    </style>
-  </noscript>
+  <link rel="preload" href="assets/fonts/onest-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/fonts/manrope-cyrillic.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="assets/images/hero-background-murmansk-port.jpg" as="image">
+  <link rel="stylesheet" href="styles/main.css?v=20260731-2">
+  <link rel="stylesheet" href="styles/art-direction.css?v=20260729-2">
+  <link rel="stylesheet" href="styles/hero-map-v2.css?v=20260731-5">
+  <link rel="stylesheet" href="styles/chrome-footer-v3.css?v=20260731-2">
+  <link rel="stylesheet" href="styles/vacancy-people-v5.css?v=20260729-1">
+  <link rel="stylesheet" href="styles/map-v3.css?v=20260729-1">
+  <link rel="stylesheet" href="styles/section-parallax.css?v=20260729-1">
+  <link rel="stylesheet" href="styles/landing-premium-v6.css?v=20260731-7">
+  <link rel="stylesheet" href="styles/landing-v8.css?v=20260731-5">
+  <link rel="stylesheet" href="styles/human-ui-v9.css?v=20260802-1">
 </head>
 <body>
-  <a href="#main-content" class="skip-link">Перейти к основному контенту</a>
+  <a class="skip-link" href="#main-content">Перейти к основному содержанию</a>
 
-  <header class="site-header" id="top">
+  <header class="site-header" data-site-header>
     <div class="container site-header__inner">
-      <a class="brand" href="#top" aria-label="На главную">
-        <img src="assets/images/logo-top.png" alt="Правительство Мурманской области и Курс на Север">
-        <span class="brand__meta">
-          <span class="brand__name">Курс на Север</span>
-          <span class="brand__description">Переезд и карьера в Мурманской области</span>
-        </span>
+      <a class="brand" href="#top" aria-label="Курс на Север — на главную">
+        <img src="assets/images/logo-top-transparent.png" alt="Правительство Мурманской области и Курс на Север" width="559" height="175">
       </a>
 
-      <nav class="nav" aria-label="Основная навигация">
-        <ul>
-          <li><a data-anchor href="#program">О программе</a></li>
-          <li><a data-anchor href="#support">Меры поддержки</a></li>
-          <li><a data-anchor href="#process">Этапы переезда</a></li>
-          <li><a data-anchor href="#about">О проекте</a></li>
-          <li><a data-anchor href="#contacts">Контакты</a></li>
-        </ul>
+      <nav class="desktop-nav" aria-label="Основная навигация">
+        <a href="#vacancies">Работа</a>
+        <a href="#route">Переезд</a>
+        <a href="#support">Меры поддержки</a>
+        <a href="#stories">Истории</a>
       </nav>
 
-      <div class="header-actions">
-        <a class="btn btn--primary" data-anchor href="#application">Оставить заявку</a>
-        <button id="menu-toggle" class="menu-toggle" type="button" aria-label="Открыть меню" aria-expanded="false" aria-controls="mobile-menu">
-          <span class="menu-toggle__bar"></span>
+      <div class="site-header__actions">
+        <a class="button button--primary button--compact" href="#application">
+          Подобрать маршрут
+          <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+        </a>
+        <button class="menu-button" type="button" aria-label="Открыть меню" aria-controls="mobile-nav" aria-expanded="false" data-menu-open>
+          <img src="assets/icons/list.svg" alt="" aria-hidden="true">
         </button>
       </div>
     </div>
   </header>
 
-  <aside id="mobile-menu" class="mobile-menu" aria-hidden="true">
-    <div id="menu-overlay" class="mobile-menu__overlay"></div>
-    <div class="mobile-menu__panel" role="dialog" aria-modal="true" aria-labelledby="mobile-menu-title">
-      <div class="mobile-menu__header">
-        <h2 id="mobile-menu-title">Меню</h2>
-        <button id="menu-close" class="mobile-menu__close" type="button" aria-label="Закрыть меню">×</button>
+  <div class="mobile-nav" id="mobile-nav" aria-hidden="true" data-mobile-nav>
+    <button class="mobile-nav__backdrop" type="button" aria-label="Закрыть меню" data-menu-close></button>
+    <div class="mobile-nav__panel" role="dialog" aria-modal="true" aria-labelledby="mobile-nav-title">
+      <div class="mobile-nav__head">
+        <span id="mobile-nav-title">Навигация</span>
+        <button class="icon-button" type="button" aria-label="Закрыть меню" data-menu-close>
+          <img src="assets/icons/x.svg" alt="" aria-hidden="true">
+        </button>
       </div>
       <nav aria-label="Мобильная навигация">
-        <ul>
-          <li><a data-anchor href="#program">О программе</a></li>
-          <li><a data-anchor href="#support">Меры поддержки</a></li>
-          <li><a data-anchor href="#process">Этапы переезда</a></li>
-          <li><a data-anchor href="#about">О проекте</a></li>
-          <li><a data-anchor href="#contacts">Контакты</a></li>
-          <li><a data-anchor href="#application">Подать заявку</a></li>
-        </ul>
+        <a href="#vacancies">Работа</a>
+        <a href="#route">Переезд</a>
+        <a href="#cities">Города</a>
+        <a href="#support">Меры поддержки</a>
+        <a href="#stories">Истории</a>
+        <a href="#students">Студентам</a>
+        <a href="#contacts">Контакты</a>
       </nav>
-      <div>
-        <a href="tel:+79113223615" class="btn btn--ghost btn--full">+7 (911) 322-36-15</a>
-      </div>
+      <a class="button button--primary button--full" href="#application">
+        Оставить заявку
+        <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+      </a>
     </div>
-  </aside>
+  </div>
 
   <main id="main-content">
-    <section class="hero reveal">
-      <div class="hero__frame" data-parallax-scene data-parallax-max="28">
-        <div class="hero__background" aria-hidden="true">
-          <span class="hero__gradient" data-parallax-layer data-depth="0.08"></span>
-          <span class="hero__orb hero__orb--one" data-parallax-layer data-depth="0.16"></span>
-          <span class="hero__orb hero__orb--two" data-parallax-layer data-depth="0.24"></span>
-          <span class="hero__orb hero__orb--three" data-parallax-layer data-depth="0.32"></span>
-          <span class="hero__noise" data-parallax-layer data-depth="-0.06"></span>
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-scene" data-hero-scene>
+        <div class="hero-scene__background" data-hero-depth="0.04" aria-hidden="true">
+          <img src="assets/images/hero-background-murmansk-port.jpg" alt="" width="1672" height="941" fetchpriority="high">
         </div>
-        <div class="container hero__container">
-          <div class="hero__glass">
-            <div class="hero__content">
-              <span class="hero__kicker">Программа Мурманской области</span>
-              <h1>Карьерный маршрут в Арктику</h1>
-              <p>
-                «Курс на Север» помогает специалистам и студентам переехать в Мурманскую область,
-                выбрать вакансию и пройти весь путь адаптации с персональной поддержкой.
-              </p>
-              <div class="hero__actions">
-                <a class="btn btn--primary" data-anchor href="#application">Стартовать с заявкой</a>
-                <a class="btn btn--secondary" data-anchor href="#support">Посмотреть меры поддержки</a>
+
+        <canvas class="hero-scene__aurora" data-aurora-canvas aria-hidden="true"></canvas>
+        <button
+          class="hero-scene__motion-toggle"
+          type="button"
+          aria-pressed="false"
+          data-aurora-toggle
+        >
+          <span class="hero-scene__motion-dot" aria-hidden="true"></span>
+          <span data-aurora-toggle-label>Остановить сияние</span>
+        </button>
+
+        <img
+          class="hero-scene__person"
+          src="assets/images/hero-person.png"
+          alt=""
+          width="941"
+          height="1672"
+          data-hero-depth="0.16"
+        >
+
+        <div class="container hero-scene__content">
+          <p class="eyebrow eyebrow--hero">
+            <img src="assets/icons/compass.svg" alt="" aria-hidden="true">
+            Карьера и жизнь в Арктике
+          </p>
+          <h1 id="hero-title">Курс<br>на Север</h1>
+          <p class="hero-scene__lead">Открой Север. Построй карьеру.</p>
+          <p class="hero-scene__copy">
+            Найдём подходящую вакансию, расскажем о поддержке и соберём персональный план переезда в Мурманскую область.
+          </p>
+          <div class="hero-scene__actions">
+            <a class="button button--primary" href="#application">
+              Подобрать маршрут
+              <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </a>
+            <a class="button button--secondary" href="#vacancies">Смотреть вакансии</a>
+          </div>
+          <div class="hero-scene__trust" aria-label="Ключевые преимущества программы">
+            <span><img src="assets/icons/user-focus.svg" alt="" aria-hidden="true">Персональный куратор</span>
+            <span><img src="assets/icons/hand-heart.svg" alt="" aria-hidden="true">Поддержка на каждом шаге</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="route-showcase section section--compact reveal" aria-labelledby="route-showcase-title">
+      <div class="container">
+        <div class="section-heading section-heading--inline">
+          <div>
+            <p class="eyebrow">Мурманская область</p>
+            <h2 id="route-showcase-title">Маршруты на Север</h2>
+          </div>
+          <a class="text-link" href="#cities">
+            Смотреть все города
+            <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+          </a>
+        </div>
+
+        <div class="route-cards" data-horizontal-scroll>
+          <a class="route-card route-card--wide" href="#cities" data-select-city="kirovsk">
+            <img src="assets/images/route-khibiny-summer.jpg" alt="Летняя долина в Хибинах" width="1536" height="1024" loading="lazy">
+            <span class="route-card__shade"></span>
+            <span class="route-card__meta">Горы · туризм · промышленность</span>
+            <strong>Хибины</strong>
+            <span class="route-card__arrow"><img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+          <a class="route-card" href="#cities">
+            <img src="assets/images/route-teriberka-summer.jpg" alt="Летнее побережье Баренцева моря" width="1536" height="1024" loading="lazy">
+            <span class="route-card__shade"></span>
+            <span class="route-card__meta">Океан · тундра · путешествия</span>
+            <strong>Баренцево море</strong>
+            <span class="route-card__arrow"><img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+          <a class="route-card" href="#cities" data-select-city="murmansk">
+            <img src="assets/images/route-murmansk-port-summer.jpg" alt="Мурманский порт летом" width="1536" height="1024" loading="lazy">
+            <span class="route-card__shade"></span>
+            <span class="route-card__meta">Порт · логистика · город</span>
+            <strong>Мурманск</strong>
+            <span class="route-card__arrow"><img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section route-section reveal" id="route" aria-labelledby="route-title" data-parallax-section data-parallax-range="28" data-parallax-pointer="4">
+      <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
+        <div class="section-parallax__layer--wide section-parallax__layer--khibiny" data-parallax-layer data-parallax-depth="0.22" data-parallax-y="0.52" data-parallax-x="-0.03" style="--parallax-opacity: 0.17">
+          <img src="assets/images/motif-khibiny-ridge-v6.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="container">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">Понятный путь</p>
+            <h2 id="route-title">Переезжай с «Курсом на Север»: 3 шага</h2>
+          </div>
+          <p>От первой анкеты до персонального плана — без поиска информации по десяткам источников.</p>
+        </div>
+
+        <div class="steps-grid">
+          <article class="step-card">
+            <span class="step-card__number">01</span>
+            <div class="step-card__icon"><img src="assets/icons/paper-plane-tilt.svg" alt="" aria-hidden="true"></div>
+            <h3>Оставьте заявку</h3>
+            <p>Расскажите о профессии, опыте и желаемом направлении.</p>
+          </article>
+          <article class="step-card">
+            <span class="step-card__number">02</span>
+            <div class="step-card__icon"><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"></div>
+            <h3>Получите подборку</h3>
+            <p>Куратор свяжется в течение одного рабочего дня и предложит карьерный маршрут.</p>
+          </article>
+          <article class="step-card step-card--accent">
+            <span class="step-card__number">03</span>
+            <div class="step-card__icon"><img src="assets/icons/map-trifold.svg" alt="" aria-hidden="true"></div>
+            <h3>Спланируйте переезд</h3>
+            <p>Соберём вакансии, поддержку и бытовые задачи в единую дорожную карту.</p>
+          </article>
+        </div>
+
+        <div class="metrics" aria-label="Курс на Север в цифрах">
+          <article><strong>990+</strong><span>привлечённых участников</span></article>
+          <article><strong>150+</strong><span>соглашений с предприятиями</span></article>
+          <article><strong>76</strong><span>регионов России</span></article>
+          <article><strong>31</strong><span>средний возраст участника</span></article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section vacancies-section reveal" id="vacancies" aria-labelledby="vacancies-title" data-parallax-section data-parallax-range="38" data-parallax-pointer="6">
+      <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
+        <div class="section-parallax__layer--wide section-parallax__layer--sea" data-parallax-layer data-parallax-depth="0.35" data-parallax-y="0.8" data-parallax-x="0.08" style="--parallax-opacity: 0.18">
+          <img src="assets/images/motif-kola-current-v6.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="container">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">Работа на Севере</p>
+            <h2 id="vacancies-title">Найдите своё направление</h2>
+          </div>
+          <p>Примеры карьерных треков региона. Актуальную подборку вакансий сформирует куратор после заявки.</p>
+        </div>
+
+        <div class="filter-row" role="toolbar" aria-label="Фильтр карьерных направлений">
+          <button type="button" class="filter-chip is-active" data-vacancy-filter="all" aria-pressed="true">Все</button>
+          <button type="button" class="filter-chip" data-vacancy-filter="industry" aria-pressed="false">Промышленность</button>
+          <button type="button" class="filter-chip" data-vacancy-filter="medicine" aria-pressed="false">Медицина</button>
+          <button type="button" class="filter-chip" data-vacancy-filter="education" aria-pressed="false">Образование</button>
+          <button type="button" class="filter-chip" data-vacancy-filter="students" aria-pressed="false">Старт карьеры</button>
+        </div>
+
+        <div class="vacancy-grid vacancy-grid--v6">
+          <div class="vacancy-grid__human">
+            <article class="vacancy-card vacancy-card--human vacancy-card--featured" data-vacancy-sector="industry">
+              <picture class="vacancy-card__media" aria-hidden="true">
+                <source srcset="assets/images/career-engineer-human-v6.webp" type="image/webp">
+                <img src="assets/images/career-engineer-human-v6.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+              </picture>
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Промышленность</span>
+                <span class="vacancy-card__index">01</span>
               </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Мурманск</p>
+              <h3>Инженер-<br>механик</h3>
+              <p class="vacancy-card__description">Промышленные предприятия, портовый и сервисный контур региона.</p>
+              <button class="button button--light vacancy-card__action" type="button" data-apply-role="Инженер-механик">
+                Откликнуться
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+
+            <article class="vacancy-card vacancy-card--human vacancy-card--doctor" data-vacancy-sector="medicine">
+              <picture class="vacancy-card__media" aria-hidden="true">
+                <source srcset="assets/images/career-doctor-human-v6.webp" type="image/webp">
+                <img src="assets/images/career-doctor-human-v6.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+              </picture>
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Медицина</span>
+                <span class="vacancy-card__index">02</span>
+              </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Кандалакша</p>
+              <h3>Врач-<br>терапевт</h3>
+              <p class="vacancy-card__description">Региональные выплаты, компенсация жилья и поддержка при переезде.</p>
+              <button class="button button--light vacancy-card__action" type="button" data-apply-role="Врач-терапевт">
+                Откликнуться
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+          </div>
+
+          <div class="vacancy-grid__objects" data-horizontal-scroll>
+            <article class="vacancy-card vacancy-card--object vacancy-card--education" data-vacancy-sector="education">
+            <img class="vacancy-card__object" src="assets/images/career-education-model-v6.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Образование</span>
+                <span class="vacancy-card__index">03</span>
+              </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Мончегорск</p>
+              <h3>Учитель математики</h3>
+              <p class="vacancy-card__description">Северные надбавки и компенсация аренды.</p>
+              <button class="vacancy-card__object-action" type="button" data-apply-role="Учитель математики" aria-label="Откликнуться на направление: Учитель математики">
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+
+            <article class="vacancy-card vacancy-card--object vacancy-card--port" data-vacancy-sector="industry">
+            <img class="vacancy-card__object" src="assets/images/career-port-bollard-v6.webp" alt="" width="1402" height="1122" loading="lazy" decoding="async">
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Логистика</span>
+                <span class="vacancy-card__index">04</span>
+              </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Мурманск</p>
+              <h3>Специалист порта</h3>
+              <p class="vacancy-card__description">Терминальные операции и технический сервис.</p>
+              <button class="vacancy-card__object-action" type="button" data-apply-role="Специалист порта" aria-label="Откликнуться на направление: Специалист порта">
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+
+            <article class="vacancy-card vacancy-card--object vacancy-card--energy" data-vacancy-sector="industry">
+            <img class="vacancy-card__object" src="assets/images/career-energy-rotor-v6.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Энергетика</span>
+                <span class="vacancy-card__index">05</span>
+              </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Полярные Зори</p>
+              <h3>Инженер-энергетик</h3>
+              <p class="vacancy-card__description">Эксплуатация систем и инфраструктуры.</p>
+              <button class="vacancy-card__object-action" type="button" data-apply-role="Инженер-энергетик" aria-label="Откликнуться на направление: Инженер-энергетик">
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+
+            <article class="vacancy-card vacancy-card--object vacancy-card--analytics" data-vacancy-sector="students">
+            <img class="vacancy-card__object" src="assets/images/career-analytics-mineral-v6.webp" alt="" width="1254" height="1254" loading="lazy" decoding="async">
+            <div class="vacancy-card__body">
+              <div class="vacancy-card__top">
+                <span class="vacancy-card__badge">Старт карьеры</span>
+                <span class="vacancy-card__index">06</span>
+              </div>
+              <p class="vacancy-card__location"><img src="assets/icons/map-pin.svg" alt="" aria-hidden="true">Апатиты</p>
+              <h3>Стажёр-аналитик</h3>
+              <p class="vacancy-card__description">Практика и переход к первому офферу.</p>
+              <button class="vacancy-card__object-action" type="button" data-apply-role="Стажёр-аналитик" data-apply-sphere="students" aria-label="Откликнуться на направление: Стажёр-аналитик">
+                <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+            </div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section map-section reveal" id="cities" aria-labelledby="cities-title">
+      <div class="container">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">География Севера</p>
+            <h2 id="cities-title">Мурманская область.<br>Карта возможностей</h2>
+          </div>
+          <p>Полная территория региона: от границ с Норвегией и Финляндией до побережий Баренцева и Белого морей.</p>
+        </div>
+
+        <div class="kola-map-shell">
+          <div class="region-map" data-region-map>
+            <picture class="region-map__art">
+              <source srcset="assets/images/murmansk-oblast-relief-v3.webp" type="image/webp">
+              <img src="assets/images/murmansk-oblast-relief-v3.png" alt="Рельефная карта полной территории Мурманской области" width="1448" height="1086" loading="lazy">
+            </picture>
+            <img class="region-map__outline" src="assets/maps/murmansk-oblast.svg" alt="" aria-hidden="true">
+            <div class="region-map__markers" data-map-markers aria-label="Опубликованные города Мурманской области"></div>
+
+            <div class="region-map__intro">
+              <p class="eyebrow eyebrow--light">Полная география региона</p>
+              <h3>Вся область.<br>Точно.</h3>
+              <p>Контур, острова, границы и крупнейшие озёра привязаны к реальной геометрии. Города появятся после публикации администратором.</p>
+              <div class="region-map__facts" aria-label="Факты о Мурманской области">
+                <span><strong>2</strong> моря</span>
+                <span><strong>111,6k</strong> озёр</span>
+                <span><strong>144,9k</strong> км²</span>
+              </div>
+            </div>
+
+            <article class="city-panel" data-city-panel aria-live="polite" aria-atomic="true" hidden>
+              <div class="city-panel__top">
+                <span class="city-panel__icon"><img src="assets/icons/buildings.svg" alt="" aria-hidden="true"></span>
+                <span class="city-panel__eyebrow" data-city-eyebrow></span>
+              </div>
+              <h3 data-city-name></h3>
+              <p data-city-description></p>
+              <div class="city-panel__sectors" data-city-sectors></div>
+              <p class="city-panel__note" data-city-note hidden></p>
+              <div class="city-panel__actions">
+                <button class="button button--primary" type="button" data-city-apply>
+                  Подобрать работу
+                  <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+                </button>
+                <a class="text-link" href="#" target="_blank" rel="noopener noreferrer" data-city-source hidden>
+                  О городе
+                  <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true">
+                </a>
+              </div>
+            </article>
+
+            <div class="region-map__legend">
+              <span><i></i><span data-map-status>Интерактивная карта региона</span></span>
+              <a href="https://www.openstreetmap.org/relation/2099216" target="_blank" rel="noopener noreferrer">Геометрия: © OpenStreetMap</a>
             </div>
           </div>
         </div>
       </div>
     </section>
 
-    <section id="program" class="section section--tight reveal" aria-labelledby="program-title">
+    <section class="section transport-section reveal" id="transport" aria-labelledby="transport-title">
       <div class="container">
-        <p class="section-label">О программе</p>
-        <h2 class="section-title" id="program-title">«Курс на Север» в цифрах</h2>
-        <p class="section-subtitle">
-          Проект запущен в мае 2023 года по инициативе губернатора Мурманской области.
-          Задача — привлекать специалистов и студентов, готовых строить карьеру в Арктике.
-        </p>
-
-        <div class="metrics">
-          <article class="metric">
-            <span class="metric__value">930+</span>
-            <p class="metric__label">Привлеченных участников</p>
-          </article>
-          <article class="metric">
-            <span class="metric__value">150+</span>
-            <p class="metric__label">Соглашений с предприятиями Мурманской области</p>
-          </article>
-          <article class="metric">
-            <span class="metric__value">76</span>
-            <p class="metric__label">Регионов России, откуда переехали участники</p>
-          </article>
-          <article class="metric">
-            <span class="metric__value">31</span>
-            <p class="metric__label">Средний возраст участника на момент переезда</p>
-          </article>
+        <div class="transport-showcase">
+          <div class="transport-showcase__copy">
+            <p class="eyebrow eyebrow--light">Как добраться</p>
+            <h2 id="transport-title">Север ближе,<br>чем кажется</h2>
+            <p>Прямые маршруты связывают Мурманск с двумя крупнейшими городами страны. Можно прилететь за время одного фильма или выбрать спокойную дорогу поездом.</p>
+            <dl class="transport-showcase__facts" aria-label="Время в пути до Мурманска">
+              <div><dt>Самолётом</dt><dd>1,5 часа из Петербурга · 2 часа из Москвы</dd></div>
+              <div><dt>Поездом</dt><dd>Ежедневное сообщение из обоих городов</dd></div>
+            </dl>
+            <p class="transport-showcase__note">Расписание и длительность поездки зависят от выбранного рейса и даты.</p>
+          </div>
+          <figure class="transport-showcase__visual">
+            <picture>
+              <source media="(max-width: 640px)" srcset="assets/images/transport-russia-user-final-mobile-v12.webp" type="image/webp">
+              <source media="(max-width: 640px)" srcset="assets/images/transport-russia-user-final-mobile-v12.png">
+              <source srcset="assets/images/transport-russia-user-final-v12.webp" type="image/webp">
+              <img src="assets/images/transport-russia-user-final-v12.png" alt="Ночная карта маршрутов из Москвы и Санкт-Петербурга в Мурманск с поездами, самолётами и временем в пути" width="1536" height="1024" loading="lazy" decoding="async">
+            </picture>
+            <figcaption>
+              <strong>Два города отправления — один курс на Север</strong>
+              <span>Время указано ориентировочно и зависит от выбранного рейса.</span>
+            </figcaption>
+          </figure>
         </div>
       </div>
     </section>
 
-    <section class="section reveal" aria-labelledby="participation-title">
-      <div class="container">
-        <p class="section-label">Маршрут участия</p>
-        <h2 class="section-title" id="participation-title">Как принять участие</h2>
-
-        <div class="flow-grid">
-          <article class="flow-card">
-            <span class="flow-card__index">1</span>
-            <h3>Заполните заявку</h3>
-            <p>Первый шаг на пути к карьере и переезду на Север.</p>
-          </article>
-          <article class="flow-card">
-            <span class="flow-card__index">2</span>
-            <h3>Прикрепите резюме</h3>
-            <p>Команда подберет релевантные вакансии по вашему профилю.</p>
-          </article>
-          <article class="flow-card">
-            <span class="flow-card__index">3</span>
-            <h3>Подтвердите участие</h3>
-            <p>Куратор проекта свяжется в течение одного рабочего дня.</p>
-          </article>
-          <article class="flow-card">
-            <span class="flow-card__index">4</span>
-            <h3>Получите персональный план</h3>
-            <p>Трудоустройство, переезд и адаптация собраны в единую дорожную карту.</p>
-          </article>
+    <section class="section support-section reveal" id="support" aria-labelledby="support-title" data-parallax-section data-parallax-range="46" data-parallax-pointer="6">
+      <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
+        <div class="section-parallax__layer--wide section-parallax__layer--whale" data-parallax-layer data-parallax-depth="0.26" data-parallax-y="0.46" data-parallax-x="-0.05" style="--parallax-opacity: 0.24">
+          <img src="assets/images/motif-whale-isolated-v6.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
         </div>
       </div>
-    </section>
-
-    <section id="support" class="section support reveal" aria-labelledby="support-title" data-parallax-scene data-parallax-max="14">
-      <div class="section-parallax section-parallax--support" aria-hidden="true">
-        <span class="section-parallax__layer section-parallax__layer--one" data-parallax-layer data-depth="0.04"></span>
-        <span class="section-parallax__layer section-parallax__layer--two" data-parallax-layer data-depth="0.08"></span>
-        <span class="section-parallax__layer section-parallax__layer--three" data-parallax-layer data-depth="0.12"></span>
-      </div>
       <div class="container">
-        <p class="section-label">Меры поддержки</p>
-        <h2 class="section-title" id="support-title">Регион заботится о вас</h2>
-        <p class="section-subtitle">
-          Сохранены все ключевые направления из исходного сайта: общий пакет,
-          поддержка педагогов, медицинских работников и студентов.
-        </p>
-
-        <div class="filter-bar" role="toolbar" aria-label="Фильтр направлений">
-          <button class="filter-chip" type="button" aria-pressed="true" data-filter="all">Все направления</button>
-          <button class="filter-chip" type="button" aria-pressed="false" data-filter="general">Общие</button>
-          <button class="filter-chip" type="button" aria-pressed="false" data-filter="education">Педагоги</button>
-          <button class="filter-chip" type="button" aria-pressed="false" data-filter="medicine">Медицина</button>
-          <button class="filter-chip" type="button" aria-pressed="false" data-filter="students">Студенты</button>
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">Регион рядом</p>
+            <h2 id="support-title">Меры поддержки</h2>
+          </div>
+          <p>Собрали основные направления. Точные условия зависят от профессии, муниципалитета и программы.</p>
         </div>
 
-        <div class="cards-grid" id="support-cards">
-          <article class="support-card" data-category="general" data-card-order="01">
-            <div class="support-card__head">
-              <span class="support-card__type">Базовый пакет</span>
-            </div>
-            <div class="support-card__body">
-              <h3>Общие меры поддержки</h3>
-              <p class="support-card__lead">Надбавки за работу в районах Крайнего Севера, отпуск и компенсации расходов при переезде.</p>
-              <ul class="support-card__list">
-                <li>Северная надбавка до 80%, районные коэффициенты 1.4–1.8.</li>
-                <li>Дополнительный отпуск +24 дня и льготы по проезду.</li>
+        <div class="support-layout">
+          <div class="support-tabs" aria-label="Категории мер поддержки">
+            <button class="support-tab is-active" type="button" aria-pressed="true" data-support-tab="general">
+              <img src="assets/icons/house-line.svg" alt="" aria-hidden="true">
+              <span><strong>Общие меры</strong><small>Переезд, отпуск, надбавки</small></span>
+              <img class="support-tab__arrow" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </button>
+            <button class="support-tab" type="button" aria-pressed="false" data-support-tab="education">
+              <img src="assets/icons/chalkboard-teacher.svg" alt="" aria-hidden="true">
+              <span><strong>Педагогам</strong><small>Выплаты и аренда жилья</small></span>
+              <img class="support-tab__arrow" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </button>
+            <button class="support-tab" type="button" aria-pressed="false" data-support-tab="medicine">
+              <img src="assets/icons/stethoscope.svg" alt="" aria-hidden="true">
+              <span><strong>Медикам</strong><small>Квоты и компенсации</small></span>
+              <img class="support-tab__arrow" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </button>
+            <button class="support-tab" type="button" aria-pressed="false" data-support-tab="students">
+              <img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true">
+              <span><strong>Студентам</strong><small>Практика и первый оффер</small></span>
+              <img class="support-tab__arrow" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </button>
+          </div>
+
+          <article class="support-detail" data-support-detail aria-live="polite" aria-atomic="true">
+            <img class="support-detail__photo" data-support-photo src="assets/images/support-general-v7.webp" alt="Семья распаковывает вещи после переезда в Мурманск." width="1536" height="1024" loading="lazy" decoding="async">
+            <div class="support-detail__shade"></div>
+            <div class="support-detail__content">
+              <p class="support-detail__eyebrow" data-support-eyebrow>Для всех участников</p>
+              <h3 data-support-title>Общие меры поддержки</h3>
+              <ul data-support-list>
+                <li>Северная надбавка до 80% и районные коэффициенты.</li>
+                <li>Дополнительный оплачиваемый отпуск 24 дня.</li>
                 <li>Компенсация переезда и провоза багажа до 5 тонн на семью.</li>
               </ul>
-            </div>
-            <div class="support-card__footer">
-              <button class="btn btn--ghost" type="button" data-open-modal="support-general">Подробнее</button>
-            </div>
-          </article>
-
-          <article class="support-card" data-category="education" data-card-order="02">
-            <div class="support-card__head">
-              <span class="support-card__type">Сфера образования</span>
-            </div>
-            <div class="support-card__body">
-              <h3>Меры для педагогов</h3>
-              <p class="support-card__lead">Федеральные программы, региональные выплаты, надбавки и расширенные отпускные условия.</p>
-              <ul class="support-card__list">
-                <li>Конкурс «Арктический учитель»: до 1 000 000 ₽.</li>
-                <li>Надбавки 10 000–15 000 ₽ по категории.</li>
-                <li>Компенсация аренды жилья до 25 000 ₽ в месяц.</li>
-              </ul>
-            </div>
-            <div class="support-card__footer">
-              <button class="btn btn--ghost" type="button" data-open-modal="support-education">Подробнее</button>
-            </div>
-          </article>
-
-          <article class="support-card" data-category="medicine" data-card-order="03">
-            <div class="support-card__head">
-              <span class="support-card__type">Сфера здравоохранения</span>
-            </div>
-            <div class="support-card__body">
-              <h3>Меры для медиков</h3>
-              <p class="support-card__lead">Поддержка трудоустройства, жилья, переезда и долгосрочной работы в регионе.</p>
-              <ul class="support-card__list">
-                <li>«Земский доктор/фельдшер»: до 2 000 000 ₽.</li>
-                <li>Региональные выплаты на дефицитные ставки до 1 500 000 ₽.</li>
-                <li>Компенсация аренды и расходы на ЖКХ, льготы на релокацию.</li>
-              </ul>
-            </div>
-            <div class="support-card__footer">
-              <button class="btn btn--ghost" type="button" data-open-modal="support-medicine">Подробнее</button>
-            </div>
-          </article>
-
-          <article class="support-card" data-category="students" data-card-order="04">
-            <div class="support-card__head">
-              <span class="support-card__type">Старт карьеры</span>
-            </div>
-            <div class="support-card__body">
-              <h3>Для студентов</h3>
-              <p class="support-card__lead">Стажировки на предприятиях области и выход на трудоустройство после практики.</p>
-              <ul class="support-card__list">
-                <li>Карьерные треки для студентов разных специальностей.</li>
-                <li>Погружение в проекты региона во время обучения.</li>
-                <li>Поддержка перехода от стажировки к офферу.</li>
-              </ul>
-            </div>
-            <div class="support-card__footer">
-              <button class="btn btn--ghost" type="button" data-open-modal="support-students">Подробнее</button>
+              <button class="button button--light" type="button" data-open-support-dialog>
+                Все условия
+                <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
             </div>
           </article>
         </div>
       </div>
     </section>
 
-    <section id="process" class="section reveal" aria-labelledby="process-title">
+    <section class="section process-section reveal" id="process" aria-labelledby="process-title">
       <div class="container">
-        <p class="section-label">Переезд под сопровождением</p>
-        <h2 class="section-title" id="process-title">Поддержка на каждом шагу</h2>
-
-        <div class="timeline">
-          <article class="timeline-step"><span class="timeline-step__index">1</span><p>Назначение персонального менеджера.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">2</span><p>Индивидуальный план трудоустройства и переезда.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">3</span><p>Подбор и согласование вариантов трудоустройства.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">4</span><p>Помощь в решении жизненных и бытовых вопросов.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">5</span><p>Содействие в трудоустройстве супругов.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">6</span><p>Помощь в определении детей в детский сад или школу.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">7</span><p>Бесплатный трансфер от места прибытия к месту проживания.</p></article>
-          <article class="timeline-step"><span class="timeline-step__index">8</span><p>Вручение фирменного мерча с символикой «На Севере — жить!».</p></article>
+        <div class="section-heading section-heading--inline">
+          <div>
+            <p class="eyebrow">После заявки</p>
+            <h2 id="process-title">Поддержка на каждом шагу</h2>
+          </div>
+          <p>Восемь задач, которые команда помогает превратить в один управляемый маршрут.</p>
         </div>
+
+        <ol class="process-rail" data-horizontal-scroll>
+          <li><span>01</span><img src="assets/icons/user-focus.svg" alt="" aria-hidden="true"><strong>Персональный менеджер</strong></li>
+          <li><span>02</span><img src="assets/icons/map-trifold.svg" alt="" aria-hidden="true"><strong>Индивидуальный план</strong></li>
+          <li><span>03</span><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"><strong>Подбор вакансий</strong></li>
+          <li><span>04</span><img src="assets/icons/hand-heart.svg" alt="" aria-hidden="true"><strong>Решение бытовых задач</strong></li>
+          <li><span>05</span><img src="assets/icons/users-three.svg" alt="" aria-hidden="true"><strong>Работа для супруга</strong></li>
+          <li><span>06</span><img src="assets/icons/baby.svg" alt="" aria-hidden="true"><strong>Школа или детский сад</strong></li>
+          <li><span>07</span><img src="assets/icons/train.svg" alt="" aria-hidden="true"><strong>Трансфер по прибытии</strong></li>
+          <li><span>08</span><img src="assets/icons/check-circle.svg" alt="" aria-hidden="true"><strong>Адаптация на месте</strong></li>
+        </ol>
       </div>
     </section>
 
-    <section id="about" class="section reveal" aria-labelledby="about-title">
+    <section class="section stories-section stories-section--v8 reveal" id="stories" aria-labelledby="stories-title">
       <div class="container">
-        <p class="section-label">О проекте</p>
-        <h2 class="section-title" id="about-title">О «Курсе на Север»</h2>
-
-        <div class="about-grid">
-          <article class="about-copy">
-            <p>
-              «Курс на Север» — проект, запущенный в мае 2023 года по инициативе губернатора
-              Мурманской области для привлечения перспективных специалистов и студентов.
-            </p>
-            <p>
-              Команда проекта обеспечивает сопровождение на всех этапах: от поиска вакансии и
-              согласования условий до переезда, адаптации и закрепления в регионе.
-            </p>
-            <p>
-              Программа помогает кандидатам из разных регионов России уверенно начать профессиональную
-              траекторию в Мурманской области и получить комплекс мер поддержки.
-            </p>
-            <p>
-              Отдельный фокус — молодые кадры и студенты, для которых выстраивается путь от практики
-              к полноценной карьере в Арктике.
-            </p>
-          </article>
-
-          <aside class="beacon" aria-labelledby="beacon-title">
-            <h3 id="beacon-title">Арктический маяк</h3>
-            <p>
-              Направление для молодежи и студентов: стажировки, практики, консультации по карьерным
-              траекториям и подготовка к трудоустройству в регионе.
-            </p>
-            <a class="btn btn--secondary" href="https://nashsever51.ru/projects/kns" target="_blank" rel="noopener noreferrer">Узнать подробнее</a>
-          </aside>
-        </div>
-      </div>
-    </section>
-
-    <section id="contacts" class="section contacts reveal" aria-labelledby="contacts-title" data-parallax-scene data-parallax-max="14">
-      <div class="section-parallax section-parallax--contacts" aria-hidden="true">
-        <span class="section-parallax__layer section-parallax__layer--one" data-parallax-layer data-depth="0.04"></span>
-        <span class="section-parallax__layer section-parallax__layer--two" data-parallax-layer data-depth="0.08"></span>
-        <span class="section-parallax__layer section-parallax__layer--three" data-parallax-layer data-depth="0.12"></span>
-      </div>
-      <div class="container">
-        <p class="section-label">Контакты</p>
-        <h2 class="section-title" id="contacts-title">Связаться с командой проекта</h2>
-
-        <div class="contacts-grid">
-          <article class="contact-card">
-            <ul class="contact-list">
-              <li>
-                <strong>Адрес</strong>
-                <span>г. Мурманск, ул. Академика Книповича, 48</span>
-              </li>
-              <li>
-                <strong>Режим работы</strong>
-                <span>Пн–Пт: 09:00–17:00 (МСК)</span>
-              </li>
-              <li>
-                <strong>Телефон</strong>
-                <a href="tel:+79113223615">+7 (911) 322-36-15</a>
-              </li>
-              <li>
-                <strong>Электронная почта</strong>
-                <a href="mailto:info@kursnasever.ru">info@kursnasever.ru</a>
-              </li>
-            </ul>
-          </article>
-
-          <aside class="link-card">
-            <h3>Ключевые каналы</h3>
-            <ul>
-              <li><a href="https://vk.com/kurs_na_sever" target="_blank" rel="noopener noreferrer">Сообщество проекта во ВКонтакте</a></li>
-              <li><a href="https://t.me/go_north" target="_blank" rel="noopener noreferrer">Канал проекта в Телеграме</a></li>
-              <li><a href="https://vk.com/app5708398_-221830653?ref=group_menu" target="_blank" rel="noopener noreferrer">Студенческая заявка во ВКонтакте</a></li>
-            </ul>
-          </aside>
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">Личный опыт</p>
+            <h2 id="stories-title">Север глазами тех,<br>кто переезжает</h2>
+          </div>
+          <p>Выберите ситуацию, похожую на вашу, и откройте подробную историю с фотографиями и практическими деталями.</p>
         </div>
 
-        <div class="partners-grid" id="partners" aria-label="Ключевые ресурсы">
-          <a class="partner-link" href="https://gov-murman.ru/region/support_measures/" target="_blank" rel="noopener noreferrer">
-            <strong>Правительство Мурманской области</strong>
-            <span>Официальные меры поддержки</span>
-          </a>
-          <a class="partner-link" href="https://nashsever51.ru/" target="_blank" rel="noopener noreferrer">
-            <strong>Наш Север</strong>
-            <span>Региональная цифровая платформа</span>
-          </a>
-          <a class="partner-link" href="https://invest.nashsever51.ru/" target="_blank" rel="noopener noreferrer">
-            <strong>Инвестиционный портал</strong>
-            <span>Карьерные и деловые возможности</span>
-          </a>
-          <a class="partner-link" href="https://murmansk.travel/" target="_blank" rel="noopener noreferrer">
-            <strong>Туристический портал региона</strong>
-            <span>Жизнь и инфраструктура региона</span>
-          </a>
+        <div class="story-controls">
+          <div class="story-filters" aria-label="Фильтры историй" data-story-filters>
+            <button type="button" class="story-filter is-active" aria-pressed="true" data-story-filter="all">Все истории</button>
+            <button type="button" class="story-filter" aria-pressed="false" data-story-filter="children">С детьми</button>
+            <button type="button" class="story-filter" aria-pressed="false" data-story-filter="dog">С собакой</button>
+            <button type="button" class="story-filter" aria-pressed="false" data-story-filter="alone">Переехал один</button>
+            <button type="button" class="story-filter" aria-pressed="false" data-story-filter="student">Студент</button>
+            <button type="button" class="story-filter" aria-pressed="false" data-story-filter="career-change">Смена профессии</button>
+          </div>
+          <button class="story-rotation-toggle" type="button" aria-pressed="false" data-story-rotation-toggle>
+            <span class="story-rotation-toggle__mark" aria-hidden="true"></span>
+            <span data-story-rotation-label>Остановить смену</span>
+          </button>
         </div>
-      </div>
-    </section>
+        <p class="visually-hidden" role="status" aria-live="polite" data-story-filter-status></p>
 
-    <section id="application" class="section application reveal" aria-labelledby="application-title" data-parallax-scene data-parallax-max="14">
-      <div class="section-parallax section-parallax--application" aria-hidden="true">
-        <span class="section-parallax__layer section-parallax__layer--one" data-parallax-layer data-depth="0.04"></span>
-        <span class="section-parallax__layer section-parallax__layer--two" data-parallax-layer data-depth="0.08"></span>
-        <span class="section-parallax__layer section-parallax__layer--three" data-parallax-layer data-depth="0.12"></span>
-      </div>
-      <div class="container">
-        <p class="section-label">Заявка на участие</p>
-        <h2 class="section-title" id="application-title">Заполните форму и начните переезд</h2>
-        <p class="section-subtitle">
-          Пошаговая форма с проверкой полей и передачей данных команде проекта.
-        </p>
-
-        <div class="form-shell">
-          <div class="form-progress">
-            <div class="form-progress__steps" role="list" aria-label="Шаги формы">
-              <span class="form-progress__step is-active" data-step="1" role="listitem">Шаг 1. Личная информация</span>
-              <span class="form-progress__step" data-step="2" role="listitem">Шаг 2. Переезд и работа</span>
-            </div>
-            <span class="form-progress__status" id="form-step-status" aria-live="polite">Шаг 1 из 2</span>
+        <div class="story-feed" data-story-feed>
+          <div class="story-slot" data-story-slot>
+            <button class="story-message story-message--berry" type="button" data-story="family" data-story-tags="children,couple,big-city" aria-label="Открыть историю Марины о переезде с детьми">
+            <span class="story-message__avatar">
+              <img src="assets/images/story-avatar-family-v8.webp" alt="Портрет Марины" width="640" height="640" loading="lazy">
+              <i aria-hidden="true"></i>
+            </span>
+            <span class="story-message__bubble">
+              <span class="story-message__meta"><strong>Марина, 35</strong><small>Воронеж → Мурманск</small></span>
+              <span class="story-message__quote">«Больше всего переживала за школу и быт. Куратор собрал всё в один понятный маршрут — от собеседования до первого учебного дня детей».</span>
+              <span class="story-message__tags"><i>С детьми</i><i>Переезд семьёй</i></span>
+              <span class="story-message__time">Читать историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+            </span>
+            </button>
           </div>
 
-          <form id="application-form" novalidate>
-            <div class="form-body">
-              <section class="form-step is-active" data-step="1" aria-labelledby="step1-title">
-                <h3 id="step1-title">Личная информация</h3>
-                <div class="form-grid">
-                  <div class="form-field">
-                    <label for="surname">Фамилия *</label>
-                    <input id="surname" name="surname" type="text" autocomplete="family-name" required>
-                    <p class="error" data-field-error="surname"></p>
-                  </div>
+          <div class="story-slot" data-story-slot>
+            <button class="story-message story-message--cyan" type="button" data-story="dog" data-story-tags="dog,alone,career-change,big-city" aria-label="Открыть историю Ильи о переезде с собакой">
+            <span class="story-message__avatar">
+              <img src="assets/images/story-avatar-dog-v8.webp" alt="Портрет Ильи с собакой" width="640" height="640" loading="lazy">
+              <i aria-hidden="true"></i>
+            </span>
+            <span class="story-message__bubble">
+              <span class="story-message__meta"><strong>Илья, 29</strong><small>Санкт-Петербург → Кировск</small></span>
+              <span class="story-message__quote">«Искал работу ближе к горам, но не понимал, как перевозить собаку и снимать жильё. В итоге все вопросы решили до даты выхода».</span>
+              <span class="story-message__tags"><i>С собакой</i><i>Смена профессии</i></span>
+              <span class="story-message__time">Читать историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+            </span>
+            </button>
+          </div>
 
-                  <div class="form-field">
-                    <label for="name">Имя *</label>
-                    <input id="name" name="name" type="text" autocomplete="given-name" required>
-                    <p class="error" data-field-error="name"></p>
-                  </div>
+          <div class="story-slot" data-story-slot>
+            <button class="story-message story-message--blue" type="button" data-story="student" data-story-tags="student,alone" aria-label="Открыть историю Алины о студенческой практике">
+            <span class="story-message__avatar">
+              <img src="assets/images/story-avatar-student-v8.webp" alt="Портрет Алины" width="640" height="640" loading="lazy">
+              <i aria-hidden="true"></i>
+            </span>
+            <span class="story-message__bubble">
+              <span class="story-message__meta"><strong>Алина, 21</strong><small>Петрозаводск → Мурманск</small></span>
+              <span class="story-message__quote">«Приехала на практику на шесть недель, познакомилась с командой и ещё до защиты диплома получила предложение вернуться».</span>
+              <span class="story-message__tags"><i>Студент</i><i>Переехала одна</i></span>
+              <span class="story-message__time">Читать историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
+            </span>
+            </button>
+          </div>
+        </div>
 
-                  <div class="form-field">
-                    <label for="middlename">Отчество</label>
-                    <input id="middlename" name="middlename" type="text" autocomplete="additional-name">
-                    <p class="error" data-field-error="middlename"></p>
-                  </div>
+        <p class="story-disclaimer"><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Сейчас показаны собирательные истории. Реальные отзывы и фотографии будут публиковаться только с согласия участников.</p>
+      </div>
+    </section>
 
-                  <div class="form-field">
-                    <label for="birthdate">Дата рождения * (18–35)</label>
-                    <input id="birthdate" name="birthdate" type="date" required>
-                    <p class="error" data-field-error="birthdate"></p>
-                  </div>
+    <section class="section students-section reveal" id="students" aria-labelledby="students-title">
+      <div class="container">
+        <div class="students-panel">
+          <div class="students-panel__media">
+            <picture>
+              <source media="(max-width: 680px)" srcset="assets/images/students-mgtu-arrival-mobile-v8.webp" type="image/webp">
+              <source srcset="assets/images/students-mgtu-arrival-v8.webp" type="image/webp">
+              <img src="assets/images/students-mgtu-arrival-v8.png" alt="Студенты приехали к зданию МГТУ в Мурманске" width="1586" height="992" loading="lazy" decoding="async">
+            </picture>
+            <span class="students-panel__tag"><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true">Старт карьеры</span>
+          </div>
+          <div class="students-panel__content">
+            <p class="eyebrow">Студентам и выпускникам</p>
+            <h2 id="students-title">Начните карьеру с практики в Заполярье</h2>
+            <p>Познакомьтесь с работодателями региона, пройдите стажировку и превратите практику в первый оффер.</p>
+            <ul class="feature-list">
+              <li><img src="assets/icons/check-circle.svg" alt="" aria-hidden="true">Карьерный трек под специальность</li>
+              <li><img src="assets/icons/check-circle.svg" alt="" aria-hidden="true">Практика на предприятиях области</li>
+              <li><img src="assets/icons/check-circle.svg" alt="" aria-hidden="true">Поддержка перехода к трудоустройству</li>
+            </ul>
+            <div class="students-panel__actions">
+              <button class="button button--primary" type="button" data-student-apply>
+                Подать студенческую заявку
+                <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+              <button class="button button--secondary" type="button" data-open-resume>
+                <img class="button__icon button__icon--leading" src="assets/icons/file-pdf.svg" alt="" aria-hidden="true">
+                Собрать резюме
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
-                  <div class="form-field">
-                    <label for="email">Электронная почта *</label>
-                    <input id="email" name="email" type="email" autocomplete="email" required>
-                    <p class="error" data-field-error="email"></p>
-                  </div>
+    <section class="section about-section reveal" id="about" aria-labelledby="about-title" data-parallax-section data-parallax-range="24" data-parallax-pointer="3">
+      <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
+        <div class="section-parallax__layer--wide section-parallax__layer--crab" data-parallax-layer data-parallax-depth="0.18" data-parallax-y="0.3" data-parallax-x="0.03" style="--parallax-opacity: 0.2">
+          <img src="assets/images/motif-king-crab-isolated-v6.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="container">
+        <div class="about-layout">
+          <div class="about-mosaic">
+            <figure class="about-mosaic__large">
+              <img src="assets/images/route-murmansk-port-summer.jpg" alt="Мурманский порт в период белых ночей" width="1536" height="1024" loading="lazy">
+              <figcaption><img src="assets/icons/sparkle.svg" alt="" aria-hidden="true">Белые ночи · Лето на Севере</figcaption>
+            </figure>
+            <img src="assets/images/route-khibiny-summer.jpg" alt="Хибины летом" width="1536" height="1024" loading="lazy">
+            <img src="assets/images/route-teriberka-summer.jpg" alt="Берег Баренцева моря летом" width="1536" height="1024" loading="lazy">
+          </div>
+          <div class="about-copy">
+            <p class="eyebrow">О проекте</p>
+            <h2 id="about-title">Мурманская область — место для жизни и сильных идей</h2>
+            <p>«Курс на Север» запущен в мае 2023 года по инициативе губернатора Мурманской области. Команда помогает специалистам и студентам пройти путь от выбора вакансии до полной адаптации на новом месте.</p>
+            <a class="button button--primary" href="#application">
+              Узнать свой маршрут
+              <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+            </a>
+          </div>
+        </div>
 
-                  <div class="form-field">
-                    <label for="phone">Телефон *</label>
-                    <input id="phone" name="phone" type="tel" inputmode="tel" placeholder="+7 (___) ___-__-__" required>
-                    <p class="error" data-field-error="phone"></p>
-                  </div>
+        <div class="resources">
+          <h3>Полезные ресурсы</h3>
+          <div class="resources__grid">
+            <a href="https://gov-murman.ru/region/support_measures/" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">
+              <span>Правительство Мурманской области</span>
+              <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true">
+            </a>
+            <a href="https://nashsever51.ru/" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/lighthouse.svg" alt="" aria-hidden="true">
+              <span>Наш Север</span>
+              <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true">
+            </a>
+            <a href="https://invest.nashsever51.ru/" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/briefcase.svg" alt="" aria-hidden="true">
+              <span>Инвестиционный портал</span>
+              <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true">
+            </a>
+            <a href="https://murmansk.travel/" target="_blank" rel="noopener noreferrer">
+              <img src="assets/icons/mountains.svg" alt="" aria-hidden="true">
+              <span>Туристический портал</span>
+              <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true">
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section application-section reveal" id="application" aria-labelledby="application-title" data-parallax-section data-parallax-range="32" data-parallax-pointer="4">
+      <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
+        <div class="section-parallax__layer--wide section-parallax__layer--port" data-parallax-layer data-parallax-depth="0.2" data-parallax-y="0.42" data-parallax-x="-0.03" style="--parallax-opacity: 0.13">
+          <img src="assets/images/route-murmansk-port-summer.jpg" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+        </div>
+      </div>
+      <div class="container">
+        <div class="application-shell">
+          <div class="application-intro">
+            <p class="eyebrow eyebrow--light">Ваш маршрут начинается здесь</p>
+            <h2 id="application-title">Готовы взять курс на Север?</h2>
+            <p>Заполните короткую анкету. Куратор свяжется с вами в течение одного рабочего дня.</p>
+            <div class="application-intro__facts">
+              <span><img src="assets/icons/clock.svg" alt="" aria-hidden="true">5 минут на заявку</span>
+              <span><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Данные защищены</span>
+            </div>
+          </div>
+
+          <form class="application-form" id="application-form" novalidate>
+            <div class="form-progress" aria-label="Прогресс заполнения">
+              <button type="button" class="form-progress__step is-active" data-form-step-button="1" aria-current="step">
+                <span>1</span>О вас
+              </button>
+              <i></i>
+              <button type="button" class="form-progress__step" data-form-step-button="2">
+                <span>2</span>Работа и переезд
+              </button>
+              <small id="form-step-status">Шаг 1 из 2</small>
+            </div>
+
+            <div class="form-step is-active" data-form-step="1">
+              <div class="form-grid">
+                <div class="field">
+                  <label for="surname">Фамилия</label>
+                  <input id="surname" name="surname" type="text" autocomplete="family-name" required>
+                  <span class="field__error" data-error-for="surname"></span>
                 </div>
-              </section>
-
-              <section class="form-step" data-step="2" aria-labelledby="step2-title">
-                <h3 id="step2-title">Переезд и работа</h3>
-                <div class="form-grid">
-                  <div class="form-field">
-                    <label for="referral">Реферальный код</label>
-                    <input id="referral" name="referral" type="text" maxlength="10">
-                    <p class="error" data-field-error="referral"></p>
-                  </div>
-
-                  <div class="form-field">
-                    <label for="region">Регион проживания</label>
-                    <input id="region" name="region" type="text" autocomplete="address-level1">
-                    <p class="error" data-field-error="region"></p>
-                  </div>
-
-                  <div class="form-field">
-                    <label for="sphere">Сфера деятельности *</label>
-                    <select id="sphere" name="sphere" required>
-                      <option value="">Загрузка...</option>
-                    </select>
-                    <p class="error" data-field-error="sphere"></p>
-                  </div>
-
-                  <div class="form-field">
-                    <label for="wishPost">Желаемая должность *</label>
-                    <input id="wishPost" name="wishPost" type="text" required>
-                    <p class="error" data-field-error="wishPost"></p>
-                  </div>
-
-                  <div class="form-field">
-                    <label for="wishSalary">Желаемый уровень дохода</label>
-                    <input id="wishSalary" name="wishSalary" type="text">
-                    <p class="error" data-field-error="wishSalary"></p>
-                  </div>
-
-                  <div class="form-field form-field--full">
-                    <label for="resume">Резюме (файл)</label>
-                    <div class="file-row">
-                      <label class="btn btn--ghost" for="resume">Загрузить файл</label>
-                      <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,.rtf">
-                      <span id="resume-name" class="file-name">Файл не выбран</span>
-                    </div>
-                    <p class="error" data-field-error="resume"></p>
-                  </div>
-
-                  <div class="form-field form-field--full">
-                    <label for="comment">Комментарий</label>
-                    <textarea id="comment" name="comment"></textarea>
-                    <p class="error" data-field-error="comment"></p>
-                  </div>
+                <div class="field">
+                  <label for="name">Имя</label>
+                  <input id="name" name="name" type="text" autocomplete="given-name" required>
+                  <span class="field__error" data-error-for="name"></span>
                 </div>
-
-                <div class="checkbox">
-                  <input id="agreeTerms" name="agreeTerms" type="checkbox" required>
-                  <label for="agreeTerms">
-                    Подтверждаю согласие на обработку персональных данных по
-                    <a href="https://kursnasever.ru/policy/" target="_blank" rel="noopener noreferrer">политике конфиденциальности</a>.
-                  </label>
+                <div class="field">
+                  <label for="middlename">Отчество</label>
+                  <input id="middlename" name="middlename" type="text" autocomplete="additional-name">
+                  <span class="field__error" data-error-for="middlename"></span>
                 </div>
-                <p class="error" data-field-error="agreeTerms"></p>
-              </section>
-
-              <div class="form-actions">
-                <button id="form-back" class="btn btn--secondary" type="button">Назад</button>
-                <button id="form-next" class="btn btn--ghost" type="button">Продолжить</button>
-                <button id="form-submit" class="btn btn--primary" type="submit">Отправить заявку</button>
+                <div class="field">
+                  <label id="birthdate-label">Дата рождения</label>
+                  <div class="birthdate-input" role="group" aria-labelledby="birthdate-label" aria-describedby="birthdate-hint">
+                    <input id="birth-day" type="text" inputmode="numeric" autocomplete="bday-day" maxlength="2" placeholder="ДД" aria-label="День рождения" aria-required="true">
+                    <span aria-hidden="true">/</span>
+                    <input id="birth-month" type="text" inputmode="numeric" autocomplete="bday-month" maxlength="2" placeholder="ММ" aria-label="Месяц рождения" aria-required="true">
+                    <span aria-hidden="true">/</span>
+                    <input id="birth-year" type="text" inputmode="numeric" autocomplete="bday-year" maxlength="4" placeholder="ГГГГ" aria-label="Год рождения" aria-required="true">
+                    <input id="birthdate" name="birthdate" type="hidden">
+                  </div>
+                  <span class="field__hint" id="birthdate-hint">Минимальный возраст участника — 18 лет</span>
+                  <span class="field__error" data-error-for="birthdate"></span>
+                </div>
+                <div class="field">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" autocomplete="email" required>
+                  <span class="field__error" data-error-for="email"></span>
+                </div>
+                <div class="field">
+                  <label for="phone">Телефон</label>
+                  <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" placeholder="+7 (___) ___-__-__" required>
+                  <span class="field__error" data-error-for="phone"></span>
+                </div>
               </div>
+            </div>
 
-              <p class="form-note">* Обязательные поля. После отправки заявка передается в обработку команде проекта.</p>
-              <p id="form-feedback" class="form-feedback" hidden aria-live="polite"></p>
+            <div class="form-step" data-form-step="2" hidden>
+              <div class="form-grid">
+                <fieldset class="field field--full applicant-type">
+                  <legend>Какой маршрут вам нужен?</legend>
+                  <div class="applicant-type__options">
+                    <label>
+                      <input type="radio" name="applicantType" value="relocation" checked>
+                      <span><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"><strong>Работа и переезд</strong><small>Подбор вакансии и помощь с переездом</small></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="applicantType" value="student">
+                      <span><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true"><strong>Студент / выпускник</strong><small>Практика, стажировка или первый оффер</small></span>
+                    </label>
+                  </div>
+                  <span class="field__error" data-error-for="applicantType"></span>
+                </fieldset>
+                <div class="field">
+                  <label for="region" data-region-label>Регион проживания</label>
+                  <div class="region-combobox">
+                    <input id="region" name="region" type="text" autocomplete="off" role="combobox" aria-autocomplete="list" aria-controls="region-options" aria-expanded="false" aria-required="true" placeholder="Начните вводить регион" required>
+                    <img src="assets/icons/magnifying-glass.svg" alt="" aria-hidden="true">
+                    <ul id="region-options" class="region-combobox__options" role="listbox" hidden></ul>
+                  </div>
+                  <span class="field__error" data-error-for="region"></span>
+                </div>
+                <div class="field" data-relocation-field>
+                  <label for="sphere">Сфера деятельности</label>
+                  <select id="sphere" name="sphere" required>
+                    <option value="">Выберите сферу</option>
+                  </select>
+                  <span class="field__error" data-error-for="sphere"></span>
+                </div>
+                <div class="field" data-relocation-field>
+                  <label for="wishPost">Желаемая должность</label>
+                  <input id="wishPost" name="wishPost" type="text" required>
+                  <span class="field__error" data-error-for="wishPost"></span>
+                </div>
+                <div class="field" data-relocation-field>
+                  <label for="wishSalary">Желаемый доход</label>
+                  <input id="wishSalary" name="wishSalary" type="text" inputmode="numeric">
+                  <span class="field__error" data-error-for="wishSalary"></span>
+                </div>
+                <div class="student-fields field--full" data-student-fields hidden>
+                  <div class="student-fields__head">
+                    <span><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true"></span>
+                    <div><strong>Профиль обучения</strong><small>Эти данные помогут подобрать подходящую практику</small></div>
+                  </div>
+                  <div class="form-grid">
+                    <div class="field">
+                      <label for="studentInstitution">Учебное заведение</label>
+                      <input id="studentInstitution" name="studentInstitution" type="text" autocomplete="organization" disabled>
+                      <span class="field__error" data-error-for="studentInstitution"></span>
+                    </div>
+                    <div class="field">
+                      <label for="studentSpecialty">Специальность</label>
+                      <input id="studentSpecialty" name="studentSpecialty" type="text" disabled>
+                      <span class="field__error" data-error-for="studentSpecialty"></span>
+                    </div>
+                    <div class="field">
+                      <label for="graduationYear">Год выпуска</label>
+                      <input id="graduationYear" name="graduationYear" type="text" inputmode="numeric" maxlength="4" placeholder="2027" disabled>
+                      <span class="field__error" data-error-for="graduationYear"></span>
+                    </div>
+                    <div class="field">
+                      <label for="studentStatus">Текущий курс</label>
+                      <select id="studentStatus" name="studentStatus" disabled>
+                        <option value="">Выберите статус</option>
+                        <option value="1">1 курс</option>
+                        <option value="2">2 курс</option>
+                        <option value="3">3 курс</option>
+                        <option value="4">4 курс</option>
+                        <option value="5">5 курс</option>
+                        <option value="6">6 курс</option>
+                        <option value="graduated">Уже выпустился / выпустилась</option>
+                      </select>
+                      <span class="field__error" data-error-for="studentStatus"></span>
+                    </div>
+                    <div class="field" data-practice-field>
+                      <label for="practiceStart">Ближайшая практика — с</label>
+                      <input id="practiceStart" name="practiceStart" type="month" disabled>
+                      <span class="field__error" data-error-for="practiceStart"></span>
+                    </div>
+                    <div class="field" data-practice-field>
+                      <label for="practiceEnd">Ближайшая практика — по</label>
+                      <input id="practiceEnd" name="practiceEnd" type="month" disabled>
+                      <span class="field__error" data-error-for="practiceEnd"></span>
+                    </div>
+                  </div>
+                </div>
+                <div class="field field--full">
+                  <label>Резюме</label>
+                  <div class="file-input">
+                    <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,.rtf" aria-describedby="resume-name">
+                    <label for="resume"><img src="assets/icons/download-simple.svg" alt="" aria-hidden="true">Выбрать файл</label>
+                    <span id="resume-name">PDF, DOC или DOCX до 10 МБ</span>
+                  </div>
+                  <span class="field__error" data-error-for="resume"></span>
+                </div>
+                <div class="field field--full">
+                  <label for="comment">Комментарий</label>
+                  <textarea id="comment" name="comment" rows="3" placeholder="Расскажите, что важно учесть при подборе"></textarea>
+                  <span class="field__error" data-error-for="comment"></span>
+                </div>
+                <div class="field field--full">
+                  <label for="referral">Реферальный код, если есть</label>
+                  <input id="referral" name="referral" type="text" maxlength="20">
+                  <span class="field__error" data-error-for="referral"></span>
+                </div>
+                <label class="consent field--full">
+                  <input id="agreeTerms" name="agreeTerms" type="checkbox" required>
+                  <span>Я соглашаюсь на обработку персональных данных в соответствии с <a href="https://kursnasever.ru/policy/" target="_blank" rel="noopener noreferrer">политикой конфиденциальности</a>.</span>
+                </label>
+                <span class="field__error field__error--consent" data-error-for="agreeTerms"></span>
+              </div>
+            </div>
+
+            <div class="form-feedback" id="form-feedback" role="status" aria-live="polite" hidden></div>
+
+            <div class="form-actions">
+              <button class="button button--secondary" id="form-back" type="button" hidden>
+                <img class="button__icon button__icon--leading" src="assets/icons/arrow-left.svg" alt="" aria-hidden="true">
+                Назад
+              </button>
+              <button class="button button--primary" id="form-next" type="button">
+                Продолжить
+                <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+              </button>
+              <button class="button button--primary" id="form-submit" type="submit" hidden>
+                Отправить заявку
+                <img class="button__icon" src="assets/icons/paper-plane-tilt.svg" alt="" aria-hidden="true">
+              </button>
             </div>
           </form>
         </div>
@@ -515,208 +896,217 @@
     </section>
   </main>
 
-  <footer class="site-footer">
-    <div class="container site-footer__grid">
-      <p>© <span id="year"></span> Курс на Север. Все права защищены.</p>
-      <div class="legal-links">
+  <footer class="site-footer" id="contacts">
+    <div class="container site-footer__top">
+      <div class="site-footer__brand">
+        <img src="assets/images/logo-top-transparent-light.png" alt="Правительство Мурманской области и Курс на Север" width="559" height="175">
+        <p>Работа и переезд в Мурманскую область.</p>
+      </div>
+      <address class="site-footer__contact">
+        <a href="tel:+79113223615">+7 (911) 322-36-15</a>
+        <a href="mailto:info@kursnasever.ru">info@kursnasever.ru</a>
+        <span>Мурманск · пн–пт, 09:00–17:00</span>
+      </address>
+      <nav class="site-footer__social" aria-label="Социальные сети проекта">
+        <a href="https://vk.com/kurs_na_sever" target="_blank" rel="noopener noreferrer">ВКонтакте <span aria-hidden="true">↗</span></a>
+        <a href="https://t.me/go_north" target="_blank" rel="noopener noreferrer">Telegram <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+    <div class="container site-footer__bottom">
+      <span>© <span id="year">2026</span> «Курс на Север»</span>
+      <div>
         <a href="https://kursnasever.ru/policy/" target="_blank" rel="noopener noreferrer">Политика конфиденциальности</a>
-        <a href="https://kursnasever.ru/include/cookie.html" target="_blank" rel="noopener noreferrer">Политика использования файлов куки</a>
+        <a href="https://kursnasever.ru/policy-cookie/" target="_blank" rel="noopener noreferrer">Политика Cookie</a>
       </div>
     </div>
   </footer>
 
-  <section class="modal" data-modal-id="support-general" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-general-title">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__dialog">
-      <header class="modal__header">
-        <h3 class="modal__title" id="modal-general-title">Общие меры поддержки в Мурманской области</h3>
-        <button class="modal__close" type="button" aria-label="Закрыть окно">×</button>
-      </header>
-      <div class="modal__body">
-        <h4>Надбавки за работу в районах Крайнего Севера</h4>
-        <ul>
-          <li>Процентная надбавка к зарплате достигает 80%.</li>
-          <li>Для молодежи до 35 лет северная надбавка начисляется с даты трудоустройства.</li>
-          <li>Надбавка увеличивается каждые 6 месяцев работы до 60%, затем каждый год на 10%.</li>
-        </ul>
-
-        <h5>Районные коэффициенты</h5>
-        <ul>
-          <li>В Мурманской области — 1,4.</li>
-          <li>В поселке Туманный — 1,7.</li>
-          <li>В ЗАТО Островной — 1,8.</li>
-          <li>Для работников областных и муниципальных учреждений — 1,5.</li>
-        </ul>
-
-        <h4>Отпуск и дополнительные условия</h4>
-        <ul>
-          <li>Для женщин действует сокращенная рабочая неделя: 36 часов вместо 40 с сохранением полной заработной платы.</li>
-          <li>Ежегодный дополнительный оплачиваемый отпуск составляет 24 календарных дня, всего до 52 дней.</li>
-          <li>Досрочная пенсия: мужчины — с 60 лет, женщины — с 55 лет.</li>
-        </ul>
-
-        <h4>Компенсация расходов на проезд и переезд</h4>
-        <ul>
-          <li>Раз в 2 года оплачивается проезд к месту отдыха и обратно, включая багаж.</li>
-          <li>Льгота распространяется на членов семьи: супругов и несовершеннолетних детей.</li>
-          <li>При переезде компенсируется проезд работника и его семьи в пределах России.</li>
-          <li>Провоз багажа оплачивается до 5 тонн на семью по тарифам железнодорожного транспорта.</li>
-        </ul>
-
-        <p>
-          Источники:
-          <a href="https://base.garant.ru/12125268/d4f623d189cc29289b055a0bebae28e1/" target="_blank" rel="noopener noreferrer">Статья 326 ТК РФ</a>,
-          <a href="http://publication.pravo.gov.ru/document/5100202410020006" target="_blank" rel="noopener noreferrer">Закон Мурманской области №3034-01-ЗМО</a>.
-        </p>
+  <dialog class="dialog" id="support-dialog" aria-labelledby="support-dialog-title">
+    <div class="dialog__header">
+      <div>
+        <p class="eyebrow" data-support-dialog-eyebrow>Для всех участников</p>
+        <h2 id="support-dialog-title" data-support-dialog-title>Общие меры поддержки</h2>
       </div>
+      <button class="icon-button" type="button" aria-label="Закрыть" data-dialog-close>
+        <img src="assets/icons/x.svg" alt="" aria-hidden="true">
+      </button>
     </div>
-  </section>
+    <div class="dialog__body">
+      <ul class="dialog__list" data-support-dialog-list></ul>
+      <p class="dialog__notice">Условия и основания выплат могут меняться. Куратор проверит применимость мер к вашей ситуации.</p>
+    </div>
+    <div class="dialog__footer">
+      <a class="button button--primary" href="#application" data-dialog-apply>
+        Подобрать меры
+        <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+      </a>
+    </div>
+  </dialog>
 
-  <section class="modal" data-modal-id="support-education" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-education-title">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__dialog">
-      <header class="modal__header">
-        <h3 class="modal__title" id="modal-education-title">Меры поддержки педагогических работников</h3>
-        <button class="modal__close" type="button" aria-label="Закрыть окно">×</button>
-      </header>
-      <div class="modal__body">
-        <p>
-          Полный список мер поддержки:
-          <a href="https://minobr.gov-murman.ru/activities/mery-podderzhki.php" target="_blank" rel="noopener noreferrer">сайт Министерства образования и науки Мурманской области</a>.
-        </p>
-
-        <h4>Федеральные программы</h4>
-        <ul>
-          <li>Программа «Земский учитель» для трудоустройства в населенных пунктах с численностью до 50 000 человек.</li>
-        </ul>
-
-        <h4>Региональные меры</h4>
-        <ul>
-          <li>Конкурс «Арктический учитель»: 1 000 000 ₽ для победителей, переехавших в регион и впервые трудоустроившихся на дефицитные рабочие места.</li>
-          <li>500 000 ₽ для победителей конкурса со стажем до 3 лет, переехавших в регион и впервые трудоустроившихся на дефицитные рабочие места.</li>
-          <li>Ежемесячные надбавки к окладу: 10 000 ₽ для первой квалификационной категории и 15 000 ₽ для высшей.</li>
-          <li>Ежемесячная выплата 20 000 ₽ за звание «Заслуженный учитель Российской Федерации».</li>
-          <li>Ежемесячная компенсация аренды жилья — 25 000 ₽ для педагогов, переехавших в регион и трудоустроившихся на квотированные места.</li>
-          <li>100 000 ₽ молодым педагогам-выпускникам за первый отработанный календарный год.</li>
-          <li>Дополнительные выплаты до 25 000 ₽ в месяц классным руководителям и кураторам.</li>
-        </ul>
-
-        <h4>Дополнительные гарантии</h4>
-        <ul>
-          <li>Районный коэффициент выплачивается с первого дня работы.</li>
-          <li>Молодым специалистам до 35 лет северная надбавка начисляется с первого дня работы.</li>
-          <li>При переезде может предоставляться оплачиваемый отпуск до 7 календарных дней для обустройства на новом месте.</li>
-          <li>Ежегодный отпуск для педагогических работников — 56 календарных дней плюс 24 дня за работу в районах Крайнего Севера.</li>
-          <li>Единовременное пособие 60 000 ₽ при первом трудоустройстве в течение года после окончания обучения.</li>
-          <li>Ежегодная разовая материальная помощь в размере одного должностного оклада для отдельных категорий работников образовательных организаций.</li>
-          <li>Компенсация расходов на оплату ЖКХ и ежемесячная доплата 25% к окладу для специалистов, работающих в сельских населенных пунктах и поселках городского типа.</li>
-          <li>При увольнении в связи с выходом на пенсию по старости или по инвалидности может выплачиваться единовременное пособие в размере 3 должностных окладов.</li>
-        </ul>
-
-        <h4>Премии за профессионализм</h4>
-        <ul>
-          <li>Подготовка победителя Всероссийской олимпиады школьников — 150 000 ₽, призера — 100 000 ₽.</li>
-          <li>Конкурс «Учитель года Мурманской области»: до 300 000 ₽ победителю и до 100 000 ₽ призеру.</li>
-          <li>Национальный чемпионат «Молодые профессионалы»: 200 000 / 150 000 / 100 000 ₽ победителям и призерам, 50 000 ₽ обладателям медальона «За профессионализм».</li>
-          <li>Наставники победителей и призеров чемпионатов получают 50% от награды победителя.</li>
-          <li>Чемпионат по северным профессиям: 50 000 / 30 000 / 20 000 ₽ победителям, призерам и наставникам.</li>
-          <li>Национальный чемпионат «Абилимпикс»: 50 000 ₽ за каждого призера.</li>
-          <li>Конкурс «Сердце отдаю детям»: 250 000 ₽ победителю, 100 000 ₽ призерам и 20 000 ₽ финалистам.</li>
-        </ul>
+  <dialog class="dialog story-dialog" id="story-dialog" aria-labelledby="story-dialog-title">
+    <div class="dialog__header">
+      <div>
+        <p class="eyebrow" data-story-eyebrow>Типовой маршрут</p>
+        <h2 id="story-dialog-title" data-story-title>Новая работа и переезд вдвоём</h2>
       </div>
+      <button class="icon-button" type="button" aria-label="Закрыть" data-dialog-close>
+        <img src="assets/icons/x.svg" alt="" aria-hidden="true">
+      </button>
     </div>
-  </section>
-
-  <section class="modal" data-modal-id="support-medicine" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-medicine-title">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__dialog">
-      <header class="modal__header">
-        <h3 class="modal__title" id="modal-medicine-title">Меры поддержки для медицинских работников</h3>
-        <button class="modal__close" type="button" aria-label="Закрыть окно">×</button>
-      </header>
-      <div class="modal__body">
-        <p>Сохраняются и общие меры поддержки, действующие в Мурманской области.</p>
-
-        <h4>Федеральные и региональные выплаты</h4>
-        <ul>
-          <li>Программа «Земский доктор»: 2 000 000 ₽ врачам, переехавшим в сельскую местность или поселки городского типа, и 1 000 000 ₽ врачам, переехавшим в города с населением до 50 000 человек.</li>
-          <li>Программа «Земский фельдшер»: 1 000 000 ₽ фельдшерам, акушерам и медсестрам, переехавшим в сельскую местность или поселки городского типа, и 500 000 ₽ при переезде в города с населением до 50 000 человек.</li>
-          <li>Региональные квотные выплаты — до 1 500 000 ₽ для медиков на квотированных местах.</li>
-          <li>Ежеквартальная компенсация за жилье и коммунальные услуги в течение первого года работы — 15 000 ₽.</li>
-          <li>Единовременные компенсационные выплаты: 1 000 000 ₽ для врачей и 500 000 ₽ для фельдшеров и медсестер, прибывших на дефицитные места в города с населением до 50 000 человек.</li>
-          <li>1 500 000 ₽ врачам при трудоустройстве в Заполярном, Кандалакше, Ковдоре и Оленегорске; 1 000 000 ₽ — для остальных населенных пунктов области.</li>
-        </ul>
-
-        <h4>Обеспечение жильем</h4>
-        <ul>
-          <li>Единовременная социальная выплата на приобретение или строительство жилья — до 50% первоначального взноса.</li>
-          <li>Компенсация аренды жилья — до 25 000 ₽ в месяц.</li>
-          <li>Предоставление служебного жилья с возможностью дальнейшей приватизации.</li>
-          <li>Участие в программе «Свой дом в Арктике» с сертификатом до 1 000 000 ₽.</li>
-        </ul>
-
-        <h4>Выплаты и надбавки</h4>
-        <ul>
-          <li>Единовременная выплата при первом трудоустройстве после окончания обучения: 60 000 ₽ врачам-специалистам и 45 000 ₽ специалистам со средним медицинским или фармацевтическим образованием.</li>
-          <li>Ежегодная выплата в течение первых 3 лет работы: 50 000 ₽ врачам-специалистам и 30 000 ₽ специалистам со средним медицинским или фармацевтическим образованием.</li>
-          <li>Ежегодная разовая выплата: 30 000 ₽ участковым врачам и врачам общей практики, 20 000 ₽ врачам-специалистам, 10 000 ₽ среднему медицинскому и фармацевтическому персоналу.</li>
-          <li>Полярные надбавки и районный коэффициент выплачиваются с первого дня работы.</li>
-          <li>Компенсация расходов на оплату ЖКХ и ежемесячная выплата 25% к окладу предусмотрены для отдельных категорий медработников в сельской местности и поселках городского типа.</li>
-        </ul>
-
-        <h4>Поддержка при переезде</h4>
-        <ul>
-          <li>2 должностных оклада — при переезде из другого региона.</li>
-          <li>0,5 оклада — на каждого члена семьи, который переезжает вместе с работником.</li>
-          <li>Оплата проезда для работника и членов семьи любым видом транспорта, кроме такси.</li>
-          <li>Оплата провоза багажа до 5 тонн на семью.</li>
-          <li>Дополнительный оплачиваемый отпуск 7 дней для адаптации на новом месте.</li>
-        </ul>
-
-        <h4>Отпуск</h4>
-        <ul>
-          <li>Основной отпуск — 28 дней.</li>
-          <li>Дополнительный отпуск — 24 дня за работу в районах Крайнего Севера.</li>
-          <li>Дополнительные дни предоставляются и за вредные условия труда.</li>
-          <li>Раз в два года оплачивается проезд к месту отдыха и обратно для всей семьи.</li>
-        </ul>
-
-        <h4>Поддержка будущих медиков</h4>
-        <ul>
-          <li>Студенты-целевики получают стипендию от 3 000 до 6 000 ₽ и компенсацию проезда и аренды жилья на время практики.</li>
-          <li>При целевом обучении в ординатуре предусмотрены ежемесячная стипендия 10 000 ₽, место практики и гарантированное трудоустройство в медицинском учреждении Мурманской области.</li>
-          <li>Студенты со средним медицинским образованием могут получать стипендию 3 000 ₽ при наличии трудового договора с медорганизацией.</li>
-        </ul>
+    <div class="dialog__body">
+      <div class="story-dialog__profile">
+        <img data-story-avatar src="assets/images/story-avatar-family-v8.webp" alt="" width="640" height="640">
+        <div>
+          <strong data-story-person>Участник программы</strong>
+          <span data-story-route></span>
+          <div class="story-dialog__tags" data-story-tags></div>
+        </div>
       </div>
+      <blockquote class="story-dialog__quote" data-story-quote></blockquote>
+      <p class="story-dialog__lead" data-story-lead></p>
+      <div class="story-dialog__gallery" data-story-gallery aria-label="Фотографии к истории"></div>
+      <h3 class="story-dialog__steps-title">Как прошёл маршрут</h3>
+      <ol class="story-dialog__steps" data-story-steps></ol>
+      <p class="story-dialog__notice"><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Собирательная история для демонстрации сценария. Реальные отзывы и фотографии публикуются только с согласия участников.</p>
     </div>
-  </section>
+    <div class="dialog__footer">
+      <a class="button button--primary" href="#application" data-dialog-apply data-story-apply>
+        Собрать мой маршрут
+        <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+      </a>
+    </div>
+  </dialog>
 
-  <section class="modal" data-modal-id="support-students" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="modal-students-title">
-    <div class="modal__overlay" data-close-modal></div>
-    <div class="modal__dialog">
-      <header class="modal__header">
-        <h3 class="modal__title" id="modal-students-title">Для студентов</h3>
-        <button class="modal__close" type="button" aria-label="Закрыть окно">×</button>
-      </header>
-      <div class="modal__body">
-        <h4>Начните свою карьеру с успешной практики в Заполярье</h4>
-        <p>
-          Программа «Курс на Север» предлагает студентам различных специальностей возможность пройти
-          стажировку на крупнейших предприятиях Мурманской области.
-        </p>
-        <p>
-          Это шанс не только углубить знания и навыки, но и открыть для себя перспективы дальнейшего
-          трудоустройства в одном из самых живописных и динамично развивающихся регионов России.
-        </p>
-
-        <p>
-          Чтобы начать, оставьте заявку в нашей группе во ВКонтакте:
-          <a href="https://vk.com/app5708398_-221830653?ref=group_menu" target="_blank" rel="noopener noreferrer">Открыть студенческую форму</a>
-        </p>
+  <dialog class="dialog resume-dialog" id="resume-dialog" aria-labelledby="resume-dialog-title">
+    <div class="dialog__header">
+      <div>
+        <p class="eyebrow">Конструктор резюме</p>
+        <h2 id="resume-dialog-title">Соберите основу за несколько минут</h2>
       </div>
+      <button class="icon-button" type="button" aria-label="Закрыть" data-dialog-close>
+        <img src="assets/icons/x.svg" alt="" aria-hidden="true">
+      </button>
     </div>
-  </section>
+    <div class="resume-builder">
+      <form class="resume-builder__form" data-resume-form>
+        <section class="resume-builder__section">
+          <div class="resume-builder__section-head">
+            <div><span>01</span><strong>Основное</strong></div>
+          </div>
+          <div class="field">
+            <label for="resume-fullname">Имя и фамилия</label>
+            <input id="resume-fullname" name="fullName" type="text" placeholder="Анна Соколова" required>
+          </div>
+          <div class="field">
+            <label for="resume-role">Желаемая должность</label>
+            <input id="resume-role" name="role" type="text" placeholder="Инженер-технолог" required>
+          </div>
+          <div class="field">
+            <label for="resume-contact">Телефон и email</label>
+            <input id="resume-contact" name="contact" type="text" placeholder="+7 900 000-00-00 · name@email.ru">
+          </div>
+          <div class="field">
+            <label for="resume-summary">О себе и сильные стороны</label>
+            <textarea id="resume-summary" name="summary" rows="3" placeholder="Ключевые компетенции, достижения и профессиональный фокус"></textarea>
+          </div>
+        </section>
 
-  <script type="module" src="scripts/main.js"></script>
+        <section class="resume-builder__section">
+          <div class="resume-builder__section-head">
+            <div><span>02</span><strong>Опыт работы</strong></div>
+            <button class="resume-add-button" type="button" data-add-experience><span aria-hidden="true">+</span> Добавить</button>
+          </div>
+          <div class="resume-repeat-list" data-resume-experience-list></div>
+        </section>
+
+        <section class="resume-builder__section">
+          <div class="resume-builder__section-head">
+            <div><span>03</span><strong>Образование</strong></div>
+            <button class="resume-add-button" type="button" data-add-education><span aria-hidden="true">+</span> Добавить</button>
+          </div>
+          <div class="resume-repeat-list" data-resume-education-list></div>
+        </section>
+      </form>
+
+      <article class="resume-preview" id="resume-print-area" aria-label="Предпросмотр резюме">
+        <header class="resume-preview__brand">
+          <img src="assets/images/logo-na-severe-zhit-black.png" alt="На Севере — жить!" width="626" height="338">
+          <span>Резюме участника</span>
+        </header>
+        <div class="resume-preview__identity">
+          <h3 data-resume-preview-name>Ваше имя</h3>
+          <strong data-resume-preview-role>Желаемая должность</strong>
+          <span data-resume-preview-contact>Контакты</span>
+        </div>
+        <section>
+          <h4>Профессиональный профиль</h4>
+          <p data-resume-preview-summary>Коротко расскажите о сильных сторонах и профессиональном фокусе.</p>
+        </section>
+        <section>
+          <h4>Опыт работы</h4>
+          <div class="resume-preview__entries" data-resume-preview-experience-list>
+            <p>Добавьте место работы, должность и обязанности.</p>
+          </div>
+        </section>
+        <section>
+          <h4>Образование</h4>
+          <div class="resume-preview__entries" data-resume-preview-education-list>
+            <p>Добавьте учебное заведение и специальность.</p>
+          </div>
+        </section>
+        <footer class="resume-preview__footer"><strong>Курс на Север</strong><span>kursnasever.ru</span></footer>
+      </article>
+    </div>
+    <div class="dialog__footer">
+      <p class="resume-dialog__status" role="status" aria-live="polite" data-resume-status></p>
+      <button class="button button--primary" type="button" data-print-resume>
+        <img class="button__icon button__icon--leading" src="assets/icons/file-pdf.svg" alt="" aria-hidden="true">
+        Сохранить в PDF
+      </button>
+    </div>
+  </dialog>
+
+  <template id="resume-experience-template">
+    <fieldset class="resume-repeat-item" data-resume-experience-item>
+      <legend>Место работы</legend>
+      <button class="resume-repeat-item__remove" type="button" aria-label="Удалить место работы" data-remove-resume-item>Удалить</button>
+      <div class="field">
+        <label>Должность</label>
+        <input name="experiencePosition" type="text" placeholder="Инженер-технолог">
+      </div>
+      <div class="resume-repeat-item__years">
+        <div class="field"><label>Начало</label><input name="experienceStart" type="text" inputmode="numeric" maxlength="4" placeholder="2021"></div>
+        <div class="field"><label>Окончание</label><input name="experienceEnd" type="text" inputmode="numeric" maxlength="4" placeholder="2026"></div>
+      </div>
+      <div class="field">
+        <label>Обязанности и результаты</label>
+        <textarea name="experienceDuties" rows="3" placeholder="За что отвечали и чего достигли"></textarea>
+      </div>
+    </fieldset>
+  </template>
+
+  <template id="resume-education-template">
+    <fieldset class="resume-repeat-item" data-resume-education-item>
+      <legend>Образование</legend>
+      <button class="resume-repeat-item__remove" type="button" aria-label="Удалить образование" data-remove-resume-item>Удалить</button>
+      <div class="field">
+        <label>Учебное заведение</label>
+        <input name="educationInstitution" type="text" placeholder="Мурманский арктический университет">
+      </div>
+      <div class="field">
+        <label>Специальность</label>
+        <input name="educationSpecialty" type="text" placeholder="Технология машиностроения">
+      </div>
+      <div class="field">
+        <label>Год завершения</label>
+        <input name="educationYear" type="text" inputmode="numeric" maxlength="4" placeholder="2024">
+      </div>
+    </fieldset>
+  </template>
+
+  <script type="module" src="scripts/section-parallax.js?v=20260729-1"></script>
+  <script src="scripts/vendor/pdfmake.min.js?v=0.2.10"></script>
+  <script src="scripts/vendor/vfs_fonts.js?v=0.2.10"></script>
+  <script type="module" src="scripts/main.js?v=20260802-1"></script>
 </body>
 </html>

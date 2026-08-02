@@ -68,6 +68,8 @@ export default class ApiClient {
   async request(method, path, options = {}) {
     const url = `${this.baseUrl}${path.startsWith("/") ? path : `/${path}`}`;
     const headers = new Headers(options.headers || {});
+    const retryAllowed = options.retry === true
+      || (options.retry !== false && ["GET", "HEAD", "OPTIONS"].includes(method));
 
     if (this.token) {
       headers.set("Authorization", `Bearer ${this.token}`);
@@ -96,7 +98,9 @@ export default class ApiClient {
 
         if (!response.ok) {
           const apiError = this.toApiError(response, payload);
-          const shouldRetry = attempt < this.maxRetries && DEFAULT_RETRY_STATUS.has(apiError.status);
+          const shouldRetry = retryAllowed
+            && attempt < this.maxRetries
+            && DEFAULT_RETRY_STATUS.has(apiError.status);
 
           if (!shouldRetry) {
             throw apiError;
@@ -118,7 +122,7 @@ export default class ApiClient {
           throw error;
         }
 
-        if (attempt >= this.maxRetries) {
+        if (!retryAllowed || attempt >= this.maxRetries) {
           throw new ApiError("Ошибка сети. Повторите попытку позже.", { payload: error });
         }
 

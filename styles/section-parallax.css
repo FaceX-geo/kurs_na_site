@@ -1,0 +1,202 @@
+/*
+ * Decorative section-parallax primitives.
+ * Artwork is intentionally external: a layer can contain an <img>/<picture>
+ * or use one of the lightweight procedural variants below.
+ */
+
+[data-parallax-section] {
+  position: relative;
+  isolation: isolate;
+}
+
+/* Keep the decorative plane behind every direct content wrapper. */
+[data-parallax-section] > :not(.section-parallax) {
+  position: relative;
+  z-index: 1;
+}
+
+.section-parallax {
+  position: absolute;
+  z-index: 0;
+  inset: -7% 0;
+  overflow: hidden;
+  contain: layout paint;
+  pointer-events: none;
+  user-select: none;
+}
+
+.section-parallax--edge-fade {
+  -webkit-mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 12%,
+      #000 88%,
+      transparent 100%
+    );
+  mask-image:
+    linear-gradient(
+      to bottom,
+      transparent 0%,
+      #000 12%,
+      #000 88%,
+      transparent 100%
+    );
+}
+
+[data-parallax-layer] {
+  --parallax-x: 0px;
+  --parallax-y: 0px;
+  --parallax-rotate: 0deg;
+  --parallax-scale: 1;
+  --parallax-opacity: 0.14;
+
+  position: absolute;
+  max-width: none;
+  opacity: clamp(0, var(--parallax-opacity), 0.24);
+  transform:
+    translate3d(var(--parallax-x), var(--parallax-y), 0)
+    rotate(var(--parallax-rotate))
+    scale(var(--parallax-scale));
+  transform-origin: center;
+  transition: opacity 500ms ease;
+  will-change: transform;
+  backface-visibility: hidden;
+}
+
+/* Suitable for softly blended ImageGen landscape/texture cutouts. */
+.section-parallax__layer--image {
+  width: min(48vw, 760px);
+  min-width: 360px;
+  overflow: hidden;
+  border-radius: 42%;
+  filter: saturate(0.82) contrast(0.94);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 28%, rgba(0, 0, 0, 0.88) 54%, transparent 84%);
+  mask-image: radial-gradient(ellipse at center, #000 28%, rgba(0, 0, 0, 0.88) 54%, transparent 84%);
+}
+
+.section-parallax__layer--image > picture,
+.section-parallax__layer--image img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.section-parallax__layer--image img {
+  object-fit: cover;
+}
+
+.section-parallax__layer--wide {
+  inset: -5% -3%;
+  width: 106%;
+  height: 110%;
+}
+
+.section-parallax__layer--wide img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Optional asset-free accents for composition and prototyping. */
+.section-parallax__layer--orb {
+  width: clamp(280px, 33vw, 580px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background:
+    radial-gradient(
+      circle at 46% 42%,
+      var(--parallax-color, rgba(79, 211, 227, 0.68)) 0%,
+      color-mix(in srgb, var(--parallax-color, #4fd3e3) 36%, transparent) 36%,
+      transparent 72%
+    );
+  filter: blur(clamp(20px, 3vw, 54px));
+}
+
+.section-parallax__layer--contours {
+  width: clamp(360px, 50vw, 820px);
+  aspect-ratio: 1.25;
+  border: 1px solid color-mix(in srgb, var(--parallax-color, #77d9e7) 42%, transparent);
+  border-radius: 42% 58% 63% 37% / 47% 36% 64% 53%;
+  box-shadow:
+    24px 18px 0 -23px color-mix(in srgb, var(--parallax-color, #77d9e7) 30%, transparent),
+    52px 40px 0 -51px color-mix(in srgb, var(--parallax-color, #77d9e7) 24%, transparent),
+    -28px 56px 0 -27px color-mix(in srgb, var(--parallax-color, #77d9e7) 18%, transparent);
+}
+
+.section-parallax__layer--grain {
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background-image:
+    radial-gradient(circle at 18% 28%, currentColor 0 0.7px, transparent 0.9px),
+    radial-gradient(circle at 72% 62%, currentColor 0 0.6px, transparent 0.8px);
+  background-size: 27px 31px, 39px 43px;
+  opacity: 0.045;
+}
+
+.section-parallax__layer--top-left {
+  top: -12%;
+  left: -9%;
+}
+
+.section-parallax__layer--top-right {
+  top: -12%;
+  right: -9%;
+}
+
+.section-parallax__layer--bottom-left {
+  bottom: -12%;
+  left: -9%;
+}
+
+.section-parallax__layer--bottom-right {
+  right: -9%;
+  bottom: -12%;
+}
+
+[data-parallax-mode="static"] [data-parallax-layer] {
+  transform: none;
+  will-change: auto;
+}
+
+@media (max-width: 767px), (pointer: coarse) {
+  .section-parallax {
+    inset-block: -3%;
+  }
+
+  [data-parallax-layer] {
+    --parallax-opacity: 0.09;
+    filter: none;
+    will-change: auto;
+  }
+
+  [data-parallax-mobile="hide"] {
+    display: none;
+  }
+
+  .section-parallax__layer--image {
+    width: min(82vw, 520px);
+    min-width: 260px;
+  }
+
+  .section-parallax__layer--orb {
+    width: min(78vw, 420px);
+    filter: blur(28px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-parallax-layer] {
+    transform: none !important;
+    transition: none;
+    will-change: auto;
+  }
+}
+
+@media print {
+  .section-parallax {
+    display: none !important;
+  }
+}

@@ -1,0 +1,81 @@
+/* Full Murmansk Oblast map. The artistic raster and interactive coordinates
+   share the same north-up 4:3 projection; admin points remain WGS84 data. */
+
+.region-map {
+  background: #02152f;
+  border-color: rgba(131, 225, 235, 0.24);
+}
+
+.region-map::after {
+  background:
+    linear-gradient(270deg, rgba(2, 12, 35, 0.7) 0%, rgba(2, 12, 35, 0.38) 31%, rgba(2, 12, 35, 0.03) 58%),
+    linear-gradient(180deg, rgba(3, 15, 42, 0.03) 53%, rgba(2, 12, 35, 0.48) 100%);
+}
+
+.region-map__art img {
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.94) contrast(1.04) brightness(0.95);
+}
+
+.region-map__outline {
+  opacity: 0.13;
+  mix-blend-mode: screen;
+}
+
+.region-map__intro {
+  right: clamp(30px, 4vw, 58px);
+  left: auto;
+  width: min(430px, 39%);
+  background: rgba(3, 17, 48, 0.6);
+  transition:
+    opacity 240ms ease,
+    transform 240ms ease,
+    visibility 240ms ease;
+}
+
+.region-map.has-selection .region-map__intro {
+  visibility: hidden;
+  opacity: 0;
+  transform: translateY(-12px);
+  pointer-events: none;
+}
+
+.region-map__intro h3 {
+  max-width: 360px;
+}
+
+.region-map__facts strong {
+  font-size: clamp(22px, 2.1vw, 31px);
+}
+
+.region-map .city-panel {
+  right: clamp(28px, 4vw, 58px);
+  left: auto;
+}
+
+@media (max-width: 960px) {
+  .region-map__intro,
+  .region-map .city-panel {
+    right: 26px;
+    left: auto;
+  }
+}
+
+@media (max-width: 680px) {
+  .region-map::after {
+    background:
+      linear-gradient(180deg, rgba(3, 15, 42, 0.02), rgba(2, 12, 35, 0.34));
+  }
+
+  .region-map__outline {
+    opacity: 0.17;
+  }
+
+  .region-map__intro,
+  .region-map .city-panel {
+    right: 12px;
+    left: 12px;
+    width: auto;
+  }
+}

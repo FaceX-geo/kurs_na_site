@@ -1,0 +1,116 @@
+{
+  "version": 3,
+  "width": 1200,
+  "height": 900,
+  "minLon": 28.4157885,
+  "maxLon": 41.4103031,
+  "minLat": 66.0564092,
+  "maxLat": 69.9537469,
+  "minMercatorX": 0.49594906887534074,
+  "maxMercatorX": 0.7227461333438145,
+  "minMercatorY": 1.55097038379596,
+  "maxMercatorY": 1.7330574797466085,
+  "scale": 4151.859284992391,
+  "offsetX": 129.1852510387746,
+  "offsetY": 72,
+  "region": {
+    "name": "Мурманская область",
+    "iso3166_2": "RU-MUR",
+    "osmType": "relation",
+    "osmId": 2099216,
+    "osmVersion": 71,
+    "osmTimestamp": "2026-06-10T18:02:42Z",
+    "bbox": {
+      "west": 28.4157885,
+      "south": 66.0564092,
+      "east": 41.4103031,
+      "north": 69.9537469
+    },
+    "bboxMeaning": "complete land and islands; territorial waters excluded",
+    "administrativeBboxIncludingTerritorialWaters": {
+      "west": 28.4157885,
+      "south": 65.691813,
+      "east": 42.5057036,
+      "north": 70.1529749
+    },
+    "islandCount": 135
+  },
+  "canvas": {
+    "width": 1200,
+    "height": 900,
+    "aspectRatio": "4:3",
+    "fit": "contain",
+    "padding": 72,
+    "contentBounds": {
+      "x": 129.1852510387746,
+      "y": 72,
+      "width": 941.6294979224508,
+      "height": 756
+    }
+  },
+  "cartography": {
+    "landSource": "assets/data/murmansk-land.geojson",
+    "landSourceCoordinateCount": 122757,
+    "landSvgSimplificationTolerancePx": 0.22,
+    "coastlineMeaning": "natural coastline; territorial-water perimeter is intentionally not used as the visible land silhouette"
+  },
+  "projection": {
+    "name": "Web Mercator",
+    "epsg": "EPSG:3857",
+    "coordinateOrder": [
+      "longitude",
+      "latitude"
+    ],
+    "minMercatorX": 0.49594906887534074,
+    "maxMercatorX": 0.7227461333438145,
+    "minMercatorY": 1.55097038379596,
+    "maxMercatorY": 1.7330574797466085,
+    "scale": 4151.859284992391,
+    "offsetX": 129.1852510387746,
+    "offsetY": 72,
+    "forward": "x=offsetX+(lon*pi/180-minMercatorX)*scale; y=offsetY+(maxMercatorY-ln(tan(pi/4+lat*pi/360)))*scale",
+    "inverse": "lon=((x-offsetX)/scale+minMercatorX)*180/pi; lat=(2*atan(exp(maxMercatorY-(y-offsetY)/scale))-pi/2)*180/pi"
+  },
+  "placementContract": {
+    "apiCoordinates": "WGS84 longitude/latitude",
+    "renderSpace": "SVG viewBox 0 0 1200 900",
+    "imageRule": "Preserve the complete SVG viewBox without cropping, stretching or perspective transforms.",
+    "markerAnchor": "center",
+    "adminNudge": "Apply optional nudgeX/nudgeY only after geographic projection, in viewBox units.",
+    "landSnapSource": "assets/data/murmansk-land.geojson",
+    "administrativeBoundarySource": "assets/data/murmansk-oblast.geojson",
+    "visualReference": "assets/maps/murmansk-oblast-reference.svg"
+  },
+  "hydrography": {
+    "featureCount": 60,
+    "coordinateCount": 66055,
+    "source": "assets/data/murmansk-waterbodies.geojson",
+    "sourceGeometryMaximumApproximationMetres": 50,
+    "svgSimplificationTolerancePx": 0.18,
+    "priorityNames": [
+      "Имандра",
+      "Верхнетуломское водохранилище",
+      "Ковдозеро",
+      "Умбозеро",
+      "Ловозеро"
+    ]
+  },
+  "internationalBorders": {
+    "norway": {
+      "from": "Муоткаваара / Крокфьеллет (трёхсторонняя пограничная точка)",
+      "to": "устье Ворьема / российско-норвежская морская граница",
+      "styleId": "norway-border"
+    },
+    "finland": {
+      "from": "стык границ Мурманской области, Карелии и Финляндии",
+      "to": "Муоткаваара / Крокфьеллет",
+      "styleId": "finland-border"
+    }
+  },
+  "attribution": "© OpenStreetMap contributors",
+  "sources": [
+    "https://www.openstreetmap.org/relation/2099216",
+    "https://www.openstreetmap.org/tag/natural=coastline",
+    "https://nominatim.openstreetmap.org/"
+  ]
+}
