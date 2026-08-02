@@ -5,6 +5,9 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    env_file:
+      - path: .env.local
+        required: false
     image: kurs-na-site:local
     container_name: kurs_na_site
     restart: unless-stopped

@@ -31,28 +31,29 @@
 | Запуск | `docker-compose.yml` |
 | API | `/api/v1` |
 
-## Quick Start
+## Development and Deployment
 
-Docker Engine для этого проекта работает только на удалённом сервере Bravo.
-На macOS находятся исходники и Docker CLI, но локальные контексты
-`default`/`desktop-linux` не используются ни для сборки, ни для запуска.
+For a local preview, Docker Compose builds the same Nginx image used in the
+deployment:
 
 ```bash
-./scripts/bravo-compose.sh config
-./scripts/bravo-compose.sh build web
-./scripts/bravo-compose.sh up -d web
-./scripts/bravo-compose.sh ps
-./scripts/bravo-compose.sh logs --tail=120 web
+cp .env.example .env.local
+docker compose up --build web
 ```
 
-После старта сайт доступен по адресу:
+The managed staging deployment is:
 
-```txt
-http://192.168.0.108:8105/
+```text
+https://cursnasever.facex.pro
 ```
 
-Подробный регламент и защитные ограничения:
-[docs/BRAVO_REMOTE_DOCKER.md](docs/BRAVO_REMOTE_DOCKER.md).
+Pushes to `main` run the checked-in GitHub Actions workflow. It validates the
+static source, transfers a clean Git archive to Charlie, builds a local image
+there, and updates the `kurs-na-site` Swarm stack. Do not use a remote Docker
+context or manually publish a container to another server.
+
+The first stack creation remains an explicit `infra-as-code` operation; routine
+updates are owned by this repository's GitHub Actions workflow.
 
 ## Runtime Topology
 
@@ -72,9 +73,11 @@ http://192.168.0.108:8105/
 │   ├── api-contract.md        # договор по API
 │   ├── brand-spec.md          # визуальные правила
 │   └── content-map.md         # карта переноса контента со старого сайта
+├── .github/workflows/
+│   └── app-swarm-deploy.yml   # GitHub Actions deploy to Charlie
 ├── scripts/
-│   └── bravo-compose.sh       # guarded Compose runner для Bravo
-├── docker-compose.yml         # удалённый runtime на Bravo
+│   └── facex-local-build-deploy.sh # server-local build and Swarm update
+├── docker-compose.yml         # local development check
 └── docker/nginx/default.conf  # конфиг nginx
 ```
 

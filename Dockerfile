@@ -1,5 +1,7 @@
 FROM nginx:1.27-alpine
 
+EXPOSE 80
+
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf
 COPY index.html /usr/share/nginx/html/index.html
 COPY styles /usr/share/nginx/html/styles

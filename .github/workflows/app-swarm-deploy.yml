@@ -1,0 +1,171 @@
+name: app-swarm-deploy
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      target_environment:
+        description: "Deployment environment and app stack to deploy"
+        required: true
+        default: "staging"
+        type: choice
+        options: [staging]
+      sync_env_only:
+        description: "Only upload the runtime env file and re-apply the existing stack images"
+        required: false
+        default: false
+        type: boolean
+
+permissions:
+  contents: read
+
+concurrency:
+  group: app-${{ github.repository }}-${{ github.event.inputs.target_environment || 'main' }}
+  cancel-in-progress: false
+
+env:
+  APP_TEST_COMMAND: ${{ vars.APP_TEST_COMMAND }}
+  DOCKER_BUILD_ARGS: ${{ vars.DOCKER_BUILD_ARGS }}
+  DOCKER_BUILD_CONTEXT: ${{ vars.DOCKER_BUILD_CONTEXT }}
+  DOCKERFILE: ${{ vars.DOCKERFILE }}
+
+jobs:
+  main-deploy-config:
+    name: main deploy config
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    outputs:
+      target_environment: ${{ steps.config.outputs.target_environment }}
+      production_auto_deploy_on_main: ${{ steps.config.outputs.production_auto_deploy_on_main }}
+    env:
+      # This repository has only a staging deployment profile.
+      MAIN_DEPLOY_ENVIRONMENT: "staging"
+      PRODUCTION_AUTO_DEPLOY_ON_MAIN: "false"
+    steps:
+      - name: Validate main deploy config
+        id: config
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${MAIN_DEPLOY_ENVIRONMENT}" in
+            staging|production) ;;
+            *)
+              echo "MAIN_DEPLOY_ENVIRONMENT must be staging or production: ${MAIN_DEPLOY_ENVIRONMENT}" >&2
+              exit 1
+              ;;
+          esac
+          case "${PRODUCTION_AUTO_DEPLOY_ON_MAIN}" in
+            true|false) ;;
+            *)
+              echo "PRODUCTION_AUTO_DEPLOY_ON_MAIN must be true or false: ${PRODUCTION_AUTO_DEPLOY_ON_MAIN}" >&2
+              exit 1
+              ;;
+          esac
+          echo "target_environment=${MAIN_DEPLOY_ENVIRONMENT}" >> "$GITHUB_OUTPUT"
+          echo "production_auto_deploy_on_main=${PRODUCTION_AUTO_DEPLOY_ON_MAIN}" >> "$GITHUB_OUTPUT"
+
+  deploy-main:
+    name: deploy ${{ needs.main-deploy-config.outputs.target_environment }}
+    if: github.event_name == 'push' && (needs.main-deploy-config.outputs.target_environment != 'production' || needs.main-deploy-config.outputs.production_auto_deploy_on_main == 'true')
+    needs:
+      - main-deploy-config
+    runs-on: ubuntu-latest
+    environment: ${{ needs.main-deploy-config.outputs.target_environment }}
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@v4
+
+      - name: Run application tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${APP_TEST_COMMAND}" ]; then
+            bash -lc "${APP_TEST_COMMAND}"
+          else
+            echo "APP_TEST_COMMAND is not set; skipping app-specific tests."
+          fi
+
+      - name: Create source archive
+        shell: bash
+        run: |
+          set -euo pipefail
+          git archive --format=tar.gz --output app-source.tgz HEAD
+
+      - name: Build on server and deploy Swarm stack
+        env:
+          TARGET_ENVIRONMENT: ${{ needs.main-deploy-config.outputs.target_environment }}
+          DEPLOY_HOST: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_HOST_PRODUCTION || vars.DEPLOY_HOST_STAGING }}
+          DEPLOY_USER: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_USER_PRODUCTION || vars.DEPLOY_USER_STAGING }}
+          DEPLOY_PORT: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_PORT_PRODUCTION || vars.DEPLOY_PORT_STAGING }}
+          DEPLOY_APPS_ROOT: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_APPS_ROOT_PRODUCTION || vars.DEPLOY_APPS_ROOT_STAGING }}
+          DEPLOY_STACK_NAME: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_STACK_NAME_PRODUCTION || vars.DEPLOY_STACK_NAME_STAGING }}
+          DEPLOY_SERVICE_NAMES: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_SERVICE_NAMES_PRODUCTION || vars.DEPLOY_SERVICE_NAMES_STAGING }}
+          DEPLOY_APP_ENV_FILE_NAME: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.DEPLOY_APP_ENV_FILE_NAME_PRODUCTION || vars.DEPLOY_APP_ENV_FILE_NAME_STAGING }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && secrets.DEPLOY_SSH_PRIVATE_KEY_PRODUCTION || secrets.DEPLOY_SSH_PRIVATE_KEY_STAGING }}
+          SMOKE_URL: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.SMOKE_URL_PRODUCTION || vars.SMOKE_URL_STAGING }}
+          SMOKE_HOST_HEADER: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.SMOKE_HOST_HEADER_PRODUCTION || vars.SMOKE_HOST_HEADER_STAGING }}
+          SMOKE_RESOLVE: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.SMOKE_RESOLVE_PRODUCTION || vars.SMOKE_RESOLVE_STAGING }}
+          SMOKE_INSECURE: ${{ needs.main-deploy-config.outputs.target_environment == 'production' && vars.SMOKE_INSECURE_PRODUCTION || vars.SMOKE_INSECURE_STAGING }}
+          # Replace this block with explicit KEY=value mappings generated from
+          # the app env contract. Use repository variables for non-secrets and
+          # repository secrets for sensitive values, always with
+          # _STAGING/_PRODUCTION postfixes.
+          APP_ENV_OVERRIDES: ""
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/facex-local-build-deploy.sh
+
+  deploy-manual:
+    name: deploy ${{ inputs.target_environment }}
+    if: github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.target_environment }}
+    steps:
+      - name: Checkout application
+        uses: actions/checkout@v4
+
+      - name: Run application tests
+        if: inputs.sync_env_only != true
+        shell: bash
+        run: |
+          set -euo pipefail
+          if [ -n "${APP_TEST_COMMAND}" ]; then
+            bash -lc "${APP_TEST_COMMAND}"
+          else
+            echo "APP_TEST_COMMAND is not set; skipping app-specific tests."
+          fi
+
+      - name: Create source archive
+        if: inputs.sync_env_only != true
+        shell: bash
+        run: |
+          set -euo pipefail
+          git archive --format=tar.gz --output app-source.tgz HEAD
+
+      - name: Sync env, build on server and deploy Swarm stack
+        env:
+          TARGET_ENVIRONMENT: ${{ inputs.target_environment }}
+          SYNC_ENV_ONLY: ${{ inputs.sync_env_only }}
+          DEPLOY_HOST: ${{ inputs.target_environment == 'production' && vars.DEPLOY_HOST_PRODUCTION || vars.DEPLOY_HOST_STAGING }}
+          DEPLOY_USER: ${{ inputs.target_environment == 'production' && vars.DEPLOY_USER_PRODUCTION || vars.DEPLOY_USER_STAGING }}
+          DEPLOY_PORT: ${{ inputs.target_environment == 'production' && vars.DEPLOY_PORT_PRODUCTION || vars.DEPLOY_PORT_STAGING }}
+          DEPLOY_APPS_ROOT: ${{ inputs.target_environment == 'production' && vars.DEPLOY_APPS_ROOT_PRODUCTION || vars.DEPLOY_APPS_ROOT_STAGING }}
+          DEPLOY_STACK_NAME: ${{ inputs.target_environment == 'production' && vars.DEPLOY_STACK_NAME_PRODUCTION || vars.DEPLOY_STACK_NAME_STAGING }}
+          DEPLOY_SERVICE_NAMES: ${{ inputs.target_environment == 'production' && vars.DEPLOY_SERVICE_NAMES_PRODUCTION || vars.DEPLOY_SERVICE_NAMES_STAGING }}
+          DEPLOY_APP_ENV_FILE_NAME: ${{ inputs.target_environment == 'production' && vars.DEPLOY_APP_ENV_FILE_NAME_PRODUCTION || vars.DEPLOY_APP_ENV_FILE_NAME_STAGING }}
+          DEPLOY_SSH_PRIVATE_KEY: ${{ inputs.target_environment == 'production' && secrets.DEPLOY_SSH_PRIVATE_KEY_PRODUCTION || secrets.DEPLOY_SSH_PRIVATE_KEY_STAGING }}
+          SMOKE_URL: ${{ inputs.target_environment == 'production' && vars.SMOKE_URL_PRODUCTION || vars.SMOKE_URL_STAGING }}
+          SMOKE_HOST_HEADER: ${{ inputs.target_environment == 'production' && vars.SMOKE_HOST_HEADER_PRODUCTION || vars.SMOKE_HOST_HEADER_STAGING }}
+          SMOKE_RESOLVE: ${{ inputs.target_environment == 'production' && vars.SMOKE_RESOLVE_PRODUCTION || vars.SMOKE_RESOLVE_STAGING }}
+          SMOKE_INSECURE: ${{ inputs.target_environment == 'production' && vars.SMOKE_INSECURE_PRODUCTION || vars.SMOKE_INSECURE_STAGING }}
+          # Replace this block with explicit KEY=value mappings generated from
+          # the app env contract. Use repository variables for non-secrets and
+          # repository secrets for sensitive values, always with
+          # _STAGING/_PRODUCTION postfixes.
+          APP_ENV_OVERRIDES: ""
+        shell: bash
+        run: |
+          set -euo pipefail
+          ./scripts/facex-local-build-deploy.sh
