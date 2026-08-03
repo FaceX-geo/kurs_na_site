@@ -22,9 +22,6 @@ export class AuroraDrift {
     this.prefersReducedMotion = this.motionQuery.matches;
     this.lowPower = (navigator.hardwareConcurrency && navigator.hardwareConcurrency <= 4)
       || (navigator.deviceMemory && navigator.deviceMemory <= 4);
-    this.toggle = scene.querySelector("[data-aurora-toggle]");
-    this.toggleLabel = scene.querySelector("[data-aurora-toggle-label]");
-    this.pausedByUser = this.readPausedState();
     this.visible = true;
     this.running = false;
     this.mobile = false;
@@ -44,36 +41,11 @@ export class AuroraDrift {
     this.handlePointerMove = this.handlePointerMove.bind(this);
     this.handlePointerLeave = this.handlePointerLeave.bind(this);
     this.handleMotionPreference = this.handleMotionPreference.bind(this);
-    this.handleToggle = this.handleToggle.bind(this);
-  }
-
-  readPausedState() {
-    try {
-      return window.localStorage.getItem("kurs-na-sever:aurora-paused") === "true";
-    } catch {
-      return false;
-    }
-  }
-
-  writePausedState() {
-    try {
-      window.localStorage.setItem("kurs-na-sever:aurora-paused", String(this.pausedByUser));
-    } catch {
-      // Keep the preference for this page when storage is unavailable.
-    }
   }
 
   mount() {
-    if (this.toggle) {
-      this.toggle.addEventListener("click", this.handleToggle);
-      this.updateToggle();
-    }
-
     if (!this.context) {
       this.scene.classList.add("is-aurora-unavailable");
-      if (this.toggle) {
-        this.toggle.hidden = true;
-      }
       this.publishDiagnostics(0, "canvas-unavailable");
       return;
     }
@@ -100,7 +72,7 @@ export class AuroraDrift {
 
     this.resize();
 
-    if (this.prefersReducedMotion || this.pausedByUser) {
+    if (this.prefersReducedMotion) {
       this.draw(7200);
       return;
     }
@@ -128,13 +100,13 @@ export class AuroraDrift {
     const maxFps = this.lowPower ? (this.mobile ? 18 : 22) : (this.mobile ? 24 : 30);
     this.frameInterval = 1000 / maxFps;
 
-    if (this.prefersReducedMotion || this.pausedByUser || !this.running) {
+    if (this.prefersReducedMotion || !this.running) {
       this.draw(7200);
     }
   }
 
   handlePointerMove(event) {
-    if (this.prefersReducedMotion || this.pausedByUser) {
+    if (this.prefersReducedMotion) {
       return;
     }
     const rect = this.scene.getBoundingClientRect();
@@ -157,7 +129,6 @@ export class AuroraDrift {
 
   handleMotionPreference(event) {
     this.prefersReducedMotion = event.matches;
-    this.updateToggle();
     if (this.prefersReducedMotion) {
       this.stop();
       this.draw(7200);
@@ -166,38 +137,11 @@ export class AuroraDrift {
     }
   }
 
-  handleToggle() {
-    this.pausedByUser = !this.pausedByUser;
-    this.writePausedState();
-    this.updateToggle();
-    if (this.pausedByUser) {
-      this.stop();
-      this.draw(performance.now());
-    } else {
-      this.start();
-    }
-  }
-
-  updateToggle() {
-    if (!this.toggle || !this.toggleLabel) {
-      return;
-    }
-    const paused = this.pausedByUser || this.prefersReducedMotion;
-    this.toggle.setAttribute("aria-pressed", String(paused));
-    this.toggleLabel.textContent = paused ? "Включить сияние" : "Остановить сияние";
-    this.scene.classList.toggle("is-aurora-paused", paused);
-    this.toggle.disabled = this.prefersReducedMotion;
-    this.toggle.title = this.prefersReducedMotion
-      ? "Анимация отключена системной настройкой"
-      : this.toggleLabel.textContent;
-  }
-
   start() {
     if (
       this.running
       || !this.context
       || this.prefersReducedMotion
-      || this.pausedByUser
       || document.hidden
       || !this.visible
     ) {
@@ -301,7 +245,6 @@ export class AuroraDrift {
       renderer: this.context ? "canvas-drift-v7" : "unavailable",
       running: this.running,
       reducedMotion: this.prefersReducedMotion,
-      pausedByUser: this.pausedByUser,
       renderScale: this.renderScale,
       layers: 8,
       drawMsP95: sorted[p95Index] || 0,

@@ -112,6 +112,33 @@ const supportContent = {
   },
 };
 
+const routeContent = {
+  khibiny: {
+    eyebrow: "Горы · Кировск",
+    title: "Хибины",
+    image: "assets/images/route-khibiny-summer.jpg",
+    imageAlt: "Летняя долина и горы Хибин",
+    copy: "Города у подножия гор, сильная промышленность и природа, которая начинается за порогом.",
+    facts: ["Кировск и Апатиты", "Промышленность · наука · туризм", "Горные маршруты круглый год"],
+  },
+  teriberka: {
+    eyebrow: "Океан · побережье",
+    title: "Териберка",
+    image: "assets/images/route-teriberka-summer.jpg",
+    imageAlt: "Летнее побережье Баренцева моря в Териберке",
+    copy: "Открытый океан, тундра и северный горизонт — для тех, кому нужен другой масштаб жизни.",
+    facts: ["Баренцево море", "Туризм · сервис · гостеприимство", "Сезоны полярного дня и сияния"],
+  },
+  murmansk: {
+    eyebrow: "Город · незамерзающий порт",
+    title: "Мурманск",
+    image: "assets/images/route-murmansk-port-summer.jpg",
+    imageAlt: "Мурманский порт в период белых ночей",
+    copy: "Столица Заполярья: порт, образование, медицина и городская жизнь рядом с большой водой.",
+    facts: ["Крупнейший город за Полярным кругом", "Порт · логистика · медицина", "Прямые рейсы из Москвы и Петербурга"],
+  },
+};
+
 const storyContent = {
   family: {
     id: "family",
@@ -125,6 +152,7 @@ const storyContent = {
     route: "Воронеж → Мурманск",
     avatar: "assets/images/story-avatar-family-v8.webp",
     avatarAlt: "Портрет Марины",
+    cardQuote: "Куратор связал работу, жильё и школу в один маршрут.",
     quote: "Больше всего переживала за школу и быт. Куратор собрал всё в один понятный маршрут — от собеседования до первого учебного дня детей.",
     tags: ["С детьми", "Переезд семьёй", "Новый город"],
     lead: "Марине было важно не просто принять оффер, а синхронизировать работу, жильё, школу и дорогу для всей семьи.",
@@ -152,6 +180,7 @@ const storyContent = {
     route: "Санкт-Петербург → Кировск",
     avatar: "assets/images/story-avatar-dog-v8.webp",
     avatarAlt: "Портрет Ильи с собакой",
+    cardQuote: "До даты выхода решили работу, жильё и переезд с собакой.",
     quote: "Искал работу ближе к горам, но не понимал, как перевозить собаку и снимать жильё. В итоге все вопросы решили до даты выхода.",
     tags: ["С собакой", "Смена профессии", "Переехал один"],
     lead: "Илья менял карьерный трек и хотел заранее убедиться, что найдёт жильё, где можно жить с собакой.",
@@ -179,6 +208,7 @@ const storyContent = {
     route: "Петрозаводск → Мурманск",
     avatar: "assets/images/story-avatar-student-v8.webp",
     avatarAlt: "Портрет Алины",
+    cardQuote: "Практика в Мурманске превратилась в первый оффер.",
     quote: "Приехала на практику на шесть недель, познакомилась с командой и ещё до защиты диплома получила предложение вернуться.",
     tags: ["Студент", "Переехала одна", "Первый оффер"],
     lead: "Алина искала производственную практику по специальности и хотела понять, подходит ли ей жизнь в Заполярье.",
@@ -206,6 +236,7 @@ const storyContent = {
     route: "Казань → Апатиты",
     avatar: "assets/images/story-avatar-doctor-v9.webp",
     avatarAlt: "Портрет Ирины, врача в Апатитах",
+    cardQuote: "Сначала познакомилась с отделением — потом приняла решение.",
     quote: "Хотела больше самостоятельности в работе. Сначала приехала на знакомство с отделением, а уже потом спокойно приняла решение о переезде.",
     tags: ["Медицина", "Переехала одна", "Смена города"],
     lead: "Ирина выбирала не просто вакансию, а команду, профессиональную нагрузку и город, в котором сможет чувствовать себя дома.",
@@ -233,6 +264,7 @@ const storyContent = {
     route: "Екатеринбург → Мончегорск",
     avatar: "assets/images/story-avatar-engineer-v9.webp",
     avatarAlt: "Портрет инженера Андрея",
+    cardQuote: "Когда сложили две карьеры, школу и жильё — риск исчез.",
     quote: "Оффер был сильным, но решение зависело от школы, работы супруги и жилья. Когда всё сложили в один план, переезд перестал казаться риском.",
     tags: ["С детьми", "Переезд семьёй", "Промышленность"],
     lead: "Для семьи Андрея главным условием была синхронизация двух карьер и привычного ритма детей.",
@@ -260,6 +292,7 @@ const storyContent = {
     route: "Нижний Новгород → Мурманск",
     avatar: "assets/images/story-avatar-young-v9.webp",
     avatarAlt: "Портрет Максима с собакой",
+    cardQuote: "Получил наставника, жильё с собакой и понятный старт.",
     quote: "Боялся, что без большого опыта останусь один на один с переездом. Вместо этого получил наставника, понятный старт и помощь с жильём, где можно с собакой.",
     tags: ["Выпускник", "С собакой", "Первый переезд"],
     lead: "Максиму было важно начать карьеру в реальном проекте и не расставаться с собакой из-за условий аренды.",
@@ -274,6 +307,98 @@ const storyContent = {
       "До поездки нашли варианты аренды, где разрешено жить с питомцем.",
       "Первые недели работы включили в адаптационный план вместе с бытовыми задачами.",
     ],
+  },
+  teacher: {
+    id: "teacher",
+    tone: "story-message--berry",
+    filters: ["children", "career-change", "couple"],
+    cardTags: ["Педагог", "С детьми"],
+    ariaLabel: "Открыть историю Ольги о работе учителем в Мончегорске",
+    eyebrow: "Собирательная история · образование",
+    title: "Школа, команда и спокойный переезд",
+    person: "Ольга, 36",
+    route: "Тула → Мончегорск",
+    avatar: "assets/images/career-teacher-human-v10.webp",
+    avatarAlt: "Портрет учителя Ольги",
+    cardQuote: "До переезда знала коллег, класс и школу ребёнка.",
+    quote: "Сначала увидела будущий класс по видеосвязи. К моменту переезда уже знала коллег и понимала, где будет учиться ребёнок.",
+    tags: ["Педагог", "С детьми", "Новый город"],
+    lead: "Ольге было важно одновременно решить рабочий вопрос и адаптацию ребёнка.",
+    gallery: [
+      { src: "assets/images/career-teacher-human-v10.webp", alt: "Ольга в школьном классе" },
+      { src: "assets/images/support-education-v7.webp", alt: "Образовательная среда Мурманской области" },
+      { src: "assets/images/relocation-story-summer.jpg", alt: "Лето после переезда на Север" },
+    ],
+    steps: ["Знакомство со школой онлайн.", "Проверка выплат и аренды.", "Выбор школы для ребёнка.", "Поддержка в первые недели."],
+  },
+  port: {
+    id: "port",
+    tone: "story-message--blue",
+    filters: ["alone", "career-change", "big-city"],
+    cardTags: ["Порт", "Новая отрасль"],
+    ariaLabel: "Открыть историю Дениса о работе в Мурманском порту",
+    eyebrow: "Собирательная история · логистика",
+    title: "Из сервиса — в портовую логистику",
+    person: "Денис, 31",
+    route: "Самара → Мурманск",
+    avatar: "assets/images/career-port-human-v10.webp",
+    avatarAlt: "Портрет портового специалиста Дениса",
+    cardQuote: "Мой опыт подошёл новой отрасли — остальное помогли собрать.",
+    quote: "Опыт оказался переносимым. Куратор помог увидеть подходящие роли, а работодатель — пройти вводное обучение.",
+    tags: ["Переехал один", "Смена профессии", "Логистика"],
+    lead: "Денис искал переход в более крупные операционные проекты без потери накопленного опыта.",
+    gallery: [
+      { src: "assets/images/career-port-human-v10.webp", alt: "Денис на рабочем причале" },
+      { src: "assets/images/route-murmansk-port-summer.jpg", alt: "Мурманский порт летом" },
+      { src: "assets/images/relocation-story-summer.jpg", alt: "Мурманск после переезда" },
+    ],
+    steps: ["Разбор опыта и новых ролей.", "Дистанционные собеседования.", "Жильё рядом с работой.", "Вводное обучение на месте."],
+  },
+  energy: {
+    id: "energy",
+    tone: "story-message--cyan",
+    filters: ["couple", "career-change"],
+    cardTags: ["Энергетика", "Переезд вдвоём"],
+    ariaLabel: "Открыть историю Светланы о переезде в Полярные Зори",
+    eyebrow: "Собирательная история · энергетика",
+    title: "Две карьеры в одном маршруте",
+    person: "Светлана, 34",
+    route: "Пермь → Полярные Зори",
+    avatar: "assets/images/career-energy-human-v10.webp",
+    avatarAlt: "Портрет инженера-энергетика Светланы",
+    cardQuote: "Сильная роль для меня и варианты работы для мужа.",
+    quote: "Мне предложили сильную роль, а для мужа нашли несколько подходящих вариантов. Только тогда решение стало семейным.",
+    tags: ["Переезд вдвоём", "Энергетика", "Работа для партнёра"],
+    lead: "Главным условием была возможность развиваться обоим партнёрам.",
+    gallery: [
+      { src: "assets/images/career-energy-human-v10.webp", alt: "Светлана на энергообъекте" },
+      { src: "assets/images/support-family-summer.jpg", alt: "Семья в Мурманской области" },
+      { src: "assets/images/route-khibiny-summer.jpg", alt: "Летний Кольский полуостров" },
+    ],
+    steps: ["Проверка условий оффера.", "Подбор ролей для партнёра.", "Синхронизация дат переезда.", "Адаптация на новом месте."],
+  },
+  analyst: {
+    id: "analyst",
+    tone: "story-message--blue",
+    filters: ["student", "alone"],
+    cardTags: ["Выпускник", "Первый проект"],
+    ariaLabel: "Открыть историю Романа о первом проекте в Апатитах",
+    eyebrow: "Собирательная история · старт карьеры",
+    title: "Диплом — и сразу в реальный проект",
+    person: "Роман, 23",
+    route: "Москва → Апатиты",
+    avatar: "assets/images/career-analyst-human-v10.webp",
+    avatarAlt: "Портрет аналитика Романа",
+    cardQuote: "Наставник, реальный проект и путь к штатной позиции.",
+    quote: "Хотел не формальную стажировку, а реальные задачи. Получил наставника, проект и понятный путь к штатной позиции.",
+    tags: ["Выпускник", "Переехал один", "Первый оффер"],
+    lead: "Роман выбирал место, где сможет быстро превратить знания в опыт.",
+    gallery: [
+      { src: "assets/images/career-analyst-human-v10.webp", alt: "Роман в лаборатории" },
+      { src: "assets/images/students-mgtu-arrival-v8.webp", alt: "Молодые специалисты в Мурманске" },
+      { src: "assets/images/route-khibiny-summer.jpg", alt: "Летние Хибины" },
+    ],
+    steps: ["Подбор проекта по специальности.", "Интервью с наставником.", "Организация переезда.", "План роста на первые месяцы."],
   },
 };
 
@@ -731,6 +856,90 @@ function initDialogs() {
   });
 }
 
+function initRouteDialog() {
+  const dialog = qs("#route-dialog");
+  if (!dialog) {
+    return;
+  }
+
+  qsa("[data-route-story]").forEach((button) => {
+    button.addEventListener("click", () => {
+      const content = routeContent[button.dataset.routeStory];
+      if (!content) {
+        return;
+      }
+      const image = qs("[data-route-dialog-image]", dialog);
+      image.src = content.image;
+      image.alt = content.imageAlt;
+      qs("[data-route-dialog-eyebrow]", dialog).textContent = content.eyebrow;
+      qs("[data-route-dialog-title]", dialog).textContent = content.title;
+      qs("[data-route-dialog-copy]", dialog).textContent = content.copy;
+      qs("[data-route-dialog-facts]", dialog).replaceChildren(...content.facts.map((fact) => {
+        const item = document.createElement("li");
+        item.textContent = fact;
+        return item;
+      }));
+      openDialog(dialog);
+    });
+  });
+}
+
+function initLegalAndCookies() {
+  const privacyDialog = qs("#privacy-dialog");
+  const cookieDialog = qs("#cookie-policy-dialog");
+  const banner = qs("[data-cookie-banner]");
+  const storageKey = "kurs-na-sever:cookie-consent:v1";
+
+  const readConsent = () => {
+    try {
+      return window.localStorage.getItem(storageKey);
+    } catch {
+      return null;
+    }
+  };
+
+  const saveConsent = (value) => {
+    try {
+      window.localStorage.setItem(storageKey, value);
+    } catch {
+      // The choice still applies to the current page when storage is unavailable.
+    }
+    if (banner) {
+      banner.hidden = true;
+    }
+    document.documentElement.dataset.cookieConsent = value;
+  };
+
+  qsa("[data-open-privacy]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      openDialog(privacyDialog);
+    });
+  });
+
+  qsa("[data-open-cookie-policy], [data-open-cookie-settings]").forEach((button) => {
+    button.addEventListener("click", (event) => {
+      event.preventDefault();
+      openDialog(cookieDialog);
+    });
+  });
+
+  qsa("[data-cookie-accept]").forEach((button) => {
+    button.addEventListener("click", () => saveConsent("all"));
+  });
+  qsa("[data-cookie-essential]").forEach((button) => {
+    button.addEventListener("click", () => saveConsent("necessary"));
+  });
+
+  const storedConsent = readConsent();
+  if (storedConsent) {
+    document.documentElement.dataset.cookieConsent = storedConsent;
+  } else if (banner) {
+    banner.hidden = false;
+  }
+}
+
 function initSupport() {
   Object.values(supportContent).forEach(({ media }) => {
     if (!media?.src) {
@@ -775,10 +984,6 @@ function initStories() {
   const slots = qsa("[data-story-slot]", feed);
   const filters = qsa("[data-story-filter]");
   const dialog = qs("#story-dialog");
-  const rotationToggle = qs("[data-story-rotation-toggle]", section);
-  const rotationLabel = rotationToggle
-    ? qs("[data-story-rotation-label]", rotationToggle)
-    : null;
   const filterStatus = qs("[data-story-filter-status]", section);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const stories = Object.values(storyContent);
@@ -788,7 +993,6 @@ function initStories() {
   let rotationBag = [];
   let lastSlotIndex = -1;
   let renderEpoch = 0;
-  let manualPaused = false;
   let pointerPaused = false;
   let focusPaused = false;
   let sectionVisible = true;
@@ -847,7 +1051,7 @@ function initStories() {
 
     const quote = document.createElement("span");
     quote.className = "story-message__quote";
-    quote.textContent = `«${story.quote}»`;
+    quote.textContent = `«${story.cardQuote || story.quote}»`;
 
     const tags = document.createElement("span");
     tags.className = "story-message__tags";
@@ -925,8 +1129,7 @@ function initStories() {
   };
 
   const shouldPauseRotation = () => (
-    manualPaused
-    || pointerPaused
+    pointerPaused
     || focusPaused
     || !sectionVisible
     || document.hidden
@@ -939,17 +1142,6 @@ function initStories() {
       window.clearTimeout(timerId);
       timerId = null;
     }
-  };
-
-  const updateRotationToggle = () => {
-    if (!rotationToggle || !rotationLabel) {
-      return;
-    }
-    rotationToggle.disabled = reducedMotion.matches;
-    rotationToggle.setAttribute("aria-pressed", String(manualPaused));
-    rotationLabel.textContent = reducedMotion.matches
-      ? "Автосмена отключена"
-      : manualPaused ? "Продолжить смену" : "Остановить смену";
   };
 
   const preloadAvatar = async (story) => {
@@ -1003,7 +1195,6 @@ function initStories() {
 
   const scheduleRotation = () => {
     clearRotationTimer();
-    updateRotationToggle();
     if (shouldPauseRotation()) {
       feed.dataset.rotationState = "paused";
       return;
@@ -1012,7 +1203,7 @@ function initStories() {
       feed.dataset.rotationState = "idle";
       return;
     }
-    const delay = 5000 + Math.floor(Math.random() * 5001);
+    const delay = 5000;
     feed.dataset.rotationDelay = String(delay);
     feed.dataset.rotationState = "scheduled";
     timerId = window.setTimeout(async () => {
@@ -1087,11 +1278,6 @@ function initStories() {
       focusPaused = feed.contains(document.activeElement);
       scheduleRotation();
     });
-  });
-
-  rotationToggle?.addEventListener("click", () => {
-    manualPaused = !manualPaused;
-    scheduleRotation();
   });
 
   dialog.addEventListener("close", scheduleRotation);
@@ -2402,6 +2588,8 @@ async function init() {
   initHeroParallax();
   initVacancies();
   initDialogs();
+  initRouteDialog();
+  initLegalAndCookies();
   initSupport();
   initStories();
   initResumeBuilder();

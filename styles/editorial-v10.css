@@ -1,0 +1,875 @@
+/*
+ * Editorial v10 — a quieter northern magazine direction.
+ * Loaded last: it deliberately removes audit controls, oversized radii and
+ * repetitive card treatment without changing the underlying content flows.
+ */
+
+:root {
+  --editorial-ink: #071b43;
+  --editorial-muted: #49617c;
+  --editorial-paper: #f4f6f4;
+  --editorial-warm: #f5f1e9;
+  --editorial-line: rgba(8, 35, 75, 0.16);
+  --editorial-radius-control: 4px;
+  --editorial-radius-card: 8px;
+  --editorial-radius-feature: 12px;
+}
+
+body {
+  color: var(--editorial-ink);
+  font-weight: 440;
+  letter-spacing: -0.008em;
+}
+
+p {
+  line-height: 1.68;
+}
+
+h1,
+h2,
+h3 {
+  font-weight: 650;
+  letter-spacing: -0.065em;
+}
+
+.section-heading > p,
+.hero-scene__copy,
+.about-copy > p,
+.students-panel__content > p,
+.application-intro > p {
+  color: var(--editorial-muted);
+  font-size: clamp(15px, 1.25vw, 18px);
+  line-height: 1.65;
+}
+
+.button,
+.menu-button,
+.icon-button,
+.filter-row,
+.filter-chip,
+.story-filter,
+.support-tab,
+.resume-add-button,
+.form-progress__step,
+.file-input label,
+.applicant-type__options label > span {
+  border-radius: var(--editorial-radius-control) !important;
+}
+
+.step-card,
+.vacancy-card,
+.support-layout,
+.support-detail,
+.students-panel,
+.about-mosaic__large,
+.resources__grid a,
+.transport-showcase,
+.transport-showcase__visual picture,
+.application-shell,
+.application-form,
+.kola-map-shell,
+.region-map,
+.city-panel,
+.dialog,
+.resume-preview,
+.resume-repeat-item {
+  border-radius: var(--editorial-radius-feature) !important;
+}
+
+.field input,
+.field select,
+.field textarea,
+.birthdate-input,
+.region-combobox__options,
+.file-input,
+.form-feedback,
+.consent {
+  border-radius: var(--editorial-radius-control) !important;
+}
+
+.button {
+  min-height: 50px;
+  padding: 13px 21px;
+  font-weight: 690;
+  letter-spacing: -0.015em;
+}
+
+.button--primary {
+  background: #113b7e;
+  box-shadow: 0 12px 26px rgba(7, 38, 90, 0.13);
+}
+
+.site-header .button--compact {
+  border-radius: 3px !important;
+  box-shadow: none;
+}
+
+.site-header__inner {
+  border-radius: 0 !important;
+}
+
+/* Hero: a photographic cover, not a floating app card. */
+
+.hero {
+  padding: 0 10px 10px;
+}
+
+.hero-scene {
+  border-radius: var(--editorial-radius-feature);
+  box-shadow: 0 24px 66px rgba(4, 24, 62, 0.15);
+}
+
+.hero-scene__content {
+  padding-top: 132px;
+  padding-bottom: 78px;
+}
+
+.hero-scene h1 {
+  max-width: 640px;
+  font-weight: 660;
+  letter-spacing: -0.083em;
+}
+
+.hero-scene__lead {
+  margin-top: 34px;
+  font-weight: 540;
+  letter-spacing: -0.035em;
+}
+
+.hero-scene__copy {
+  max-width: 410px;
+  margin-top: 10px;
+}
+
+.hero-scene__trust span,
+.vacancy-card__badge,
+.students-panel__tag,
+.story-message__tags i,
+.story-dialog__tags span,
+.sector-tag,
+.support-detail__eyebrow,
+.route-card__meta {
+  border-radius: 3px !important;
+}
+
+.hero-scene__motion-toggle {
+  display: none !important;
+}
+
+/* Routes: a light editorial window with a real northern botanical layer. */
+
+.route-showcase--editorial {
+  position: relative;
+  min-height: 980px;
+  padding: clamp(104px, 10vw, 152px) 0;
+  overflow: hidden;
+  background: #edf2f3;
+  color: var(--editorial-ink);
+  isolation: isolate;
+}
+
+.route-showcase--editorial::before {
+  z-index: -1;
+  background:
+    linear-gradient(90deg, rgba(246, 248, 247, 0.98) 0%, rgba(246, 248, 247, 0.9) 44%, rgba(246, 248, 247, 0.42) 72%, rgba(246, 248, 247, 0.12) 100%),
+    linear-gradient(180deg, rgba(255, 255, 255, 0.24), rgba(218, 228, 230, 0.15));
+}
+
+.route-showcase__botanical {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+}
+
+.route-showcase__botanical picture {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.route-showcase__botanical img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  filter: saturate(0.86) contrast(0.96);
+}
+
+.route-showcase--editorial .route-showcase__heading {
+  align-items: end;
+  margin-bottom: clamp(54px, 7vw, 92px);
+}
+
+.route-showcase--editorial .eyebrow {
+  color: #466276;
+}
+
+.route-showcase--editorial h2 {
+  max-width: 760px;
+  color: var(--editorial-ink);
+  font-size: clamp(68px, 8vw, 122px);
+  font-weight: 560;
+  letter-spacing: -0.082em;
+  line-height: 0.83;
+}
+
+.route-showcase--editorial .section-heading > p {
+  align-self: end;
+  max-width: 250px;
+  margin-bottom: 6px;
+  color: #203a57;
+  font-size: clamp(17px, 1.5vw, 21px);
+  line-height: 1.48;
+}
+
+.route-cards--editorial {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  grid-auto-rows: 214px;
+  gap: 14px;
+}
+
+.route-cards--editorial .route-card {
+  position: relative;
+  grid-column: span 5;
+  min-width: 0;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.45);
+  border-radius: var(--editorial-radius-card);
+  background: #0a1833;
+  color: #fff;
+  box-shadow: 0 22px 60px rgba(5, 31, 62, 0.16);
+  text-align: left;
+  cursor: pointer;
+}
+
+.route-cards--editorial .route-card:first-child {
+  grid-column: span 7;
+  grid-row: span 2;
+}
+
+.route-cards--editorial .route-card::after {
+  display: none;
+}
+
+.route-cards--editorial .route-card > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  filter: saturate(0.92) contrast(1.02);
+  transition: transform 900ms cubic-bezier(0.2, 0.74, 0.22, 1), filter 400ms ease;
+}
+
+.route-cards--editorial .route-card:hover > img,
+.route-cards--editorial .route-card:focus-visible > img {
+  filter: saturate(1) contrast(1.03);
+  transform: scale(1.035);
+}
+
+.route-cards--editorial .route-card__shade {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(3, 14, 34, 0.04) 16%, rgba(3, 14, 34, 0.84) 100%);
+}
+
+.route-cards--editorial .route-card__meta {
+  position: absolute;
+  top: 22px;
+  left: 24px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.76);
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+}
+
+.route-cards--editorial .route-card strong {
+  position: absolute;
+  right: 24px;
+  bottom: 58px;
+  left: 24px;
+  color: #fff;
+  font-size: clamp(30px, 3.4vw, 52px);
+  font-weight: 570;
+  line-height: 0.96;
+}
+
+.route-cards--editorial .route-card:first-child strong {
+  font-size: clamp(52px, 6vw, 88px);
+}
+
+.route-card__action {
+  position: absolute;
+  right: 24px;
+  bottom: 22px;
+  left: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 10px;
+  border-top: 1px solid rgba(255, 255, 255, 0.22);
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.route-card__action img {
+  width: 15px;
+  filter: brightness(0) invert(1);
+}
+
+/* Careers: one human documentary system for all six directions. */
+
+.vacancy-grid--v6 {
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.vacancy-grid--v6 .vacancy-grid__human,
+.vacancy-grid--v6 .vacancy-grid__objects {
+  display: contents;
+}
+
+.vacancy-grid--v6 .vacancy-card {
+  grid-column: span 4;
+  min-height: 520px;
+  padding: 24px;
+  border-radius: var(--editorial-radius-card) !important;
+  box-shadow: 0 22px 56px rgba(2, 18, 50, 0.14);
+}
+
+.vacancy-grid--v6 .vacancy-card--featured,
+.vacancy-grid--v6 .vacancy-card--port {
+  grid-column: span 5;
+}
+
+.vacancy-grid--v6 .vacancy-card--doctor,
+.vacancy-grid--v6 .vacancy-card--energy {
+  grid-column: span 4;
+}
+
+.vacancy-grid--v6 .vacancy-card--education,
+.vacancy-grid--v6 .vacancy-card--analytics {
+  grid-column: span 3;
+}
+
+.vacancy-grid--v6 .vacancy-card::after {
+  inset: 0;
+  border-radius: inherit;
+}
+
+.vacancy-grid--v6 .vacancy-card__body {
+  min-height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.vacancy-grid--v6 .vacancy-card__top {
+  position: absolute;
+  top: 22px;
+  right: 22px;
+  left: 22px;
+}
+
+.vacancy-grid--v6 .vacancy-card__description {
+  margin: 10px 0 18px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 12px;
+  letter-spacing: 0.02em;
+}
+
+.vacancy-grid--v6 .vacancy-card__action {
+  width: fit-content;
+  min-height: 38px;
+  padding: 0 0 5px;
+  border: 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+  border-radius: 0 !important;
+  background: transparent;
+  box-shadow: none;
+}
+
+.vacancy-grid--v6 .vacancy-card h3 {
+  max-width: 90%;
+  margin-top: 8px;
+  font-size: clamp(34px, 3.4vw, 52px);
+  font-weight: 590;
+  line-height: 0.96;
+}
+
+/* Stories: Telegram-like, but composed as a magazine spread. */
+
+.story-controls {
+  margin-bottom: 42px;
+}
+
+.story-message__bubble {
+  border-radius: 8px 8px 8px 2px !important;
+  box-shadow: 0 16px 42px rgba(0, 7, 28, 0.16);
+}
+
+.story-message__avatar {
+  border-radius: 6px !important;
+}
+
+.story-message__avatar img {
+  border-radius: 6px !important;
+}
+
+.story-message__quote {
+  font-weight: 480;
+  line-height: 1.55;
+}
+
+.story-rotation-toggle {
+  display: none !important;
+}
+
+/* Dialogs and legal controls. */
+
+.route-dialog {
+  width: min(1120px, calc(100vw - 36px));
+  max-width: 1120px;
+  grid-template-columns: minmax(0, 1.12fr) minmax(360px, 0.88fr);
+  padding: 0;
+  overflow: hidden;
+}
+
+.route-dialog[open] {
+  display: grid;
+}
+
+.route-dialog__media {
+  min-height: 680px;
+  background: #061532;
+}
+
+.route-dialog__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.route-dialog__content {
+  display: flex;
+  flex-direction: column;
+  background: #f4f2ec;
+}
+
+.route-dialog__content .dialog__header,
+.route-dialog__content .dialog__footer {
+  flex: 0 0 auto;
+}
+
+.route-dialog__body {
+  flex: 1;
+  padding: 16px 34px 34px;
+}
+
+.route-dialog__body > p {
+  color: #3d536c;
+  font-size: 18px;
+}
+
+.route-dialog__body ul,
+.legal-dialog__body ul {
+  display: grid;
+  gap: 0;
+  margin: 30px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.route-dialog__body li,
+.legal-dialog__body li {
+  padding: 13px 0;
+  border-top: 1px solid var(--editorial-line);
+}
+
+.legal-dialog {
+  width: min(760px, calc(100vw - 32px));
+  max-width: 760px;
+}
+
+.legal-dialog__body {
+  color: #304863;
+}
+
+.legal-dialog__body h3 {
+  margin: 28px 0 0;
+  color: var(--editorial-ink);
+  font-size: 20px;
+}
+
+.legal-source-link {
+  display: inline-block;
+  margin-top: 26px;
+  border-bottom: 1px solid currentColor;
+  color: #123e81;
+  font-weight: 700;
+}
+
+.legal-dialog__actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+
+.legal-inline-button,
+.legal-text-button,
+.site-footer__bottom button {
+  padding: 0;
+  border: 0;
+  border-bottom: 1px solid currentColor;
+  border-radius: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  cursor: pointer;
+}
+
+.legal-inline-button {
+  color: #113f81;
+  font-weight: 700;
+}
+
+.cookie-banner {
+  position: fixed;
+  z-index: 30;
+  right: 18px;
+  bottom: 18px;
+  left: 18px;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 28px;
+  max-width: 1180px;
+  margin-inline: auto;
+  padding: 18px 20px;
+  border: 1px solid rgba(8, 35, 75, 0.15);
+  border-radius: 8px;
+  background: rgba(248, 248, 245, 0.96);
+  box-shadow: 0 24px 70px rgba(2, 18, 47, 0.2);
+  backdrop-filter: blur(20px) saturate(140%);
+  -webkit-backdrop-filter: blur(20px) saturate(140%);
+}
+
+.cookie-banner[hidden] {
+  display: none;
+}
+
+.cookie-banner strong {
+  display: block;
+  font-size: 16px;
+}
+
+.cookie-banner p {
+  max-width: 650px;
+  margin: 4px 0 0;
+  color: #52677f;
+  font-size: 13px;
+  line-height: 1.45;
+}
+
+.cookie-banner__actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.cookie-banner .button {
+  min-height: 42px;
+  padding: 10px 15px;
+  font-size: 12px;
+}
+
+/* A light, compact footer where both official marks stay legible. */
+
+.site-footer {
+  --footer-line: rgba(7, 27, 67, 0.14);
+  --footer-muted: #566980;
+  padding: 38px 0 20px;
+  border-top: 1px solid rgba(7, 27, 67, 0.13);
+  background: #f4f3ee;
+  color: var(--footer-muted);
+}
+
+.site-footer::before,
+.site-footer::after {
+  display: none;
+}
+
+.site-footer__top {
+  padding-bottom: 28px;
+}
+
+.site-footer__brand > img {
+  width: min(250px, 100%);
+  filter: none;
+}
+
+.site-footer__brand p,
+.site-footer__contact a,
+.site-footer__contact span,
+.site-footer__social a,
+.site-footer__bottom,
+.site-footer__bottom a,
+.site-footer__bottom button {
+  color: #53667c;
+}
+
+.site-footer__contact a:first-child {
+  color: #071b43;
+}
+
+.site-footer__social a {
+  border-bottom-color: rgba(7, 27, 67, 0.22);
+}
+
+.site-footer__bottom {
+  border-top-color: rgba(7, 27, 67, 0.12);
+}
+
+.site-footer__bottom > div {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 18px;
+}
+
+/* Keep other large surfaces editorial and restrained. */
+
+.transport-showcase,
+.students-panel,
+.application-shell {
+  box-shadow: 0 22px 60px rgba(2, 18, 50, 0.12);
+}
+
+.steps-grid,
+.process-rail,
+.resources__grid {
+  gap: 12px;
+}
+
+.step-card,
+.process-rail li,
+.resources__grid a {
+  border-radius: var(--editorial-radius-card) !important;
+}
+
+@media (max-width: 1100px) {
+  .vacancy-grid--v6 .vacancy-card,
+  .vacancy-grid--v6 .vacancy-card--featured,
+  .vacancy-grid--v6 .vacancy-card--doctor,
+  .vacancy-grid--v6 .vacancy-card--education,
+  .vacancy-grid--v6 .vacancy-card--port,
+  .vacancy-grid--v6 .vacancy-card--energy,
+  .vacancy-grid--v6 .vacancy-card--analytics {
+    grid-column: span 6;
+    min-height: 500px;
+  }
+}
+
+@media (max-width: 780px) {
+  .route-dialog[open] {
+    display: block;
+  }
+
+  .route-dialog__media {
+    min-height: 330px;
+  }
+
+  .cookie-banner {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+
+  .cookie-banner__actions {
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 680px) {
+  .site-header__inner {
+    border-radius: 0 !important;
+  }
+
+  .hero {
+    padding: 0 4px 4px;
+  }
+
+  .hero-scene {
+    border-radius: 8px;
+  }
+
+  .hero-scene__content {
+    padding-top: 96px;
+    padding-bottom: 32px;
+  }
+
+  .hero-scene h1 {
+    font-size: clamp(62px, 18.6vw, 76px);
+    line-height: 0.82;
+  }
+
+  .hero-scene__lead {
+    margin-top: 24px;
+    font-size: 21px;
+    line-height: 1.16;
+  }
+
+  .hero-scene__copy {
+    max-width: 280px;
+    font-size: 14px;
+  }
+
+  .hero-scene__actions {
+    margin-top: 24px;
+  }
+
+  .route-showcase--editorial {
+    min-height: 0;
+    padding: 82px 0 72px;
+  }
+
+  .route-showcase--editorial::before {
+    background: linear-gradient(180deg, rgba(246, 248, 247, 0.98) 0%, rgba(246, 248, 247, 0.88) 42%, rgba(246, 248, 247, 0.42) 100%);
+  }
+
+  .route-showcase__botanical img {
+    object-position: 72% center;
+  }
+
+  .route-showcase--editorial .route-showcase__heading {
+    display: block;
+    margin-bottom: 40px;
+  }
+
+  .route-showcase--editorial h2 {
+    font-size: clamp(54px, 17vw, 72px);
+    line-height: 0.86;
+  }
+
+  .route-showcase--editorial .section-heading > p {
+    margin: 24px 0 0;
+    font-size: 16px;
+  }
+
+  .route-cards--editorial {
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-auto-rows: auto;
+    gap: 10px;
+    overflow: visible;
+  }
+
+  .route-cards--editorial .route-card,
+  .route-cards--editorial .route-card:first-child {
+    grid-column: auto;
+    grid-row: auto;
+    min-width: 0;
+    height: 330px;
+    border-radius: 6px;
+  }
+
+  .route-cards--editorial .route-card:first-child {
+    height: 440px;
+  }
+
+  .route-cards--editorial .route-card strong,
+  .route-cards--editorial .route-card:first-child strong {
+    font-size: 42px;
+  }
+
+  .vacancy-grid--v6 {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .vacancy-grid--v6 .vacancy-card,
+  .vacancy-grid--v6 .vacancy-card--featured,
+  .vacancy-grid--v6 .vacancy-card--doctor,
+  .vacancy-grid--v6 .vacancy-card--education,
+  .vacancy-grid--v6 .vacancy-card--port,
+  .vacancy-grid--v6 .vacancy-card--energy,
+  .vacancy-grid--v6 .vacancy-card--analytics {
+    grid-column: auto;
+    min-height: 470px;
+    border-radius: 6px !important;
+  }
+
+  .vacancy-grid--v6 .vacancy-card h3 {
+    font-size: 40px;
+  }
+
+  .story-message__bubble {
+    border-radius: 6px 6px 6px 2px !important;
+  }
+
+  .route-dialog,
+  .legal-dialog {
+    width: calc(100vw - 16px);
+    max-height: calc(100dvh - 16px);
+    border-radius: 8px !important;
+  }
+
+  .route-dialog__media {
+    min-height: 260px;
+    max-height: 34dvh;
+  }
+
+  .route-dialog__body {
+    padding: 8px 22px 24px;
+  }
+
+  .legal-dialog__actions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .cookie-banner {
+    right: 8px;
+    bottom: 8px;
+    left: 8px;
+    padding: 16px;
+    border-radius: 6px;
+  }
+
+  .cookie-banner__actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .cookie-banner__actions .legal-text-button {
+    grid-column: 1 / -1;
+    width: fit-content;
+  }
+
+  .site-footer {
+    padding: 30px 0 18px;
+    border-radius: 0 !important;
+  }
+
+  .site-footer__brand {
+    padding: 0;
+    background: transparent;
+  }
+
+  .site-footer__brand > img {
+    width: min(226px, 74vw);
+    padding: 0;
+    background: transparent;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .route-cards--editorial .route-card > img {
+    transition: none;
+  }
+}
