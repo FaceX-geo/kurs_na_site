@@ -111,12 +111,12 @@ h3 {
 /* Hero: a photographic cover, not a floating app card. */
 
 .hero {
-  padding: 0 10px 10px;
+  padding: 0 10px;
 }
 
 .hero-scene {
-  border-radius: var(--editorial-radius-feature);
-  box-shadow: 0 24px 66px rgba(4, 24, 62, 0.15);
+  border-radius: var(--editorial-radius-feature) var(--editorial-radius-feature) 0 0;
+  box-shadow: none;
 }
 
 .hero-scene__content {
@@ -399,9 +399,18 @@ h3 {
 .vacancy-grid--v6 .vacancy-card h3 {
   max-width: 90%;
   margin-top: 8px;
-  font-size: clamp(34px, 3.4vw, 52px);
+  overflow-wrap: normal;
+  word-break: normal;
+  hyphens: none;
+  text-wrap: balance;
+  font-size: clamp(32px, 3vw, 46px);
   font-weight: 590;
   line-height: 0.96;
+}
+
+.vacancy-grid--v6 .vacancy-card--analytics h3 {
+  max-width: 100%;
+  font-size: clamp(29px, 2.3vw, 35px);
 }
 
 /* Stories: Telegram-like, but composed as a magazine spread. */
@@ -701,11 +710,11 @@ h3 {
   }
 
   .hero {
-    padding: 0 4px 4px;
+    padding: 0 4px;
   }
 
   .hero-scene {
-    border-radius: 8px;
+    border-radius: 8px 8px 0 0;
   }
 
   .hero-scene__content {
@@ -805,7 +814,12 @@ h3 {
   }
 
   .vacancy-grid--v6 .vacancy-card h3 {
-    font-size: 40px;
+    max-width: 100%;
+    font-size: clamp(30px, 9.2vw, 38px);
+  }
+
+  .vacancy-grid--v6 .vacancy-card--analytics h3 {
+    font-size: clamp(30px, 8.8vw, 36px);
   }
 
   .story-message__bubble {
