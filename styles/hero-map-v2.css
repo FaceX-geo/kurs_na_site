@@ -527,6 +527,61 @@
   min-height: 58px;
 }
 
+.resume-builder-callout {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  gap: 14px;
+  align-items: center;
+  margin-top: 4px;
+  padding: 14px 14px 14px 16px;
+  border: 1px solid rgba(18, 58, 122, 0.12);
+  border-radius: 15px;
+  background:
+    radial-gradient(circle at 100% 0, rgba(85, 216, 230, 0.12), transparent 44%),
+    linear-gradient(135deg, rgba(255, 255, 255, 0.9), rgba(235, 244, 250, 0.82));
+  box-shadow: 0 14px 34px rgba(5, 31, 75, 0.07);
+}
+
+.resume-builder-callout__icon {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  place-items: center;
+  border-radius: 13px;
+  background: linear-gradient(145deg, #0b285f, #254f9b);
+  box-shadow: 0 10px 24px rgba(5, 31, 75, 0.2);
+}
+
+.resume-builder-callout__icon img {
+  width: 21px;
+  height: 21px;
+  filter: brightness(0) invert(1);
+}
+
+.resume-builder-callout__copy {
+  display: grid;
+  gap: 3px;
+  min-width: 0;
+}
+
+.resume-builder-callout__copy strong {
+  color: var(--navy-950);
+  font-size: 14px;
+  line-height: 1.2;
+}
+
+.resume-builder-callout__copy small {
+  color: var(--muted);
+  font-size: 11px;
+  line-height: 1.4;
+}
+
+.resume-builder-callout .button {
+  min-height: 42px;
+  padding-inline: 17px;
+  white-space: nowrap;
+}
+
 .form-actions {
   margin-top: 34px;
 }
@@ -839,6 +894,16 @@
   }
 
   .form-actions .button {
+    width: 100%;
+  }
+
+  .resume-builder-callout {
+    grid-template-columns: auto minmax(0, 1fr);
+    padding: 14px;
+  }
+
+  .resume-builder-callout .button {
+    grid-column: 1 / -1;
     width: 100%;
   }
 }

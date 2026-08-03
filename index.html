@@ -12,7 +12,7 @@
   <link rel="preload" href="assets/images/hero-background-murmansk-port.jpg" as="image">
   <link rel="stylesheet" href="styles/main.css?v=20260731-2">
   <link rel="stylesheet" href="styles/art-direction.css?v=20260729-2">
-  <link rel="stylesheet" href="styles/hero-map-v2.css?v=20260731-5">
+  <link rel="stylesheet" href="styles/hero-map-v2.css?v=20260803-1">
   <link rel="stylesheet" href="styles/chrome-footer-v3.css?v=20260731-2">
   <link rel="stylesheet" href="styles/vacancy-people-v5.css?v=20260729-1">
   <link rel="stylesheet" href="styles/map-v3.css?v=20260729-1">
@@ -682,10 +682,6 @@
                 Подать студенческую заявку
                 <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
               </button>
-              <button class="button button--secondary" type="button" data-open-resume>
-                <img class="button__icon button__icon--leading" src="assets/icons/file-pdf.svg" alt="" aria-hidden="true">
-                Собрать резюме
-              </button>
             </div>
           </div>
         </div>
@@ -917,6 +913,18 @@
                     <span id="resume-name">PDF, DOC или DOCX до 10 МБ</span>
                   </div>
                   <span class="field__error" data-error-for="resume"></span>
+                  <div class="resume-builder-callout">
+                    <span class="resume-builder-callout__icon" aria-hidden="true">
+                      <img src="assets/icons/file-pdf.svg" alt="">
+                    </span>
+                    <span class="resume-builder-callout__copy">
+                      <strong>Резюме ещё нет?</strong>
+                      <small>Соберите аккуратный PDF прямо на сайте.</small>
+                    </span>
+                    <button class="button button--secondary button--compact" type="button" data-open-resume>
+                      Собрать резюме
+                    </button>
+                  </div>
                 </div>
                 <div class="field field--full">
                   <label for="comment">Комментарий</label>
