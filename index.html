@@ -21,6 +21,7 @@
   <link rel="stylesheet" href="styles/landing-v8.css?v=20260731-5">
   <link rel="stylesheet" href="styles/human-ui-v9.css?v=20260802-1">
   <link rel="stylesheet" href="styles/editorial-v10.css?v=20260803-3">
+  <link rel="stylesheet" href="styles/north-life-v1.css?v=20260803-1">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к основному содержанию</a>
@@ -116,45 +117,106 @@
       </div>
     </section>
 
-    <section class="route-showcase route-showcase--editorial section reveal" id="north-routes" aria-labelledby="route-showcase-title">
-      <div class="route-showcase__botanical" aria-hidden="true">
-        <picture>
-          <source srcset="assets/images/routes-moss-cloudberry-v10.webp" type="image/webp">
-          <img src="assets/images/routes-moss-cloudberry-v10.png" alt="" width="1672" height="941" loading="lazy" decoding="async">
-        </picture>
-      </div>
-      <div class="container">
-        <div class="section-heading section-heading--split route-showcase__heading">
-          <div>
-            <p class="eyebrow">Жизнь на Кольском</p>
-            <h2 id="route-showcase-title">Маршруты<br>на Север</h2>
+    <section class="north-life section reveal" id="north-routes" aria-labelledby="north-life-title" data-north-life>
+      <div class="north-life__backdrop" aria-hidden="true"></div>
+      <div class="container north-life__inner">
+        <header class="north-life__intro">
+          <p class="eyebrow eyebrow--light">Жизнь на Кольском</p>
+          <div class="north-life__intro-grid">
+            <h2 id="north-life-title">Живи и работай там, где другие мечтают отдыхать</h2>
+            <p class="north-life__count" aria-label="Шесть преимуществ">
+              <span>01</span>
+              <i aria-hidden="true"></i>
+              <span>06</span>
+            </p>
           </div>
-          <p>Три характера региона.<br>Выберите свой.</p>
-        </div>
+        </header>
 
-        <div class="route-cards route-cards--editorial">
-          <button class="route-card route-card--wide" type="button" data-route-story="khibiny">
-            <img src="assets/images/route-khibiny-summer.jpg" alt="Летняя долина в Хибинах" width="1536" height="1024" loading="lazy">
-            <span class="route-card__shade"></span>
-            <span class="route-card__meta">01 · Горы</span>
-            <strong>Хибины</strong>
-            <span class="route-card__action">Открыть историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
-          </button>
-          <button class="route-card" type="button" data-route-story="teriberka">
-            <img src="assets/images/route-teriberka-summer.jpg" alt="Летнее побережье Баренцева моря" width="1536" height="1024" loading="lazy">
-            <span class="route-card__shade"></span>
-            <span class="route-card__meta">02 · Океан</span>
-            <strong>Териберка</strong>
-            <span class="route-card__action">Открыть историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
-          </button>
-          <button class="route-card" type="button" data-route-story="murmansk">
-            <img src="assets/images/route-murmansk-port-summer.jpg" alt="Мурманский порт летом" width="1536" height="1024" loading="lazy">
-            <span class="route-card__shade"></span>
-            <span class="route-card__meta">03 · Город</span>
-            <strong>Мурманск</strong>
-            <span class="route-card__action">Открыть историю <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span>
-          </button>
-        </div>
+        <ol class="north-life__features">
+          <li class="north-life__feature" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-whales-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-whales-v1.jpg" alt="Кит выходит к поверхности Баренцева моря рядом с лодкой" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">01</span>
+              <h3>Встреча с китами.</h3>
+              <p>Момент, который запомнится на всю жизнь.</p>
+            </div>
+          </li>
+
+          <li class="north-life__feature north-life__feature--reverse" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-cuisine-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-cuisine-v1.jpg" alt="Блюда арктической кухни из свежих местных продуктов" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">02</span>
+              <h3>Арктическая кухня.</h3>
+              <p>Полезные и свежие морепродукты, рыба, мясо, дикоросы — истинный вкус Заполярья!</p>
+            </div>
+          </li>
+
+          <li class="north-life__feature" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-ski-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-ski-v1.jpg" alt="Горнолыжник на снежном склоне в Хибинах" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">03</span>
+              <h3>Самый длинный горнолыжный сезон в России.</h3>
+              <p>11 обустроенных комплексов: больше 6 месяцев идеального снега.</p>
+            </div>
+          </li>
+
+          <li class="north-life__feature north-life__feature--reverse" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-polar-day-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-polar-day-v1.jpg" alt="Солнце над северным пейзажем во время полярного дня" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">04</span>
+              <h3>Полярный день.</h3>
+              <p>Солнце, которое не заходит за горизонт больше двух месяцев.</p>
+            </div>
+          </li>
+
+          <li class="north-life__feature" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-active-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-active-v1.jpg" alt="Рафтинг на северной реке у подножия Хибин" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">05</span>
+              <h3>Активный образ жизни.</h3>
+              <p>Хайкинг, сёрфинг, рафтинг — отдыхай как тебе нравится.</p>
+            </div>
+          </li>
+
+          <li class="north-life__feature north-life__feature--reverse" data-life-feature>
+            <figure class="north-life__media">
+              <picture>
+                <source srcset="assets/images/north-life-fishing-v1.webp" type="image/webp">
+                <img src="assets/images/north-life-fishing-v1.jpg" alt="Рыбалка на сёмгу в реке Кольского полуострова" width="1536" height="1024" loading="lazy" decoding="async">
+              </picture>
+            </figure>
+            <div class="north-life__copy">
+              <span class="north-life__number">06</span>
+              <h3>Рыбалка в выходные.</h3>
+              <p>Поймай сёмгу своей мечты и ещё более 30 видов рыб.</p>
+            </div>
+          </li>
+        </ol>
       </div>
     </section>
 
@@ -933,33 +995,6 @@
       <button class="button button--primary" type="button" data-cookie-accept>Принять</button>
     </div>
   </aside>
-
-  <dialog class="dialog route-dialog" id="route-dialog" aria-labelledby="route-dialog-title">
-    <div class="route-dialog__media">
-      <img data-route-dialog-image src="assets/images/route-khibiny-summer.jpg" alt="" width="1536" height="1024">
-    </div>
-    <div class="route-dialog__content">
-      <div class="dialog__header">
-        <div>
-          <p class="eyebrow" data-route-dialog-eyebrow>Горы · Кировск</p>
-          <h2 id="route-dialog-title" data-route-dialog-title>Хибины</h2>
-        </div>
-        <button class="icon-button" type="button" aria-label="Закрыть" data-dialog-close>
-          <img src="assets/icons/x.svg" alt="" aria-hidden="true">
-        </button>
-      </div>
-      <div class="route-dialog__body">
-        <p data-route-dialog-copy></p>
-        <ul data-route-dialog-facts></ul>
-      </div>
-      <div class="dialog__footer">
-        <a class="button button--primary" href="#cities" data-dialog-apply>
-          Смотреть на карте
-          <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
-        </a>
-      </div>
-    </div>
-  </dialog>
 
   <dialog class="dialog legal-dialog" id="privacy-dialog" aria-labelledby="privacy-dialog-title">
     <div class="dialog__header">

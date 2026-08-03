@@ -112,33 +112,6 @@ const supportContent = {
   },
 };
 
-const routeContent = {
-  khibiny: {
-    eyebrow: "Горы · Кировск",
-    title: "Хибины",
-    image: "assets/images/route-khibiny-summer.jpg",
-    imageAlt: "Летняя долина и горы Хибин",
-    copy: "Города у подножия гор, сильная промышленность и природа, которая начинается за порогом.",
-    facts: ["Кировск и Апатиты", "Промышленность · наука · туризм", "Горные маршруты круглый год"],
-  },
-  teriberka: {
-    eyebrow: "Океан · побережье",
-    title: "Териберка",
-    image: "assets/images/route-teriberka-summer.jpg",
-    imageAlt: "Летнее побережье Баренцева моря в Териберке",
-    copy: "Открытый океан, тундра и северный горизонт — для тех, кому нужен другой масштаб жизни.",
-    facts: ["Баренцево море", "Туризм · сервис · гостеприимство", "Сезоны полярного дня и сияния"],
-  },
-  murmansk: {
-    eyebrow: "Город · незамерзающий порт",
-    title: "Мурманск",
-    image: "assets/images/route-murmansk-port-summer.jpg",
-    imageAlt: "Мурманский порт в период белых ночей",
-    copy: "Столица Заполярья: порт, образование, медицина и городская жизнь рядом с большой водой.",
-    facts: ["Крупнейший город за Полярным кругом", "Порт · логистика · медицина", "Прямые рейсы из Москвы и Петербурга"],
-  },
-};
-
 const storyContent = {
   family: {
     id: "family",
@@ -856,32 +829,35 @@ function initDialogs() {
   });
 }
 
-function initRouteDialog() {
-  const dialog = qs("#route-dialog");
-  if (!dialog) {
+function initNorthLife() {
+  const section = qs("[data-north-life]");
+  if (!section) {
+    return;
+  }
+  const features = qsa("[data-life-feature]", section);
+  if (!features.length) {
     return;
   }
 
-  qsa("[data-route-story]").forEach((button) => {
-    button.addEventListener("click", () => {
-      const content = routeContent[button.dataset.routeStory];
-      if (!content) {
+  if (!("IntersectionObserver" in window) || window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+    features.forEach((feature) => feature.classList.add("is-visible"));
+    return;
+  }
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach((entry) => {
+      if (!entry.isIntersecting) {
         return;
       }
-      const image = qs("[data-route-dialog-image]", dialog);
-      image.src = content.image;
-      image.alt = content.imageAlt;
-      qs("[data-route-dialog-eyebrow]", dialog).textContent = content.eyebrow;
-      qs("[data-route-dialog-title]", dialog).textContent = content.title;
-      qs("[data-route-dialog-copy]", dialog).textContent = content.copy;
-      qs("[data-route-dialog-facts]", dialog).replaceChildren(...content.facts.map((fact) => {
-        const item = document.createElement("li");
-        item.textContent = fact;
-        return item;
-      }));
-      openDialog(dialog);
+      entry.target.classList.add("is-visible");
+      observer.unobserve(entry.target);
     });
+  }, {
+    rootMargin: "0px 0px -12%",
+    threshold: 0.12,
   });
+
+  features.forEach((feature) => observer.observe(feature));
 }
 
 function initLegalAndCookies() {
@@ -2588,7 +2564,7 @@ async function init() {
   initHeroParallax();
   initVacancies();
   initDialogs();
-  initRouteDialog();
+  initNorthLife();
   initLegalAndCookies();
   initSupport();
   initStories();
