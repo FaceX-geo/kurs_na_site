@@ -58,6 +58,10 @@ describe("auth screens", () => {
     render(<AuthTestRouter />);
 
     expect(await screen.findByText("Вход в CRM")).not.toBeNull();
+    expect(
+      screen.getByText("Сначала пароль, затем второй фактор. Подключение MAX пока готовится."),
+    ).not.toBeNull();
+    expect(screen.queryByText("Сначала пароль, затем подтверждение в MAX.")).toBeNull();
     expect(screen.getByText("ТЕСТОВЫЙ КОНТУР · MAX НЕ ВЫЗЫВАЕТСЯ")).not.toBeNull();
     expect(
       (screen.getByRole("button", { name: "Войти тестово сейчас" }) as HTMLButtonElement).disabled,
@@ -124,7 +128,7 @@ describe("auth screens", () => {
 
   it("keeps recovery closed and performs the temporary TOTP enrollment flow", async () => {
     const { unmount } = render(<AuthTestRouter initialPath={AUTH_PATHS.recovery} />);
-    expect(await screen.findByText("MAX не подтверждён")).not.toBeNull();
+    expect(await screen.findByText("Восстановление второго фактора")).not.toBeNull();
     expect(screen.getByText("Доступ в CRM не открыт")).not.toBeNull();
 
     unmount();

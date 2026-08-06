@@ -11,6 +11,11 @@ export function MaxRecoveryPage() {
   const [recoveryCode, setRecoveryCode] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const challengeReady = pendingAuth?.status === "mfa_required";
+  const recoveryTitle = challengeReady
+    ? pendingAuth.provider === "max_otp"
+      ? "MAX не подтверждён"
+      : "TOTP не подтверждён"
+    : "Восстановление второго фактора";
 
   async function submit(event: React.FormEvent<HTMLFormElement>): Promise<void> {
     event.preventDefault();
@@ -28,7 +33,7 @@ export function MaxRecoveryPage() {
   return (
     <AuthShell visualSubtitle="Доступ остаётся закрыт">
       <header className="auth-heading auth-heading--left">
-        <h2>MAX не подтверждён</h2>
+        <h2>{recoveryTitle}</h2>
         <p>Восстановление не обходит второй фактор и фиксируется в журнале.</p>
       </header>
 

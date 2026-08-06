@@ -51,7 +51,7 @@ export function LoginPage() {
     <AuthShell visualSubtitle="Безопасная рабочая CRM">
       <header className="auth-heading">
         <h2>Вход в CRM</h2>
-        <p>Сначала пароль, затем подтверждение в MAX.</p>
+        <p>Сначала пароль, затем второй фактор. Подключение MAX пока готовится.</p>
       </header>
 
       <form className="auth-form" onSubmit={(event) => void submit(event)}>
