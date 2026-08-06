@@ -1,0 +1,4542 @@
+{
+  "registry_version": "1.0.0",
+  "snapshot_sha256": "7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+  "coverage_denominator": 438424,
+  "source_extract_query_count": 57,
+  "requirement_evidence_query_count": 28,
+  "classifier_count": 13,
+  "classifier_registry": [
+    {
+      "classifier_id": "crm-case-stage-history-category-stage-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.crm-case-stage-history-category-stage-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_crm_deal_stage_history"
+      ]
+    },
+    {
+      "classifier_id": "crm-entity-supposed-stage-history-quarantine-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.crm-entity-supposed-stage-history-quarantine-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_crm_entity_stage_history_with_supposed"
+      ]
+    },
+    {
+      "classifier_id": "crm-observer-entity-type-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.crm-observer-entity-type-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_crm_observer"
+      ]
+    },
+    {
+      "classifier_id": "crm-supposed-stage-history-quarantine-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.crm-supposed-stage-history-quarantine-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_crm_deal_stage_history_with_supposed"
+      ]
+    },
+    {
+      "classifier_id": "disk-acl-principal-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.disk-acl-principal-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_disk_right"
+      ]
+    },
+    {
+      "classifier_id": "disk-sharing-acl-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.disk-sharing-acl-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_disk_sharing"
+      ]
+    },
+    {
+      "classifier_id": "disk-simple-acl-principal-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.disk-simple-acl-principal-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_disk_simple_right"
+      ]
+    },
+    {
+      "classifier_id": "disk-storage-owner-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.disk-storage-owner-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_disk_storage"
+      ]
+    },
+    {
+      "classifier_id": "legacy-task-dependency-domain-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.legacy-task-dependency-domain-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_tasks_task_dep"
+      ]
+    },
+    {
+      "classifier_id": "legacy-task-domain-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.legacy-task-domain-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_tasks"
+      ]
+    },
+    {
+      "classifier_id": "legacy-task-history-domain-and-field-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.legacy-task-history-domain-and-field-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_tasks_log"
+      ]
+    },
+    {
+      "classifier_id": "legacy-task-stage-assignment-domain-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.legacy-task-stage-assignment-domain-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_tasks_task_stage"
+      ]
+    },
+    {
+      "classifier_id": "legacy-task-stage-definition-domain-v1",
+      "version": "1",
+      "executor_id": "migration.classifier.legacy-task-stage-definition-domain-v1",
+      "input_contract": "source row plus referenced source keys from the pinned snapshot",
+      "output_contract": {
+        "required_fields": [
+          "source_key",
+          "outcome",
+          "reason_code",
+          "classifier_version"
+        ],
+        "allowed_outcomes": [
+          "selected",
+          "excluded",
+          "conflict"
+        ]
+      },
+      "deterministic": true,
+      "value_logging": false,
+      "source_tables": [
+        "b_tasks_stages"
+      ]
+    }
+  ],
+  "query_count": 85,
+  "queries": [
+    {
+      "query_id": "MIG-Q-B_CRM_ACT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_act",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 7737,
+      "expected_row_outcomes": 7737,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "PROVIDER_ID",
+        "PROVIDER_TYPE_ID",
+        "SUBJECT",
+        "RESPONSIBLE_ID",
+        "AUTHOR_ID",
+        "EDITOR_ID",
+        "CREATED",
+        "LAST_UPDATED",
+        "START_TIME",
+        "END_TIME",
+        "COMPLETED",
+        "DIRECTION"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TYPE_ID",
+        "PROVIDER_ID",
+        "PROVIDER_TYPE_ID",
+        "SUBJECT",
+        "RESPONSIBLE_ID",
+        "AUTHOR_ID",
+        "EDITOR_ID",
+        "CREATED",
+        "LAST_UPDATED",
+        "START_TIME",
+        "END_TIME",
+        "COMPLETED",
+        "DIRECTION"
+      ],
+      "classification_rule": "all CRM activities bound to selected CRM entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_act`",
+      "classification_count_sql_sha256": "d86c34668bebb21da15c670e9d83bf2a5a0b7a5d3f3efbb3b54026e4d076be51",
+      "expected_selected_rows": 7737,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 7737,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 7737,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-activity-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 7737,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_act`",
+      "extraction_sql": "SELECT `ID`, `TYPE_ID`, `PROVIDER_ID`, `PROVIDER_TYPE_ID`, `SUBJECT`, `RESPONSIBLE_ID`, `AUTHOR_ID`, `EDITOR_ID`, `CREATED`, `LAST_UPDATED`, `START_TIME`, `END_TIME`, `COMPLETED`, `DIRECTION` FROM `b_crm_act` ORDER BY `ID`",
+      "extraction_sql_sha256": "21781aca74e4df98d5516145f36a6305e91cab050a8d6f5b97be3199903b0a83"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ACT_BIND-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_act_bind",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 8026,
+      "expected_row_outcomes": 8026,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "OWNER_ID",
+        "OWNER_TYPE_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "OWNER_ID",
+        "OWNER_TYPE_ID"
+      ],
+      "classification_rule": "bindings involving selected CRM entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_act_bind`",
+      "classification_count_sql_sha256": "86f515ab0e65ed8108204ce2259e0336368131645b3147a2dfba54f7601bc1e1",
+      "expected_selected_rows": 8026,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 8026,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 8026,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-activity-binding-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 8026,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_act_bind`",
+      "extraction_sql": "SELECT `ID`, `ACTIVITY_ID`, `OWNER_ID`, `OWNER_TYPE_ID` FROM `b_crm_act_bind` ORDER BY `ID`",
+      "extraction_sql_sha256": "7a63dae0782d7c52f59e89ca95a7544161beb06d70e38a37e30f4bf1a95a2e8d"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ACT_COMM-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_act_comm",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1259,
+      "expected_row_outcomes": 1259,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID",
+        "VALUE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID",
+        "VALUE"
+      ],
+      "classification_rule": "communications for selected activities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_act_comm`",
+      "classification_count_sql_sha256": "63cff5dd9ad938bbe2b625a8f44e8888cb4e915dab37d84f70e03a79983a7c16",
+      "expected_selected_rows": 1259,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1259,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1259,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-activity-communication-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1259,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_act_comm`",
+      "extraction_sql": "SELECT `ID`, `ACTIVITY_ID`, `TYPE`, `ENTITY_ID`, `ENTITY_TYPE_ID`, `VALUE` FROM `b_crm_act_comm` ORDER BY `ID`",
+      "extraction_sql_sha256": "2ef1ed421447f13230258bfd5ba8456487d745e7850f2ef1681a09f7f67fb916"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ACT_ELEM-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_act_elem",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 446,
+      "expected_row_outcomes": 446,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ACTIVITY_ID",
+          "STORAGE_TYPE_ID",
+          "ELEMENT_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ACTIVITY_ID",
+        "STORAGE_TYPE_ID",
+        "ELEMENT_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ACTIVITY_ID",
+        "STORAGE_TYPE_ID",
+        "ELEMENT_ID"
+      ],
+      "classification_rule": "attachment elements for selected activities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_act_elem`",
+      "classification_count_sql_sha256": "41778129af6993bcdf077a5eb93f8957051a8e75b1d58d40fb86cdd005c88668",
+      "expected_selected_rows": 446,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 446,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 446,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-activity-attachment-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 446,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_act_elem`",
+      "extraction_sql": "SELECT `ACTIVITY_ID`, `STORAGE_TYPE_ID`, `ELEMENT_ID` FROM `b_crm_act_elem` ORDER BY `ACTIVITY_ID`, `STORAGE_TYPE_ID`, `ELEMENT_ID`",
+      "extraction_sql_sha256": "a5636db0443b7c6ae1924f63be5ae45ca218ff37bd651871cc67bed62db9aae6"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_COMPANY-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_company",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 797,
+      "expected_row_outcomes": 797,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "TITLE",
+        "COMPANY_TYPE",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "TITLE",
+        "COMPANY_TYPE",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_company`",
+      "classification_count_sql_sha256": "aadfda73ff350742a78dc42f118f32bad384a2b91fb63f40f2a7c512fc4cb6c7",
+      "expected_selected_rows": 797,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 797,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 797,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "employer-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 797,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_company`",
+      "extraction_sql": "SELECT `c`.`ID`, `c`.`ASSIGNED_BY_ID`, `c`.`CREATED_BY_ID`, `c`.`MODIFY_BY_ID`, `c`.`TITLE`, `c`.`COMPANY_TYPE`, `c`.`DATE_CREATE`, `c`.`DATE_MODIFY`, CASE WHEN `owner`.`ID` IS NULL THEN 0 ELSE 1 END AS `OWNER_EXISTS`, CASE WHEN `owner`.`ACTIVE` = 'Y' THEN 1 ELSE 0 END AS `OWNER_IS_ACTIVE` FROM `b_crm_company` AS `c` LEFT JOIN `b_user` AS `owner` ON `owner`.`ID` = `c`.`ASSIGNED_BY_ID` ORDER BY `c`.`ID`",
+      "extraction_sql_sha256": "cbc49e61720797d56d47f19dcc931722e1b13013b89af70f48831077214fbc0e"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_CONTACT-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_contact",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3186,
+      "expected_row_outcomes": 3186,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "NAME",
+        "SECOND_NAME",
+        "LAST_NAME",
+        "BIRTHDATE",
+        "TYPE_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "NAME",
+        "SECOND_NAME",
+        "LAST_NAME",
+        "BIRTHDATE",
+        "TYPE_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_contact`",
+      "classification_count_sql_sha256": "44de90016eca76c6126fb7894900579c8ebcb1e154068fdb3e532842d14d0783",
+      "expected_selected_rows": 3186,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 3186,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3186,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-person-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3186,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_contact`",
+      "extraction_sql": "SELECT `c`.`ID`, `c`.`ASSIGNED_BY_ID`, `c`.`CREATED_BY_ID`, `c`.`MODIFY_BY_ID`, `c`.`NAME`, `c`.`SECOND_NAME`, `c`.`LAST_NAME`, `c`.`FULL_NAME`, `c`.`BIRTHDATE`, `c`.`TYPE_ID`, `c`.`SOURCE_ID`, `c`.`DATE_CREATE`, `c`.`DATE_MODIFY`, CASE WHEN `owner`.`ID` IS NULL THEN 0 ELSE 1 END AS `OWNER_EXISTS`, CASE WHEN `owner`.`ACTIVE` = 'Y' THEN 1 ELSE 0 END AS `OWNER_IS_ACTIVE` FROM `b_crm_contact` AS `c` LEFT JOIN `b_user` AS `owner` ON `owner`.`ID` = `c`.`ASSIGNED_BY_ID` ORDER BY `c`.`ID`",
+      "extraction_sql_sha256": "b708cec8792d155b70955b3206a83f5b6c6cd2eff45131d51fc2008986093d88"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DEAL-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_deal",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1899,
+      "expected_row_outcomes": 1899,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "CATEGORY_ID",
+        "STAGE_ID",
+        "CONTACT_ID",
+        "COMPANY_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY",
+        "CLOSEDATE",
+        "CLOSED"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "CATEGORY_ID",
+        "STAGE_ID",
+        "CONTACT_ID",
+        "COMPANY_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY",
+        "CLOSEDATE",
+        "CLOSED"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_deal`",
+      "classification_count_sql_sha256": "71edab2ac3eed373de29356c7e5d737377c33589fab3926de9b622034329f617",
+      "expected_selected_rows": 1899,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1899,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1899,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-case-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1899,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_deal`",
+      "extraction_sql": "SELECT `d`.`ID`, `d`.`TITLE`, `d`.`CATEGORY_ID`, `d`.`STAGE_ID`, `d`.`CONTACT_ID`, `d`.`COMPANY_ID`, `d`.`ASSIGNED_BY_ID`, `d`.`CREATED_BY_ID`, `d`.`MODIFY_BY_ID`, `d`.`SOURCE_ID`, `d`.`DATE_CREATE`, `d`.`DATE_MODIFY`, `d`.`CLOSEDATE`, `d`.`CLOSED`, CASE WHEN `owner`.`ID` IS NULL THEN 0 ELSE 1 END AS `OWNER_EXISTS`, CASE WHEN `owner`.`ACTIVE` = 'Y' THEN 1 ELSE 0 END AS `OWNER_IS_ACTIVE`, CASE WHEN `contact`.`ID` IS NULL THEN 0 ELSE 1 END AS `CONTACT_EXISTS`, CASE WHEN `contact`.`ID` IS NOT NULL AND `contact_owner`.`ACTIVE` = 'Y' AND NULLIF(TRIM(`contact`.`NAME`), '') IS NOT NULL AND NULLIF(TRIM(`contact`.`LAST_NAME`), '') IS NOT NULL THEN 1 ELSE 0 END AS `CONTACT_IS_READY`, CASE WHEN `d`.`COMPANY_ID` IS NULL OR `d`.`COMPANY_ID` = 0 OR (`company`.`ID` IS NOT NULL AND `company_owner`.`ACTIVE` = 'Y' AND NULLIF(TRIM(`company`.`TITLE`), '') IS NOT NULL) THEN 1 ELSE 0 END AS `COMPANY_REFERENCE_IS_READY` FROM `b_crm_deal` AS `d` LEFT JOIN `b_user` AS `owner` ON `owner`.`ID` = `d`.`ASSIGNED_BY_ID` LEFT JOIN `b_crm_contact` AS `contact` ON `contact`.`ID` = `d`.`CONTACT_ID` LEFT JOIN `b_user` AS `contact_owner` ON `contact_owner`.`ID` = `contact`.`ASSIGNED_BY_ID` LEFT JOIN `b_crm_company` AS `company` ON `company`.`ID` = `d`.`COMPANY_ID` LEFT JOIN `b_user` AS `company_owner` ON `company_owner`.`ID` = `company`.`ASSIGNED_BY_ID` ORDER BY `d`.`ID`",
+      "extraction_sql_sha256": "6582f45e58524254aeffb84e2fe5368f17179501269e8f14d4eee57b87e81a6a"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DEAL_CATEGORY-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_deal_category",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 4,
+      "expected_row_outcomes": 4,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "CREATED_DATE",
+        "NAME",
+        "IS_LOCKED",
+        "SORT",
+        "ORIGIN_ID",
+        "ORIGINATOR_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "CREATED_DATE",
+        "NAME",
+        "IS_LOCKED",
+        "SORT",
+        "ORIGIN_ID",
+        "ORIGINATOR_ID"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_deal_category`",
+      "classification_count_sql_sha256": "745a1366b938e8fefc3b55547f559b53d73f0417feac478404c50030fec95660",
+      "expected_selected_rows": 4,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 4,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-deal-category-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 4,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_deal_category`",
+      "extraction_sql": "SELECT `ID`, `CREATED_DATE`, `NAME`, `IS_LOCKED`, `SORT`, `ORIGIN_ID`, `ORIGINATOR_ID` FROM `b_crm_deal_category` ORDER BY `ID`",
+      "extraction_sql_sha256": "e7ef5a6234aec64a9e681e081be8786a868b9a17a839f0b27ac44c50e37ba4d6"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DEAL_CONTACT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_deal_contact",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1660,
+      "expected_row_outcomes": 1660,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "DEAL_ID",
+          "CONTACT_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "DEAL_ID",
+        "CONTACT_ID",
+        "SORT",
+        "IS_PRIMARY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "DEAL_ID",
+        "CONTACT_ID",
+        "SORT",
+        "IS_PRIMARY"
+      ],
+      "classification_rule": "all rows for selected deals",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_deal_contact`",
+      "classification_count_sql_sha256": "48ea23a441da90497c171cb8be69b9e2d86e78a6df2a4fed26603510578af86f",
+      "expected_selected_rows": 1660,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1660,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1660,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "case-person-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1660,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_deal_contact`",
+      "extraction_sql": "SELECT `DEAL_ID`, `CONTACT_ID`, `SORT`, `IS_PRIMARY` FROM `b_crm_deal_contact` ORDER BY `DEAL_ID`, `CONTACT_ID`",
+      "extraction_sql_sha256": "3f0dfac0b77d63106ab62108366d2aac85030541a80d242e3b426689441b94e2"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DEAL_STAGE_HISTORY-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_deal_stage_history",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 4619,
+      "expected_row_outcomes": 4619,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "classification_rule": "all rows classified by category and versioned stage map; unmapped/reversed rows become blocking conflicts",
+      "classifier_id": "crm-case-stage-history-category-stage-v1",
+      "classifier_executor_id": "migration.classifier.crm-case-stage-history-category-stage-v1",
+      "expected_selected_rows": 3932,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 687,
+      "classification_balance": {
+        "selected_rows": 3932,
+        "excluded_rows": 0,
+        "conflict_rows": 687,
+        "baseline_rows": 4619,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-case-stage-history-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 4619,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_deal_stage_history`",
+      "extraction_sql": "SELECT `ID`, `TYPE_ID`, `OWNER_ID`, `CREATED_TIME`, `CREATED_DATE`, `EFFECTIVE_DATE`, `START_DATE`, `END_DATE`, `PERIOD_YEAR`, `PERIOD_QUARTER`, `PERIOD_MONTH`, `START_PERIOD_YEAR`, `START_PERIOD_QUARTER`, `START_PERIOD_MONTH`, `END_PERIOD_YEAR`, `END_PERIOD_QUARTER`, `END_PERIOD_MONTH`, `RESPONSIBLE_ID`, `CATEGORY_ID`, `STAGE_SEMANTIC_ID`, `STAGE_ID`, `IS_LOST` FROM `b_crm_deal_stage_history` ORDER BY `ID`",
+      "extraction_sql_sha256": "9feb5f977eef6c1266af8be2f2867da5126a943744d79b5d32858e8330d22e38"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DEAL_STAGE_HISTORY_WITH_SUPPOSED-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_deal_stage_history_with_supposed",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 9399,
+      "expected_row_outcomes": 9399,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "classification_rule": "all rows enter restricted quarantine until supposed-stage semantics receive a signed owner decision",
+      "classifier_id": "crm-supposed-stage-history-quarantine-v1",
+      "classifier_executor_id": "migration.classifier.crm-supposed-stage-history-quarantine-v1",
+      "expected_selected_rows": 9399,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 9399,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 9399,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "quarantine_only",
+      "required_row_outcome": "quarantined",
+      "transform_version": "crm-supposed-case-stage-history-quarantine-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 9399,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_deal_stage_history_with_supposed`",
+      "extraction_sql": "SELECT `ID`, `OWNER_ID`, `CREATED_TIME`, `CREATED_DATE`, `CATEGORY_ID`, `STAGE_SEMANTIC_ID`, `STAGE_ID`, `IS_LOST`, `IS_SUPPOSED`, `LAST_UPDATE_DATE`, `CLOSE_DATE`, `SPENT_TIME` FROM `b_crm_deal_stage_history_with_supposed` ORDER BY `ID`",
+      "extraction_sql_sha256": "12111f158bcc3dbbae4ae0a7c25ba649e71ee3c97da3052e9f625a4642973691"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DYNAMIC_ITEMS_1042-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_dynamic_items_1042",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1808,
+      "expected_row_outcomes": 1808,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "STAGE_ID",
+        "COMPANY_ID",
+        "CONTACT_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY",
+        "UPDATED_BY",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UF_CRM_4_1772366498",
+        "UF_CRM_4_1772366586",
+        "UF_CRM_4_1772366686",
+        "UF_CRM_4_1772366729",
+        "UF_CRM_4_1772693942281",
+        "UF_CRM_4_1772694354360"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "STAGE_ID",
+        "COMPANY_ID",
+        "CONTACT_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY",
+        "UPDATED_BY",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UF_CRM_4_1772366498",
+        "UF_CRM_4_1772366586",
+        "UF_CRM_4_1772366686",
+        "UF_CRM_4_1772366729",
+        "UF_CRM_4_1772693942281",
+        "UF_CRM_4_1772694354360"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_dynamic_items_1042`",
+      "classification_count_sql_sha256": "bf0e77ad6bd4af4a15887c6ea71e820b3e48a55a0c43d7d6521cf9c59cc25574",
+      "expected_selected_rows": 1808,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1808,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1808,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "employer-referral-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1808,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_dynamic_items_1042`",
+      "extraction_sql": "SELECT `ID`, `STAGE_ID`, `COMPANY_ID`, `CONTACT_ID`, `ASSIGNED_BY_ID`, `CREATED_BY`, `UPDATED_BY`, `CREATED_TIME`, `UPDATED_TIME`, `UF_CRM_4_1772366498`, `UF_CRM_4_1772366586`, `UF_CRM_4_1772366686`, `UF_CRM_4_1772366729`, `UF_CRM_4_1772693942281`, `UF_CRM_4_1772694354360` FROM `b_crm_dynamic_items_1042` ORDER BY `ID`",
+      "extraction_sql_sha256": "742a342634bbb7894aeeb9ea23bcdeff2e2ff04144815ebb07ef2f335caf3aa6"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_DYNAMIC_TYPE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_dynamic_type",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 4,
+      "expected_row_outcomes": 4,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "CODE",
+        "NAME",
+        "TITLE",
+        "TABLE_NAME",
+        "CREATED_BY",
+        "IS_CATEGORIES_ENABLED",
+        "IS_STAGES_ENABLED",
+        "IS_CLIENT_ENABLED",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UPDATED_BY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "CODE",
+        "NAME",
+        "TITLE",
+        "TABLE_NAME",
+        "CREATED_BY",
+        "IS_CATEGORIES_ENABLED",
+        "IS_STAGES_ENABLED",
+        "IS_CLIENT_ENABLED",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UPDATED_BY"
+      ],
+      "classification_rule": "all rows classified; ENTITY_TYPE_ID=1042 is included",
+      "selection_predicate_sql": "ENTITY_TYPE_ID = 1042",
+      "classification_count_sql": "SELECT SUM(CASE WHEN ENTITY_TYPE_ID = 1042 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN ENTITY_TYPE_ID = 1042 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_dynamic_type`",
+      "classification_count_sql_sha256": "00e03a3be8ba272c4a7e18eb1536ba4e5a3509067f7deab4d390e4986817a765",
+      "expected_selected_rows": 1,
+      "expected_excluded_rows": 3,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1,
+        "excluded_rows": 3,
+        "conflict_rows": 0,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-dynamic-type-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 4,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_dynamic_type`",
+      "extraction_sql": "SELECT `ID`, `ENTITY_TYPE_ID`, `CODE`, `NAME`, `TITLE`, `TABLE_NAME`, `CREATED_BY`, `IS_CATEGORIES_ENABLED`, `IS_STAGES_ENABLED`, `IS_CLIENT_ENABLED`, `CREATED_TIME`, `UPDATED_TIME`, `UPDATED_BY` FROM `b_crm_dynamic_type` ORDER BY `ID`",
+      "extraction_sql_sha256": "e238d210e630a75097586e6ebf1fa4f308a5e61f44f0f72d6373aecb35f18a64"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ENTITY_RELATION-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_entity_relation",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1802,
+      "expected_row_outcomes": 1802,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "SRC_ENTITY_TYPE_ID",
+          "SRC_ENTITY_ID",
+          "DST_ENTITY_TYPE_ID",
+          "DST_ENTITY_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "SRC_ENTITY_TYPE_ID",
+        "SRC_ENTITY_ID",
+        "DST_ENTITY_TYPE_ID",
+        "DST_ENTITY_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "SRC_ENTITY_TYPE_ID",
+        "SRC_ENTITY_ID",
+        "DST_ENTITY_TYPE_ID",
+        "DST_ENTITY_ID"
+      ],
+      "classification_rule": "relations involving selected deal/referral entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_entity_relation`",
+      "classification_count_sql_sha256": "d6c46296c0891ea43a9faa0c9c789f8ad2a611b93f1427b127f44e5de09da23a",
+      "expected_selected_rows": 1802,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1802,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1802,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "referral-case-relation-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1802,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_entity_relation`",
+      "extraction_sql": "SELECT `SRC_ENTITY_TYPE_ID`, `SRC_ENTITY_ID`, `DST_ENTITY_TYPE_ID`, `DST_ENTITY_ID` FROM `b_crm_entity_relation` ORDER BY `SRC_ENTITY_TYPE_ID`, `SRC_ENTITY_ID`, `DST_ENTITY_TYPE_ID`, `DST_ENTITY_ID`",
+      "extraction_sql_sha256": "01e5738a785e98659238506ef064f940cca79117212dd194563916797b4805b8"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ENTITY_STAGE_HISTORY-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_entity_stage_history",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3201,
+      "expected_row_outcomes": 3201,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "classification_rule": "all rows; OWNER_TYPE_ID=1042 maps to employer-referral stage history",
+      "selection_predicate_sql": "OWNER_TYPE_ID = 1042",
+      "classification_count_sql": "SELECT SUM(CASE WHEN OWNER_TYPE_ID = 1042 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN OWNER_TYPE_ID = 1042 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_entity_stage_history`",
+      "classification_count_sql_sha256": "1fc452ffdd44587d9791f43351872e8d0f61b4952278c6662fa94302347d596b",
+      "expected_selected_rows": 3201,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 3201,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3201,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-employer-referral-stage-history-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3201,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_entity_stage_history`",
+      "extraction_sql": "SELECT `ID`, `TYPE_ID`, `OWNER_TYPE_ID`, `OWNER_ID`, `CREATED_TIME`, `CREATED_DATE`, `EFFECTIVE_DATE`, `START_DATE`, `END_DATE`, `PERIOD_YEAR`, `PERIOD_QUARTER`, `PERIOD_MONTH`, `START_PERIOD_YEAR`, `START_PERIOD_QUARTER`, `START_PERIOD_MONTH`, `END_PERIOD_YEAR`, `END_PERIOD_QUARTER`, `END_PERIOD_MONTH`, `RESPONSIBLE_ID`, `CATEGORY_ID`, `STAGE_SEMANTIC_ID`, `STAGE_ID`, `IS_LOST` FROM `b_crm_entity_stage_history` ORDER BY `ID`",
+      "extraction_sql_sha256": "0f14e9e38cdd23f071f0399857194d75dcca0937a42d9d2c76a846225ee7ab86"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ENTITY_STAGE_HISTORY_WITH_SUPPOSED-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_entity_stage_history_with_supposed",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 4271,
+      "expected_row_outcomes": 4271,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "classification_rule": "all rows enter restricted quarantine after OWNER_TYPE_ID classification until supposed-stage semantics receive a signed owner decision",
+      "classifier_id": "crm-entity-supposed-stage-history-quarantine-v1",
+      "classifier_executor_id": "migration.classifier.crm-entity-supposed-stage-history-quarantine-v1",
+      "expected_selected_rows": 4271,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 4271,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 4271,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "quarantine_only",
+      "required_row_outcome": "quarantined",
+      "transform_version": "crm-supposed-entity-stage-history-quarantine-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 4271,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_entity_stage_history_with_supposed`",
+      "extraction_sql": "SELECT `ID`, `OWNER_TYPE_ID`, `OWNER_ID`, `CREATED_TIME`, `CREATED_DATE`, `CATEGORY_ID`, `STAGE_SEMANTIC_ID`, `STAGE_ID`, `IS_LOST`, `IS_SUPPOSED`, `LAST_UPDATE_DATE`, `CLOSE_DATE`, `SPENT_TIME` FROM `b_crm_entity_stage_history_with_supposed` ORDER BY `ID`",
+      "extraction_sql_sha256": "1fd4112b41853e9f4e34af9fb5208d9440767aec138bed5644b174ec72e01b1f"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_EVENT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_event",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 105490,
+      "expected_row_outcomes": 105490,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "EVENT_ID",
+        "EVENT_NAME",
+        "DATE_CREATE",
+        "CREATED_BY_ID",
+        "EVENT_TEXT_1",
+        "EVENT_TEXT_2",
+        "EVENT_TYPE",
+        "FILES"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "EVENT_ID",
+        "EVENT_NAME",
+        "DATE_CREATE",
+        "CREATED_BY_ID",
+        "EVENT_TEXT_1",
+        "EVENT_TEXT_2",
+        "EVENT_TYPE",
+        "FILES"
+      ],
+      "classification_rule": "events related to selected contacts/deals/companies",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_event`",
+      "classification_count_sql_sha256": "eed2957e1a09a1c9f95cc1c3e12c7178bded3a13f32bb1e601abade3e08e6bc2",
+      "expected_selected_rows": 105490,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 105490,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 105490,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-event-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 105490,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_event`",
+      "extraction_sql": "SELECT `ID`, `EVENT_ID`, `EVENT_NAME`, `DATE_CREATE`, `CREATED_BY_ID`, `EVENT_TEXT_1`, `EVENT_TEXT_2`, `EVENT_TYPE`, `FILES` FROM `b_crm_event` ORDER BY `ID`",
+      "extraction_sql_sha256": "b742ba4ac2791c84bad5e0e1c618687520d80b5d72e162d12ecc82f22f018556"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_EVENT_RELATIONS-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_event_relations",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 110795,
+      "expected_row_outcomes": 110795,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "EVENT_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ENTITY_FIELD"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "EVENT_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ENTITY_FIELD"
+      ],
+      "classification_rule": "relations involving selected CRM entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_event_relations`",
+      "classification_count_sql_sha256": "d730cc71f2d28cc2dbc9d0788632f40c37c490a6edbd262801787144bdfdd42c",
+      "expected_selected_rows": 110795,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 110795,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 110795,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-event-relation-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 110795,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_event_relations`",
+      "extraction_sql": "SELECT `ID`, `EVENT_ID`, `ENTITY_TYPE`, `ENTITY_ID`, `ENTITY_FIELD` FROM `b_crm_event_relations` ORDER BY `ID`",
+      "extraction_sql_sha256": "75afac3218f5a2dd4d295fe71ef42566970192ea8c00a44689c176b27177c2ea"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_FIELD_MULTI-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_field_multi",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 7753,
+      "expected_row_outcomes": 7753,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "ELEMENT_ID",
+        "TYPE_ID",
+        "VALUE_TYPE",
+        "VALUE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_ID",
+        "ELEMENT_ID",
+        "TYPE_ID",
+        "VALUE_TYPE",
+        "VALUE"
+      ],
+      "classification_rule": "contact/company/deal phone and email values used by selected entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_field_multi`",
+      "classification_count_sql_sha256": "56c58ef57523ced03db7903d990bbec9d97679386bc15df8ea79bfba30f613fa",
+      "expected_selected_rows": 7753,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 7753,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 7753,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "contact-point-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 7753,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_field_multi`",
+      "extraction_sql": "SELECT `m`.`ID`, `m`.`ENTITY_ID`, `m`.`ELEMENT_ID`, `m`.`TYPE_ID`, `m`.`VALUE_TYPE`, `m`.`COMPLEX_ID`, `m`.`VALUE`, CASE WHEN `m`.`ENTITY_ID` IN ('CONTACT', 'COMPANY') AND `m`.`TYPE_ID` IN ('EMAIL', 'PHONE') THEN 1 ELSE 0 END AS `IS_SUPPORTED_CONTACT_POINT`, CASE WHEN (`m`.`ENTITY_ID` = 'CONTACT' AND `contact`.`ID` IS NOT NULL) OR (`m`.`ENTITY_ID` = 'COMPANY' AND `company`.`ID` IS NOT NULL) THEN 1 ELSE 0 END AS `PARENT_EXISTS`, CASE WHEN `m`.`ENTITY_ID` = 'CONTACT' AND `contact`.`ID` IS NOT NULL AND `contact_owner`.`ACTIVE` = 'Y' AND NULLIF(TRIM(`contact`.`NAME`), '') IS NOT NULL AND NULLIF(TRIM(`contact`.`LAST_NAME`), '') IS NOT NULL THEN 1 WHEN `m`.`ENTITY_ID` = 'COMPANY' AND `company`.`ID` IS NOT NULL AND `company_owner`.`ACTIVE` = 'Y' AND NULLIF(TRIM(`company`.`TITLE`), '') IS NOT NULL THEN 1 ELSE 0 END AS `PARENT_IS_READY`, COALESCE(`duplicates`.`duplicate_count`, 0) AS `NORMALIZED_DUPLICATE_COUNT` FROM `b_crm_field_multi` AS `m` LEFT JOIN (SELECT `normalized`.`TYPE_ID`, `normalized`.`normalized_value`, COUNT(*) AS `duplicate_count` FROM (SELECT `TYPE_ID`, CASE WHEN `TYPE_ID` = 'EMAIL' THEN LOWER(TRIM(`VALUE`)) ELSE REGEXP_REPLACE(`VALUE`, '[^0-9]', '') END AS `normalized_value` FROM `b_crm_field_multi` WHERE `ENTITY_ID` IN ('CONTACT', 'COMPANY') AND `TYPE_ID` IN ('EMAIL', 'PHONE')) AS `normalized` GROUP BY `normalized`.`TYPE_ID`, `normalized`.`normalized_value`) AS `duplicates` ON `duplicates`.`TYPE_ID` = `m`.`TYPE_ID` AND `duplicates`.`normalized_value` = CASE WHEN `m`.`TYPE_ID` = 'EMAIL' THEN LOWER(TRIM(`m`.`VALUE`)) WHEN `m`.`TYPE_ID` = 'PHONE' THEN REGEXP_REPLACE(`m`.`VALUE`, '[^0-9]', '') ELSE NULL END LEFT JOIN `b_crm_contact` AS `contact` ON `m`.`ENTITY_ID` = 'CONTACT' AND `contact`.`ID` = `m`.`ELEMENT_ID` LEFT JOIN `b_user` AS `contact_owner` ON `contact_owner`.`ID` = `contact`.`ASSIGNED_BY_ID` LEFT JOIN `b_crm_company` AS `company` ON `m`.`ENTITY_ID` = 'COMPANY' AND `company`.`ID` = `m`.`ELEMENT_ID` LEFT JOIN `b_user` AS `company_owner` ON `company_owner`.`ID` = `company`.`ASSIGNED_BY_ID` ORDER BY `m`.`ID`",
+      "extraction_sql_sha256": "c63e7f0d344dd88d56d4340ce508d29bae52078d566c575cf089700f04f4f7da"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_ITEM_CATEGORY-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_item_category",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 8,
+      "expected_row_outcomes": 8,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "IS_DEFAULT",
+        "IS_SYSTEM",
+        "CODE",
+        "CREATED_DATE",
+        "NAME",
+        "SORT",
+        "SETTINGS"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "IS_DEFAULT",
+        "IS_SYSTEM",
+        "CODE",
+        "CREATED_DATE",
+        "NAME",
+        "SORT",
+        "SETTINGS"
+      ],
+      "classification_rule": "all rows classified; ENTITY_TYPE_ID=1042 and ID=8 is included",
+      "selection_predicate_sql": "ENTITY_TYPE_ID = 1042 AND ID = 8",
+      "classification_count_sql": "SELECT SUM(CASE WHEN ENTITY_TYPE_ID = 1042 AND ID = 8 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN ENTITY_TYPE_ID = 1042 AND ID = 8 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_item_category`",
+      "classification_count_sql_sha256": "596092932cb3c97a8404fc8d1441ccc8ca2a6d454ab87fe7d8e4f60d95f294a6",
+      "expected_selected_rows": 1,
+      "expected_excluded_rows": 7,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1,
+        "excluded_rows": 7,
+        "conflict_rows": 0,
+        "baseline_rows": 8,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-dynamic-category-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 8,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_item_category`",
+      "extraction_sql": "SELECT `ID`, `ENTITY_TYPE_ID`, `IS_DEFAULT`, `IS_SYSTEM`, `CODE`, `CREATED_DATE`, `NAME`, `SORT`, `SETTINGS` FROM `b_crm_item_category` ORDER BY `ID`",
+      "extraction_sql_sha256": "e5314f755b6a9bed0b6b9a339e54c67b3fa34ae0cc0022f1f12f288dfe41ef24"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_OBSERVER-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_observer",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 90,
+      "expected_row_outcomes": 90,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "USER_ID",
+          "ENTITY_ID",
+          "ENTITY_TYPE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "USER_ID",
+        "SORT",
+        "CREATED_TIME",
+        "LAST_UPDATED_TIME"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "USER_ID",
+        "SORT",
+        "CREATED_TIME",
+        "LAST_UPDATED_TIME"
+      ],
+      "classification_rule": "all rows classified by ENTITY_TYPE_ID into typed perioded observer assignments",
+      "classifier_id": "crm-observer-entity-type-v1",
+      "classifier_executor_id": "migration.classifier.crm-observer-entity-type-v1",
+      "expected_selected_rows": 90,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 90,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 90,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-observer-assignment-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 90,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_observer`",
+      "extraction_sql": "SELECT `ENTITY_TYPE_ID`, `ENTITY_ID`, `USER_ID`, `SORT`, `CREATED_TIME`, `LAST_UPDATED_TIME` FROM `b_crm_observer` ORDER BY `USER_ID`, `ENTITY_ID`, `ENTITY_TYPE_ID`",
+      "extraction_sql_sha256": "2ddea76b5a27813b157fd14f852fbb6bd4fb9f302bb2f8a98d3999785ccfea7e"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_REQUISITE-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_requisite",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 426,
+      "expected_row_outcomes": 426,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "RQ_INN",
+        "RQ_KPP",
+        "NAME",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "RQ_INN",
+        "RQ_KPP",
+        "NAME",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "classification_rule": "requisites bound to selected companies",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_requisite`",
+      "classification_count_sql_sha256": "1afdb69d670f1415932543855622902acb30bf9310c53040fce3e18e0dcd404c",
+      "expected_selected_rows": 426,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 426,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 426,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "employer-requisite-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 426,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_requisite`",
+      "extraction_sql": "SELECT `r`.`ID`, `r`.`ENTITY_TYPE_ID`, `r`.`ENTITY_ID`, `r`.`RQ_INN`, `r`.`RQ_KPP`, `r`.`NAME`, `r`.`DATE_CREATE`, `r`.`DATE_MODIFY`, CASE WHEN `r`.`ENTITY_TYPE_ID` = 4 THEN 1 ELSE 0 END AS `IS_COMPANY_REQUISITE`, CASE WHEN `company`.`ID` IS NULL THEN 0 ELSE 1 END AS `PARENT_EXISTS`, CASE WHEN `company`.`ID` IS NOT NULL AND `company_owner`.`ACTIVE` = 'Y' AND NULLIF(TRIM(`company`.`TITLE`), '') IS NOT NULL THEN 1 ELSE 0 END AS `PARENT_IS_READY`, COALESCE(`duplicates`.`duplicate_count`, 0) AS `NORMALIZED_TAX_ID_DUPLICATE_COUNT` FROM `b_crm_requisite` AS `r` LEFT JOIN (SELECT REPLACE(REPLACE(TRIM(`RQ_INN`), ' ', ''), '-', '') AS `normalized_tax_id`, COUNT(DISTINCT `ENTITY_ID`) AS `duplicate_count` FROM `b_crm_requisite` WHERE `ENTITY_TYPE_ID` = 4 AND NULLIF(TRIM(`RQ_INN`), '') IS NOT NULL GROUP BY `normalized_tax_id`) AS `duplicates` ON `duplicates`.`normalized_tax_id` = REPLACE(REPLACE(TRIM(`r`.`RQ_INN`), ' ', ''), '-', '') LEFT JOIN `b_crm_company` AS `company` ON `r`.`ENTITY_TYPE_ID` = 4 AND `company`.`ID` = `r`.`ENTITY_ID` LEFT JOIN `b_user` AS `company_owner` ON `company_owner`.`ID` = `company`.`ASSIGNED_BY_ID` ORDER BY `r`.`ID`",
+      "extraction_sql_sha256": "ed253395fd7ca4f7ed4165d36952c23d2e8825ee0aad6bd1c883a3af139688cc"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_STATUS-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_status",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 172,
+      "expected_row_outcomes": 172,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "STATUS_ID",
+        "NAME",
+        "NAME_INIT",
+        "SORT",
+        "SYSTEM",
+        "COLOR",
+        "SEMANTICS",
+        "CATEGORY_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_ID",
+        "STATUS_ID",
+        "NAME",
+        "NAME_INIT",
+        "SORT",
+        "SYSTEM",
+        "COLOR",
+        "SEMANTICS",
+        "CATEGORY_ID"
+      ],
+      "classification_rule": "all rows classified; six workflow groups plus CONTACT_TYPE, COMPANY_TYPE, SOURCE and EVENT_TYPE are included",
+      "selection_predicate_sql": "ENTITY_ID IN ('DEAL_STAGE', 'DEAL_STAGE_1', 'DEAL_STAGE_2', 'DEAL_STAGE_3', 'DEAL_STAGE_5', 'DYNAMIC_1042_STAGE_8', 'CONTACT_TYPE', 'COMPANY_TYPE', 'SOURCE', 'EVENT_TYPE')",
+      "classification_count_sql": "SELECT SUM(CASE WHEN ENTITY_ID IN ('DEAL_STAGE', 'DEAL_STAGE_1', 'DEAL_STAGE_2', 'DEAL_STAGE_3', 'DEAL_STAGE_5', 'DYNAMIC_1042_STAGE_8', 'CONTACT_TYPE', 'COMPANY_TYPE', 'SOURCE', 'EVENT_TYPE') THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN ENTITY_ID IN ('DEAL_STAGE', 'DEAL_STAGE_1', 'DEAL_STAGE_2', 'DEAL_STAGE_3', 'DEAL_STAGE_5', 'DYNAMIC_1042_STAGE_8', 'CONTACT_TYPE', 'COMPANY_TYPE', 'SOURCE', 'EVENT_TYPE') THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_status`",
+      "classification_count_sql_sha256": "fd2a8e24d9d78bc9f2bee42d20e872398e98cbe22d26c2721cf18e752651ee90",
+      "expected_selected_rows": 96,
+      "expected_excluded_rows": 76,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 96,
+        "excluded_rows": 76,
+        "conflict_rows": 0,
+        "baseline_rows": 172,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-status-definition-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 172,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_status`",
+      "extraction_sql": "SELECT `ID`, `ENTITY_ID`, `STATUS_ID`, `NAME`, `NAME_INIT`, `SORT`, `SYSTEM`, `COLOR`, `SEMANTICS`, `CATEGORY_ID` FROM `b_crm_status` ORDER BY `ID`",
+      "extraction_sql_sha256": "07afa2c451d36997a335532456a85f1d4e26887fb51907102cf17515315317d1"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_TIMELINE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_timeline",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 67857,
+      "expected_row_outcomes": 67857,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "TYPE_CATEGORY_ID",
+        "CREATED",
+        "AUTHOR_ID",
+        "ASSOCIATED_ENTITY_TYPE_ID",
+        "ASSOCIATED_ENTITY_ID",
+        "SETTINGS"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TYPE_ID",
+        "TYPE_CATEGORY_ID",
+        "CREATED",
+        "AUTHOR_ID",
+        "ASSOCIATED_ENTITY_TYPE_ID",
+        "ASSOCIATED_ENTITY_ID",
+        "SETTINGS"
+      ],
+      "classification_rule": "timeline entries for selected CRM entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_timeline`",
+      "classification_count_sql_sha256": "aa48d2367fc3e58118739d375eff75b2893eda0858c2739b27b1890746d72489",
+      "expected_selected_rows": 67857,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 67857,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 67857,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-timeline-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 67857,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_timeline`",
+      "extraction_sql": "SELECT `ID`, `TYPE_ID`, `TYPE_CATEGORY_ID`, `CREATED`, `AUTHOR_ID`, `ASSOCIATED_ENTITY_TYPE_ID`, `ASSOCIATED_ENTITY_ID`, `SETTINGS` FROM `b_crm_timeline` ORDER BY `ID`",
+      "extraction_sql_sha256": "29e8ccab69ee1480ecc70ff7d3d319385a718d234c81a0b6b9a1eb8b11200e27"
+    },
+    {
+      "query_id": "MIG-Q-B_CRM_TIMELINE_BIND-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_crm_timeline_bind",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 71120,
+      "expected_row_outcomes": 71120,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "OWNER_ID",
+          "ENTITY_ID",
+          "ENTITY_TYPE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "OWNER_ID",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "OWNER_ID",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID"
+      ],
+      "classification_rule": "bindings involving selected CRM entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_crm_timeline_bind`",
+      "classification_count_sql_sha256": "069aaaa8861a03ce58159bcb64746a7b253ac06f9d3664924bd926256b7021ac",
+      "expected_selected_rows": 71120,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 71120,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 71120,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-timeline-binding-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 71120,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_crm_timeline_bind`",
+      "extraction_sql": "SELECT `OWNER_ID`, `ENTITY_ID`, `ENTITY_TYPE_ID` FROM `b_crm_timeline_bind` ORDER BY `OWNER_ID`, `ENTITY_ID`, `ENTITY_TYPE_ID`",
+      "extraction_sql_sha256": "ef52717fd099f898d329bec9c40099105636169ae5a9dd19d2a567ae060be579"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_ATTACHED_OBJECT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_attached_object",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 30,
+      "expected_row_outcomes": 30,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "VERSION_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OBJECT_ID",
+        "VERSION_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "classification_rule": "rows referenced by selected CRM timeline/entity attachments",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_disk_attached_object`",
+      "classification_count_sql_sha256": "3482304dfd9da5d0a00d607000f25b0aa482fe2a9dea44c2bcc59576e0c55d33",
+      "expected_selected_rows": 30,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 30,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 30,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-attached-object-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 30,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_attached_object`",
+      "extraction_sql": "SELECT `ID`, `OBJECT_ID`, `VERSION_ID`, `MODULE_ID`, `ENTITY_TYPE`, `ENTITY_ID`, `CREATE_TIME`, `CREATED_BY` FROM `b_disk_attached_object` ORDER BY `ID`",
+      "extraction_sql_sha256": "e23632b89bbc6164a0d2045043f52e8cb6bea710162581e4741175df813adf60"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_OBJECT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_object",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 961,
+      "expected_row_outcomes": 961,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "STORAGE_ID",
+        "PARENT_ID",
+        "REAL_OBJECT_ID",
+        "FILE_ID",
+        "TYPE",
+        "CREATE_TIME",
+        "UPDATE_TIME"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "STORAGE_ID",
+        "PARENT_ID",
+        "REAL_OBJECT_ID",
+        "FILE_ID",
+        "TYPE",
+        "CREATE_TIME",
+        "UPDATE_TIME"
+      ],
+      "classification_rule": "objects referenced by selected CRM/task/file bindings",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_disk_object`",
+      "classification_count_sql_sha256": "89d3c448ed8dd045934c883db0a8dc955301eec397d3874ca1dd626b21bb00fe",
+      "expected_selected_rows": 961,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 961,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 961,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-object-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 961,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_object`",
+      "extraction_sql": "SELECT `ID`, `STORAGE_ID`, `PARENT_ID`, `REAL_OBJECT_ID`, `FILE_ID`, `TYPE`, `CREATE_TIME`, `UPDATE_TIME` FROM `b_disk_object` ORDER BY `ID`",
+      "extraction_sql_sha256": "705e973901533e3df29ef74acd068f43842f789534703b42033d924f47501025"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_RIGHT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_right",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 284,
+      "expected_row_outcomes": 284,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "TASK_ID",
+        "ACCESS_CODE",
+        "DOMAIN",
+        "NEGATIVE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OBJECT_ID",
+        "TASK_ID",
+        "ACCESS_CODE",
+        "DOMAIN",
+        "NEGATIVE"
+      ],
+      "classification_rule": "all rows classified by ACL principal and disk object resolution",
+      "classifier_id": "disk-acl-principal-v1",
+      "classifier_executor_id": "migration.classifier.disk-acl-principal-v1",
+      "expected_selected_rows": 284,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 284,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 284,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-object-acl-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 284,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_right`",
+      "extraction_sql": "SELECT `ID`, `OBJECT_ID`, `TASK_ID`, `ACCESS_CODE`, `DOMAIN`, `NEGATIVE` FROM `b_disk_right` ORDER BY `ID`",
+      "extraction_sql_sha256": "0bd57481d1897053e016663b11317278c01d2c2e03702eb047844ce886f68253"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_SHARING-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_sharing",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 8,
+      "expected_row_outcomes": 8,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "PARENT_ID",
+        "CREATED_BY",
+        "FROM_ENTITY",
+        "TO_ENTITY",
+        "LINK_STORAGE_ID",
+        "LINK_OBJECT_ID",
+        "REAL_OBJECT_ID",
+        "REAL_STORAGE_ID",
+        "CAN_FORWARD",
+        "STATUS",
+        "TYPE",
+        "IS_EDITABLE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "PARENT_ID",
+        "CREATED_BY",
+        "FROM_ENTITY",
+        "TO_ENTITY",
+        "LINK_STORAGE_ID",
+        "LINK_OBJECT_ID",
+        "REAL_OBJECT_ID",
+        "REAL_STORAGE_ID",
+        "CAN_FORWARD",
+        "STATUS",
+        "TYPE",
+        "IS_EDITABLE"
+      ],
+      "classification_rule": "all rows classified into explicit attachment share ACL semantics",
+      "classifier_id": "disk-sharing-acl-v1",
+      "classifier_executor_id": "migration.classifier.disk-sharing-acl-v1",
+      "expected_selected_rows": 8,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 8,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 8,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-sharing-acl-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 8,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_sharing`",
+      "extraction_sql": "SELECT `ID`, `PARENT_ID`, `CREATED_BY`, `FROM_ENTITY`, `TO_ENTITY`, `LINK_STORAGE_ID`, `LINK_OBJECT_ID`, `REAL_OBJECT_ID`, `REAL_STORAGE_ID`, `CAN_FORWARD`, `STATUS`, `TYPE`, `IS_EDITABLE` FROM `b_disk_sharing` ORDER BY `ID`",
+      "extraction_sql_sha256": "7ff5c91fda648715d21502c65948bac09703eea08d4fdd2059e2009b2d1e4159"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_SIMPLE_RIGHT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_simple_right",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1276,
+      "expected_row_outcomes": 1276,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "ACCESS_CODE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OBJECT_ID",
+        "ACCESS_CODE"
+      ],
+      "classification_rule": "all rows classified by ACL principal and disk object resolution",
+      "classifier_id": "disk-simple-acl-principal-v1",
+      "classifier_executor_id": "migration.classifier.disk-simple-acl-principal-v1",
+      "expected_selected_rows": 1276,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1276,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1276,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-simple-object-acl-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1276,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_simple_right`",
+      "extraction_sql": "SELECT `ID`, `OBJECT_ID`, `ACCESS_CODE` FROM `b_disk_simple_right` ORDER BY `ID`",
+      "extraction_sql_sha256": "a0c0f81adceda181d4b76424d7d22d608b202ebcae0f26c3c41b6494011c3417"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_STORAGE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_storage",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 221,
+      "expected_row_outcomes": 221,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "CODE",
+        "XML_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ROOT_OBJECT_ID",
+        "USE_INTERNAL_RIGHTS",
+        "SITE_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "CODE",
+        "XML_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ROOT_OBJECT_ID",
+        "USE_INTERNAL_RIGHTS",
+        "SITE_ID"
+      ],
+      "classification_rule": "all rows classified into attachment storage ownership and ACL inheritance semantics",
+      "classifier_id": "disk-storage-owner-v1",
+      "classifier_executor_id": "migration.classifier.disk-storage-owner-v1",
+      "expected_selected_rows": 221,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 221,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 221,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-storage-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 221,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_storage`",
+      "extraction_sql": "SELECT `ID`, `CODE`, `XML_ID`, `MODULE_ID`, `ENTITY_TYPE`, `ENTITY_ID`, `ROOT_OBJECT_ID`, `USE_INTERNAL_RIGHTS`, `SITE_ID` FROM `b_disk_storage` ORDER BY `ID`",
+      "extraction_sql_sha256": "040ede0b735fec4e453546b1d4c9b7e061e6000427ac0800f635f09a52e01372"
+    },
+    {
+      "query_id": "MIG-Q-B_DISK_VERSION-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_disk_version",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 671,
+      "expected_row_outcomes": 671,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "FILE_ID",
+        "SIZE",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "OBJECT_ID",
+        "FILE_ID",
+        "SIZE",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "classification_rule": "versions referenced by selected disk attached objects",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_disk_version`",
+      "classification_count_sql_sha256": "adcffb3a828db6faa6290351c5d72323caaad1ab9e3af309f84d7b890d394f56",
+      "expected_selected_rows": 671,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 671,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 671,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "disk-version-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 671,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_disk_version`",
+      "extraction_sql": "SELECT `ID`, `OBJECT_ID`, `FILE_ID`, `SIZE`, `CREATE_TIME`, `CREATED_BY` FROM `b_disk_version` ORDER BY `ID`",
+      "extraction_sql_sha256": "5c646b4a35e13ccc4552b8bbde35dda5a01bb7063de4ae2d4d899d79e2078e27"
+    },
+    {
+      "query_id": "MIG-Q-B_FILE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_file",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3941,
+      "expected_row_outcomes": 3941,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODULE_ID",
+        "HEIGHT",
+        "WIDTH",
+        "FILE_SIZE",
+        "CONTENT_TYPE",
+        "SUBDIR",
+        "FILE_NAME",
+        "ORIGINAL_NAME"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODULE_ID",
+        "HEIGHT",
+        "WIDTH",
+        "FILE_SIZE",
+        "CONTENT_TYPE",
+        "SUBDIR",
+        "FILE_NAME",
+        "ORIGINAL_NAME"
+      ],
+      "classification_rule": "all metadata referenced by selected entities",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_file`",
+      "classification_count_sql_sha256": "0b6c41470b23f00f109dda96c36242bb21f13ad06ff6f28170af1557b0c4f811",
+      "expected_selected_rows": 3941,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 3941,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3941,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "file-metadata-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3941,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_file`",
+      "extraction_sql": "SELECT `ID`, `TIMESTAMP_X`, `MODULE_ID`, `HEIGHT`, `WIDTH`, `FILE_SIZE`, `CONTENT_TYPE`, `SUBDIR`, `FILE_NAME`, `ORIGINAL_NAME` FROM `b_file` ORDER BY `ID`",
+      "extraction_sql_sha256": "ae87205b3675323e0f0813e249882be8db7de86ebf71e790f3d5d5c24323a75a"
+    },
+    {
+      "query_id": "MIG-Q-B_FILE_HASH-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_file_hash",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 2008,
+      "expected_row_outcomes": 2008,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "FILE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "FILE_ID",
+        "FILE_SIZE",
+        "FILE_HASH"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "FILE_ID",
+        "FILE_SIZE",
+        "FILE_HASH"
+      ],
+      "classification_rule": "hashes for selected b_file rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_file_hash`",
+      "classification_count_sql_sha256": "9955f7ff4f1cfadf5fc7165b408d6c76072b03a063e9ed93244e00b6666a2d11",
+      "expected_selected_rows": 2008,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 2008,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 2008,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "file-checksum-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 2008,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_file_hash`",
+      "extraction_sql": "SELECT `FILE_ID`, `FILE_SIZE`, `FILE_HASH` FROM `b_file_hash` ORDER BY `FILE_ID`",
+      "extraction_sql_sha256": "13cdf723afbf78861442d845837ef56862bd7e6acf385f5c6497b0a4b0754c01"
+    },
+    {
+      "query_id": "MIG-Q-B_GROUP-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_group",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 16,
+      "expected_row_outcomes": 16,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ACTIVE",
+        "NAME",
+        "STRING_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ACTIVE",
+        "NAME",
+        "STRING_ID"
+      ],
+      "classification_rule": "all rows as role-candidate evidence",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_group`",
+      "classification_count_sql_sha256": "5981230c2a781ee7e98f0a3332815ae7840a470e5a0184a829fa055358c67979",
+      "expected_selected_rows": 16,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 16,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 16,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "role-evidence-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 16,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_group`",
+      "extraction_sql": "SELECT `ID`, `ACTIVE`, `NAME`, `STRING_ID` FROM `b_group` ORDER BY `ID`",
+      "extraction_sql_sha256": "4877e72d39cde842f006b842563eea1ab212d0e66aa842bd239f6082493498f8"
+    },
+    {
+      "query_id": "MIG-Q-B_IBLOCK-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_iblock",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 37,
+      "expected_row_outcomes": 37,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "IBLOCK_TYPE_ID",
+        "CODE",
+        "API_CODE",
+        "NAME",
+        "ACTIVE",
+        "SORT",
+        "XML_ID",
+        "VERSION"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "IBLOCK_TYPE_ID",
+        "CODE",
+        "API_CODE",
+        "NAME",
+        "ACTIVE",
+        "SORT",
+        "XML_ID",
+        "VERSION"
+      ],
+      "classification_rule": "all rows classified; iblocks 3 and 21 are included",
+      "selection_predicate_sql": "ID IN (3, 21)",
+      "classification_count_sql": "SELECT SUM(CASE WHEN ID IN (3, 21) THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN ID IN (3, 21) THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_iblock`",
+      "classification_count_sql_sha256": "ecbbfa4ba2f5fc355b348b35ea7fa3d18006b1e4741fde2c16db1fd98ef7e066",
+      "expected_selected_rows": 2,
+      "expected_excluded_rows": 35,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 2,
+        "excluded_rows": 35,
+        "conflict_rows": 0,
+        "baseline_rows": 37,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-iblock-definition-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 37,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_iblock`",
+      "extraction_sql": "SELECT `ID`, `TIMESTAMP_X`, `IBLOCK_TYPE_ID`, `CODE`, `API_CODE`, `NAME`, `ACTIVE`, `SORT`, `XML_ID`, `VERSION` FROM `b_iblock` ORDER BY `ID`",
+      "extraction_sql_sha256": "8f7cc99ef47defe19556d583de8abc24ff06bbe5ff78406f1ae450414b1f5db6"
+    },
+    {
+      "query_id": "MIG-Q-B_IBLOCK_ELEMENT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_iblock_element",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3591,
+      "expected_row_outcomes": 3591,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODIFIED_BY",
+        "DATE_CREATE",
+        "CREATED_BY",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "SORT",
+        "NAME",
+        "XML_ID",
+        "CODE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODIFIED_BY",
+        "DATE_CREATE",
+        "CREATED_BY",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "SORT",
+        "NAME",
+        "XML_ID",
+        "CODE"
+      ],
+      "classification_rule": "all rows classified; IBLOCK_ID=21 settlement dictionary rows are included",
+      "selection_predicate_sql": "IBLOCK_ID = 21",
+      "classification_count_sql": "SELECT SUM(CASE WHEN IBLOCK_ID = 21 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN IBLOCK_ID = 21 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_iblock_element`",
+      "classification_count_sql_sha256": "31bf3bb250eae8ea215ec1ff2e747f672b9088c6b902f3a8323f56bdd5d3ece0",
+      "expected_selected_rows": 61,
+      "expected_excluded_rows": 3530,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 61,
+        "excluded_rows": 3530,
+        "conflict_rows": 0,
+        "baseline_rows": 3591,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "settlement-dictionary-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3591,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_iblock_element`",
+      "extraction_sql": "SELECT `ID`, `TIMESTAMP_X`, `MODIFIED_BY`, `DATE_CREATE`, `CREATED_BY`, `IBLOCK_ID`, `IBLOCK_SECTION_ID`, `ACTIVE`, `SORT`, `NAME`, `XML_ID`, `CODE` FROM `b_iblock_element` ORDER BY `ID`",
+      "extraction_sql_sha256": "d6f09089a07d00159db63d607ffada6ed526693ab10701dc2dfd375e34aa826f"
+    },
+    {
+      "query_id": "MIG-Q-B_IBLOCK_SECTION-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_iblock_section",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 29,
+      "expected_row_outcomes": 29,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "NAME",
+        "LEFT_MARGIN",
+        "RIGHT_MARGIN",
+        "DEPTH_LEVEL"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "NAME",
+        "LEFT_MARGIN",
+        "RIGHT_MARGIN",
+        "DEPTH_LEVEL"
+      ],
+      "classification_rule": "department iblock sections only",
+      "selection_predicate_sql": "IBLOCK_ID = 3",
+      "classification_count_sql": "SELECT SUM(CASE WHEN IBLOCK_ID = 3 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN IBLOCK_ID = 3 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_iblock_section`",
+      "classification_count_sql_sha256": "599e0b3e5dcacdcb1ff989913aa4a820e12193a755cd4df125f729159407c392",
+      "expected_selected_rows": 5,
+      "expected_excluded_rows": 24,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 5,
+        "excluded_rows": 24,
+        "conflict_rows": 0,
+        "baseline_rows": 29,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "organization-unit-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 29,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_iblock_section`",
+      "extraction_sql": "SELECT `ID`, `IBLOCK_ID`, `IBLOCK_SECTION_ID`, `ACTIVE`, `NAME`, `LEFT_MARGIN`, `RIGHT_MARGIN`, `DEPTH_LEVEL` FROM `b_iblock_section` ORDER BY `ID`",
+      "extraction_sql_sha256": "df992408fe52d96d710e8d1357af3d0165d687eeb640c21aaee07ce282085cad"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 89,
+      "expected_row_outcomes": 89,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TITLE",
+        "DESCRIPTION",
+        "RESPONSIBLE_ID",
+        "CREATED_BY",
+        "CHANGED_BY",
+        "STATUS",
+        "PRIORITY",
+        "DEADLINE",
+        "START_DATE_PLAN",
+        "END_DATE_PLAN",
+        "GROUP_ID",
+        "PARENT_ID",
+        "STAGE_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TITLE",
+        "DESCRIPTION",
+        "RESPONSIBLE_ID",
+        "CREATED_BY",
+        "CHANGED_BY",
+        "STATUS",
+        "PRIORITY",
+        "DEADLINE",
+        "START_DATE_PLAN",
+        "END_DATE_PLAN",
+        "GROUP_ID",
+        "PARENT_ID",
+        "STAGE_ID"
+      ],
+      "classification_rule": "all rows",
+      "classifier_id": "legacy-task-domain-v1",
+      "classifier_executor_id": "migration.classifier.legacy-task-domain-v1",
+      "expected_selected_rows": 62,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 27,
+      "classification_balance": {
+        "selected_rows": 62,
+        "excluded_rows": 0,
+        "conflict_rows": 27,
+        "baseline_rows": 89,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 89,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks`",
+      "extraction_sql": "SELECT `t`.`ID`, `t`.`TITLE`, `t`.`DESCRIPTION`, `t`.`RESPONSIBLE_ID`, `t`.`CREATED_BY`, `t`.`CHANGED_BY`, `t`.`STATUS`, `t`.`PRIORITY`, `t`.`DEADLINE`, `t`.`START_DATE_PLAN`, `t`.`END_DATE_PLAN`, `t`.`GROUP_ID`, `t`.`PARENT_ID`, `t`.`STAGE_ID`, CASE WHEN `responsible`.`ID` IS NULL THEN 0 ELSE 1 END AS `RESPONSIBLE_EXISTS`, CASE WHEN `responsible`.`ACTIVE` = 'Y' THEN 1 ELSE 0 END AS `RESPONSIBLE_IS_ACTIVE`, CASE WHEN `uts`.`UF_CRM_TASK` IS NOT NULL AND TRIM(`uts`.`UF_CRM_TASK`) <> '' AND `uts`.`UF_CRM_TASK` <> 'a:0:{}' THEN 1 ELSE 0 END AS `CRM_DOMAIN_EVIDENCE`, CASE WHEN `t`.`GROUP_ID` > 0 THEN 1 ELSE 0 END AS `PROJECT_DOMAIN_EVIDENCE` FROM `b_tasks` AS `t` LEFT JOIN `b_uts_tasks_task` AS `uts` ON `uts`.`VALUE_ID` = `t`.`ID` LEFT JOIN `b_user` AS `responsible` ON `responsible`.`ID` = `t`.`RESPONSIBLE_ID` ORDER BY `t`.`ID`",
+      "extraction_sql_sha256": "4b4b411e36fddc92f419c0c76c97fbb08de89d564b80144a4db5c4874910c87a"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_LOG-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_log",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 629,
+      "expected_row_outcomes": 629,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "CREATED_DATE",
+        "USER_ID",
+        "TASK_ID",
+        "FIELD",
+        "FROM_VALUE",
+        "TO_VALUE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "CREATED_DATE",
+        "USER_ID",
+        "TASK_ID",
+        "FIELD",
+        "FROM_VALUE",
+        "TO_VALUE"
+      ],
+      "classification_rule": "all rows classified by task domain and change FIELD",
+      "classifier_id": "legacy-task-history-domain-and-field-v1",
+      "classifier_executor_id": "migration.classifier.legacy-task-history-domain-and-field-v1",
+      "expected_selected_rows": 399,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 230,
+      "classification_balance": {
+        "selected_rows": 399,
+        "excluded_rows": 0,
+        "conflict_rows": 230,
+        "baseline_rows": 629,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-history-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 629,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_log`",
+      "extraction_sql": "SELECT `ID`, `CREATED_DATE`, `USER_ID`, `TASK_ID`, `FIELD`, `FROM_VALUE`, `TO_VALUE` FROM `b_tasks_log` ORDER BY `ID`",
+      "extraction_sql_sha256": "d3cf5e93fa80944d534cfbbf6972462748411645cace111339db2bd5f5b19734"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_MEMBER-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_member",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 187,
+      "expected_row_outcomes": 187,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "TASK_ID",
+          "USER_ID",
+          "TYPE"
+        ]
+      },
+      "canonical_selected_columns": [
+        "TASK_ID",
+        "USER_ID",
+        "TYPE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "TASK_ID",
+        "USER_ID",
+        "TYPE"
+      ],
+      "classification_rule": "all rows for selected tasks",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_tasks_member`",
+      "classification_count_sql_sha256": "5b6363b2c8d181883b0d6a51c46fe0678a15ba3c0c3103831c8780b4ddc242aa",
+      "expected_selected_rows": 187,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 187,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 187,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-member-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 187,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_member`",
+      "extraction_sql": "SELECT `TASK_ID`, `USER_ID`, `TYPE` FROM `b_tasks_member` ORDER BY `TASK_ID`, `USER_ID`, `TYPE`",
+      "extraction_sql_sha256": "9ee2a2242f881aeba73b9b24f4ee5b59aeb9d3b0e9a9c4bddd28cf71bc42b3b2"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_RESULT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_result",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3,
+      "expected_row_outcomes": 3,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TASK_ID",
+        "COMMENT_ID",
+        "TEXT",
+        "CREATED_BY",
+        "CREATED_AT",
+        "UPDATED_AT",
+        "STATUS"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TASK_ID",
+        "COMMENT_ID",
+        "TEXT",
+        "CREATED_BY",
+        "CREATED_AT",
+        "UPDATED_AT",
+        "STATUS"
+      ],
+      "classification_rule": "all rows classified by task domain into protected typed task-result records",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_tasks_result`",
+      "classification_count_sql_sha256": "8f228914f382dca19ae7e714e81893bf4636191068c42b552da9be9198b7cdd8",
+      "expected_selected_rows": 3,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 3,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-result-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_result`",
+      "extraction_sql": "SELECT `ID`, `TASK_ID`, `COMMENT_ID`, `TEXT`, `CREATED_BY`, `CREATED_AT`, `UPDATED_AT`, `STATUS` FROM `b_tasks_result` ORDER BY `ID`",
+      "extraction_sql_sha256": "6dcf0289201f650d9b530d81d0d2eb444451791c4d32671dfa4ef9806378f13a"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_STAGES-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_stages",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 89,
+      "expected_row_outcomes": 89,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TITLE",
+        "SORT",
+        "COLOR",
+        "SYSTEM_TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TITLE",
+        "SORT",
+        "COLOR",
+        "SYSTEM_TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE"
+      ],
+      "classification_rule": "all rows classified by reference usage; source definitions are evidence until an owner-approved canonical stage map exists",
+      "classifier_id": "legacy-task-stage-definition-domain-v1",
+      "classifier_executor_id": "migration.classifier.legacy-task-stage-definition-domain-v1",
+      "expected_selected_rows": 18,
+      "expected_excluded_rows": 71,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 18,
+        "excluded_rows": 71,
+        "conflict_rows": 0,
+        "baseline_rows": 89,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-stage-definition-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 89,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_stages`",
+      "extraction_sql": "SELECT `ID`, `TITLE`, `SORT`, `COLOR`, `SYSTEM_TYPE`, `ENTITY_ID`, `ENTITY_TYPE` FROM `b_tasks_stages` ORDER BY `ID`",
+      "extraction_sql_sha256": "01f420be74b6b5e0beb7e668751d2fa9dcc45ad346d622b0a3389ed3d7444389"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_TASK_DEP-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_task_dep",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 4,
+      "expected_row_outcomes": 4,
+      "source_key": {
+        "kind": "unique_index",
+        "constraint": "TASK_ID",
+        "columns": [
+          "TASK_ID",
+          "PARENT_TASK_ID",
+          "DIRECT"
+        ]
+      },
+      "canonical_selected_columns": [
+        "TASK_ID",
+        "PARENT_TASK_ID",
+        "DIRECT"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "TASK_ID",
+        "PARENT_TASK_ID",
+        "DIRECT"
+      ],
+      "classification_rule": "all rows classified by task domain; every dependency passes orphan and cycle checks",
+      "classifier_id": "legacy-task-dependency-domain-v1",
+      "classifier_executor_id": "migration.classifier.legacy-task-dependency-domain-v1",
+      "expected_selected_rows": 0,
+      "expected_excluded_rows": 3,
+      "expected_conflict_rows": 1,
+      "classification_balance": {
+        "selected_rows": 0,
+        "excluded_rows": 3,
+        "conflict_rows": 1,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-dependency-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 4,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_task_dep`",
+      "extraction_sql": "SELECT `TASK_ID`, `PARENT_TASK_ID`, `DIRECT` FROM `b_tasks_task_dep` ORDER BY `TASK_ID`, `PARENT_TASK_ID`, `DIRECT`",
+      "extraction_sql_sha256": "12cee205088c903b25492552f3b7916791fa720c4d32acba831f019c507f365c"
+    },
+    {
+      "query_id": "MIG-Q-B_TASKS_TASK_STAGE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_tasks_task_stage",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 174,
+      "expected_row_outcomes": 174,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TASK_ID",
+        "STAGE_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TASK_ID",
+        "STAGE_ID"
+      ],
+      "classification_rule": "all rows preserved as non-perioded source-stage membership evidence; no history timestamp or canonical workflow state is inferred",
+      "classifier_id": "legacy-task-stage-assignment-domain-v1",
+      "classifier_executor_id": "migration.classifier.legacy-task-stage-assignment-domain-v1",
+      "expected_selected_rows": 174,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 174,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 174,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "legacy-task-stage-assignment-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 174,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_tasks_task_stage`",
+      "extraction_sql": "SELECT `ID`, `TASK_ID`, `STAGE_ID` FROM `b_tasks_task_stage` ORDER BY `ID`",
+      "extraction_sql_sha256": "fa7ad81ca25222c456b9b2b0331434f74737e1e95ab9dada7b1df400c2b28bec"
+    },
+    {
+      "query_id": "MIG-Q-B_USER-V2",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_user",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 218,
+      "expected_row_outcomes": 218,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "ACTIVE",
+        "BLOCKED",
+        "LOGIN",
+        "EXTERNAL_AUTH_ID",
+        "NAME",
+        "LAST_NAME",
+        "SECOND_NAME",
+        "EMAIL",
+        "PERSONAL_PHONE",
+        "PERSONAL_MOBILE",
+        "WORK_PHONE",
+        "WORK_POSITION",
+        "DATE_REGISTER",
+        "LAST_LOGIN",
+        "LAST_ACTIVITY_DATE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "ACTIVE",
+        "BLOCKED",
+        "LOGIN",
+        "EXTERNAL_AUTH_ID",
+        "NAME",
+        "LAST_NAME",
+        "SECOND_NAME",
+        "EMAIL",
+        "PERSONAL_PHONE",
+        "PERSONAL_MOBILE",
+        "WORK_PHONE",
+        "WORK_POSITION",
+        "DATE_REGISTER",
+        "LAST_LOGIN",
+        "LAST_ACTIVITY_DATE"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_user`",
+      "classification_count_sql_sha256": "82ca28900a45b61aaaeb21053998047033e5d7e1c1a9971ebabb5f1a22c5c7fc",
+      "expected_selected_rows": 218,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 218,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 218,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "actor-v2",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 218,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_user`",
+      "extraction_sql": "SELECT `u`.`ID`, `u`.`TIMESTAMP_X`, `u`.`ACTIVE`, `u`.`BLOCKED`, `u`.`LOGIN`, `u`.`EXTERNAL_AUTH_ID`, `u`.`NAME`, `u`.`LAST_NAME`, `u`.`SECOND_NAME`, `u`.`EMAIL`, `u`.`PERSONAL_PHONE`, `u`.`PERSONAL_MOBILE`, `u`.`WORK_PHONE`, `u`.`WORK_POSITION`, `u`.`DATE_REGISTER`, `u`.`LAST_LOGIN`, `u`.`LAST_ACTIVITY_DATE`, CASE WHEN `department`.`VALUE_ID` IS NULL THEN 0 ELSE 1 END AS `HAS_DEPARTMENT_LINK` FROM `b_user` AS `u` LEFT JOIN (SELECT DISTINCT `VALUE_ID` FROM `b_utm_user` WHERE `FIELD_ID` = 40) AS `department` ON `department`.`VALUE_ID` = `u`.`ID` ORDER BY `u`.`ID`",
+      "extraction_sql_sha256": "b990b3ab1d67697f21b03ff97e05dbdf0072f87bb2b8490c22402075883e012c"
+    },
+    {
+      "query_id": "MIG-Q-B_USER_FIELD-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_user_field",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 366,
+      "expected_row_outcomes": 366,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "FIELD_NAME",
+        "USER_TYPE_ID",
+        "XML_ID",
+        "SORT",
+        "MULTIPLE",
+        "MANDATORY",
+        "SETTINGS"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "ENTITY_ID",
+        "FIELD_NAME",
+        "USER_TYPE_ID",
+        "XML_ID",
+        "SORT",
+        "MULTIPLE",
+        "MANDATORY",
+        "SETTINGS"
+      ],
+      "classification_rule": "all rows classified; 46 versioned custom-field definitions are included",
+      "selection_predicate_sql": "ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406)",
+      "classification_count_sql": "SELECT SUM(CASE WHEN ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406) THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406) THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_user_field`",
+      "classification_count_sql_sha256": "9d3d926ca24492232a02b6bba98b3259127fb928bc46172b5aca8ad79afea0d3",
+      "expected_selected_rows": 46,
+      "expected_excluded_rows": 320,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 46,
+        "excluded_rows": 320,
+        "conflict_rows": 0,
+        "baseline_rows": 366,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-field-definition-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 366,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_user_field`",
+      "extraction_sql": "SELECT `ID`, `ENTITY_ID`, `FIELD_NAME`, `USER_TYPE_ID`, `XML_ID`, `SORT`, `MULTIPLE`, `MANDATORY`, `SETTINGS` FROM `b_user_field` ORDER BY `ID`",
+      "extraction_sql_sha256": "983749b7528da94753a004e8fca524b080466ecc3d0ae6af7991db3bc6e77071"
+    },
+    {
+      "query_id": "MIG-Q-B_USER_FIELD_ENUM-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_user_field_enum",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 650,
+      "expected_row_outcomes": 650,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "USER_FIELD_ID",
+        "VALUE",
+        "DEF",
+        "SORT",
+        "XML_ID"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "USER_FIELD_ID",
+        "VALUE",
+        "DEF",
+        "SORT",
+        "XML_ID"
+      ],
+      "classification_rule": "all rows classified; enum values for fields 171, 200, 250, 356, 361 and 386 are included",
+      "selection_predicate_sql": "USER_FIELD_ID IN (171, 200, 250, 356, 361, 386)",
+      "classification_count_sql": "SELECT SUM(CASE WHEN USER_FIELD_ID IN (171, 200, 250, 356, 361, 386) THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN USER_FIELD_ID IN (171, 200, 250, 356, 361, 386) THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_user_field_enum`",
+      "classification_count_sql_sha256": "fa3ae527b2466d039171f18ab19a57c0bd3839846a8b2cede52699c02930ad3e",
+      "expected_selected_rows": 143,
+      "expected_excluded_rows": 507,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 143,
+        "excluded_rows": 507,
+        "conflict_rows": 0,
+        "baseline_rows": 650,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-enum-value-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 650,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_user_field_enum`",
+      "extraction_sql": "SELECT `ID`, `USER_FIELD_ID`, `VALUE`, `DEF`, `SORT`, `XML_ID` FROM `b_user_field_enum` ORDER BY `ID`",
+      "extraction_sql_sha256": "3dcff1d8931790997fbc554fe162ce2377db94877c9c3ee7a72a962a45876f1f"
+    },
+    {
+      "query_id": "MIG-Q-B_USER_FIELD_LANG-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_user_field_lang",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 660,
+      "expected_row_outcomes": 660,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "USER_FIELD_ID",
+          "LANGUAGE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "USER_FIELD_ID",
+        "LANGUAGE_ID",
+        "EDIT_FORM_LABEL",
+        "LIST_COLUMN_LABEL",
+        "LIST_FILTER_LABEL"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "USER_FIELD_ID",
+        "LANGUAGE_ID",
+        "EDIT_FORM_LABEL",
+        "LIST_COLUMN_LABEL",
+        "LIST_FILTER_LABEL"
+      ],
+      "classification_rule": "all rows classified; Russian labels for the 46 selected custom fields are included",
+      "selection_predicate_sql": "LANGUAGE_ID = 'ru' AND USER_FIELD_ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406)",
+      "classification_count_sql": "SELECT SUM(CASE WHEN LANGUAGE_ID = 'ru' AND USER_FIELD_ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406) THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN LANGUAGE_ID = 'ru' AND USER_FIELD_ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406) THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_user_field_lang`",
+      "classification_count_sql_sha256": "4cb6b4f4930de787386980a302ed8fa6985151f4b2090df33f65104fa0c8e412",
+      "expected_selected_rows": 46,
+      "expected_excluded_rows": 614,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 46,
+        "excluded_rows": 614,
+        "conflict_rows": 0,
+        "baseline_rows": 660,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "source-field-label-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 660,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_user_field_lang`",
+      "extraction_sql": "SELECT `USER_FIELD_ID`, `LANGUAGE_ID`, `EDIT_FORM_LABEL`, `LIST_COLUMN_LABEL`, `LIST_FILTER_LABEL` FROM `b_user_field_lang` ORDER BY `USER_FIELD_ID`, `LANGUAGE_ID`",
+      "extraction_sql_sha256": "e085e10fd7d578f8388edd3d072a70c6e4a52ee042095d84a559406aa54b943c"
+    },
+    {
+      "query_id": "MIG-Q-B_USER_GROUP-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_user_group",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 70,
+      "expected_row_outcomes": 70,
+      "source_key": {
+        "kind": "unique_index",
+        "constraint": "ix_user_group",
+        "columns": [
+          "USER_ID",
+          "GROUP_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "USER_ID",
+        "GROUP_ID",
+        "DATE_ACTIVE_FROM",
+        "DATE_ACTIVE_TO"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "USER_ID",
+        "GROUP_ID",
+        "DATE_ACTIVE_FROM",
+        "DATE_ACTIVE_TO"
+      ],
+      "classification_rule": "all rows as evidence",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_user_group`",
+      "classification_count_sql_sha256": "48dd10bb9cad764885abaa828c126675e8d58092ffa9410610a16a5e610f67ae",
+      "expected_selected_rows": 70,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 70,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 70,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "role-evidence-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 70,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_user_group`",
+      "extraction_sql": "SELECT `USER_ID`, `GROUP_ID`, `DATE_ACTIVE_FROM`, `DATE_ACTIVE_TO` FROM `b_user_group` ORDER BY `USER_ID`, `GROUP_ID`",
+      "extraction_sql_sha256": "eebd985361d7b68d2f2aabb38b5878744532a5bc0979aa4e5e6285efc667d242"
+    },
+    {
+      "query_id": "MIG-Q-B_UTM_CRM_CONTACT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_utm_crm_contact",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1370,
+      "expected_row_outcomes": 1370,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "classification_rule": "allowlisted multi-valued CRM fields",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_utm_crm_contact`",
+      "classification_count_sql_sha256": "94793671d0f07882538c2437a937397c47dc823ec807caf62f74205f6104ad69",
+      "expected_selected_rows": 1370,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1370,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1370,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "contact-multivalue-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1370,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_utm_crm_contact`",
+      "extraction_sql": "SELECT `ID`, `VALUE_ID`, `FIELD_ID`, `VALUE`, `VALUE_INT`, `VALUE_DOUBLE`, `VALUE_DATE` FROM `b_utm_crm_contact` ORDER BY `ID`",
+      "extraction_sql_sha256": "4c5b0583634916e58bf32533ab1dce410f89b69809d87cbf3c363f223b791f78"
+    },
+    {
+      "query_id": "MIG-Q-B_UTM_CRM_DEAL-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_utm_crm_deal",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1868,
+      "expected_row_outcomes": 1868,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "classification_rule": "allowlisted multi-valued deal fields",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_utm_crm_deal`",
+      "classification_count_sql_sha256": "8809628bda5145524d28a022136c36277e0e172b2daf68faa359e5a1ed3a9231",
+      "expected_selected_rows": 1868,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1868,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1868,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "deal-multivalue-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1868,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_utm_crm_deal`",
+      "extraction_sql": "SELECT `ID`, `VALUE_ID`, `FIELD_ID`, `VALUE`, `VALUE_INT`, `VALUE_DOUBLE`, `VALUE_DATE` FROM `b_utm_crm_deal` ORDER BY `ID`",
+      "extraction_sql_sha256": "86aa6e57153b033cd281b8d751f424dd3e2ebfa4dd8b70c72ce06254e5e632f4"
+    },
+    {
+      "query_id": "MIG-Q-B_UTM_CRM_TIMELINE-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_utm_crm_timeline",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 27,
+      "expected_row_outcomes": 27,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "classification_rule": "FIELD_ID=14 UF_CRM_COMMENT_FILES",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_utm_crm_timeline`",
+      "classification_count_sql_sha256": "efbabc725c1c014d1a4c61f491a5a435841eb80122b6b8834391eefea4795eff",
+      "expected_selected_rows": 27,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 27,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 27,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "crm-timeline-attachment-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 27,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_utm_crm_timeline`",
+      "extraction_sql": "SELECT `ID`, `VALUE_ID`, `FIELD_ID`, `VALUE_INT` FROM `b_utm_crm_timeline` ORDER BY `ID`",
+      "extraction_sql_sha256": "edda6069d57e9648c5e44c761b3ca3d748957b0e4fe0e6ea098d5b752ec24d65"
+    },
+    {
+      "query_id": "MIG-Q-B_UTM_USER-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_utm_user",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 29,
+      "expected_row_outcomes": 29,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "classification_rule": "UF_DEPARTMENT values",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_utm_user`",
+      "classification_count_sql_sha256": "8650f531945f25f44b7a7346bfe6262d6d5b0231a76460f4d5061bf034457015",
+      "expected_selected_rows": 29,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 29,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 29,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "employee-unit-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 29,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_utm_user`",
+      "extraction_sql": "SELECT `ID`, `VALUE_ID`, `FIELD_ID`, `VALUE_INT` FROM `b_utm_user` ORDER BY `ID`",
+      "extraction_sql_sha256": "c5d24f910fe80d4e2a70656714a3d66514a82edc80a3bc38cdaf9d795a636d0c"
+    },
+    {
+      "query_id": "MIG-Q-B_UTS_CRM_CONTACT-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_uts_crm_contact",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 3186,
+      "expected_row_outcomes": 3186,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "VALUE_ID",
+        "UF_CRM_1739523138",
+        "UF_CRM_1742294677003",
+        "UF_CRM_1741079182998",
+        "UF_CRM_1746464685417",
+        "UF_CRM_1740391753843",
+        "UF_CRM_1772658002",
+        "UF_CRM_1760617147",
+        "UF_CRM_1739527814",
+        "UF_CRM_1739527830",
+        "UF_CRM_1741078462909",
+        "UF_CRM_1741078526352",
+        "UF_CRM_1739525055",
+        "UF_CRM_1739525147"
+      ],
+      "quarantine_columns": [
+        "UF_CRM_1739523543",
+        "UF_CRM_1739523580",
+        "UF_CRM_1739527974",
+        "UF_CRM_1739527981",
+        "UF_CRM_1739527998",
+        "UF_CRM_1739528005",
+        "UF_CRM_1739528011",
+        "UF_CRM_1739528018",
+        "UF_CRM_1739528075",
+        "UF_CRM_1739528082",
+        "UF_CRM_1739528094",
+        "UF_CRM_1739528102",
+        "UF_CRM_1740040915825",
+        "UF_CRM_1740044077213",
+        "UF_CRM_1740048364411",
+        "UF_CRM_1740048395522",
+        "UF_CRM_1740048519651",
+        "UF_CRM_1740048540802",
+        "UF_CRM_1740132832",
+        "UF_CRM_1741082133807",
+        "UF_CRM_1741676375374",
+        "UF_CRM_1742295017163",
+        "UF_CRM_1742380309798",
+        "UF_CRM_1742467303909",
+        "UF_CRM_1742469388976",
+        "UF_CRM_1752227910571",
+        "UF_CRM_1752227934739",
+        "UF_CRM_1752228066795",
+        "UF_CRM_1752228102627",
+        "UF_CRM_1752228197739",
+        "UF_CRM_1752228469231",
+        "UF_CRM_1754386170222",
+        "UF_CRM_1754466933161",
+        "UF_CRM_1769003481790",
+        "UF_CRM_1769154350",
+        "UF_CRM_1769167267",
+        "UF_CRM_SW24_DEALS_COUNT"
+      ],
+      "extraction_columns": [
+        "VALUE_ID",
+        "UF_CRM_1739523138",
+        "UF_CRM_1742294677003",
+        "UF_CRM_1741079182998",
+        "UF_CRM_1746464685417",
+        "UF_CRM_1740391753843",
+        "UF_CRM_1772658002",
+        "UF_CRM_1760617147",
+        "UF_CRM_1739527814",
+        "UF_CRM_1739527830",
+        "UF_CRM_1741078462909",
+        "UF_CRM_1741078526352",
+        "UF_CRM_1739525055",
+        "UF_CRM_1739525147",
+        "UF_CRM_1739523543",
+        "UF_CRM_1739523580",
+        "UF_CRM_1739527974",
+        "UF_CRM_1739527981",
+        "UF_CRM_1739527998",
+        "UF_CRM_1739528005",
+        "UF_CRM_1739528011",
+        "UF_CRM_1739528018",
+        "UF_CRM_1739528075",
+        "UF_CRM_1739528082",
+        "UF_CRM_1739528094",
+        "UF_CRM_1739528102",
+        "UF_CRM_1740040915825",
+        "UF_CRM_1740044077213",
+        "UF_CRM_1740048364411",
+        "UF_CRM_1740048395522",
+        "UF_CRM_1740048519651",
+        "UF_CRM_1740048540802",
+        "UF_CRM_1740132832",
+        "UF_CRM_1741082133807",
+        "UF_CRM_1741676375374",
+        "UF_CRM_1742295017163",
+        "UF_CRM_1742380309798",
+        "UF_CRM_1742467303909",
+        "UF_CRM_1742469388976",
+        "UF_CRM_1752227910571",
+        "UF_CRM_1752227934739",
+        "UF_CRM_1752228066795",
+        "UF_CRM_1752228102627",
+        "UF_CRM_1752228197739",
+        "UF_CRM_1752228469231",
+        "UF_CRM_1754386170222",
+        "UF_CRM_1754466933161",
+        "UF_CRM_1769003481790",
+        "UF_CRM_1769154350",
+        "UF_CRM_1769167267",
+        "UF_CRM_SW24_DEALS_COUNT"
+      ],
+      "classification_rule": "all rows; only allowlisted custom fields",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_uts_crm_contact`",
+      "classification_count_sql_sha256": "865f18c36b3c4b06b454f7a7874a334e7c57be93a159c41585db3d79e98c6133",
+      "expected_selected_rows": 3186,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 3186,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3186,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "contact-custom-fields-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 3186,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_uts_crm_contact`",
+      "extraction_sql": "SELECT `VALUE_ID`, `UF_CRM_1739523138`, `UF_CRM_1742294677003`, `UF_CRM_1741079182998`, `UF_CRM_1746464685417`, `UF_CRM_1740391753843`, `UF_CRM_1772658002`, `UF_CRM_1760617147`, `UF_CRM_1739527814`, `UF_CRM_1739527830`, `UF_CRM_1741078462909`, `UF_CRM_1741078526352`, `UF_CRM_1739525055`, `UF_CRM_1739525147`, `UF_CRM_1739523543`, `UF_CRM_1739523580`, `UF_CRM_1739527974`, `UF_CRM_1739527981`, `UF_CRM_1739527998`, `UF_CRM_1739528005`, `UF_CRM_1739528011`, `UF_CRM_1739528018`, `UF_CRM_1739528075`, `UF_CRM_1739528082`, `UF_CRM_1739528094`, `UF_CRM_1739528102`, `UF_CRM_1740040915825`, `UF_CRM_1740044077213`, `UF_CRM_1740048364411`, `UF_CRM_1740048395522`, `UF_CRM_1740048519651`, `UF_CRM_1740048540802`, `UF_CRM_1740132832`, `UF_CRM_1741082133807`, `UF_CRM_1741676375374`, `UF_CRM_1742295017163`, `UF_CRM_1742380309798`, `UF_CRM_1742467303909`, `UF_CRM_1742469388976`, `UF_CRM_1752227910571`, `UF_CRM_1752227934739`, `UF_CRM_1752228066795`, `UF_CRM_1752228102627`, `UF_CRM_1752228197739`, `UF_CRM_1752228469231`, `UF_CRM_1754386170222`, `UF_CRM_1754466933161`, `UF_CRM_1769003481790`, `UF_CRM_1769154350`, `UF_CRM_1769167267`, `UF_CRM_SW24_DEALS_COUNT` FROM `b_uts_crm_contact` ORDER BY `VALUE_ID`",
+      "extraction_sql_sha256": "9df0a15cec9a62814f139f92438e6aaa6533c8d385006afcdffc12444676dbde"
+    },
+    {
+      "query_id": "MIG-Q-B_UTS_CRM_DEAL-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_uts_crm_deal",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 1898,
+      "expected_row_outcomes": 1898,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "VALUE_ID",
+        "UF_CRM_1742469270280",
+        "UF_CRM_1742550450292",
+        "UF_CRM_1768909094",
+        "UF_CRM_1753863368307",
+        "UF_CRM_1774964823614",
+        "UF_CRM_1753863405091",
+        "UF_CRM_1753863435404",
+        "UF_CRM_1760952900341",
+        "UF_CRM_1760966132418",
+        "UF_CRM_1760954707",
+        "UF_CRM_1760954734989",
+        "UF_CRM_1760955367445",
+        "UF_CRM_1760955131",
+        "UF_CRM_1760965805010",
+        "UF_CRM_1772658211",
+        "UF_CRM_1769425500",
+        "UF_CRM_1771334896"
+      ],
+      "quarantine_columns": [
+        "UF_CRM_1760949864184",
+        "UF_CRM_1760965847353",
+        "UF_CRM_1760965864305",
+        "UF_CRM_1760965965578",
+        "UF_CRM_1763969920020",
+        "UF_CRM_1764054233873",
+        "UF_CRM_1764054361312",
+        "UF_CRM_1764054532841",
+        "UF_CRM_1764055477599",
+        "UF_CRM_1764055643832",
+        "UF_CRM_RFEV26192",
+        "UF_CRM_1768812065",
+        "UF_CRM_1769068804758",
+        "UF_CRM_1769437402774",
+        "UF_CRM_1769686883",
+        "UF_CRM_1772456363",
+        "UF_CRM_1772457542",
+        "UF_CRM_1772607874",
+        "UF_CRM_1772607933",
+        "UF_CRM_1772608012",
+        "UF_CRM_1772608094",
+        "UF_CRM_1773653118301",
+        "UF_CRM_1773672469764",
+        "UF_CRM_1775564513",
+        "UF_CRM_1780303189841",
+        "UF_CRM_1780646458701"
+      ],
+      "extraction_columns": [
+        "VALUE_ID",
+        "UF_CRM_1742469270280",
+        "UF_CRM_1742550450292",
+        "UF_CRM_1768909094",
+        "UF_CRM_1753863368307",
+        "UF_CRM_1774964823614",
+        "UF_CRM_1753863405091",
+        "UF_CRM_1753863435404",
+        "UF_CRM_1760952900341",
+        "UF_CRM_1760966132418",
+        "UF_CRM_1760954707",
+        "UF_CRM_1760954734989",
+        "UF_CRM_1760955367445",
+        "UF_CRM_1760955131",
+        "UF_CRM_1760965805010",
+        "UF_CRM_1772658211",
+        "UF_CRM_1769425500",
+        "UF_CRM_1771334896",
+        "UF_CRM_1760949864184",
+        "UF_CRM_1760965847353",
+        "UF_CRM_1760965864305",
+        "UF_CRM_1760965965578",
+        "UF_CRM_1763969920020",
+        "UF_CRM_1764054233873",
+        "UF_CRM_1764054361312",
+        "UF_CRM_1764054532841",
+        "UF_CRM_1764055477599",
+        "UF_CRM_1764055643832",
+        "UF_CRM_RFEV26192",
+        "UF_CRM_1768812065",
+        "UF_CRM_1769068804758",
+        "UF_CRM_1769437402774",
+        "UF_CRM_1769686883",
+        "UF_CRM_1772456363",
+        "UF_CRM_1772457542",
+        "UF_CRM_1772607874",
+        "UF_CRM_1772607933",
+        "UF_CRM_1772608012",
+        "UF_CRM_1772608094",
+        "UF_CRM_1773653118301",
+        "UF_CRM_1773672469764",
+        "UF_CRM_1775564513",
+        "UF_CRM_1780303189841",
+        "UF_CRM_1780646458701"
+      ],
+      "classification_rule": "all rows; allowlisted custom fields only",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_uts_crm_deal`",
+      "classification_count_sql_sha256": "bbeb0a61efe10db9450da7abc20e1480602f5b71161345996c2a39ddd5c4aa7c",
+      "expected_selected_rows": 1898,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 1898,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1898,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "deal-custom-fields-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 1898,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_uts_crm_deal`",
+      "extraction_sql": "SELECT `VALUE_ID`, `UF_CRM_1742469270280`, `UF_CRM_1742550450292`, `UF_CRM_1768909094`, `UF_CRM_1753863368307`, `UF_CRM_1774964823614`, `UF_CRM_1753863405091`, `UF_CRM_1753863435404`, `UF_CRM_1760952900341`, `UF_CRM_1760966132418`, `UF_CRM_1760954707`, `UF_CRM_1760954734989`, `UF_CRM_1760955367445`, `UF_CRM_1760955131`, `UF_CRM_1760965805010`, `UF_CRM_1772658211`, `UF_CRM_1769425500`, `UF_CRM_1771334896`, `UF_CRM_1760949864184`, `UF_CRM_1760965847353`, `UF_CRM_1760965864305`, `UF_CRM_1760965965578`, `UF_CRM_1763969920020`, `UF_CRM_1764054233873`, `UF_CRM_1764054361312`, `UF_CRM_1764054532841`, `UF_CRM_1764055477599`, `UF_CRM_1764055643832`, `UF_CRM_RFEV26192`, `UF_CRM_1768812065`, `UF_CRM_1769068804758`, `UF_CRM_1769437402774`, `UF_CRM_1769686883`, `UF_CRM_1772456363`, `UF_CRM_1772457542`, `UF_CRM_1772607874`, `UF_CRM_1772607933`, `UF_CRM_1772608012`, `UF_CRM_1772608094`, `UF_CRM_1773653118301`, `UF_CRM_1773672469764`, `UF_CRM_1775564513`, `UF_CRM_1780303189841`, `UF_CRM_1780646458701` FROM `b_uts_crm_deal` ORDER BY `VALUE_ID`",
+      "extraction_sql_sha256": "a03b2cfedec4db8c4bb4bf00fe39050c6ec98a1ed7da830d6f981cf0d511cea2"
+    },
+    {
+      "query_id": "MIG-Q-B_UTS_IBLOCK_3_SECTION-V1",
+      "query_kind": "source_extract",
+      "result_type": "rowset",
+      "source_table": "b_uts_iblock_3_section",
+      "coverage_scope": "all_source_rows",
+      "expected_source_rows": 5,
+      "expected_row_outcomes": 5,
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "canonical_selected_columns": [
+        "VALUE_ID",
+        "UF_HEAD"
+      ],
+      "quarantine_columns": [],
+      "extraction_columns": [
+        "VALUE_ID",
+        "UF_HEAD"
+      ],
+      "classification_rule": "all rows",
+      "selection_predicate_sql": "1 = 1",
+      "classification_count_sql": "SELECT SUM(CASE WHEN 1 = 1 THEN 1 ELSE 0 END) AS selected_rows, SUM(CASE WHEN 1 = 1 THEN 0 ELSE 1 END) AS excluded_rows, 0 AS conflict_rows, COUNT(*) AS baseline_rows FROM `b_uts_iblock_3_section`",
+      "classification_count_sql_sha256": "92600c9c6902c4b192cb3d7691869096a1c304242b688d627c7b68e2efa331cc",
+      "expected_selected_rows": 5,
+      "expected_excluded_rows": 0,
+      "expected_conflict_rows": 0,
+      "classification_balance": {
+        "selected_rows": 5,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 5,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger",
+      "transform_version": "organization-unit-head-v1",
+      "expected_rule": {
+        "operator": "row_count_equals",
+        "value": 5,
+        "blocking": true
+      },
+      "count_sql": "SELECT COUNT(*) AS source_rows FROM `b_uts_iblock_3_section`",
+      "extraction_sql": "SELECT `VALUE_ID`, `UF_HEAD` FROM `b_uts_iblock_3_section` ORDER BY `VALUE_ID`",
+      "extraction_sql_sha256": "2c41a46867ace60707b90190c8a2f851df17cf54e448617d215a5fe822349c56"
+    },
+    {
+      "query_id": "MIG-Q-ACTIVITIES-001",
+      "query_kind": "referential_integrity",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_act",
+        "b_crm_act_bind",
+        "b_crm_act_comm",
+        "b_crm_act_elem"
+      ],
+      "metric": "activity_target_and_delivery_coverage",
+      "expected_rule": {
+        "operator": "all_selected_rows_have_target_or_reasoned_exclusion",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-10"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-CASEPERSON-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_deal",
+        "b_crm_deal_contact",
+        "b_crm_event_relations"
+      ],
+      "metric": "deal_candidate_resolution",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "direct": 1514,
+          "event_recovered": 2,
+          "explicit_conflict": 383,
+          "total": 1899
+        },
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-03"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-CONFLICT-001",
+      "query_kind": "cutover_invariant",
+      "result_type": "integer",
+      "source_tables": [],
+      "metric": "unresolved_blocking_migration_conflicts",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-02"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-CRM-001",
+      "query_kind": "coverage",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_company",
+        "b_crm_deal",
+        "b_crm_dynamic_items_1042",
+        "b_crm_act",
+        "b_crm_event",
+        "b_crm_timeline"
+      ],
+      "metric": "crm_domain_row_outcomes",
+      "expected_rule": {
+        "operator": "all_manifest_rows_have_exactly_one_outcome",
+        "denominator_ref": "migration-scope-manifest.json#row_outcome_contract",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-07"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-DASH-001",
+      "query_kind": "target_consistency",
+      "result_type": "boolean",
+      "source_tables": [],
+      "metric": "dashboard_aggregates_match_canonical_queries",
+      "expected_rule": {
+        "operator": "is_true",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-11"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-DEALS-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_deal",
+        "b_crm_deal_category",
+        "b_crm_status"
+      ],
+      "metric": "deal_category_and_stage_distribution",
+      "expected_rule": {
+        "operator": "equals_source_field_map_distribution",
+        "reference": "source-field-map.json#/funnel_categories",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-01"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-DUPLICATES-001",
+      "query_kind": "safety_invariant",
+      "result_type": "integer",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_field_multi"
+      ],
+      "metric": "automatic_merges_without_approved_decision",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-05"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-EMPLOYEE-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_user",
+        "b_utm_user",
+        "b_iblock_section",
+        "b_uts_iblock_3_section"
+      ],
+      "metric": "legacy_actor_and_employee_classification",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "legacy_actor_outcomes": 218,
+          "employee_candidates": 20,
+          "department_assignments": 29,
+          "department_units": 5,
+          "department_heads": 5
+        },
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-05"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-FILES-001",
+      "query_kind": "file_integrity",
+      "result_type": "object",
+      "source_tables": [
+        "b_file",
+        "b_file_hash",
+        "b_disk_object",
+        "b_disk_version",
+        "b_disk_attached_object",
+        "b_disk_right",
+        "b_disk_simple_right",
+        "b_disk_sharing",
+        "b_disk_storage"
+      ],
+      "metric": "file_migration_mode_compliance",
+      "expected_rule": {
+        "operator": "satisfies_file_mode_contract",
+        "reference": "migration-scope-manifest.json#/file_migration_contract",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-09"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-MANIFEST-001",
+      "query_kind": "source_snapshot_integrity",
+      "result_type": "boolean",
+      "source_tables": [],
+      "metric": "snapshot_schema_counts_and_manifest_match",
+      "expected_rule": {
+        "operator": "is_true",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-01"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-OWNERS-001",
+      "query_kind": "signed_record_reconciliation",
+      "result_type": "object",
+      "source_tables": [
+        "b_user",
+        "b_crm_contact",
+        "b_crm_company",
+        "b_crm_deal",
+        "b_crm_dynamic_items_1042",
+        "b_tasks"
+      ],
+      "metric": "inactive_operational_owner_signed_outcomes",
+      "classifier_id": "inactive-operational-owner-v1",
+      "executor_id": "migration.reconcile_inactive_operational_owners.v1",
+      "baseline": {
+        "contacts": 458,
+        "deals": 70,
+        "companies": 88,
+        "employer_referrals": 0,
+        "tasks": 1,
+        "total": 617,
+        "unresolved": 0
+      },
+      "per_record_outcome_contract_ref": "migration-scope-manifest.json#/inactive_owner_resolution_contract",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "contacts": 458,
+          "deals": 70,
+          "companies": 88,
+          "employer_referrals": 0,
+          "tasks": 1,
+          "total": 617,
+          "unresolved": 0
+        },
+        "per_record_signed_outcomes": 617,
+        "unresolved": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "SA-02"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-PMROLES-001",
+      "query_kind": "authorization_invariant",
+      "result_type": "integer",
+      "source_tables": [],
+      "metric": "invalid_project_role_assignments",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "PM-06"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-PMSTATUS-001",
+      "query_kind": "state_machine_invariant",
+      "result_type": "integer",
+      "source_tables": [],
+      "metric": "project_task_transitions_outside_catalog",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "PM-03"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-PMTASK-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [
+        "b_tasks",
+        "b_tasks_member"
+      ],
+      "metric": "project_tasks_with_invalid_hierarchy_or_executor",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "PM-02"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-PROJECTS-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [],
+      "metric": "projects_with_invalid_direction_or_archive_history",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "PM-01"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-RECOMMENDER-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_deal",
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ],
+      "metric": "unresolved_recommender_or_document_references",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-06"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-RECON-001",
+      "query_kind": "cutover_invariant",
+      "result_type": "boolean",
+      "source_tables": [],
+      "metric": "reconciliation_freeze_delta_and_rollback_evidence_complete",
+      "expected_rule": {
+        "operator": "is_true",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "ACC-01",
+        "MIG-03"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-REFERRALS-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_dynamic_items_1042",
+        "b_crm_entity_relation",
+        "b_crm_company"
+      ],
+      "metric": "employer_referral_outcomes",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "total": 1808,
+          "complete": 1795,
+          "explicit_conflict": 13
+        },
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-07"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-RELATIONS-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [
+        "b_utm_user",
+        "b_user_group",
+        "b_crm_deal_contact",
+        "b_crm_entity_relation",
+        "b_tasks_member"
+      ],
+      "metric": "selected_relations_without_target_or_explicit_outcome",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-06"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-RELOCATION-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_crm_deal",
+        "b_uts_crm_deal",
+        "b_utm_crm_deal",
+        "b_crm_status"
+      ],
+      "metric": "relocation_case_distribution",
+      "expected_rule": {
+        "operator": "equals_source_field_map_distribution",
+        "reference": "source-field-map.json#/stages/DEAL_STAGE_2~1category_2",
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-08"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-REPORT-001",
+      "query_kind": "target_consistency",
+      "result_type": "integer",
+      "source_tables": [],
+      "metric": "report_runs_with_unversioned_formula_or_nonreproducible_result",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-12"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-ROLES-001",
+      "query_kind": "authorization_invariant",
+      "result_type": "integer",
+      "source_tables": [
+        "b_group",
+        "b_user_group"
+      ],
+      "metric": "target_role_grants_without_approved_policy_evidence",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "SA-03"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-SECRET-001",
+      "query_kind": "security_scan",
+      "result_type": "integer",
+      "source_tables": [
+        "b_user"
+      ],
+      "metric": "legacy_secrets_in_target_or_export_artifacts",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-08"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-SOURCE-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_deal",
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ],
+      "metric": "cases_missing_required_source_or_consent_snapshot_provenance",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-04"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-STAGES-001",
+      "query_kind": "state_machine_invariant",
+      "result_type": "integer",
+      "source_tables": [
+        "b_crm_deal",
+        "b_crm_status",
+        "b_crm_dynamic_items_1042"
+      ],
+      "metric": "source_stage_codes_without_versioned_target_mapping",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-02"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-TASKCLASS-001",
+      "query_kind": "classification_invariant",
+      "result_type": "object",
+      "source_tables": [
+        "b_tasks",
+        "b_tasks_member"
+      ],
+      "metric": "legacy_task_classification",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "crm_only": 39,
+          "project_only": 23,
+          "dual_use_review": 21,
+          "neither": 6,
+          "total": 89
+        },
+        "blocking": true
+      },
+      "requirement_ids": [
+        "PLT-01"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-TASKS-001",
+      "query_kind": "referential_integrity",
+      "result_type": "integer",
+      "source_tables": [
+        "b_tasks",
+        "b_tasks_member"
+      ],
+      "metric": "crm_tasks_without_history_or_responsible_outcome",
+      "expected_rule": {
+        "operator": "equals",
+        "value": 0,
+        "blocking": true
+      },
+      "requirement_ids": [
+        "CRM-09"
+      ]
+    },
+    {
+      "query_id": "MIG-Q-USERS-001",
+      "query_kind": "reconciliation_aggregate",
+      "result_type": "object",
+      "source_tables": [
+        "b_user",
+        "b_utm_user",
+        "b_iblock_section"
+      ],
+      "metric": "legacy_user_outcomes",
+      "expected_rule": {
+        "operator": "equals_object",
+        "value": {
+          "total": 218,
+          "employee_candidates": 20,
+          "connector_actors": 191,
+          "bot_actors": 6,
+          "anonymous_actors": 1
+        },
+        "blocking": true
+      },
+      "requirement_ids": [
+        "MIG-04",
+        "SA-01"
+      ]
+    }
+  ]
+}

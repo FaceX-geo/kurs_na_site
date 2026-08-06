@@ -5,12 +5,16 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        RELEASE_SHA: ${RELEASE_SHA:-development}
     env_file:
       - path: .env.local
         required: false
-    image: kurs-na-site:local
+    image: ${LANDING_IMAGE:-kurs-na-site:local}
     container_name: kurs_na_site
     restart: unless-stopped
+    labels:
+      facex.release.sha: ${RELEASE_SHA:-development}
     ports:
       - "8105:80"
     healthcheck:

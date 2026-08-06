@@ -1,4 +1,8 @@
-import ApiClient, { ApiError } from "./api-client.js?v=20260806-1";
+import ApiClient, {
+  ApiError,
+  bindSubmitAttemptPayload,
+  createSubmitAttempt,
+} from "./api-client.js?v=20260806-3";
 import { initAurora } from "./aurora.js?v=20260731-5";
 import { isPublishedMapPoint, projectLonLat } from "./map-geometry.js?v=20260729-1";
 import {
@@ -10,20 +14,14 @@ import {
   normalizeVacancy,
 } from "./application-rules.js?v=20260806-1";
 
+const PUBLIC_API_BASE_URL = "/public/v1";
+const PRIVACY_POLICY_VERSION = "landing-inline-2026-08-06";
+
 const apiClient = new ApiClient({
-  baseUrl: "/api/v1",
+  baseUrl: PUBLIC_API_BASE_URL,
   maxRetries: 2,
   retryDelayMs: 350,
 });
-
-const fallbackSpheres = [
-  { value: "education", label: "Образование" },
-  { value: "medicine", label: "Медицина" },
-  { value: "engineering", label: "Техническая специальность" },
-  { value: "civil", label: "Гражданская служба" },
-  { value: "government", label: "Государственная служба" },
-  { value: "military", label: "Военная служба" },
-];
 
 const supportContent = {
   general: {
@@ -387,8 +385,10 @@ const storyContent = {
 const state = {
   formStep: 1,
   resumeFileId: null,
+  resumeFileBindingToken: null,
   resumeAttachment: { file: null, source: "" },
   formSubmitting: false,
+  submitAttempt: null,
   applicationContext: {
     source: "direct",
     vacancyId: "",
@@ -410,6 +410,10 @@ function qsa(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
 }
 
+function invalidateSubmitAttempt() {
+  state.submitAttempt = null;
+}
+
 function setResumeAttachment(file, source = "upload") {
   const form = qs("#application-form");
   const input = qs("#resume", form || document);
@@ -420,6 +424,8 @@ function setResumeAttachment(file, source = "upload") {
     source: file instanceof File ? source : "",
   };
   state.resumeFileId = null;
+  state.resumeFileBindingToken = null;
+  invalidateSubmitAttempt();
 
   if (source === "builder" && input) {
     input.value = "";
@@ -427,7 +433,7 @@ function setResumeAttachment(file, source = "upload") {
   if (fileName) {
     fileName.textContent = file instanceof File
       ? `${file.name} · прикреплено к заявке`
-      : "PDF, DOC или DOCX до 10 МБ";
+      : "PDF, DOC, DOCX или RTF до 10 МБ";
   }
   if (form && file instanceof File) {
     setFieldError(form, "resume", "");
@@ -651,9 +657,7 @@ function initVacancies() {
     try {
       const remote = await apiClient.getVacancies(sector, signal);
       const normalizedRemote = remote.map(normalizeVacancy).filter((item) => item?.published);
-      if (normalizedRemote.length) {
-        return { items: normalizedRemote, source: "api", updatedAt: "" };
-      }
+      return { items: normalizedRemote, source: "api", updatedAt: "" };
     } catch (error) {
       if (error?.name === "AbortError") {
         throw error;
@@ -871,6 +875,7 @@ function updateCityPanel(city) {
 
 async function fetchJson(url) {
   const response = await fetch(url, {
+    credentials: "omit",
     headers: { Accept: "application/json" },
   });
   const contentType = response.headers.get("content-type") || "";
@@ -883,7 +888,7 @@ async function fetchJson(url) {
 }
 
 async function loadMapPoints() {
-  const sources = ["/api/v1/map-points", "assets/data/map-points.json"];
+  const sources = [`${PUBLIC_API_BASE_URL}/map-points`, "assets/data/map-points.json"];
 
   for (const source of sources) {
     try {
@@ -2494,37 +2499,64 @@ function collectUTM() {
   return ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"]
     .reduce((result, key) => {
       if (search.get(key)) {
-        result[key] = search.get(key);
+        result[key] = search.get(key).slice(0, 300);
       }
       return result;
     }, {});
 }
 
-function createFingerprint() {
-  const source = [
-    navigator.userAgent || "",
-    navigator.language || "",
-    Intl.DateTimeFormat().resolvedOptions().timeZone || "",
-    window.screen.width,
-    window.screen.height,
-  ].join("|");
-  let hash = 0;
-  for (let index = 0; index < source.length; index += 1) {
-    hash = (hash << 5) - hash + source.charCodeAt(index);
-    hash |= 0;
-  }
-  return `fp_${Math.abs(hash)}`;
+function collectClickIds() {
+  const search = new URLSearchParams(window.location.search);
+  return [
+    ["yclid", "yclid"],
+    ["gclid", "gclid"],
+    ["vk_click_id", "vkClickId"],
+  ].reduce((result, [queryKey, contractKey]) => {
+    const value = search.get(queryKey);
+    if (value) result[contractKey] = value.slice(0, 512);
+    return result;
+  }, {});
+}
+
+function collectSubmissionMeta(submittedAt) {
+  const consentState = document.documentElement.dataset.cookieConsent;
+  const utm = collectUTM();
+  const clickIds = collectClickIds();
+  const landingUrl = window.location.href.slice(0, 2_048);
+  return {
+    source: "web",
+    entryPoint: { ...state.applicationContext },
+    utm,
+    timestamp: submittedAt,
+    ...(consentState === "necessary" || consentState === "all" ? { consentState } : {}),
+    landing: {
+      host: window.location.hostname.slice(0, 253),
+      path: `${window.location.pathname}${window.location.search}`.slice(0, 2_048),
+      url: landingUrl,
+    },
+    attribution: {
+      lastTouch: {
+        capturedAt: submittedAt,
+        landingUrl,
+        referrer: document.referrer.slice(0, 2_048),
+        utm,
+        clickIds,
+      },
+    },
+  };
 }
 
 async function loadSpheres(select) {
-  let items = fallbackSpheres;
+  let items = [];
   try {
-    const remote = await apiClient.getSpheres();
-    if (remote.length) {
-      items = remote;
-    }
+    items = await apiClient.getSpheres();
   } catch {
-    items = fallbackSpheres;
+    try {
+      const registry = await fetchJson(new URL("../assets/data/spheres.json", import.meta.url));
+      items = Array.isArray(registry.items) ? registry.items : [];
+    } catch {
+      items = [];
+    }
   }
 
   items = items.filter((item) => (item.value || item.id || item.code) !== "students");
@@ -2543,6 +2575,7 @@ async function loadSpheres(select) {
 }
 
 function clearApplicationVacancyContext(form, applicantType, source = "route-switch") {
+  invalidateSubmitAttempt();
   const vacancyIdInput = qs("#vacancyId", form);
   const vacancySectorInput = qs("#vacancySector", form);
   const context = qs("[data-application-context]", form);
@@ -2583,6 +2616,7 @@ function prefillApplication({
   if (!form) {
     return;
   }
+  invalidateSubmitAttempt();
 
   const resolvedApplicantType = applicantType || (sphere === "students" ? "student" : "relocation");
   setApplicantTypeMode(form, resolvedApplicantType);
@@ -2702,7 +2736,11 @@ function initApplicationForm() {
     setResumeAttachment(selected || null, selected ? "upload" : "");
   });
 
-  form.addEventListener("input", () => hideFormFeedback(form));
+  form.addEventListener("input", () => {
+    invalidateSubmitAttempt();
+    hideFormFeedback(form);
+  });
+  form.addEventListener("change", invalidateSubmitAttempt);
 
   next.addEventListener("click", () => {
     clearErrors(form);
@@ -2776,15 +2814,21 @@ function initApplicationForm() {
         clearApplicationVacancyContext(form, applicantType);
       }
       state.applicationContext.applicantType = applicantType;
+      const attempt = state.submitAttempt ?? createSubmitAttempt();
+      state.submitAttempt = attempt;
 
       const resume = state.resumeAttachment.file || file.files?.[0];
       if (resume && !state.resumeFileId) {
-        state.resumeFileId = await apiClient.uploadFile(resume);
+        const uploadReceipt = await apiClient.uploadFile(resume, undefined, attempt.keys.upload);
+        state.resumeFileId = uploadReceipt.fileId;
+        state.resumeFileBindingToken = uploadReceipt.bindingToken;
       }
 
       const normalizedSalary = digitsOnly(qs("#wishSalary", form).value);
+      const submittedAt = attempt.submittedAt;
 
-      const payload = {
+      const payload = bindSubmitAttemptPayload(attempt, {
+        schemaVersion: "landing.application@1",
         personal: {
           surname: qs("#surname", form).value.trim(),
           name: qs("#name", form).value.trim(),
@@ -2829,20 +2873,18 @@ function initApplicationForm() {
         },
         consents: {
           privacyAccepted: qs("#agreeTerms", form).checked,
+          privacyPolicyVersion: PRIVACY_POLICY_VERSION,
+          acceptedAt: submittedAt,
         },
         attachments: {
           resumeFileId: state.resumeFileId,
+          resumeFileBindingToken: state.resumeFileBindingToken,
         },
-        meta: {
-          source: "web",
-          entryPoint: state.applicationContext,
-          utm: collectUTM(),
-          timestamp: new Date().toISOString(),
-          clientFingerprint: createFingerprint(),
-        },
-      };
+        meta: collectSubmissionMeta(submittedAt),
+      });
 
-      await apiClient.submitApplication(payload);
+      await apiClient.submitApplication(payload, undefined, attempt.keys.application);
+      state.submitAttempt = null;
       form.reset();
       setResumeAttachment(null);
       clearApplicationVacancyContext(form, "relocation", "direct");
@@ -2860,9 +2902,12 @@ function initApplicationForm() {
             privacyAccepted: "agreeTerms",
             referralCode: "referral",
             resumeFileId: "resume",
+            resumeFileBindingToken: "resume",
+            file: "resume",
             institution: "studentInstitution",
             specialty: "studentSpecialty",
             status: "studentStatus",
+            practicePeriod: "practiceStart",
             start: "practiceStart",
             end: "practiceEnd",
           };

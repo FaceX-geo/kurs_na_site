@@ -1,6 +1,10 @@
 .git
 .gitignore
 .DS_Store
+**/node_modules
+**/dist
+**/coverage
+apps/crm-backend/var
 README.md
 docs
 tmp

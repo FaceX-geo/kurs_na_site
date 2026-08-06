@@ -1,0 +1,1036 @@
+{
+  "catalog_version": "1.1.0",
+  "concurrency": "optimistic",
+  "version_conflict": {
+    "http_status": 409,
+    "code": "VERSION_CONFLICT"
+  },
+  "transactional_invariants": [
+    "aggregate_update",
+    "aggregate_history",
+    "mandatory_audit_event",
+    "required_outbox_event"
+  ],
+  "unknown_transition": "deny",
+  "selector_schema": {
+    "single_state": "from/to",
+    "state_group": "from_set/to_set",
+    "wildcards_and_pipe_composites": "forbidden",
+    "to_set_requires": ["target_state_field", "target_guard"]
+  },
+  "state_machines": {
+    "crm_relocation_case": {
+      "initial_state": "new",
+      "terminal_states": [],
+      "states": [
+        "new",
+        "qualification",
+        "documents",
+        "employer_selection",
+        "employer_review",
+        "offer",
+        "relocation_preparation",
+        "moved",
+        "closed_unsuccessful"
+      ],
+      "state_sets": {
+        "open": [
+          "new",
+          "qualification",
+          "documents",
+          "employer_selection",
+          "employer_review",
+          "offer",
+          "relocation_preparation"
+        ],
+        "reopen_targets": [
+          "new",
+          "qualification",
+          "documents",
+          "employer_selection",
+          "employer_review",
+          "offer",
+          "relocation_preparation"
+        ]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "new",
+          "permission": "crm.case.create",
+          "required": ["application", "source", "consent_version"]
+        },
+        {
+          "from": "new",
+          "to": "qualification",
+          "permission": "crm.case.transition",
+          "required": ["owner_id", "next_step"]
+        },
+        {
+          "from": "qualification",
+          "to": "documents",
+          "permission": "crm.case.transition",
+          "required": ["program_type", "normalized_contact"]
+        },
+        {
+          "from": "documents",
+          "to": "employer_selection",
+          "permission": "crm.case.transition",
+          "required": ["document_decision"]
+        },
+        {
+          "from": "employer_selection",
+          "to": "employer_review",
+          "permission": "crm.case.transition",
+          "required": ["employer_referral_id"]
+        },
+        {
+          "from": "employer_review",
+          "to": "offer",
+          "permission": "crm.case.transition",
+          "required": ["approved_referral_id"]
+        },
+        {
+          "from": "offer",
+          "to": "relocation_preparation",
+          "permission": "crm.case.transition",
+          "required": ["employer_id", "job_title", "agreement_result"]
+        },
+        {
+          "from": "relocation_preparation",
+          "to": "moved",
+          "permission": "crm.case.transition",
+          "required": ["municipality", "locality", "actual_relocation_date", "employer_id", "job_title"]
+        },
+        {
+          "from_set": "open",
+          "to": "closed_unsuccessful",
+          "permission": "crm.case.transition",
+          "required": ["reason_code"]
+        },
+        {
+          "from": "closed_unsuccessful",
+          "to_set": "reopen_targets",
+          "target_state_field": "target_state",
+          "target_guard": {
+            "type": "equals_history_field",
+            "field": "last_open_state"
+          },
+          "permission": "crm.case.reopen",
+          "required": ["reason", "target_state"]
+        },
+        {
+          "from": "moved",
+          "to": "relocation_preparation",
+          "permission": "crm.case.reopen",
+          "required": ["reason", "correction_evidence"]
+        }
+      ]
+    },
+    "crm_student_case": {
+      "initial_state": "new",
+      "terminal_states": [],
+      "states": [
+        "new",
+        "qualification",
+        "practice_selection",
+        "host_review",
+        "placement_confirmed",
+        "in_practice",
+        "completed",
+        "closed_unsuccessful"
+      ],
+      "state_sets": {
+        "open": [
+          "new",
+          "qualification",
+          "practice_selection",
+          "host_review",
+          "placement_confirmed",
+          "in_practice"
+        ],
+        "outcomes": ["completed", "closed_unsuccessful"],
+        "reopen_targets": [
+          "new",
+          "qualification",
+          "practice_selection",
+          "host_review",
+          "placement_confirmed",
+          "in_practice"
+        ]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "new",
+          "permission": "crm.case.create",
+          "required": ["student_application", "source", "consent_version"]
+        },
+        {
+          "from": "new",
+          "to": "qualification",
+          "permission": "crm.case.transition",
+          "required": ["owner_id", "education_minimum"]
+        },
+        {
+          "from": "qualification",
+          "to": "practice_selection",
+          "permission": "crm.case.transition",
+          "required": ["specialization", "practice_direction"]
+        },
+        {
+          "from": "practice_selection",
+          "to": "host_review",
+          "permission": "crm.case.transition",
+          "required": ["host_referral_id"]
+        },
+        {
+          "from": "host_review",
+          "to": "placement_confirmed",
+          "permission": "crm.case.transition",
+          "required": ["accepted_host_id", "planned_dates"]
+        },
+        {
+          "from": "placement_confirmed",
+          "to": "in_practice",
+          "permission": "crm.case.transition",
+          "required": ["actual_start_date"]
+        },
+        {
+          "from": "in_practice",
+          "to": "completed",
+          "permission": "crm.case.transition",
+          "required": ["result", "actual_end_date"]
+        },
+        {
+          "from_set": "open",
+          "to": "closed_unsuccessful",
+          "permission": "crm.case.transition",
+          "required": ["reason_code"]
+        },
+        {
+          "from_set": "outcomes",
+          "to_set": "reopen_targets",
+          "target_state_field": "target_state",
+          "target_guard": {
+            "type": "equals_history_field",
+            "field": "last_open_state"
+          },
+          "permission": "crm.case.reopen",
+          "required": ["reason", "target_state"]
+        }
+      ]
+    },
+    "crm_task": {
+      "initial_state": "to_do",
+      "terminal_states": [],
+      "states": ["to_do", "in_progress", "done", "cancelled"],
+      "state_sets": {
+        "open": ["to_do", "in_progress"],
+        "reopenable": ["done", "cancelled"]
+      },
+      "derived": ["is_overdue"],
+      "transitions": [
+        {
+          "from": null,
+          "to": "to_do",
+          "permission": "crm.task.manage",
+          "required": ["title", "responsible_id", "due_at", "linked_crm_object"]
+        },
+        {
+          "from": "to_do",
+          "to": "in_progress",
+          "permission": "crm.task.manage"
+        },
+        {
+          "from": "in_progress",
+          "to": "done",
+          "permission": "crm.task.manage"
+        },
+        {
+          "from_set": "open",
+          "to": "cancelled",
+          "permission": "crm.task.manage",
+          "required": ["reason"]
+        },
+        {
+          "from_set": "reopenable",
+          "to": "to_do",
+          "permission": "crm.task.manage",
+          "required": ["reason"]
+        }
+      ]
+    },
+    "document_check": {
+      "initial_state": "not_requested",
+      "terminal_states": [],
+      "states": ["not_requested", "requested", "received", "accepted", "rejected", "expired"],
+      "state_sets": {
+        "rerequestable": ["rejected", "expired"]
+      },
+      "transitions": [
+        {
+          "from": "not_requested",
+          "to": "requested",
+          "permission": "crm.recommender.manage",
+          "required": ["document_type"]
+        },
+        {
+          "from": "requested",
+          "to": "received",
+          "permission": "crm.recommender.manage",
+          "required": ["attachment_or_provenance"]
+        },
+        {
+          "from": "received",
+          "to": "accepted",
+          "permission": "crm.recommender.manage",
+          "required": ["reviewer_id"]
+        },
+        {
+          "from": "received",
+          "to": "rejected",
+          "permission": "crm.recommender.manage",
+          "required": ["reason"]
+        },
+        {
+          "from": "accepted",
+          "to": "expired",
+          "permission": "system.document_expiry",
+          "required": ["expiry_date"]
+        },
+        {
+          "from_set": "rerequestable",
+          "to": "requested",
+          "permission": "crm.recommender.manage",
+          "required": ["reason"]
+        }
+      ]
+    },
+    "employer_referral": {
+      "initial_state": "draft",
+      "terminal_states": [],
+      "states": [
+        "draft",
+        "sent",
+        "feedback_requested",
+        "interview",
+        "reserved",
+        "approved",
+        "accepted",
+        "rejected_by_employer",
+        "rejected_by_candidate",
+        "ignored",
+        "cancelled"
+      ],
+      "state_sets": {
+        "open": ["draft", "sent", "feedback_requested", "interview", "reserved", "approved"],
+        "interview_sources": ["sent", "feedback_requested"],
+        "reserve_sources": ["sent", "feedback_requested", "interview"],
+        "approval_sources": ["interview", "reserved"],
+        "outcomes": [
+          "accepted",
+          "rejected_by_employer",
+          "rejected_by_candidate",
+          "ignored",
+          "cancelled"
+        ]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "draft",
+          "permission": "crm.referral.manage",
+          "required": ["candidate_id", "employer_id", "owner_id"]
+        },
+        {
+          "from": "draft",
+          "to": "sent",
+          "permission": "crm.referral.manage",
+          "required": ["sent_at"]
+        },
+        {
+          "from": "sent",
+          "to": "feedback_requested",
+          "permission": "crm.referral.manage"
+        },
+        {
+          "from_set": "interview_sources",
+          "to": "interview",
+          "permission": "crm.referral.manage",
+          "required": ["interview_details"]
+        },
+        {
+          "from_set": "reserve_sources",
+          "to": "reserved",
+          "permission": "crm.referral.manage"
+        },
+        {
+          "from_set": "approval_sources",
+          "to": "approved",
+          "permission": "crm.referral.manage"
+        },
+        {
+          "from": "approved",
+          "to": "accepted",
+          "permission": "crm.referral.manage"
+        },
+        {
+          "from_set": "open",
+          "to": "rejected_by_employer",
+          "permission": "crm.referral.manage",
+          "required": ["reason"]
+        },
+        {
+          "from_set": "open",
+          "to": "rejected_by_candidate",
+          "permission": "crm.referral.manage",
+          "required": ["reason"]
+        },
+        {
+          "from_set": "open",
+          "to": "ignored",
+          "permission": "crm.referral.manage",
+          "required": ["attempt_history"]
+        },
+        {
+          "from_set": "open",
+          "to": "cancelled",
+          "permission": "crm.referral.manage",
+          "required": ["reason"]
+        },
+        {
+          "from_set": "outcomes",
+          "to": "approved",
+          "permission": "crm.referral.manage",
+          "required": ["lead_or_admin", "reason", "history_reference"]
+        }
+      ]
+    },
+    "project_task": {
+      "initial_state": "to_do",
+      "terminal_states": [],
+      "states": ["to_do", "in_progress", "review", "done"],
+      "state_sets": {},
+      "derived": ["is_overdue", "is_blocked"],
+      "transitions": [
+        {
+          "from": null,
+          "to": "to_do",
+          "permission": "project.task.create",
+          "required": ["title", "project_id", "responsible_id", "planned_end"]
+        },
+        {
+          "from": "to_do",
+          "to": "in_progress",
+          "permission": "project.task.transition"
+        },
+        {
+          "from": "in_progress",
+          "to": "review",
+          "permission": "project.task.transition",
+          "required": ["reviewer_id"]
+        },
+        {
+          "from": "review",
+          "to": "done",
+          "permission": "project.task.transition"
+        },
+        {
+          "from": "review",
+          "to": "in_progress",
+          "permission": "project.task.transition",
+          "required": ["reason"]
+        },
+        {
+          "from": "done",
+          "to": "in_progress",
+          "permission": "project.task.transition",
+          "required": ["reason"]
+        }
+      ]
+    },
+    "user_account_state": {
+      "initial_state": "active",
+      "terminal_states": [],
+      "states": ["active", "disabled", "archived"],
+      "state_sets": {
+        "archivable": ["active", "disabled"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "active",
+          "permission": "identity.users.invite",
+          "required": ["unique_account", "invite_token"]
+        },
+        {
+          "from": "active",
+          "to": "disabled",
+          "permission": "identity.users.disable",
+          "required": [
+            "impact_gate",
+            "reason",
+            "eligible_platform_superadmin_count_after_at_least_two_if_subject_has_role",
+            "eligible_crm_admin_count_after_at_least_one_if_subject_has_role",
+            "eligible_project_admin_count_after_at_least_one_if_subject_has_role",
+            "replacement_assigned_before_disable_if_privileged",
+            "critical_approval_if_subject_is_privileged",
+            "no_orphaned_critical_approvals",
+            "ownership_reassigned"
+          ]
+        },
+        {
+          "from": "disabled",
+          "to": "active",
+          "permission": "identity.users.enable",
+          "required": ["owner_queue_resolved"]
+        },
+        {
+          "from_set": "archivable",
+          "to": "archived",
+          "permission": "identity.users.disable",
+          "required": [
+            "no_active_ownership",
+            "reason",
+            "eligible_platform_superadmin_count_after_at_least_two_if_subject_has_role",
+            "eligible_crm_admin_count_after_at_least_one_if_subject_has_role",
+            "eligible_project_admin_count_after_at_least_one_if_subject_has_role",
+            "replacement_assigned_before_disable_if_privileged",
+            "critical_approval_if_subject_is_privileged",
+            "no_orphaned_critical_approvals"
+          ]
+        },
+        {
+          "from": "archived",
+          "to": "disabled",
+          "permission": "identity.breakglass.execute",
+          "required": ["critical_approval", "two_person_ceremony", "reason", "recovery_evidence"]
+        }
+      ]
+    },
+    "credential_state": {
+      "initial_state": "invited",
+      "terminal_states": [],
+      "states": ["invited", "password_set", "change_required", "expired"],
+      "state_sets": {
+        "expirable": ["invited", "password_set", "change_required"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "invited",
+          "permission": "identity.users.invite"
+        },
+        {
+          "from": "invited",
+          "to": "password_set",
+          "permission": "identity.credentials.accept_invite"
+        },
+        {
+          "from": "password_set",
+          "to": "change_required",
+          "permission": "identity.credentials.reset"
+        },
+        {
+          "from": "change_required",
+          "to": "password_set",
+          "permission": "identity.credentials.change"
+        },
+        {
+          "from_set": "expirable",
+          "to": "expired",
+          "permission": "system.credential_expire"
+        },
+        {
+          "from": "expired",
+          "to": "password_set",
+          "permission": "identity.credentials.recover"
+        }
+      ]
+    },
+    "risk_state": {
+      "initial_state": "normal",
+      "terminal_states": [],
+      "states": ["normal", "locked"],
+      "state_sets": {},
+      "transitions": [
+        {
+          "from": "normal",
+          "to": "locked",
+          "permission": "system.risk_lock"
+        },
+        {
+          "from": "locked",
+          "to": "normal",
+          "permission": "identity.users.enable",
+          "required": ["reason_or_cooldown"]
+        }
+      ]
+    },
+    "mfa_state": {
+      "initial_state": "not_enrolled",
+      "terminal_states": [],
+      "states": ["not_enrolled", "enrollment_required", "enrolled", "recovery_required"],
+      "state_sets": {},
+      "transitions": [
+        {
+          "from": "not_enrolled",
+          "to": "enrollment_required",
+          "permission": "system.require_mfa"
+        },
+        {
+          "from": "enrollment_required",
+          "to": "enrolled",
+          "permission": "identity.mfa.enroll",
+          "required": ["fresh_password", "valid_totp", "recovery_codes_issued_once"]
+        },
+        {
+          "from": "enrolled",
+          "to": "recovery_required",
+          "permission": "identity.mfa.reset",
+          "required": ["critical_approval_if_privileged"]
+        },
+        {
+          "from": "recovery_required",
+          "to": "enrolled",
+          "permission": "identity.mfa.enroll"
+        }
+      ]
+    },
+    "critical_approval": {
+      "initial_state": "pending",
+      "terminal_states": ["rejected", "expired", "executed", "cancelled"],
+      "states": ["pending", "approved", "rejected", "expired", "executed", "cancelled"],
+      "state_sets": {
+        "cancellable": ["pending", "approved"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "pending",
+          "permission": "identity.approvals.propose",
+          "required": ["payload_hash", "proposer_id", "expires_at"]
+        },
+        {
+          "from": "pending",
+          "to": "approved",
+          "permission": "identity.approvals.decide",
+          "required": ["different_eligible_approver", "permission_recheck"]
+        },
+        {
+          "from": "pending",
+          "to": "rejected",
+          "permission": "identity.approvals.decide",
+          "required": ["reason"]
+        },
+        {
+          "from": "pending",
+          "to": "expired",
+          "permission": "system.approval_expire"
+        },
+        {
+          "from_set": "cancellable",
+          "to": "cancelled",
+          "permission": "identity.approvals.cancel"
+        },
+        {
+          "from": "approved",
+          "to": "executed",
+          "permission": "identity.approvals.execute",
+          "required": ["hash_unchanged", "permission_recheck", "one_time"]
+        }
+      ]
+    },
+    "migration_run": {
+      "initial_state": "created",
+      "terminal_states": ["failed", "rolled_back", "cancelled"],
+      "states": [
+        "created",
+        "profiling",
+        "dry_running",
+        "awaiting_conflicts",
+        "ready_for_rehearsal",
+        "rehearsing",
+        "ready_for_cutover",
+        "cutting_over",
+        "completed",
+        "failed",
+        "rolled_back",
+        "cancelled"
+      ],
+      "state_sets": {
+        "rehearsal_sources": ["dry_running", "awaiting_conflicts"],
+        "active": [
+          "created",
+          "profiling",
+          "dry_running",
+          "awaiting_conflicts",
+          "ready_for_rehearsal",
+          "rehearsing",
+          "ready_for_cutover",
+          "cutting_over"
+        ],
+        "rollbackable": ["cutting_over", "completed"],
+        "pre_cutover": [
+          "created",
+          "profiling",
+          "dry_running",
+          "awaiting_conflicts",
+          "ready_for_rehearsal",
+          "rehearsing",
+          "ready_for_cutover"
+        ]
+      },
+      "transitions": [
+        {
+          "from": "created",
+          "to": "profiling",
+          "permission": "migration.run.execute",
+          "required": ["snapshot_checksum", "manifest_version"]
+        },
+        {
+          "from": "profiling",
+          "to": "dry_running",
+          "permission": "migration.run.execute",
+          "required": ["schema_and_count_match_manifest"]
+        },
+        {
+          "from": "dry_running",
+          "to": "awaiting_conflicts",
+          "permission": "migration.run.execute",
+          "required": ["blocking_items_present"]
+        },
+        {
+          "from_set": "rehearsal_sources",
+          "to": "ready_for_rehearsal",
+          "permission": "migration.run.execute",
+          "required": ["coverage_100", "blocking_items_zero"]
+        },
+        {
+          "from": "ready_for_rehearsal",
+          "to": "rehearsing",
+          "permission": "migration.run.execute",
+          "required": ["target_backup", "approved_window"]
+        },
+        {
+          "from": "rehearsing",
+          "to": "ready_for_cutover",
+          "permission": "migration.run.execute",
+          "required": ["rollback_rehearsal", "reconciliation_pass"]
+        },
+        {
+          "from": "ready_for_cutover",
+          "to": "cutting_over",
+          "permission": "migration.cutover.execute",
+          "required": ["fresh_snapshot", "freeze_or_cdc", "final_delta", "signed_go_no_go"]
+        },
+        {
+          "from": "cutting_over",
+          "to": "completed",
+          "permission": "migration.cutover.execute",
+          "required": ["traffic_switch", "post_switch_verification"]
+        },
+        {
+          "from_set": "active",
+          "to": "failed",
+          "permission": "system.migration_fail"
+        },
+        {
+          "from_set": "rollbackable",
+          "to": "rolled_back",
+          "permission": "migration.rollback.execute",
+          "required": ["decision_tree", "reverse_delta_or_signed_owner_decision"]
+        },
+        {
+          "from_set": "pre_cutover",
+          "to": "cancelled",
+          "permission": "migration.run.execute",
+          "required": ["reason", "no_cutover_started"]
+        }
+      ]
+    },
+    "migration_conflict": {
+      "initial_state": "open",
+      "terminal_states": ["resolved", "rejected", "waived", "superseded"],
+      "states": ["open", "assigned", "resolved", "rejected", "waived", "superseded"],
+      "state_sets": {
+        "unresolved": ["open", "assigned"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "open",
+          "permission": "system.migration_detect_conflict",
+          "required": ["reason_code", "source_evidence"]
+        },
+        {
+          "from": "open",
+          "to": "assigned",
+          "permission": "migration.conflict.resolve",
+          "required": ["operator_id"]
+        },
+        {
+          "from": "assigned",
+          "to": "resolved",
+          "permission": "migration.conflict.resolve",
+          "required": ["resolution_payload", "reviewer_id"]
+        },
+        {
+          "from": "assigned",
+          "to": "rejected",
+          "permission": "migration.conflict.resolve",
+          "required": ["reason"]
+        },
+        {
+          "from": "assigned",
+          "to": "waived",
+          "permission": "migration.conflict.resolve",
+          "required": ["data_owner_approval", "scope_effect"]
+        },
+        {
+          "from_set": "unresolved",
+          "to": "superseded",
+          "permission": "system.migration_supersede",
+          "required": ["new_manifest_or_evidence"]
+        }
+      ]
+    },
+    "ai_draft": {
+      "initial_state": "drafting",
+      "terminal_states": [
+        "completed",
+        "partially_completed",
+        "invalidated",
+        "expired",
+        "cancelled",
+        "failed"
+      ],
+      "states": [
+        "drafting",
+        "needs_input",
+        "ready",
+        "confirmed",
+        "executing",
+        "completed",
+        "partially_completed",
+        "invalidated",
+        "expired",
+        "cancelled",
+        "failed"
+      ],
+      "state_sets": {
+        "nonterminal": ["drafting", "needs_input", "ready", "confirmed", "executing"],
+        "pre_execute": ["drafting", "needs_input", "ready", "confirmed"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "drafting",
+          "permission": "ai.assist.read",
+          "required": ["actor_id", "context", "scope"]
+        },
+        {
+          "from": "drafting",
+          "to": "needs_input",
+          "permission": "ai.assist.read"
+        },
+        {
+          "from": "needs_input",
+          "to": "drafting",
+          "permission": "ai.assist.read",
+          "required": ["human_clarification"]
+        },
+        {
+          "from": "drafting",
+          "to": "ready",
+          "permission": "ai.assist.read",
+          "required": ["deterministic_validation", "immutable_hash"]
+        },
+        {
+          "from": "ready",
+          "to": "confirmed",
+          "permission": "ai.task.confirm_domain",
+          "required": ["same_human_actor", "unexpired", "rbac_version_hash_recheck"]
+        },
+        {
+          "from": "confirmed",
+          "to": "executing",
+          "permission": "ai.task.confirm_domain",
+          "required": ["one_time_idempotency_key"]
+        },
+        {
+          "from": "executing",
+          "to": "completed",
+          "permission": "system.ai_finalize"
+        },
+        {
+          "from": "executing",
+          "to": "partially_completed",
+          "permission": "system.ai_finalize"
+        },
+        {
+          "from_set": "nonterminal",
+          "to": "invalidated",
+          "permission": "system.ai_invalidate"
+        },
+        {
+          "from_set": "nonterminal",
+          "to": "expired",
+          "permission": "system.ai_expire"
+        },
+        {
+          "from_set": "pre_execute",
+          "to": "cancelled",
+          "permission": "ai.assist.read",
+          "required": ["same_human_actor"]
+        },
+        {
+          "from": "executing",
+          "to": "failed",
+          "permission": "system.ai_finalize",
+          "required": ["terminal_error", "per_item_results"]
+        }
+      ]
+    },
+    "ai_batch_job_item": {
+      "initial_state": "pending",
+      "terminal_states": ["created", "skipped", "conflict", "forbidden", "failed", "cancelled"],
+      "states": ["pending", "validated", "created", "skipped", "conflict", "forbidden", "failed", "cancelled"],
+      "state_sets": {
+        "cancellable": ["pending", "validated"]
+      },
+      "transitions": [
+        {
+          "from": null,
+          "to": "pending",
+          "permission": "ai.batch.draft",
+          "required": ["draft_id", "source_object_id", "source_object_version"]
+        },
+        {
+          "from": "pending",
+          "to": "validated",
+          "permission": "ai.batch.confirm",
+          "required": ["same_human_actor", "rbac_recheck", "source_version_recheck"]
+        },
+        {
+          "from": "validated",
+          "to": "created",
+          "permission": "ai.batch.confirm",
+          "required": ["validated_domain_command", "idempotency_key", "target_id", "audit_event_id"]
+        },
+        {
+          "from": "validated",
+          "to": "skipped",
+          "permission": "system.ai_finalize",
+          "required": ["reason_code"]
+        },
+        {
+          "from": "validated",
+          "to": "conflict",
+          "permission": "system.ai_finalize",
+          "required": ["version_or_selection_conflict"]
+        },
+        {
+          "from": "validated",
+          "to": "forbidden",
+          "permission": "system.ai_finalize",
+          "required": ["rbac_or_membership_denial"]
+        },
+        {
+          "from": "validated",
+          "to": "failed",
+          "permission": "system.ai_finalize",
+          "required": ["error_code", "no_partial_domain_mutation"]
+        },
+        {
+          "from_set": "cancellable",
+          "to": "cancelled",
+          "permission": "ai.batch.confirm",
+          "required": ["same_human_actor", "reason"]
+        }
+      ]
+    },
+    "message_delivery": {
+      "initial_state": "draft",
+      "terminal_states": ["delivered", "failed_terminal", "cancelled"],
+      "states": [
+        "draft",
+        "confirmed",
+        "queued",
+        "sending",
+        "sent",
+        "delivered",
+        "failed_retryable",
+        "failed_terminal",
+        "cancelled"
+      ],
+      "state_sets": {
+        "retry_failure_sources": ["sending", "sent"],
+        "active": ["queued", "sending", "sent", "failed_retryable"],
+        "pre_send": ["draft", "confirmed", "queued"]
+      },
+      "transitions": [
+        {
+          "from": "draft",
+          "to": "confirmed",
+          "permission": "crm.communication.confirm",
+          "required": ["human_preview_confirm"]
+        },
+        {
+          "from": "confirmed",
+          "to": "queued",
+          "permission": "crm.communication.send",
+          "required": ["outbox_transaction", "idempotency_key"]
+        },
+        {
+          "from": "queued",
+          "to": "sending",
+          "permission": "system.message_worker",
+          "required": ["worker_lease"]
+        },
+        {
+          "from": "sending",
+          "to": "sent",
+          "permission": "system.message_worker",
+          "required": ["provider_acceptance"]
+        },
+        {
+          "from": "sent",
+          "to": "delivered",
+          "permission": "system.message_callback"
+        },
+        {
+          "from_set": "retry_failure_sources",
+          "to": "failed_retryable",
+          "permission": "system.message_worker"
+        },
+        {
+          "from": "failed_retryable",
+          "to": "queued",
+          "permission": "system.message_worker",
+          "required": ["same_idempotency_key", "backoff"]
+        },
+        {
+          "from_set": "active",
+          "to": "failed_terminal",
+          "permission": "system.message_worker"
+        },
+        {
+          "from_set": "pre_send",
+          "to": "cancelled",
+          "permission": "crm.communication.cancel"
+        }
+      ]
+    }
+  },
+  "consistency_checks": [
+    "every_mutable_aggregate_registered",
+    "every_stored_state_has_transition_or_terminal_marker",
+    "every_transition_has_allow_and_deny_test",
+    "every_transition_checks_expected_version",
+    "every_critical_transition_writes_audit",
+    "every_external_side_effect_uses_outbox",
+    "ui_api_kanban_ai_have_no_bypass_update_endpoint"
+  ]
+}

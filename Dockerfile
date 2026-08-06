@@ -1,5 +1,8 @@
 FROM nginx:1.27-alpine
 
+ARG RELEASE_SHA=development
+LABEL org.opencontainers.image.revision=$RELEASE_SHA
+
 EXPOSE 80
 
 COPY docker/nginx/default.conf /etc/nginx/conf.d/default.conf

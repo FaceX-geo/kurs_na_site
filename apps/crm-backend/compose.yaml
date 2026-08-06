@@ -1,0 +1,214 @@
+name: kurs_na_sever_crm
+
+x-app-build: &app-build
+  context: ../..
+  dockerfile: apps/crm-backend/Dockerfile
+  args:
+    RELEASE_SHA: ${RELEASE_SHA:-development}
+
+x-release-labels: &release-labels
+  facex.release.sha: ${RELEASE_SHA:-development}
+
+x-runtime-hardening: &runtime-hardening
+  read_only: true
+  init: true
+  cap_drop: [ALL]
+  security_opt: ["no-new-privileges:true"]
+  tmpfs:
+    - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+
+x-api-environment: &api-environment
+  NODE_ENV: production
+  DATABASE_URL: postgresql://kurs_crm_api:${CRM_API_PASSWORD:?set CRM_API_PASSWORD}@postgres:5432/kurs_crm
+  PUBLIC_ORIGINS: ${PUBLIC_ORIGINS:-https://cursnasever.facex.pro}
+  CURSOR_SIGNING_KEY: ${CURSOR_SIGNING_KEY:?set CURSOR_SIGNING_KEY}
+  SESSION_TOKEN_PEPPER: ${SESSION_TOKEN_PEPPER:?set SESSION_TOKEN_PEPPER}
+  CREDENTIAL_DELIVERY_TOKEN_SECRET: ${CREDENTIAL_DELIVERY_TOKEN_SECRET:?set CREDENTIAL_DELIVERY_TOKEN_SECRET}
+  MFA_ENCRYPTION_KEY_BASE64: ${MFA_ENCRYPTION_KEY_BASE64:?set MFA_ENCRYPTION_KEY_BASE64}
+  PII_HASHING_KEY: ${PII_HASHING_KEY:?set PII_HASHING_KEY}
+  OBJECT_STORAGE_DRIVER: filesystem
+  OBJECT_STORAGE_PATH: /data/quarantine
+  PUBLIC_CONTENT_ROOT: /app/public-data
+  TRUST_PROXY: "true"
+
+x-worker-environment: &worker-environment
+  DATABASE_URL: postgresql://kurs_crm_worker:${CRM_WORKER_PASSWORD:?set CRM_WORKER_PASSWORD}@postgres:5432/kurs_crm
+  OUTBOX_WORKER_BATCH_SIZE: ${OUTBOX_WORKER_BATCH_SIZE:-25}
+  OUTBOX_WORKER_POLL_INTERVAL_MS: ${OUTBOX_WORKER_POLL_INTERVAL_MS:-1000}
+  OUTBOX_WORKER_LOCK_TTL_SECONDS: ${OUTBOX_WORKER_LOCK_TTL_SECONDS:-300}
+
+x-credential-worker-environment: &credential-worker-environment
+  NODE_ENV: production
+  DATABASE_URL: postgresql://kurs_crm_credential_worker:${CRM_CREDENTIAL_WORKER_PASSWORD:?set CRM_CREDENTIAL_WORKER_PASSWORD}@postgres:5432/kurs_crm
+  CREDENTIAL_DELIVERY_PROVIDER_URL: ${CREDENTIAL_DELIVERY_PROVIDER_URL:-}
+  CREDENTIAL_DELIVERY_SIGNING_SECRET: ${CREDENTIAL_DELIVERY_SIGNING_SECRET:-}
+  CREDENTIAL_DELIVERY_TOKEN_SECRET: ${CREDENTIAL_DELIVERY_TOKEN_SECRET:?set CREDENTIAL_DELIVERY_TOKEN_SECRET}
+  CREDENTIAL_DELIVERY_REQUEST_TIMEOUT_MS: ${CREDENTIAL_DELIVERY_REQUEST_TIMEOUT_MS:-5000}
+  CREDENTIAL_DELIVERY_BATCH_SIZE: ${CREDENTIAL_DELIVERY_BATCH_SIZE:-10}
+  CREDENTIAL_DELIVERY_POLL_INTERVAL_MS: ${CREDENTIAL_DELIVERY_POLL_INTERVAL_MS:-1000}
+  CREDENTIAL_DELIVERY_LOCK_TTL_SECONDS: ${CREDENTIAL_DELIVERY_LOCK_TTL_SECONDS:-300}
+  CREDENTIAL_DELIVERY_MAX_ATTEMPTS: ${CREDENTIAL_DELIVERY_MAX_ATTEMPTS:-6}
+  CREDENTIAL_DELIVERY_BASE_BACKOFF_MS: ${CREDENTIAL_DELIVERY_BASE_BACKOFF_MS:-5000}
+  CREDENTIAL_DELIVERY_MAX_BACKOFF_MS: ${CREDENTIAL_DELIVERY_MAX_BACKOFF_MS:-900000}
+
+services:
+  postgres:
+    build:
+      context: ../..
+      dockerfile: apps/crm-backend/deploy/postgres/Dockerfile
+      args:
+        RELEASE_SHA: ${RELEASE_SHA:-development}
+    image: ${CRM_POSTGRES_IMAGE:-kurs-na-sever-crm-postgres:local}
+    restart: unless-stopped
+    labels: *release-labels
+    environment:
+      POSTGRES_DB: kurs_crm
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: ${POSTGRES_ADMIN_PASSWORD:?set POSTGRES_ADMIN_PASSWORD}
+      CRM_MIGRATOR_PASSWORD: ${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}
+      CRM_API_PASSWORD: ${CRM_API_PASSWORD:?set CRM_API_PASSWORD}
+      CRM_WORKER_PASSWORD: ${CRM_WORKER_PASSWORD:?set CRM_WORKER_PASSWORD}
+      CRM_CREDENTIAL_WORKER_PASSWORD: ${CRM_CREDENTIAL_WORKER_PASSWORD:?set CRM_CREDENTIAL_WORKER_PASSWORD}
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d kurs_crm"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks: [crm-private]
+
+  migrate:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    environment:
+      DATABASE_URL: postgresql://kurs_crm_migrator:${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}@postgres:5432/kurs_crm
+    command: ["node", "dist/migrate-once.js"]
+    depends_on:
+      postgres:
+        condition: service_healthy
+    networks: [crm-private]
+
+  storage-init:
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    user: "0:0"
+    command: ["sh", "-ec", "mkdir -p /data/quarantine && chown node:node /data/quarantine && chmod 0700 /data/quarantine"]
+    volumes:
+      - quarantine-data:/data/quarantine
+    network_mode: "none"
+
+  api:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    restart: unless-stopped
+    environment: *api-environment
+    command: ["node", "dist/server.js"]
+    volumes:
+      - quarantine-data:/data/quarantine
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      storage-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8080/health/ready"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+    networks:
+      crm-private:
+      edge:
+        aliases: [crm-api]
+
+  worker:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    restart: unless-stopped
+    environment: *worker-environment
+    command: ["node", "dist/worker.js"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [crm-private]
+
+  upload-reconciler:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    profiles: [maintenance]
+    environment:
+      <<: *api-environment
+      UPLOAD_RECONCILE_STALE_HOURS: ${UPLOAD_RECONCILE_STALE_HOURS:-48}
+      UPLOAD_RECONCILE_RETRY_MINUTES: ${UPLOAD_RECONCILE_RETRY_MINUTES:-15}
+      UPLOAD_RECONCILE_BATCH_SIZE: ${UPLOAD_RECONCILE_BATCH_SIZE:-100}
+    command: ["node", "dist/upload-reconciler-once.js"]
+    volumes:
+      - quarantine-data:/data/quarantine
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      storage-init:
+        condition: service_completed_successfully
+    networks: [crm-private]
+
+  credential-worker:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    restart: unless-stopped
+    profiles: [credential-delivery]
+    environment: *credential-worker-environment
+    command: ["node", "dist/credential-worker.js"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [crm-private, credential-egress]
+
+  test-snapshot-import:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    profiles: [legacy-migration]
+    environment:
+      DATABASE_URL: postgresql://kurs_crm_migrator:${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}@postgres:5432/kurs_crm
+      LEGACY_MYSQL_URL: ${LEGACY_MYSQL_URL:-}
+      CRM_TEST_SNAPSHOT_IMPORT: ${CRM_TEST_SNAPSHOT_IMPORT:-false}
+      CRM_TEST_SNAPSHOT_IMPORT_CONFIRM: ${CRM_TEST_SNAPSHOT_IMPORT_CONFIRM:-}
+      CRM_TEST_SNAPSHOT_SHA256: ${CRM_TEST_SNAPSHOT_SHA256:-}
+    command: ["node", "dist/test-snapshot-import-once.js"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [crm-private, migration-source]
+
+networks:
+  crm-private:
+    internal: true
+    ipam:
+      config:
+        - subnet: ${CRM_PRIVATE_SUBNET:-10.200.254.0/28}
+  credential-egress:
+    ipam:
+      config:
+        - subnet: ${CRM_CREDENTIAL_EGRESS_SUBNET:-10.200.254.16/28}
+  edge:
+    external: true
+    name: ${CRM_EDGE_NETWORK:?set CRM_EDGE_NETWORK}
+  migration-source:
+    external: true
+    name: ${CRM_MIGRATION_SOURCE_NETWORK:-kurs_na_sever_crm_migration}
+
+volumes:
+  postgres-data:
+  quarantine-data:

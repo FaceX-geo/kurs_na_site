@@ -1,0 +1,18 @@
+{
+  "width": 1600,
+  "height": 1200,
+  "minMercatorX": 0.5658538146356368,
+  "maxMercatorX": 0.7224386691614663,
+  "minMercatorY": 1.55097038379596,
+  "maxMercatorY": 1.7010453797479488,
+  "scale": 7036.481948917264,
+  "offsetX": 249.09674882758247,
+  "offsetY": 72,
+  "source": "https://www.openstreetmap.org/relation/5868101",
+  "attribution": "© OpenStreetMap contributors",
+  "placementContract": {
+    "input": "WGS84 longitude/latitude",
+    "projection": "Web Mercator",
+    "snapTarget": "Kola Peninsula land mask"
+  }
+}

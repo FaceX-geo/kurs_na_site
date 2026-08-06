@@ -1,0 +1,668 @@
+{
+  "crm_multifield_value_counts_by_type": {
+    "EMAIL": 3717,
+    "IM": 12,
+    "LINK": 8,
+    "PHONE": 3964,
+    "WEB": 52
+  },
+  "crm_status_counts_by_entity": {
+    "CALL_LIST": 4,
+    "COMPANY_TYPE": 2,
+    "CONTACT_TYPE": 7,
+    "DEAL_STAGE": 11,
+    "DEAL_STAGE_1": 18,
+    "DEAL_STAGE_2": 8,
+    "DEAL_STAGE_3": 13,
+    "DEAL_STAGE_5": 8,
+    "DEAL_STATE": 4,
+    "DEAL_TYPE": 5,
+    "DYNAMIC_1042_STAGE_8": 9,
+    "EMPLOYEES": 4,
+    "EVENT_TYPE": 3,
+    "HONORIFIC": 2,
+    "INDUSTRY": 18,
+    "INVOICE_STATUS": 4,
+    "QUOTE_STATUS": 5,
+    "SMART_B2E_DOC_STAGE_6": 7,
+    "SMART_B2E_DOC_STAGE_7": 6,
+    "SMART_DOCUMENT_STAGE_3": 7,
+    "SMART_INVOICE_STAGE_2": 4,
+    "SOURCE": 17,
+    "STATUS": 6
+  },
+  "dynamic_types": [
+    {
+      "automation": "Y",
+      "business_processes": "Y",
+      "categories": "N",
+      "client": "Y",
+      "code": "BX_SMART_INVOICE",
+      "documents": "Y",
+      "entity_type_id": 31,
+      "id": 1,
+      "payments": "Y",
+      "products": "Y",
+      "stages": "Y",
+      "table_name": "b_crm_dynamic_items_31"
+    },
+    {
+      "automation": "Y",
+      "business_processes": "N",
+      "categories": "N",
+      "client": "Y",
+      "code": "BX_SMART_DOCUMENT",
+      "documents": "N",
+      "entity_type_id": 36,
+      "id": 2,
+      "payments": "N",
+      "products": "Y",
+      "stages": "Y",
+      "table_name": "b_crm_dynamic_items_36"
+    },
+    {
+      "automation": "Y",
+      "business_processes": "N",
+      "categories": "Y",
+      "client": "Y",
+      "code": "BX_SMART_B2E_DOC",
+      "documents": "N",
+      "entity_type_id": 39,
+      "id": 3,
+      "payments": "N",
+      "products": "N",
+      "stages": "Y",
+      "table_name": "b_crm_dynamic_items_39"
+    },
+    {
+      "automation": "N",
+      "business_processes": "N",
+      "categories": "N",
+      "client": "Y",
+      "code": null,
+      "documents": "N",
+      "entity_type_id": 1042,
+      "id": 4,
+      "payments": "N",
+      "products": "N",
+      "stages": "Y",
+      "table_name": "b_crm_dynamic_items_1042"
+    }
+  ],
+  "file_metadata": {
+    "binary_payload_in_b_file": false,
+    "declared_bytes": 1874086383,
+    "declared_bytes_unique_paths_max_size": 1005425720,
+    "duplicate_path_rows": 1933,
+    "max_declared_bytes": 76200694,
+    "paths_with_conflicting_sizes": 0,
+    "rows": 3941,
+    "rows_with_external_handler": 0,
+    "rows_with_local_path": 3941,
+    "rows_with_numeric_size": 3941,
+    "unique_local_paths": 2008,
+    "zero_size_rows": 0
+  },
+  "highload_blocks": [
+    {
+      "id": 1,
+      "name": "ProductMarkingCodeGroup",
+      "table_name": "b_hlsys_marking_code_group"
+    }
+  ],
+  "iblocks": {
+    "active": 37,
+    "by_type": {
+      "CRM_PRODUCT_CATALOG": 2,
+      "bitrix_processes": 5,
+      "lists": 5,
+      "photos": 2,
+      "rest_entity": 18,
+      "services": 1,
+      "structure": 4
+    },
+    "count": 37,
+    "schema_version_counts": {
+      "1": 37
+    }
+  },
+  "module_count": 91,
+  "modules": [
+    "abtest",
+    "advertising",
+    "ai",
+    "b24connector",
+    "biconnector",
+    "bitrix.eshop",
+    "bitrix.sitecorporate",
+    "bitrixcloud",
+    "bizproc",
+    "bizprocdesigner",
+    "bizprocmobile",
+    "blog",
+    "booking",
+    "calendar",
+    "calendarmobile",
+    "call",
+    "callmobile",
+    "catalog",
+    "catalogmobile",
+    "clouds",
+    "controller",
+    "conversion",
+    "crm",
+    "crmmobile",
+    "currency",
+    "dav",
+    "disk",
+    "diskmobile",
+    "documentgenerator",
+    "extranet",
+    "fileman",
+    "form",
+    "forum",
+    "highloadblock",
+    "humanresources",
+    "iblock",
+    "idea",
+    "im",
+    "imbot",
+    "imconnector",
+    "imconnectormobile",
+    "immobile",
+    "imopenlines",
+    "intranet",
+    "intranetmobile",
+    "landing",
+    "ldap",
+    "learning",
+    "lists",
+    "listsmobile",
+    "location",
+    "mail",
+    "main",
+    "market",
+    "meeting",
+    "messageservice",
+    "mobile",
+    "mobileapp",
+    "perfmon",
+    "photogallery",
+    "pull",
+    "recyclebin",
+    "report",
+    "rest",
+    "rpa",
+    "sale",
+    "salescenter",
+    "search",
+    "security",
+    "sender",
+    "seo",
+    "sign",
+    "signmobile",
+    "socialnetwork",
+    "socialservices",
+    "stafftrack",
+    "stafftrackmobile",
+    "storeassist",
+    "subscribe",
+    "support",
+    "tasks",
+    "tasksmobile",
+    "timeman",
+    "transformer",
+    "translate",
+    "ui",
+    "vote",
+    "webservice",
+    "wiki",
+    "workflow",
+    "xdimport"
+  ],
+  "populated_sensitive_field_counts": {
+    "b_app_password": {
+      "DIGEST_PASSWORD": 13,
+      "LAST_IP": 13,
+      "PASSWORD": 13
+    },
+    "b_biconnector_key": {
+      "ACCESS_KEY": 1
+    },
+    "b_crm_addr": {
+      "ADDRESS_1": 389,
+      "ADDRESS_2": 128,
+      "CITY": 348,
+      "COUNTRY": 390,
+      "POSTAL_CODE": 388,
+      "PROVINCE": 390,
+      "REGION": 137
+    },
+    "b_crm_company": {
+      "ADDRESS": 0,
+      "ADDRESS_LEGAL": 0,
+      "BANKING_DETAILS": 0,
+      "COMMENTS": 57,
+      "HAS_EMAIL": 797,
+      "HAS_PHONE": 797,
+      "TITLE": 797
+    },
+    "b_crm_contact": {
+      "ADDRESS": 0,
+      "BIRTHDATE": 2925,
+      "COMMENTS": 594,
+      "FULL_NAME": 3186,
+      "HAS_EMAIL": 3186,
+      "HAS_PHONE": 3186,
+      "LAST_NAME": 2585,
+      "NAME": 3147,
+      "SECOND_NAME": 2390
+    },
+    "b_crm_invoice_payment": {
+      "PS_RECURRING_TOKEN": 0
+    },
+    "b_crm_requisite": {
+      "RQ_ACCOUNTANT": 0,
+      "RQ_BIN": 0,
+      "RQ_CEO_NAME": 0,
+      "RQ_COMPANY_FULL_NAME": 390,
+      "RQ_COMPANY_NAME": 382,
+      "RQ_CONTACT": 0,
+      "RQ_DIRECTOR": 378,
+      "RQ_EMAIL": 0,
+      "RQ_FIRST_NAME": 10,
+      "RQ_IDENT_DOC_DATE": 0,
+      "RQ_IDENT_DOC_DEP_CODE": 0,
+      "RQ_IDENT_DOC_ISSUED_BY": 0,
+      "RQ_IDENT_DOC_NUM": 0,
+      "RQ_IDENT_DOC_SER": 0,
+      "RQ_IIN": 0,
+      "RQ_INN": 401,
+      "RQ_KPP": 390,
+      "RQ_LAST_NAME": 10,
+      "RQ_NAME": 10,
+      "RQ_OGRN": 390,
+      "RQ_OGRNIP": 10,
+      "RQ_PHONE": 0,
+      "RQ_SECOND_NAME": 10
+    },
+    "b_disk_external_link": {
+      "PASSWORD": 2,
+      "SALT": 2
+    },
+    "b_mail_contact": {
+      "EMAIL": 714,
+      "NAME": 714
+    },
+    "b_mail_mailservices": {
+      "SMTP_PASSWORD_AS_IMAP": 10,
+      "TOKEN": 10
+    },
+    "b_pull_push": {
+      "DEVICE_TOKEN": 6,
+      "VOIP_TOKEN": 6
+    },
+    "b_rest_ap": {
+      "LAST_IP": 10,
+      "PASSWORD": 10
+    },
+    "b_rest_app": {
+      "APPLICATION_TOKEN": 0,
+      "CLIENT_SECRET": 0,
+      "SHARED_KEY": 50
+    },
+    "b_rest_event": {
+      "APPLICATION_TOKEN": 0
+    },
+    "b_rest_integration": {
+      "APPLICATION_TOKEN": 10,
+      "PASSWORD_ID": 10
+    },
+    "b_sender_contact": {
+      "EMAIL": 1813,
+      "IP": 1813,
+      "NAME": 1813,
+      "PHONE": 389
+    },
+    "b_seo_search_engine": {
+      "CLIENT_SECRET": 3
+    },
+    "b_user": {
+      "CONFIRM_CODE": 0,
+      "EMAIL": 22,
+      "LAST_NAME": 20,
+      "LOGIN": 218,
+      "NAME": 28,
+      "PASSWORD": 218,
+      "PERSONAL_BIRTHDATE": 0,
+      "PERSONAL_BIRTHDAY": 13,
+      "PERSONAL_CITY": 0,
+      "PERSONAL_MOBILE": 4,
+      "PERSONAL_PHONE": 0,
+      "PERSONAL_STREET": 0,
+      "PERSONAL_ZIP": 0,
+      "SECOND_NAME": 13,
+      "STORED_HASH": 0,
+      "WORK_CITY": 0,
+      "WORK_COMPANY": 0,
+      "WORK_PHONE": 0,
+      "WORK_STREET": 0
+    },
+    "b_user_hit_auth": {
+      "HASH": 14
+    },
+    "b_user_password": {
+      "PASSWORD": 226
+    },
+    "b_user_stored_auth": {
+      "IP_ADDR": 19,
+      "STORED_HASH": 19,
+      "TEMP_HASH": 19
+    },
+    "b_uts_user": {
+      "UF_DISTRICT": 0,
+      "UF_INN": 0,
+      "UF_PHONE_INNER": 0,
+      "UF_SKYPE": 0,
+      "UF_WEB_SITES": 0
+    },
+    "b_uts_user_legal": {
+      "UF_LEGAL_ADDRESS": 0,
+      "UF_LEGAL_INN": 0,
+      "UF_LEGAL_LAST_NAME": 0,
+      "UF_LEGAL_NAME": 0,
+      "UF_LEGAL_PATRONYMIC_NAME": 0,
+      "UF_LEGAL_SNILS": 0
+    },
+    "b_vote_user": {
+      "COOKIE_ID": 5,
+      "LAST_IP": 5
+    },
+    "b_xdi_lf_scheme": {
+      "PASSWORD": 0
+    }
+  },
+  "user_fields_by_entity": {
+    "BLOG_COMMENT": {
+      "fields": 4,
+      "multiple": 2,
+      "searchable": 3,
+      "type:disk_file": 1,
+      "type:disk_version": 1,
+      "type:file": 1,
+      "type:url_preview": 1
+    },
+    "BLOG_POST": {
+      "fields": 12,
+      "multiple": 3,
+      "searchable": 3,
+      "type:datetime": 1,
+      "type:disk_file": 1,
+      "type:enumeration": 1,
+      "type:file": 1,
+      "type:integer": 3,
+      "type:mail_message": 1,
+      "type:string": 2,
+      "type:url_preview": 1,
+      "type:vote": 1
+    },
+    "CALENDAR_EVENT": {
+      "fields": 2,
+      "multiple": 2,
+      "searchable": 1,
+      "type:crm": 1,
+      "type:disk_file": 1
+    },
+    "CRM_4": {
+      "fields": 6,
+      "mandatory": 1,
+      "searchable": 4,
+      "type:boolean": 1,
+      "type:datetime": 1,
+      "type:enumeration": 2,
+      "type:string": 2
+    },
+    "CRM_ACTIVITY": {
+      "fields": 1,
+      "type:mail_message": 1
+    },
+    "CRM_COMPANY": {
+      "fields": 9,
+      "multiple": 1,
+      "type:boolean": 1,
+      "type:file": 4,
+      "type:iblock_element": 1,
+      "type:integer": 1,
+      "type:rest_41_phone_info": 1,
+      "type:string": 1
+    },
+    "CRM_COMPANY_SPD": {
+      "fields": 9,
+      "multiple": 1,
+      "type:boolean": 1,
+      "type:file": 4,
+      "type:iblock_element": 1,
+      "type:integer": 1,
+      "type:rest_41_phone_info": 1,
+      "type:string": 1
+    },
+    "CRM_CONTACT": {
+      "fields": 56,
+      "multiple": 4,
+      "type:boolean": 3,
+      "type:crm": 3,
+      "type:date": 6,
+      "type:double": 4,
+      "type:enumeration": 10,
+      "type:file": 2,
+      "type:iblock_element": 1,
+      "type:integer": 2,
+      "type:rest_41_phone_info": 1,
+      "type:string": 24
+    },
+    "CRM_CONTACT_SPD": {
+      "fields": 55,
+      "multiple": 4,
+      "type:boolean": 3,
+      "type:crm": 3,
+      "type:date": 5,
+      "type:double": 4,
+      "type:enumeration": 10,
+      "type:file": 2,
+      "type:iblock_element": 1,
+      "type:integer": 2,
+      "type:rest_41_phone_info": 1,
+      "type:string": 24
+    },
+    "CRM_DEAL": {
+      "fields": 53,
+      "multiple": 11,
+      "type:address": 1,
+      "type:boolean": 10,
+      "type:crm": 4,
+      "type:date": 5,
+      "type:double": 2,
+      "type:enumeration": 14,
+      "type:file": 2,
+      "type:iblock_element": 2,
+      "type:integer": 2,
+      "type:rest_34_dependentfieldsv2": 2,
+      "type:rest_37_robnf_deal_1764061326666": 1,
+      "type:rest_38_its_relatedfields": 1,
+      "type:rest_41_phone_info": 1,
+      "type:string": 6
+    },
+    "CRM_DEAL_SPD": {
+      "fields": 49,
+      "multiple": 11,
+      "type:address": 1,
+      "type:boolean": 10,
+      "type:crm": 4,
+      "type:date": 5,
+      "type:double": 2,
+      "type:enumeration": 14,
+      "type:file": 2,
+      "type:iblock_element": 2,
+      "type:integer": 2,
+      "type:rest_41_phone_info": 1,
+      "type:string": 6
+    },
+    "CRM_INVOICE": {
+      "fields": 5,
+      "type:integer": 5
+    },
+    "CRM_LEAD": {
+      "fields": 2,
+      "type:rest_41_phone_info": 1,
+      "type:string": 1
+    },
+    "CRM_LEAD_SPD": {
+      "fields": 2,
+      "type:rest_41_phone_info": 1,
+      "type:string": 1
+    },
+    "CRM_MAIL_TEMPLATE": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "CRM_QUOTE": {
+      "fields": 6,
+      "multiple": 1,
+      "type:boolean": 3,
+      "type:crm": 1,
+      "type:date": 1,
+      "type:enumeration": 1
+    },
+    "CRM_SMART_INVOICE": {
+      "fields": 6,
+      "multiple": 1,
+      "type:boolean": 3,
+      "type:crm": 1,
+      "type:date": 1,
+      "type:enumeration": 1
+    },
+    "CRM_TIMELINE": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "FORUM_MESSAGE": {
+      "fields": 4,
+      "multiple": 1,
+      "searchable": 1,
+      "type:disk_file": 1,
+      "type:disk_version": 1,
+      "type:integer": 1,
+      "type:url_preview": 1
+    },
+    "HLBLOCK_1": {
+      "fields": 2,
+      "mandatory": 2,
+      "type:string": 2
+    },
+    "IBLOCK_3_SECTION": {
+      "fields": 16,
+      "multiple": 1,
+      "type:employee": 1,
+      "type:enumeration": 4,
+      "type:string": 11
+    },
+    "PRODUCT": {
+      "fields": 1,
+      "type:hlblock": 1
+    },
+    "RECYCLEBIN_DISK": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "RPA_COMMENT": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "SONET_COMMENT": {
+      "fields": 4,
+      "multiple": 2,
+      "searchable": 2,
+      "type:disk_file": 1,
+      "type:disk_version": 1,
+      "type:file": 1,
+      "type:url_preview": 1
+    },
+    "SONET_GROUP": {
+      "fields": 1,
+      "multiple": 1,
+      "type:iblock_section": 1
+    },
+    "SONET_LOG": {
+      "fields": 3,
+      "multiple": 2,
+      "searchable": 2,
+      "type:disk_file": 1,
+      "type:file": 1,
+      "type:url_preview": 1
+    },
+    "TASKS_SCRUM_EPIC": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "TASKS_SCRUM_ITEM": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "TASKS_TASK": {
+      "fields": 3,
+      "multiple": 2,
+      "searchable": 1,
+      "type:crm": 1,
+      "type:disk_file": 1,
+      "type:mail_message": 1
+    },
+    "TASKS_TASK_CHECKLIST": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "TASKS_TASK_RESULT": {
+      "fields": 2,
+      "multiple": 1,
+      "type:disk_file": 1,
+      "type:url_preview": 1
+    },
+    "TASKS_TASK_TEMPLATE": {
+      "fields": 2,
+      "multiple": 2,
+      "searchable": 1,
+      "type:crm": 1,
+      "type:disk_file": 1
+    },
+    "TASKS_TASK_TEMPLATE_CHECKLIST": {
+      "fields": 1,
+      "multiple": 1,
+      "type:disk_file": 1
+    },
+    "USER": {
+      "fields": 36,
+      "multiple": 2,
+      "searchable": 16,
+      "type:boolean": 1,
+      "type:crm": 1,
+      "type:date": 1,
+      "type:datetime": 1,
+      "type:enumeration": 4,
+      "type:iblock_section": 1,
+      "type:string": 24,
+      "type:string_formatted": 1,
+      "type:url": 2
+    },
+    "USER_LEGAL": {
+      "fields": 7,
+      "type:snils": 1,
+      "type:string": 6
+    }
+  }
+}

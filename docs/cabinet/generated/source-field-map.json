@@ -1,0 +1,1974 @@
+{
+  "map_version": "1.1.0",
+  "source_system": "bitrix",
+  "snapshot_sha256": "7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+  "common_rules": {
+    "enum_source": "b_user_field_enum.USER_FIELD_ID",
+    "multi_value_source_of_truth": "b_utm_*",
+    "b_uts_multi_value_role": "PHP-serialized mirror only",
+    "raw_values_in_logs": false,
+    "automatic_employee_candidate_merge": false
+  },
+  "contact_fields": [
+    {
+      "id": 114,
+      "label": "Реферальный код",
+      "source": "b_uts_crm_contact.UF_CRM_1739523138",
+      "target": "crm_profile.referral_code",
+      "type": "string",
+      "truth": "field",
+      "ambiguity": "not a dedupe key",
+      "source_label": "Реферальный код"
+    },
+    {
+      "id": 183,
+      "label": "Номер заявки",
+      "source": "b_uts_crm_contact.UF_CRM_1742294677003",
+      "target": "program_participation.application_number",
+      "type": "string",
+      "truth": "field",
+      "ambiguity": "34 duplicate keys affecting 71 contacts; no unique constraint before reconciliation",
+      "source_label": "Номер заявки"
+    },
+    {
+      "id": 171,
+      "label": "Статус",
+      "source": "b_uts_crm_contact.UF_CRM_1741079182998",
+      "target": "program_participation.legacy_status",
+      "type": "enumeration",
+      "truth": "supporting_snapshot",
+      "ambiguity": "case STAGE_ID is workflow truth",
+      "source_label": "Статус"
+    },
+    {
+      "id": 206,
+      "label": "Согласие на обработку персональных данных",
+      "source": "b_uts_crm_contact.UF_CRM_1746464685417",
+      "target": "consent.personal_data_processing",
+      "type": "boolean",
+      "truth": "field",
+      "ambiguity": "distinguish empty from false",
+      "source_label": "Я подтверждаю свое согласие на обработку персональных данных, в соответствии с политикой конфидециальности"
+    },
+    {
+      "id": 167,
+      "label": "Резюме",
+      "source": "b_uts_crm_contact.UF_CRM_1740391753843",
+      "target": "attachment.resume_file_id",
+      "type": "file_id",
+      "truth": "field",
+      "ambiguity": "1478 of 1478 references valid; binary snapshot absent",
+      "source_label": "Резюме"
+    },
+    {
+      "id": 345,
+      "label": "Дополнительные документы",
+      "source": "b_utm_crm_contact.FIELD_ID=345.VALUE_INT",
+      "target": "attachment.additional_file_ids",
+      "type": "file_id_array",
+      "truth": "utm",
+      "ambiguity": "8 of 8 references valid; binary snapshot absent",
+      "source_label": "Дополнительные документы"
+    },
+    {
+      "id": 189,
+      "label": "Работодатель",
+      "source": "b_utm_crm_contact.FIELD_ID=189.VALUE",
+      "target": "crm_profile.legacy_employer_summary_ids",
+      "type": "company_id_array",
+      "truth": "supporting_only",
+      "ambiguity": "dynamic 1042 is canonical; 1104 valid and 6 invalid references",
+      "source_label": "Работодатель"
+    },
+    {
+      "id": 383,
+      "label": "Рекомендатель в контакте",
+      "source": "b_uts_crm_contact.UF_CRM_1772658002",
+      "target": "recommendation.recommender_person_id",
+      "type": "contact_id",
+      "truth": "explicit_relation",
+      "ambiguity": "106 valid and 1 invalid reference",
+      "source_label": "Рекомендатель в контакте"
+    },
+    {
+      "id": 233,
+      "label": "Амбассадор",
+      "source": "b_uts_crm_contact.UF_CRM_1760617147",
+      "target": "crm_profile.ambassador_person_id",
+      "type": "contact_id",
+      "truth": "explicit_relation",
+      "ambiguity": "44 valid; one self-link",
+      "source_label": "Амбассадор"
+    },
+    {
+      "id": 128,
+      "label": "Семейное положение",
+      "source": "b_uts_crm_contact.UF_CRM_1739527814",
+      "target": "crm_profile.household.legacy_marital_text",
+      "type": "string",
+      "truth": "legacy_fallback",
+      "ambiguity": "unstructured",
+      "source_label": "Семейное положение"
+    },
+    {
+      "id": 129,
+      "label": "Дети",
+      "source": "b_uts_crm_contact.UF_CRM_1739527830",
+      "target": "crm_profile.household.legacy_children_text",
+      "type": "string",
+      "truth": "legacy_fallback",
+      "ambiguity": "unstructured",
+      "source_label": "Дети"
+    },
+    {
+      "id": 169,
+      "label": "Количество детей",
+      "source": "b_uts_crm_contact.UF_CRM_1741078462909",
+      "target": "crm_profile.household.legacy_children_count",
+      "type": "double",
+      "truth": "legacy_fallback",
+      "ambiguity": "person snapshot may differ from case",
+      "source_label": "Кол-во детей"
+    },
+    {
+      "id": 170,
+      "label": "Количество членов семьи",
+      "source": "b_uts_crm_contact.UF_CRM_1741078526352",
+      "target": "crm_profile.household.legacy_family_member_count",
+      "type": "double",
+      "truth": "legacy_fallback",
+      "ambiguity": "person snapshot may differ from case",
+      "source_label": "Кол-во членов семьи"
+    },
+    {
+      "id": 119,
+      "label": "Дата постоянной регистрации",
+      "source": "b_uts_crm_contact.UF_CRM_1739525055",
+      "target": "crm_profile.registration.permanent_date",
+      "type": "date",
+      "truth": "field",
+      "ambiguity": "not relocation date",
+      "source_label": "Дата постоянной регистрации"
+    },
+    {
+      "id": 120,
+      "label": "Дата временной регистрации",
+      "source": "b_uts_crm_contact.UF_CRM_1739525147",
+      "target": "crm_profile.registration.temporary_date",
+      "type": "date",
+      "truth": "field",
+      "ambiguity": "not relocation date",
+      "source_label": "Дата временной регистрации"
+    }
+  ],
+  "deal_fields": [
+    {
+      "id": 194,
+      "label": "Работодатель",
+      "source": "b_utm_crm_deal.FIELD_ID=194.VALUE",
+      "target": "crm_case.legacy_employer_summary_ids",
+      "type": "company_id_array",
+      "truth": "supporting_only",
+      "ambiguity": "dynamic 1042 is canonical; 626 valid and 6 invalid references",
+      "source_label": "Работодатель"
+    },
+    {
+      "id": 196,
+      "label": "Дата трудоустройства",
+      "source": "b_uts_crm_deal.UF_CRM_1742469270280",
+      "target": "crm_case.employment_date",
+      "type": "date",
+      "truth": "field",
+      "ambiguity": "reconcile with stage and timeline",
+      "source_label": "Дата трудоустройства"
+    },
+    {
+      "id": 200,
+      "label": "Муниципалитет",
+      "source": "b_uts_crm_deal.UF_CRM_1742550450292",
+      "target": "relocation_profile.municipality_code",
+      "type": "enumeration",
+      "truth": "primary_municipality",
+      "ambiguity": "crosswalk to territory dictionary",
+      "source_label": "Муниципалитет"
+    },
+    {
+      "id": 310,
+      "label": "Населенный пункт",
+      "source": "b_uts_crm_deal.UF_CRM_1768909094",
+      "target": "relocation_profile.settlement_legacy_id",
+      "type": "iblock_element_id",
+      "truth": "supporting",
+      "ambiguity": "separate iblock crosswalk",
+      "source_label": "Населенный пункт (выбрать)"
+    },
+    {
+      "id": 223,
+      "label": "Трудоустроен",
+      "source": "b_uts_crm_deal.UF_CRM_1753863368307",
+      "target": "crm_case.flags.employed_legacy",
+      "type": "boolean",
+      "truth": "supporting_snapshot",
+      "ambiguity": "may conflict with stage, date, and field 406",
+      "source_label": "Трудоустроен"
+    },
+    {
+      "id": 406,
+      "label": "Трудоустрроен?",
+      "source": "b_uts_crm_deal.UF_CRM_1774964823614",
+      "target": "crm_case.flags.employed_later_legacy",
+      "type": "boolean",
+      "truth": "supporting_snapshot",
+      "ambiguity": "duplicate later field; owner-approved precedence required",
+      "source_label": "Трудоустрроен?"
+    },
+    {
+      "id": 224,
+      "label": "Переехал",
+      "source": "b_uts_crm_deal.UF_CRM_1753863405091",
+      "target": "crm_case.flags.moved_legacy",
+      "type": "boolean",
+      "truth": "supporting_snapshot",
+      "ambiguity": "stage and date are separate evidence",
+      "source_label": "Переехал"
+    },
+    {
+      "id": 225,
+      "label": "Зарегистрирован",
+      "source": "b_uts_crm_deal.UF_CRM_1753863435404",
+      "target": "crm_case.flags.registered_legacy",
+      "type": "boolean",
+      "truth": "supporting_snapshot",
+      "ambiguity": "registration dates are separate evidence",
+      "source_label": "Зарегистрирован"
+    },
+    {
+      "id": 250,
+      "label": "Этап трудоустройства",
+      "source": "b_uts_crm_deal.UF_CRM_1760952900341",
+      "target": "crm_case.employment_stage_legacy",
+      "type": "enumeration",
+      "truth": "supporting_snapshot",
+      "ambiguity": "canonical target workflow requires owner approval",
+      "source_label": "Этап трудоустройства"
+    },
+    {
+      "id": 267,
+      "label": "Дата переезда",
+      "source": "b_uts_crm_deal.UF_CRM_1760966132418",
+      "target": "relocation_profile.relocation_date",
+      "type": "date",
+      "truth": "field",
+      "ambiguity": "planned versus actual not encoded",
+      "source_label": "Дата переезда"
+    },
+    {
+      "id": 252,
+      "label": "Супруг в CRM",
+      "source": "b_uts_crm_deal.UF_CRM_1760954707",
+      "target": "crm_case.household.spouse_person_id",
+      "type": "contact_id",
+      "truth": "explicit_relation",
+      "ambiguity": "accept numeric and C_<id> syntax",
+      "source_label": "Супруг в CRM"
+    },
+    {
+      "id": 251,
+      "label": "Дети есть?",
+      "source": "b_uts_crm_deal.UF_CRM_1760954734989",
+      "target": "crm_case.household.has_children",
+      "type": "boolean",
+      "truth": "case_field",
+      "ambiguity": null,
+      "source_label": "Дети есть?"
+    },
+    {
+      "id": 253,
+      "label": "Количество детей",
+      "source": "b_uts_crm_deal.UF_CRM_1760955367445",
+      "target": "crm_case.household.children_count",
+      "type": "double",
+      "truth": "case_field",
+      "ambiguity": "validate integer semantics",
+      "source_label": "Количество детей"
+    },
+    {
+      "id": 254,
+      "label": "Возраст детей",
+      "source": "b_utm_crm_deal.FIELD_ID=254.VALUE_INT",
+      "target": "crm_case.household.children_ages",
+      "type": "integer_array",
+      "truth": "utm",
+      "ambiguity": "age snapshot",
+      "source_label": "Возраст детей"
+    },
+    {
+      "id": 255,
+      "label": "Общее количество переезжающих",
+      "source": "b_uts_crm_deal.UF_CRM_1760955131",
+      "target": "crm_case.household.total_moving",
+      "type": "integer",
+      "truth": "case_field",
+      "ambiguity": null,
+      "source_label": "Общее количество переезжающих"
+    },
+    {
+      "id": 341,
+      "label": "Дата рождения детей",
+      "source": "b_utm_crm_deal.FIELD_ID=341.VALUE_DATE",
+      "target": "crm_case.household.children_birth_dates",
+      "type": "date_array",
+      "truth": "utm",
+      "ambiguity": "may not align positionally with ages",
+      "source_label": "Дата рождения детей"
+    },
+    {
+      "id": 375,
+      "label": "Другие родственники в CRM",
+      "source": "b_utm_crm_deal.FIELD_ID=375.VALUE",
+      "target": "crm_case.household.relative_person_ids",
+      "type": "contact_id_array",
+      "truth": "explicit_relations",
+      "ambiguity": "validate every target contact",
+      "source_label": "Другие родственники в CRM"
+    },
+    {
+      "id": 263,
+      "label": "Резюме сделки",
+      "source": "b_uts_crm_deal.UF_CRM_1760965805010",
+      "target": "attachment.case_resume_file_id",
+      "type": "file_id",
+      "truth": "field",
+      "ambiguity": "933 of 933 references valid; binary snapshot absent",
+      "source_label": "Резюме (сделка)"
+    },
+    {
+      "id": 404,
+      "label": "Дополнительные документы",
+      "source": "b_utm_crm_deal.FIELD_ID=404.VALUE_INT",
+      "target": "attachment.case_additional_file_ids",
+      "type": "file_id_array",
+      "truth": "utm",
+      "ambiguity": "59 of 59 references valid; binary snapshot absent",
+      "source_label": "Дополнительные документы"
+    },
+    {
+      "id": 384,
+      "label": "Рекомендатель",
+      "source": "b_uts_crm_deal.UF_CRM_1772658211",
+      "target": "crm_case.recommender_person_id",
+      "type": "contact_id",
+      "truth": "explicit_relation",
+      "ambiguity": "173 valid deals and 3 invalid references",
+      "source_label": "Рекомендатель"
+    },
+    {
+      "id": 332,
+      "label": "Дата создания анкеты",
+      "source": "b_uts_crm_deal.UF_CRM_1769425500",
+      "target": "crm_case.application_created_date",
+      "type": "date",
+      "truth": "field",
+      "ambiguity": "legacy application timestamp",
+      "source_label": "Дата создания анкеты"
+    },
+    {
+      "id": 356,
+      "label": "Откуда приехали",
+      "source": "b_uts_crm_deal.UF_CRM_1771334896",
+      "target": "relocation_profile.origin_region_code",
+      "type": "enumeration",
+      "truth": "field",
+      "ambiguity": "region/country crosswalk required",
+      "source_label": "Откуда приехали"
+    }
+  ],
+  "dynamic_1042_fields": [
+    {
+      "id": null,
+      "label": "ID",
+      "source": "b_crm_dynamic_items_1042.ID",
+      "target": "employer_referral.legacy_id",
+      "type": "integer",
+      "truth": "primary_key",
+      "ambiguity": null
+    },
+    {
+      "id": null,
+      "label": "COMPANY_ID",
+      "source": "b_crm_dynamic_items_1042.COMPANY_ID",
+      "target": "employer_referral.employer_id",
+      "type": "company_id",
+      "truth": "canonical_employer",
+      "ambiguity": "6 empty"
+    },
+    {
+      "id": null,
+      "label": "ASSIGNED_BY_ID",
+      "source": "b_crm_dynamic_items_1042.ASSIGNED_BY_ID",
+      "target": "employer_referral.owner_employee_id",
+      "type": "user_id",
+      "truth": "canonical_owner",
+      "ambiguity": "do not collapse with contact or deal owner"
+    },
+    {
+      "id": null,
+      "label": "STAGE_ID",
+      "source": "b_crm_dynamic_items_1042.STAGE_ID",
+      "target": "employer_referral.status_code",
+      "type": "status_code",
+      "truth": "current_stage",
+      "ambiguity": "map DYNAMIC_1042_STAGE_8"
+    },
+    {
+      "id": 358,
+      "label": "Вакансия / должность",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772366498",
+      "target": "employer_referral.vacancy_or_position",
+      "type": "string",
+      "truth": "field",
+      "ambiguity": "no vacancy foreign key",
+      "source_label": "Вакансия / должность"
+    },
+    {
+      "id": 359,
+      "label": "Дата отправки",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772366586",
+      "target": "employer_referral.sent_at",
+      "type": "datetime",
+      "truth": "canonical_send_timestamp",
+      "ambiguity": null,
+      "source_label": "Дата отправки"
+    },
+    {
+      "id": 360,
+      "label": "Комментарий",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772366686",
+      "target": "employer_referral.comment",
+      "type": "string",
+      "truth": "field",
+      "ambiguity": "PII possible; redact logs",
+      "source_label": "Комментарий"
+    },
+    {
+      "id": 361,
+      "label": "Канал отправки",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772366729",
+      "target": "employer_referral.channel_code",
+      "type": "enumeration",
+      "truth": "field",
+      "ambiguity": "map enum IDs 597, 601, 602, 603, 799, 800, 801, 802",
+      "source_label": "Канал отправки"
+    },
+    {
+      "id": 385,
+      "label": "тест",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772693942281",
+      "target": "employer_referral.legacy_test_flag",
+      "type": "boolean",
+      "truth": "unknown_legacy",
+      "ambiguity": "exclude until owner confirms",
+      "source_label": "тест"
+    },
+    {
+      "id": 386,
+      "label": "Кандидат трудоустроился в эту компанию?",
+      "source": "b_crm_dynamic_items_1042.UF_CRM_4_1772694354360",
+      "target": "employer_referral.hired_here",
+      "type": "yes_no_enumeration",
+      "truth": "field",
+      "ambiguity": "reconcile with referral stage and case employment",
+      "source_label": "Кандидат трудоустроился в эту компанию?"
+    }
+  ],
+  "dynamic_1042_candidate_binding": {
+    "source": "b_crm_entity_relation",
+    "predicate": "SRC_ENTITY_TYPE_ID=2 and DST_ENTITY_TYPE_ID=1042",
+    "path": "deal -> primary case person -> employer referral",
+    "contact_id_on_dynamic_item_is_canonical": false,
+    "complete_candidate_and_employer": 1795,
+    "conflict_rows": 13
+  },
+  "enum_maps": {
+    "UF_CRM_1741079182998/field_171": {
+      "56": "Новый",
+      "57": "В работе",
+      "58": "Переехал",
+      "59": "Отказ",
+      "80": "Переезд",
+      "103": "Резерв",
+      "104": "Трудоустроен",
+      "134": "Ожидаем резюме",
+      "454": "Недозвон"
+    },
+    "UF_CRM_1760952900341/field_250": {
+      "171": "Поиск",
+      "172": "Запрос резюме",
+      "173": "В процессе трудоустройства",
+      "174": "Отказ",
+      "175": "Резерв",
+      "458": "Трудоустроен",
+      "715": "Подготовка документов",
+      "797": "Ждем итоги конкурса"
+    },
+    "UF_CRM_4_1772366729/field_361": {
+      "597": "Email",
+      "601": "Другое",
+      "602": "Телеграмм",
+      "603": "Max",
+      "799": "Чат обра",
+      "800": "Чат здрава",
+      "801": "Чат пром",
+      "802": "Чат туризма"
+    },
+    "UF_CRM_4_1772694354360/field_386": {
+      "759": "Да",
+      "760": "Нет"
+    },
+    "UF_CRM_1742550450292/field_200": {
+      "297": "МО ГО город-герой Мурманск",
+      "298": "МО ГО ЗАТО Александровск",
+      "299": "МО ГО ЗАТО Видяево",
+      "300": "МО ГО ЗАТО Заозерск",
+      "301": "МО ГО ЗАТО Отровной",
+      "302": "МО ГО ЗАТО Североморск",
+      "303": "МО ГО Апатиты",
+      "304": "МО ГО Кировск",
+      "305": "Ковдорский МО",
+      "306": "МО ГО Мончегорск",
+      "307": "МО ГО Оленегорск",
+      "308": "Печенгский МО",
+      "309": "МО ГО Полярные Зори",
+      "310": "Кандалакшский МО",
+      "311": "Кольский МО",
+      "312": "Ловозерский МО",
+      "313": "Терский МО"
+    },
+    "UF_CRM_1771334896/field_356": {
+      "506": "Адыгея",
+      "507": "Алтайская Республика",
+      "508": "Башкортостан",
+      "509": "Республика Бурятия",
+      "510": "Дагестан",
+      "511": "Донецкая Народная Республика",
+      "512": "Ингушетия",
+      "513": "Кабардино-Балкарская Республика",
+      "514": "Республика Калмыкия",
+      "515": "Карачаево-Черкесская Республика",
+      "516": "Республика Карелия",
+      "517": "Республика Коми",
+      "518": "Республика Крым",
+      "519": "Луганская Народная Республика",
+      "520": "Республика Марий Эл",
+      "521": "Республика Мордовия",
+      "522": "Республика Саха (Якутия)",
+      "523": "Республика Северная Осетия — Алания",
+      "524": "Республика Татарстан (Татарстан)",
+      "525": "Республика Тыва",
+      "526": "Удмуртская Республика",
+      "527": "Республика Хакасия",
+      "528": "Чеченская Республика",
+      "529": "Чувашская Республика — Чувашия",
+      "530": "Алтайский край",
+      "531": "Забайкальский край",
+      "532": "Камчатский край",
+      "533": "Краснодарский край",
+      "534": "Красноярский край",
+      "535": "Пермский край",
+      "536": "Приморский край",
+      "537": "Ставропольский край",
+      "538": "Хабаровский край",
+      "539": "Амурская область",
+      "540": "Архангельская область",
+      "541": "Астраханская область",
+      "542": "Белгородская область",
+      "543": "Брянская область",
+      "544": "Владимирская область",
+      "545": "Волгоградская область",
+      "546": "Вологодская область",
+      "547": "Воронежская область",
+      "548": "Ивановская область",
+      "549": "Иркутская область",
+      "550": "Калининградская область",
+      "551": "Калужская область",
+      "552": "Кемеровская область — Кузбасс",
+      "553": "Кировская область",
+      "554": "Костромская область",
+      "555": "Курганская область",
+      "556": "Курская область",
+      "557": "Ленинградская область",
+      "558": "Липецкая область",
+      "559": "Магаданская область",
+      "560": "Московская область",
+      "561": "Мурманская область",
+      "562": "Нижегородская область",
+      "563": "Новгородская область",
+      "564": "Новосибирская область",
+      "565": "Омская область",
+      "566": "Оренбургская область",
+      "567": "Орловская область",
+      "568": "Пензенская область",
+      "569": "Псковская область",
+      "570": "Ростовская область",
+      "571": "Рязанская область",
+      "572": "Самарская область",
+      "573": "Саратовская область",
+      "574": "Сахалинская область",
+      "575": "Свердловская область",
+      "576": "Смоленская область",
+      "577": "Тамбовская область",
+      "578": "Тверская область",
+      "579": "Томская область",
+      "580": "Тульская область",
+      "581": "Тюменская область",
+      "582": "Ульяновская область",
+      "583": "Челябинская область",
+      "584": "Ярославская область",
+      "585": "Запорожская область",
+      "586": "Херсонская область",
+      "587": "Москва",
+      "588": "Санкт-Петербург",
+      "589": "Севастополь",
+      "590": "Еврейская автономная область",
+      "591": "Ненецкий автономный округ",
+      "592": "Ханты-Мансийский автономный округ — Югра",
+      "593": "Ямало-Ненецкий автономный округ",
+      "594": "Чукотский автономный округ",
+      "595": "Беларусь",
+      "596": "Казахстан",
+      "795": "Украина",
+      "796": "Аргентина",
+      "798": "Туркменистан",
+      "803": "Таджикистан",
+      "804": "Египет",
+      "805": "Марокко",
+      "806": "Израиль",
+      "807": "Турция"
+    }
+  },
+  "enum_rules": {
+    "target_keys_use_source_id_or_code": true,
+    "source_labels_are_provenance_not_stable_keys": true,
+    "source_typos_are_preserved": true,
+    "territory_label_correction_requires_approved_crosswalk": true,
+    "consent_boolean_is_not_full_legal_consent_trail": true
+  },
+  "funnel_categories": [
+    {
+      "id": 0,
+      "name": "Основная воронка",
+      "rows": 222,
+      "target": "relocation_legacy",
+      "ambiguity": "implicit category; owner approval required"
+    },
+    {
+      "id": 1,
+      "name": "Арктический маяк",
+      "rows": 1,
+      "target": "recommendation_legacy",
+      "ambiguity": "do not mix into relocation"
+    },
+    {
+      "id": 2,
+      "name": "Переезд",
+      "rows": 1675,
+      "target": "relocation",
+      "ambiguity": null
+    },
+    {
+      "id": 3,
+      "name": "Практика",
+      "rows": 1,
+      "target": "student_practice",
+      "ambiguity": "only deal is contactless"
+    },
+    {
+      "id": 5,
+      "name": "Порвторная практика",
+      "rows": 0,
+      "target": "student_practice_repeat_metadata",
+      "ambiguity": "source typo; no data"
+    }
+  ],
+  "stages": {
+    "DEAL_STAGE/category_0": [
+      {
+        "code": "UC_N7524Q",
+        "label": "Организация перезда",
+        "semantics": null,
+        "rows": 12,
+        "source_status_id": 116,
+        "source_category_id": 0
+      },
+      {
+        "code": "NEW",
+        "label": "Переехал",
+        "semantics": null,
+        "rows": 39,
+        "source_status_id": 51,
+        "source_category_id": 0
+      },
+      {
+        "code": "FINAL_INVOICE",
+        "label": "В процессе трудоустройства",
+        "semantics": null,
+        "rows": 3,
+        "source_status_id": 55,
+        "source_category_id": 0
+      },
+      {
+        "code": "UC_O5TRI0",
+        "label": "Трудоустроен",
+        "semantics": null,
+        "rows": 103,
+        "source_status_id": 117,
+        "source_category_id": 0
+      },
+      {
+        "code": "UC_RFV4OO",
+        "label": "В процессе регистрации",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 115,
+        "source_category_id": 0
+      },
+      {
+        "code": "UC_A5JIBR",
+        "label": "Зарегистрирован",
+        "semantics": null,
+        "rows": 2,
+        "source_status_id": 118,
+        "source_category_id": 0
+      },
+      {
+        "code": "WON",
+        "label": "Обработка завершена",
+        "semantics": "S",
+        "rows": 47,
+        "source_status_id": 56,
+        "source_category_id": 0
+      },
+      {
+        "code": "LOSE",
+        "label": "Не рассматривает",
+        "semantics": "F",
+        "rows": 6,
+        "source_status_id": 57,
+        "source_category_id": 0
+      },
+      {
+        "code": "1",
+        "label": "Не выходит на связь",
+        "semantics": "F",
+        "rows": 5,
+        "source_status_id": 108,
+        "source_category_id": 0
+      },
+      {
+        "code": "2",
+        "label": "По семейным обстоятельствам",
+        "semantics": "F",
+        "rows": 5,
+        "source_status_id": 109,
+        "source_category_id": 0
+      },
+      {
+        "code": "3",
+        "label": "Другое",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 111,
+        "source_category_id": 0
+      }
+    ],
+    "DEAL_STAGE_1/category_1": [
+      {
+        "code": "C1:NEW",
+        "label": "Новая завяка",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 88,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:PREPARATION",
+        "label": "Отработка заявки",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 89,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:UC_85UMFX",
+        "label": "Подбор и предложение вакансий",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 96,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:UC_1FVL9Z",
+        "label": "На рассмотрении у работодателя",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 97,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:PREPAYMENT_INVOICE",
+        "label": "Переезд",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 90,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:7",
+        "label": "Трудоустройство",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 112,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:UC_NY49PO",
+        "label": "Регистрация в регионе",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 98,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:EXECUTING",
+        "label": "Проверка условий и подтверждение",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 91,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:FINAL_INVOICE",
+        "label": "Выплата",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 92,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:WON",
+        "label": "Завершено",
+        "semantics": "S",
+        "rows": 1,
+        "source_status_id": 93,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:LOSE",
+        "label": "Реферал не подтвердил свою заявку",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 94,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:UC_MJ8YOZ",
+        "label": "Реферал не соответствует требованиям программы",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 100,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:1",
+        "label": "Реферал отказался от участия",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 101,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:2",
+        "label": "Реферал не выполнил условия переезда",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 102,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:3",
+        "label": "Реферал не выполнил условия трудоустройства",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 103,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:4",
+        "label": "Реферал нарушил правила программы",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 104,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:5",
+        "label": "Документы, подтверждающие выполнение условий, не предоставлены или отклонены",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 105,
+        "source_category_id": 1
+      },
+      {
+        "code": "C1:6",
+        "label": "Реферер не запросил выплату",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 106,
+        "source_category_id": 1
+      }
+    ],
+    "DEAL_STAGE_2/category_2": [
+      {
+        "code": "C2:NEW",
+        "label": "Новая заявка",
+        "semantics": null,
+        "rows": 3,
+        "target_state": "new",
+        "source_status_id": 138,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:UC_JA4PHP",
+        "label": "Недозвон",
+        "semantics": null,
+        "rows": 21,
+        "target_state": "qualification",
+        "target_substatus": "unreachable",
+        "source_status_id": 174,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:PREPARATION",
+        "label": "Рассматривает возможность переезда",
+        "semantics": null,
+        "rows": 398,
+        "target_state": "qualification",
+        "target_substatus": "considering",
+        "source_status_id": 139,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:UC_G30UN1",
+        "label": "Переезд отложен",
+        "semantics": null,
+        "rows": 37,
+        "target_state": "qualification",
+        "target_substatus": "postponed",
+        "source_status_id": 146,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:PREPAYMENT_INVOICE",
+        "label": "Даты запланированы",
+        "semantics": null,
+        "rows": 54,
+        "target_state": "relocation_preparation",
+        "target_substatus": "dates_planned",
+        "source_status_id": 140,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:EXECUTING",
+        "label": "Билеты куплены",
+        "semantics": null,
+        "rows": 19,
+        "target_state": "relocation_preparation",
+        "target_substatus": "tickets_bought",
+        "source_status_id": 141,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:WON",
+        "label": "Переехал",
+        "semantics": "S",
+        "rows": 688,
+        "target_state": "moved",
+        "source_status_id": 143,
+        "source_category_id": 2
+      },
+      {
+        "code": "C2:LOSE",
+        "label": "Отказ от переезда",
+        "semantics": "F",
+        "rows": 455,
+        "target_state": "closed_unsuccessful",
+        "target_reason": "relocation_declined",
+        "source_status_id": 144,
+        "source_category_id": 2
+      }
+    ],
+    "DEAL_STAGE_3/category_3": [
+      {
+        "code": "C3:NEW",
+        "label": "Новый студент",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "new",
+        "source_status_id": 154,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_D2QR8D",
+        "label": "Недозвон",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "qualification",
+        "target_substatus": "unreachable",
+        "source_status_id": 193,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:PREPARATION",
+        "label": "Запрос резюме",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "qualification",
+        "target_substatus": "resume_requested",
+        "source_status_id": 155,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_RM7RB3",
+        "label": "Практика 2027",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "practice_selection",
+        "target_substatus": "year_2027",
+        "source_status_id": 194,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_B5ZRVT",
+        "label": "Практика 2028",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "practice_selection",
+        "target_substatus": "year_2028",
+        "source_status_id": 195,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_Q4Y6HF",
+        "label": "Практика 2029",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "practice_selection",
+        "target_substatus": "year_2029",
+        "source_status_id": 196,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_LIWS7C",
+        "label": "Практика 2030",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "practice_selection",
+        "target_substatus": "year_2030",
+        "source_status_id": 197,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:PREPAYMENT_INVOICE",
+        "label": "Подбор места практики",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "practice_selection",
+        "source_status_id": 156,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:EXECUTING",
+        "label": "Согласован на практику",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "placement_confirmed",
+        "source_status_id": 157,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:FINAL_INVOICE",
+        "label": "Проходит практику",
+        "semantics": null,
+        "rows": 0,
+        "target_state": "in_practice",
+        "source_status_id": 158,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:WON",
+        "label": "Практика пройдена",
+        "semantics": "S",
+        "rows": 0,
+        "target_state": "completed",
+        "source_status_id": 159,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:LOSE",
+        "label": "Необходимо трудоустройство",
+        "semantics": "F",
+        "rows": 1,
+        "target_state": null,
+        "target_substatus": "employment_required",
+        "ambiguity": "source marks failure but label is a next need; owner decision required",
+        "source_status_id": 160,
+        "source_category_id": 3
+      },
+      {
+        "code": "C3:UC_WHHSU1",
+        "label": "Отказ от практики",
+        "semantics": "F",
+        "rows": 0,
+        "target_state": "closed_unsuccessful",
+        "target_reason": "practice_declined",
+        "source_status_id": 198,
+        "source_category_id": 3
+      }
+    ],
+    "DEAL_STAGE_5/category_5": [
+      {
+        "code": "C5:NEW",
+        "label": "Новая",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 175,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:PREPARATION",
+        "label": "Подготовка документов",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 176,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:PREPAYMENT_INVOICE",
+        "label": "Cчёт на предоплату",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 177,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:EXECUTING",
+        "label": "В работе",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 178,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:FINAL_INVOICE",
+        "label": "Финальный счёт",
+        "semantics": null,
+        "rows": 0,
+        "source_status_id": 179,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:WON",
+        "label": "Сделка успешна",
+        "semantics": "S",
+        "rows": 0,
+        "source_status_id": 180,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:LOSE",
+        "label": "Сделка провалена",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 181,
+        "source_category_id": 5
+      },
+      {
+        "code": "C5:APOLOGY",
+        "label": "Анализ причины провала",
+        "semantics": "F",
+        "rows": 0,
+        "source_status_id": 182,
+        "source_category_id": 5
+      }
+    ],
+    "DYNAMIC_1042_STAGE_8": [
+      {
+        "code": "DT1042_8:NEW",
+        "label": "Направлен",
+        "semantics": null,
+        "rows": 335,
+        "target_state": "sent",
+        "source_status_id": 184,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:PREPARATION",
+        "label": "Запрошена ОС",
+        "semantics": null,
+        "rows": 423,
+        "target_state": "feedback_requested",
+        "source_status_id": 185,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:UC_SGGLXN",
+        "label": "Глухой игнор",
+        "semantics": null,
+        "rows": 8,
+        "target_state": "ignored",
+        "source_status_id": 201,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:CLIENT",
+        "label": "Согласование (Собеседование)",
+        "semantics": null,
+        "rows": 48,
+        "target_state": "interview",
+        "source_status_id": 186,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:UC_6UKH1W",
+        "label": "Согласован",
+        "semantics": null,
+        "rows": 51,
+        "target_state": "approved",
+        "target_substatus": "agreed",
+        "source_status_id": 189,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:UC_CX2NK6",
+        "label": "Резерв",
+        "semantics": null,
+        "rows": 89,
+        "target_state": "reserved",
+        "source_status_id": 190,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:SUCCESS",
+        "label": "Одобрен",
+        "semantics": "S",
+        "rows": 34,
+        "target_state": "approved",
+        "ambiguity": "owner must decide whether final source success maps to approved or accepted",
+        "source_status_id": 187,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:FAIL",
+        "label": "Отказ работодателя",
+        "semantics": "F",
+        "rows": 606,
+        "target_state": "rejected_by_employer",
+        "source_status_id": 188,
+        "source_category_id": 8
+      },
+      {
+        "code": "DT1042_8:UC_FFA4QN",
+        "label": "Отказ кандидата",
+        "semantics": "F",
+        "rows": 214,
+        "target_state": "rejected_by_candidate",
+        "source_status_id": 192,
+        "source_category_id": 8
+      }
+    ]
+  },
+  "activity_timeline_file_bindings": [
+    {
+      "source": "b_crm_act.ID",
+      "target": "crm_activity",
+      "truth": "payload",
+      "ambiguity": "OWNER_ID and OWNER_TYPE_ID are legacy primary link only"
+    },
+    {
+      "source": "b_crm_act_bind.ACTIVITY_ID,OWNER_TYPE_ID,OWNER_ID",
+      "target": "crm_activity_subject",
+      "truth": "canonical_normalized_binding",
+      "ambiguity": "decode numeric CRM entity type"
+    },
+    {
+      "source": "b_crm_act_elem.ACTIVITY_ID,STORAGE_TYPE_ID,ELEMENT_ID",
+      "target": "attachment.activity_binding",
+      "truth": "canonical_attachment_binding",
+      "ambiguity": "all STORAGE_TYPE_ID=3; ELEMENT_ID points to b_disk_object.ID; 5 of 446 unresolved"
+    },
+    {
+      "source": "b_crm_timeline.ID",
+      "target": "timeline_event",
+      "truth": "timeline_payload",
+      "ambiguity": "dedupe against event and activity by fingerprint"
+    },
+    {
+      "source": "b_crm_timeline_bind.OWNER_ID,ENTITY_TYPE_ID,ENTITY_ID",
+      "target": "timeline_subject",
+      "truth": "canonical_binding",
+      "ambiguity": null
+    },
+    {
+      "source": "b_crm_event.ID",
+      "target": "legacy_crm_event",
+      "truth": "legacy_payload",
+      "ambiguity": "may duplicate timeline/activity; FILES is legacy serialized"
+    },
+    {
+      "source": "b_crm_event_relations.EVENT_ID,ENTITY_TYPE,ENTITY_ID",
+      "target": "legacy_event_subject",
+      "truth": "event_binding",
+      "ambiguity": "text entity types; recovers 2 otherwise contactless deals"
+    },
+    {
+      "source": "b_utm_crm_timeline.FIELD_ID=14.VALUE_INT",
+      "target": "attachment.timeline_binding",
+      "truth": "UF_CRM_COMMENT_FILES",
+      "ambiguity": "points to b_disk_attached_object.ID; all 27 valid"
+    },
+    {
+      "source": "b_disk_attached_object.ID,OBJECT_ID,VERSION_ID,MODULE_ID,ENTITY_TYPE,ENTITY_ID",
+      "target": "attachment.entity_binding",
+      "truth": "disk_connector_binding",
+      "ambiguity": "OBJECT_ID points to b_disk_object; VERSION_ID points to b_disk_version"
+    },
+    {
+      "source": "b_disk_object.ID,STORAGE_ID,PARENT_ID,REAL_OBJECT_ID,FILE_ID",
+      "target": "attachment.disk_object",
+      "truth": "logical_current_file_binding",
+      "ambiguity": "2 unresolved FILE_ID"
+    },
+    {
+      "source": "b_disk_version.ID,OBJECT_ID,FILE_ID",
+      "target": "attachment.document_version",
+      "truth": "version_history",
+      "ambiguity": "2 unresolved FILE_ID"
+    },
+    {
+      "source": "b_file.ID,SUBDIR,FILE_NAME,FILE_SIZE,CONTENT_TYPE",
+      "target": "attachment.file_metadata",
+      "truth": "metadata_only",
+      "ambiguity": "no binaries in SQL; synchronized storage snapshot required"
+    }
+  ],
+  "metadata_bindings": {
+    "custom_fields": {
+      "definition_source_table": "b_user_field",
+      "definition_ids": [
+        14,
+        40,
+        84,
+        114,
+        119,
+        120,
+        128,
+        129,
+        167,
+        169,
+        170,
+        171,
+        183,
+        189,
+        194,
+        196,
+        200,
+        206,
+        223,
+        224,
+        225,
+        233,
+        250,
+        251,
+        252,
+        253,
+        254,
+        255,
+        263,
+        267,
+        310,
+        332,
+        341,
+        345,
+        356,
+        358,
+        359,
+        360,
+        361,
+        375,
+        383,
+        384,
+        385,
+        386,
+        404,
+        406
+      ],
+      "definition_selected_count": 46,
+      "definitions": [
+        {
+          "id": 14,
+          "entity_id": "CRM_TIMELINE",
+          "field_name": "UF_CRM_COMMENT_FILES",
+          "user_type_id": "disk_file",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Load files"
+        },
+        {
+          "id": 40,
+          "entity_id": "USER",
+          "field_name": "UF_DEPARTMENT",
+          "user_type_id": "iblock_section",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Подразделения"
+        },
+        {
+          "id": 84,
+          "entity_id": "IBLOCK_3_SECTION",
+          "field_name": "UF_HEAD",
+          "user_type_id": "employee",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Руководитель"
+        },
+        {
+          "id": 114,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1739523138",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Реферальный код"
+        },
+        {
+          "id": 119,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1739525055",
+          "user_type_id": "date",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дата постоянной регистрации"
+        },
+        {
+          "id": 120,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1739525147",
+          "user_type_id": "date",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дата временной регистрации"
+        },
+        {
+          "id": 128,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1739527814",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Семейное положение"
+        },
+        {
+          "id": 129,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1739527830",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дети"
+        },
+        {
+          "id": 167,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1740391753843",
+          "user_type_id": "file",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Резюме"
+        },
+        {
+          "id": 169,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1741078462909",
+          "user_type_id": "double",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Кол-во детей"
+        },
+        {
+          "id": 170,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1741078526352",
+          "user_type_id": "double",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Кол-во членов семьи"
+        },
+        {
+          "id": 171,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1741079182998",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Статус"
+        },
+        {
+          "id": 183,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1742294677003",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Номер заявки"
+        },
+        {
+          "id": 189,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1742462391",
+          "user_type_id": "crm",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Работодатель"
+        },
+        {
+          "id": 194,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1742462733",
+          "user_type_id": "crm",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Работодатель"
+        },
+        {
+          "id": 196,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1742469270280",
+          "user_type_id": "date",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дата трудоустройства"
+        },
+        {
+          "id": 200,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1742550450292",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Муниципалитет"
+        },
+        {
+          "id": 206,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1746464685417",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Я подтверждаю свое согласие на обработку персональных данных, в соответствии с политикой конфидециальности"
+        },
+        {
+          "id": 223,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1753863368307",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Трудоустроен"
+        },
+        {
+          "id": 224,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1753863405091",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Переехал"
+        },
+        {
+          "id": 225,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1753863435404",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Зарегистрирован"
+        },
+        {
+          "id": 233,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1760617147",
+          "user_type_id": "crm",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Амбассадор"
+        },
+        {
+          "id": 250,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760952900341",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Этап трудоустройства"
+        },
+        {
+          "id": 251,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760954734989",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дети есть?"
+        },
+        {
+          "id": 252,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760954707",
+          "user_type_id": "crm",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Супруг в CRM"
+        },
+        {
+          "id": 253,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760955367445",
+          "user_type_id": "double",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Количество детей"
+        },
+        {
+          "id": 254,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760954951",
+          "user_type_id": "integer",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Возраст детей"
+        },
+        {
+          "id": 255,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760955131",
+          "user_type_id": "integer",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Общее количество переезжающих"
+        },
+        {
+          "id": 263,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760965805010",
+          "user_type_id": "file",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Резюме (сделка)"
+        },
+        {
+          "id": 267,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1760966132418",
+          "user_type_id": "date",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дата переезда"
+        },
+        {
+          "id": 310,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1768909094",
+          "user_type_id": "iblock_element",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Населенный пункт (выбрать)"
+        },
+        {
+          "id": 332,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1769425500",
+          "user_type_id": "date",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Дата создания анкеты"
+        },
+        {
+          "id": 341,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1770105639",
+          "user_type_id": "date",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Дата рождения детей"
+        },
+        {
+          "id": 345,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1770903563151",
+          "user_type_id": "file",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Дополнительные документы"
+        },
+        {
+          "id": 356,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1771334896",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Откуда приехали"
+        },
+        {
+          "id": 358,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772366498",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Вакансия / должность"
+        },
+        {
+          "id": 359,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772366586",
+          "user_type_id": "datetime",
+          "multiple": "N",
+          "mandatory": "Y",
+          "source_label_ru": "Дата отправки"
+        },
+        {
+          "id": 360,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772366686",
+          "user_type_id": "string",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Комментарий"
+        },
+        {
+          "id": 361,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772366729",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Канал отправки"
+        },
+        {
+          "id": 375,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1772605893",
+          "user_type_id": "crm",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Другие родственники в CRM"
+        },
+        {
+          "id": 383,
+          "entity_id": "CRM_CONTACT",
+          "field_name": "UF_CRM_1772658002",
+          "user_type_id": "crm",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Рекомендатель в контакте"
+        },
+        {
+          "id": 384,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1772658211",
+          "user_type_id": "crm",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Рекомендатель"
+        },
+        {
+          "id": 385,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772693942281",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "тест"
+        },
+        {
+          "id": 386,
+          "entity_id": "CRM_4",
+          "field_name": "UF_CRM_4_1772694354360",
+          "user_type_id": "enumeration",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Кандидат трудоустроился в эту компанию?"
+        },
+        {
+          "id": 404,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1773992042",
+          "user_type_id": "file",
+          "multiple": "Y",
+          "mandatory": "N",
+          "source_label_ru": "Дополнительные документы"
+        },
+        {
+          "id": 406,
+          "entity_id": "CRM_DEAL",
+          "field_name": "UF_CRM_1774964823614",
+          "user_type_id": "boolean",
+          "multiple": "N",
+          "mandatory": "N",
+          "source_label_ru": "Трудоустрроен?"
+        }
+      ],
+      "label_source_table": "b_user_field_lang",
+      "label_language_id": "ru",
+      "label_selected_count": 46,
+      "enum_source_table": "b_user_field_enum",
+      "enum_field_counts": {
+        "171": 9,
+        "200": 17,
+        "250": 8,
+        "356": 99,
+        "361": 8,
+        "386": 2
+      },
+      "enum_selected_count": 143
+    },
+    "crm_status": {
+      "source_table": "b_crm_status",
+      "entity_counts": {
+        "DEAL_STAGE": 11,
+        "DEAL_STAGE_1": 18,
+        "DEAL_STAGE_2": 8,
+        "DEAL_STAGE_3": 13,
+        "DEAL_STAGE_5": 8,
+        "DYNAMIC_1042_STAGE_8": 9,
+        "CONTACT_TYPE": 7,
+        "COMPANY_TYPE": 2,
+        "SOURCE": 17,
+        "EVENT_TYPE": 3
+      },
+      "selected_count": 96,
+      "field_bindings": [
+        {
+          "source": "b_crm_contact.TYPE_ID",
+          "entity_id": "CONTACT_TYPE"
+        },
+        {
+          "source": "b_crm_contact.SOURCE_ID",
+          "entity_id": "SOURCE"
+        },
+        {
+          "source": "b_crm_company.COMPANY_TYPE",
+          "entity_id": "COMPANY_TYPE"
+        },
+        {
+          "source": "b_crm_deal.SOURCE_ID",
+          "entity_id": "SOURCE"
+        },
+        {
+          "source": "b_crm_event.EVENT_TYPE",
+          "entity_id": "EVENT_TYPE"
+        },
+        {
+          "source": "b_crm_deal.STAGE_ID",
+          "entity_id_by_category": {
+            "0": "DEAL_STAGE",
+            "1": "DEAL_STAGE_1",
+            "2": "DEAL_STAGE_2",
+            "3": "DEAL_STAGE_3",
+            "5": "DEAL_STAGE_5"
+          }
+        },
+        {
+          "source": "b_crm_dynamic_items_1042.STAGE_ID",
+          "entity_id": "DYNAMIC_1042_STAGE_8"
+        }
+      ]
+    },
+    "deal_categories": {
+      "source_table": "b_crm_deal_category",
+      "explicit_source_ids": [
+        1,
+        2,
+        3,
+        5
+      ],
+      "explicit_source_count": 4,
+      "implicit_default": {
+        "id": 0,
+        "source_kind": "implicit_default",
+        "evidence": "b_crm_deal.CATEGORY_ID=0 plus b_crm_status rows with ENTITY_ID=DEAL_STAGE",
+        "source_table_row_present": false
+      }
+    },
+    "dynamic_1042": {
+      "type_source": {
+        "table": "b_crm_dynamic_type",
+        "entity_type_id": 1042,
+        "expected_count": 1
+      },
+      "category_source": {
+        "table": "b_crm_item_category",
+        "entity_type_id": 1042,
+        "category_id": 8,
+        "expected_count": 1
+      }
+    },
+    "organization": {
+      "iblock_source": {
+        "table": "b_iblock",
+        "id": 3,
+        "expected_count": 1
+      },
+      "unit_source": {
+        "table": "b_iblock_section",
+        "iblock_id": 3,
+        "expected_count": 5
+      },
+      "membership_source": {
+        "table": "b_utm_user",
+        "field_id": 40,
+        "expected_count": 29,
+        "employee_count": 20,
+        "missing_unit_ids": [
+          2
+        ]
+      },
+      "head_source": {
+        "table": "b_uts_iblock_3_section",
+        "field": "UF_HEAD",
+        "expected_count": 5,
+        "invalid_references": 0
+      }
+    },
+    "settlement": {
+      "field_id": 310,
+      "iblock_source": {
+        "table": "b_iblock",
+        "id": 21,
+        "expected_count": 1
+      },
+      "dictionary_source": {
+        "table": "b_iblock_element",
+        "predicate": "IBLOCK_ID=21",
+        "expected_count": 61
+      },
+      "usage": {
+        "source": "b_uts_crm_deal.UF_CRM_1768909094",
+        "nonempty_values": 701,
+        "distinct_ids": 29,
+        "invalid_references": 0
+      }
+    }
+  }
+}

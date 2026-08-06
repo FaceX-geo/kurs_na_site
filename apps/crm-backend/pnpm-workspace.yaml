@@ -1,0 +1,18 @@
+packages: []
+
+# The workspace is on Apple Silicon but Codex may run an x64 Node under Rosetta.
+# Install both native variants so lint/test behavior does not depend on the launcher architecture.
+supportedArchitectures:
+  os:
+    - current
+  cpu:
+    - arm64
+    - x64
+  libc:
+    - current
+
+allowBuilds:
+  esbuild: true
+
+onlyBuiltDependencies:
+  - esbuild
