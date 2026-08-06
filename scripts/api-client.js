@@ -34,6 +34,18 @@ export default class ApiClient {
     return [];
   }
 
+  async getVacancies(sector, signal) {
+    const query = sector ? `?sector=${encodeURIComponent(sector)}` : "";
+    const data = await this.request("GET", `/vacancies${query}`, { signal });
+    if (Array.isArray(data)) {
+      return data;
+    }
+    if (Array.isArray(data?.items)) {
+      return data.items;
+    }
+    return [];
+  }
+
   async uploadFile(file, signal) {
     if (!(file instanceof File)) {
       throw new ApiError("Файл резюме не выбран.", { status: 422, errors: [{ field: "resume", code: "required" }] });

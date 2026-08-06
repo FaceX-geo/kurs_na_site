@@ -33,6 +33,8 @@ Creates candidate application.
   },
   "application": {
     "applicantType": "relocation",
+    "vacancyId": "vac_medicine_therapist_01",
+    "vacancySector": "medicine",
     "referralCode": "ABC1234567",
     "region": "Санкт-Петербург",
     "sphere": "medicine",
@@ -60,8 +62,10 @@ Creates candidate application.
 
 `application.applicantType` is required and accepts:
 
-- `relocation` — work and relocation route. `sphere` and `wishPost` are required; `wishSalary` is optional.
-- `student` — student, graduate, internship or first-job route. Relocation-only fields are omitted and `studentProfile` is required.
+- `relocation` — work and relocation route, minimum age 18. `sphere` and `wishPost` are required; `wishSalary` is optional and, when present, must match `^[0-9]+$`.
+- `student` — student, graduate, internship or first-job route, minimum age 16. Relocation-only fields are omitted and `studentProfile` is required.
+
+`application.vacancyId` and `application.vacancySector` are optional for a general application and required together when the user applies to a published vacancy. Supported sectors: `industry`, `medicine`, `education`, `port`, `safety`, `students`. If the user changes between the relocation and student routes, an incompatible vacancy binding is cleared before submission.
 
 Student request variant:
 
@@ -95,7 +99,7 @@ Student request variant:
     "privacyAccepted": true
   },
   "attachments": {
-    "resumeFileId": null
+    "resumeFileId": "file_student_12a8"
   },
   "meta": {
     "source": "web",
@@ -111,6 +115,8 @@ Student request variant:
 ```
 
 Backend validation must reject mixed payloads: `studentProfile` must not be accepted for `relocation`, and `sphere`, `wishPost`, `wishSalary` must not be accepted for `student`.
+
+`attachments.resumeFileId` is required for both applicant types. The backend must verify that the file exists, belongs to the active upload/session perimeter, has an allowed type, and does not exceed the configured size limit.
 
 For `studentProfile.status = "graduated"`, `practicePeriod` is omitted and must not be required. For course values `"1"` through `"6"`, both `practicePeriod.start` and `practicePeriod.end` are required in `YYYY-MM` format.
 
@@ -128,7 +134,37 @@ For `studentProfile.status = "graduated"`, `practicePeriod` is omitted and must 
 - `429` — rate limit
 - `500`/`502`/`503`/`504` — server side errors
 
-## 2) Upload file
+## 2) Fetch published vacancies
+### `GET /vacancies?sector={sector}`
+Returns published vacancies for one of the supported sectors. An omitted `sector` may return all published vacancies.
+
+### Success `200`
+```json
+{
+  "updatedAt": "2026-08-06T00:00:00+03:00",
+  "items": [
+    {
+      "id": "vac_industry_engineer_01",
+      "sector": "industry",
+      "title": "Инженер-механик",
+      "city": "Мурманск",
+      "employer": "Работодатель проекта",
+      "salaryText": "от 150 000 ₽",
+      "summary": "Работа с промышленным оборудованием",
+      "responsibilities": ["Диагностика и обслуживание оборудования"],
+      "requirements": ["Профильное образование или релевантный опыт"],
+      "conditions": ["Точные условия подтвердит куратор"],
+      "applicantType": "relocation",
+      "sphere": "engineering",
+      "published": true
+    }
+  ]
+}
+```
+
+The backend remains the source of truth for publication status, employer, salary and conditions. The bundled static catalog is only a safe frontend fallback and must not be treated as proof that a position is currently open.
+
+## 3) Upload file
 ### `POST /files`
 Upload resume file.
 
@@ -150,7 +186,7 @@ Upload resume file.
 - `415` — unsupported file type
 - `422` — invalid upload payload
 
-## 3) Fetch sphere dictionary
+## 4) Fetch sphere dictionary
 ### `GET /dictionaries/spheres`
 Returns sphere options for application form.
 

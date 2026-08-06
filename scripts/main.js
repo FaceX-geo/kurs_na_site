@@ -1,6 +1,14 @@
-import ApiClient, { ApiError } from "./api-client.js";
+import ApiClient, { ApiError } from "./api-client.js?v=20260806-1";
 import { initAurora } from "./aurora.js?v=20260731-5";
 import { isPublishedMapPoint, projectLonLat } from "./map-geometry.js?v=20260729-1";
+import {
+  VACANCY_SECTORS,
+  calculateAgeOn,
+  digitsOnly,
+  isVacancyRouteCompatible,
+  minimumAgeFor,
+  normalizeVacancy,
+} from "./application-rules.js?v=20260806-1";
 
 const apiClient = new ApiClient({
   baseUrl: "/api/v1",
@@ -22,8 +30,8 @@ const supportContent = {
     eyebrow: "Для всех участников",
     title: "Общие меры поддержки",
     media: {
-      src: "assets/images/support-general-v7.webp",
-      alt: "Семья распаковывает вещи после переезда в Мурманск.",
+      src: "assets/images/support-general-smile-v12.webp",
+      alt: "Улыбающаяся семья распаковывает вещи после переезда в Мурманск.",
       positionDesktop: "78% 42%",
       positionMobile: "86% 50%",
     },
@@ -45,8 +53,8 @@ const supportContent = {
     eyebrow: "Сфера образования",
     title: "Поддержка педагогов",
     media: {
-      src: "assets/images/support-education-v7.webp",
-      alt: "Педагог проводит занятие в школе Мурманской области.",
+      src: "assets/images/support-education-smile-v12.webp",
+      alt: "Улыбающийся педагог проводит занятие в школе Мурманской области.",
       positionDesktop: "80% 42%",
       positionMobile: "98% 50%",
     },
@@ -68,8 +76,8 @@ const supportContent = {
     eyebrow: "Сфера здравоохранения",
     title: "Поддержка медиков",
     media: {
-      src: "assets/images/support-medicine-v7.webp",
-      alt: "Врач обсуждает рабочую смену с коллегой в региональной клинике.",
+      src: "assets/images/support-medicine-smile-v12.webp",
+      alt: "Улыбающийся врач обсуждает рабочую смену с коллегой в региональной клинике.",
       positionDesktop: "80% 40%",
       positionMobile: "90% 50%",
     },
@@ -91,8 +99,8 @@ const supportContent = {
     eyebrow: "Старт карьеры",
     title: "Поддержка студентов",
     media: {
-      src: "assets/images/support-students-v7.webp",
-      alt: "Студент проходит инженерную практику на предприятии Мурманской области.",
+      src: "assets/images/support-students-smile-v12.webp",
+      alt: "Улыбающийся студент проходит инженерную практику на предприятии Мурманской области.",
       positionDesktop: "82% 42%",
       positionMobile: "95% 50%",
     },
@@ -131,7 +139,7 @@ const storyContent = {
     lead: "Марине было важно не просто принять оффер, а синхронизировать работу, жильё, школу и дорогу для всей семьи.",
     gallery: [
       { src: "assets/images/story-avatar-family-v8.webp", alt: "Семейный портрет участницы" },
-      { src: "assets/images/support-family-summer.jpg", alt: "Семья летом в Мурманской области" },
+      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья после переезда в Мурманскую область" },
       { src: "assets/images/relocation-story-summer.jpg", alt: "Летний Мурманск после переезда" },
     ],
     steps: [
@@ -187,7 +195,7 @@ const storyContent = {
     lead: "Алина искала производственную практику по специальности и хотела понять, подходит ли ей жизнь в Заполярье.",
     gallery: [
       { src: "assets/images/story-avatar-student-v8.webp", alt: "Портрет студентки" },
-      { src: "assets/images/students-mgtu-arrival-v8.webp", alt: "Студенты у арктического университета" },
+      { src: "assets/images/students-mgtu-arrival-smile-v12.webp", alt: "Улыбающиеся студенты у арктического университета" },
       { src: "assets/images/route-murmansk-port-summer.jpg", alt: "Мурманский порт летом" },
     ],
     steps: [
@@ -215,7 +223,7 @@ const storyContent = {
     lead: "Ирина выбирала не просто вакансию, а команду, профессиональную нагрузку и город, в котором сможет чувствовать себя дома.",
     gallery: [
       { src: "assets/images/story-avatar-doctor-v9.webp", alt: "Портрет врача Ирины" },
-      { src: "assets/images/support-medicine-v7.webp", alt: "Работа медицинской команды в Мурманской области" },
+      { src: "assets/images/support-medicine-smile-v12.webp", alt: "Улыбающаяся медицинская команда в Мурманской области" },
       { src: "assets/images/route-khibiny-summer.jpg", alt: "Летние Хибины рядом с Апатитами" },
     ],
     steps: [
@@ -243,8 +251,8 @@ const storyContent = {
     lead: "Для семьи Андрея главным условием была синхронизация двух карьер и привычного ритма детей.",
     gallery: [
       { src: "assets/images/story-avatar-engineer-v9.webp", alt: "Портрет инженера Андрея" },
-      { src: "assets/images/vacancy-engineer-v5.webp", alt: "Инженер на предприятии Мурманской области" },
-      { src: "assets/images/support-family-summer.jpg", alt: "Семья летом в Мурманской области" },
+      { src: "assets/images/career-industry-smile-v12.webp", alt: "Улыбающийся инженер на предприятии Мурманской области" },
+      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья в Мурманской области" },
     ],
     steps: [
       "Вакансию и условия работодателя проверили до финального собеседования.",
@@ -271,7 +279,7 @@ const storyContent = {
     lead: "Максиму было важно начать карьеру в реальном проекте и не расставаться с собакой из-за условий аренды.",
     gallery: [
       { src: "assets/images/story-avatar-young-v9.webp", alt: "Портрет Максима с собакой" },
-      { src: "assets/images/students-mgtu-arrival-v8.webp", alt: "Молодые специалисты у арктического университета" },
+      { src: "assets/images/students-mgtu-arrival-smile-v12.webp", alt: "Улыбающиеся молодые специалисты у арктического университета" },
       { src: "assets/images/route-murmansk-port-summer.jpg", alt: "Мурманский порт летом" },
     ],
     steps: [
@@ -291,15 +299,15 @@ const storyContent = {
     title: "Школа, команда и спокойный переезд",
     person: "Ольга, 36",
     route: "Тула → Мончегорск",
-    avatar: "assets/images/career-teacher-human-v10.webp",
+    avatar: "assets/images/career-education-smile-v12.webp",
     avatarAlt: "Портрет учителя Ольги",
     cardQuote: "До переезда знала коллег, класс и школу ребёнка.",
     quote: "Сначала увидела будущий класс по видеосвязи. К моменту переезда уже знала коллег и понимала, где будет учиться ребёнок.",
     tags: ["Педагог", "С детьми", "Новый город"],
     lead: "Ольге было важно одновременно решить рабочий вопрос и адаптацию ребёнка.",
     gallery: [
-      { src: "assets/images/career-teacher-human-v10.webp", alt: "Ольга в школьном классе" },
-      { src: "assets/images/support-education-v7.webp", alt: "Образовательная среда Мурманской области" },
+      { src: "assets/images/career-education-smile-v12.webp", alt: "Ольга в школьном классе" },
+      { src: "assets/images/support-education-smile-v12.webp", alt: "Улыбающийся педагог в образовательной среде Мурманской области" },
       { src: "assets/images/relocation-story-summer.jpg", alt: "Лето после переезда на Север" },
     ],
     steps: ["Знакомство со школой онлайн.", "Проверка выплат и аренды.", "Выбор школы для ребёнка.", "Поддержка в первые недели."],
@@ -314,14 +322,14 @@ const storyContent = {
     title: "Из сервиса — в портовую логистику",
     person: "Денис, 31",
     route: "Самара → Мурманск",
-    avatar: "assets/images/career-port-human-v10.webp",
+    avatar: "assets/images/career-port-smile-v12.webp",
     avatarAlt: "Портрет портового специалиста Дениса",
     cardQuote: "Мой опыт подошёл новой отрасли — остальное помогли собрать.",
     quote: "Опыт оказался переносимым. Куратор помог увидеть подходящие роли, а работодатель — пройти вводное обучение.",
     tags: ["Переехал один", "Смена профессии", "Логистика"],
     lead: "Денис искал переход в более крупные операционные проекты без потери накопленного опыта.",
     gallery: [
-      { src: "assets/images/career-port-human-v10.webp", alt: "Денис на рабочем причале" },
+      { src: "assets/images/career-port-smile-v12.webp", alt: "Денис на рабочем причале" },
       { src: "assets/images/route-murmansk-port-summer.jpg", alt: "Мурманский порт летом" },
       { src: "assets/images/relocation-story-summer.jpg", alt: "Мурманск после переезда" },
     ],
@@ -337,15 +345,15 @@ const storyContent = {
     title: "Две карьеры в одном маршруте",
     person: "Светлана, 34",
     route: "Пермь → Полярные Зори",
-    avatar: "assets/images/career-energy-human-v10.webp",
+    avatar: "assets/images/career-safety-smile-v12.webp",
     avatarAlt: "Портрет инженера-энергетика Светланы",
     cardQuote: "Сильная роль для меня и варианты работы для мужа.",
     quote: "Мне предложили сильную роль, а для мужа нашли несколько подходящих вариантов. Только тогда решение стало семейным.",
     tags: ["Переезд вдвоём", "Энергетика", "Работа для партнёра"],
     lead: "Главным условием была возможность развиваться обоим партнёрам.",
     gallery: [
-      { src: "assets/images/career-energy-human-v10.webp", alt: "Светлана на энергообъекте" },
-      { src: "assets/images/support-family-summer.jpg", alt: "Семья в Мурманской области" },
+      { src: "assets/images/career-safety-smile-v12.webp", alt: "Светлана на энергообъекте" },
+      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья в Мурманской области" },
       { src: "assets/images/route-khibiny-summer.jpg", alt: "Летний Кольский полуостров" },
     ],
     steps: ["Проверка условий оффера.", "Подбор ролей для партнёра.", "Синхронизация дат переезда.", "Адаптация на новом месте."],
@@ -360,15 +368,15 @@ const storyContent = {
     title: "Диплом — и сразу в реальный проект",
     person: "Роман, 23",
     route: "Москва → Апатиты",
-    avatar: "assets/images/career-analyst-human-v10.webp",
+    avatar: "assets/images/career-students-smile-v12.webp",
     avatarAlt: "Портрет аналитика Романа",
     cardQuote: "Наставник, реальный проект и путь к штатной позиции.",
     quote: "Хотел не формальную стажировку, а реальные задачи. Получил наставника, проект и понятный путь к штатной позиции.",
     tags: ["Выпускник", "Переехал один", "Первый оффер"],
     lead: "Роман выбирал место, где сможет быстро превратить знания в опыт.",
     gallery: [
-      { src: "assets/images/career-analyst-human-v10.webp", alt: "Роман в лаборатории" },
-      { src: "assets/images/students-mgtu-arrival-v8.webp", alt: "Молодые специалисты в Мурманске" },
+      { src: "assets/images/career-students-smile-v12.webp", alt: "Роман в лаборатории" },
+      { src: "assets/images/students-mgtu-arrival-smile-v12.webp", alt: "Улыбающиеся молодые специалисты в Мурманске" },
       { src: "assets/images/route-khibiny-summer.jpg", alt: "Летние Хибины" },
     ],
     steps: ["Подбор проекта по специальности.", "Интервью с наставником.", "Организация переезда.", "План роста на первые месяцы."],
@@ -378,8 +386,17 @@ const storyContent = {
 const state = {
   formStep: 1,
   resumeFileId: null,
+  resumeAttachment: { file: null, source: "" },
   formSubmitting: false,
-  applicationContext: { source: "direct", role: "", sphere: "", city: "" },
+  applicationContext: {
+    source: "direct",
+    vacancyId: "",
+    vacancySector: "",
+    role: "",
+    sphere: "",
+    city: "",
+    applicantType: "relocation",
+  },
   selectedCity: null,
   activeSupport: "general",
 };
@@ -390,6 +407,30 @@ function qs(selector, context = document) {
 
 function qsa(selector, context = document) {
   return Array.from(context.querySelectorAll(selector));
+}
+
+function setResumeAttachment(file, source = "upload") {
+  const form = qs("#application-form");
+  const input = qs("#resume", form || document);
+  const fileName = qs("#resume-name", form || document);
+
+  state.resumeAttachment = {
+    file: file instanceof File ? file : null,
+    source: file instanceof File ? source : "",
+  };
+  state.resumeFileId = null;
+
+  if (source === "builder" && input) {
+    input.value = "";
+  }
+  if (fileName) {
+    fileName.textContent = file instanceof File
+      ? `${file.name} · прикреплено к заявке`
+      : "PDF, DOC или DOCX до 10 МБ";
+  }
+  if (form && file instanceof File) {
+    setFieldError(form, "resume", "");
+  }
 }
 
 function setBodyLock(className, enabled) {
@@ -580,21 +621,211 @@ function initHeroParallax() {
 }
 
 function initVacancies() {
-  const filters = qsa("[data-vacancy-filter]");
-  const cards = qsa("[data-vacancy-sector]");
+  const section = qs("#vacancies");
+  const results = qs("[data-vacancy-results]", section);
+  const list = qs("[data-vacancy-list]", section);
+  const status = qs("[data-vacancy-status]", section);
+  const title = qs("[data-vacancy-list-title]", section);
+  const meta = qs("[data-vacancy-list-meta]", section);
+  const dialog = qs("#vacancy-dialog");
+  const sectorButtons = qsa("[data-vacancy-sector-open]", section);
+  const vacancyById = new Map();
+  let activeSector = "";
+  let controller = null;
 
-  filters.forEach((filter) => {
-    filter.addEventListener("click", () => {
-      const value = filter.dataset.vacancyFilter;
-      filters.forEach((button) => {
-        const active = button === filter;
-        button.classList.toggle("is-active", active);
-        button.setAttribute("aria-pressed", String(active));
+  if (!section || !results || !list || !dialog) {
+    return;
+  }
+
+  const createButton = (label, className, datasetName, vacancyId) => {
+    const button = document.createElement("button");
+    button.type = "button";
+    button.className = className;
+    button.textContent = label;
+    button.dataset[datasetName] = vacancyId;
+    return button;
+  };
+
+  const loadSector = async (sector, signal) => {
+    try {
+      const remote = await apiClient.getVacancies(sector, signal);
+      const normalizedRemote = remote.map(normalizeVacancy).filter((item) => item?.published);
+      if (normalizedRemote.length) {
+        return { items: normalizedRemote, source: "api", updatedAt: "" };
+      }
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        throw error;
+      }
+    }
+
+    const fallback = await fetchJson(new URL("../assets/data/vacancies.json", import.meta.url));
+    return {
+      items: (fallback.items || [])
+        .map(normalizeVacancy)
+        .filter((item) => item?.published && item.sector === sector),
+      source: "fallback",
+      updatedAt: fallback.updatedAt || "",
+    };
+  };
+
+  const renderList = (items) => {
+    vacancyById.clear();
+    const cards = items.map((vacancy) => {
+      vacancyById.set(vacancy.id, vacancy);
+      const article = document.createElement("article");
+      article.className = "vacancy-list-card";
+
+      const content = document.createElement("div");
+      const cardMeta = document.createElement("div");
+      cardMeta.className = "vacancy-list-card__meta";
+      [vacancy.city, vacancy.employer, vacancy.salaryText].filter(Boolean).forEach((value) => {
+        const item = document.createElement("span");
+        item.textContent = value;
+        cardMeta.append(item);
       });
-      cards.forEach((card) => {
-        card.hidden = value !== "all" && card.dataset.vacancySector !== value;
-      });
+      const heading = document.createElement("h4");
+      heading.textContent = vacancy.title;
+      const summary = document.createElement("p");
+      summary.textContent = vacancy.summary;
+      content.append(cardMeta, heading, summary);
+
+      const actions = document.createElement("div");
+      actions.className = "vacancy-list-card__actions";
+      actions.append(
+        createButton("Подробнее", "button button--secondary button--compact", "vacancyDetails", vacancy.id),
+        createButton("Откликнуться", "button button--primary button--compact", "vacancyApply", vacancy.id),
+      );
+      article.append(content, actions);
+      return article;
     });
+    list.replaceChildren(...cards);
+  };
+
+  const renderDetailList = (selector, values) => {
+    const target = qs(selector, dialog);
+    const sectionElement = target?.closest("[data-vacancy-dialog-section]");
+    if (!target || !sectionElement) {
+      return;
+    }
+    const items = values.map((value) => {
+      const item = document.createElement("li");
+      item.textContent = value;
+      return item;
+    });
+    target.replaceChildren(...items);
+    sectionElement.hidden = !items.length;
+  };
+
+  const openVacancy = (vacancy) => {
+    dialog.dataset.vacancyId = vacancy.id;
+    qs("[data-vacancy-dialog-sector]", dialog).textContent = VACANCY_SECTORS[vacancy.sector];
+    qs("[data-vacancy-dialog-title]", dialog).textContent = vacancy.title;
+    qs("[data-vacancy-dialog-city]", dialog).textContent = vacancy.city;
+    qs("[data-vacancy-dialog-employer]", dialog).textContent = vacancy.employer;
+    qs("[data-vacancy-dialog-salary]", dialog).textContent = vacancy.salaryText;
+    qs("[data-vacancy-dialog-summary]", dialog).textContent = vacancy.summary;
+    renderDetailList("[data-vacancy-dialog-responsibilities]", vacancy.responsibilities);
+    renderDetailList("[data-vacancy-dialog-requirements]", vacancy.requirements);
+    renderDetailList("[data-vacancy-dialog-conditions]", vacancy.conditions);
+    openDialog(dialog);
+  };
+
+  const applyVacancy = (vacancy, source) => {
+    prefillApplication({
+      vacancyId: vacancy.id,
+      vacancySector: vacancy.sector,
+      role: vacancy.title,
+      sphere: vacancy.sphere,
+      city: vacancy.city,
+      applicantType: vacancy.applicantType,
+      source,
+    });
+  };
+
+  const showSector = async (sector) => {
+    if (!Object.hasOwn(VACANCY_SECTORS, sector)) {
+      return;
+    }
+    activeSector = sector;
+    controller?.abort();
+    controller = new AbortController();
+    sectorButtons.forEach((button) => {
+      const active = button.dataset.vacancySectorOpen === sector;
+      button.classList.toggle("is-active", active);
+      button.setAttribute("aria-expanded", String(active));
+    });
+    results.hidden = false;
+    title.textContent = VACANCY_SECTORS[sector];
+    meta.textContent = "Загружаем актуальные предложения…";
+    status.textContent = "Загрузка вакансий.";
+    list.replaceChildren();
+
+    try {
+      const payload = await loadSector(sector, controller.signal);
+      if (sector !== activeSector) {
+        return;
+      }
+      renderList(payload.items);
+      const updatedAt = payload.updatedAt ? new Date(payload.updatedAt) : null;
+      const updateLabel = updatedAt && !Number.isNaN(updatedAt.getTime())
+        ? ` · данные от ${updatedAt.toLocaleDateString("ru-RU")}`
+        : "";
+      meta.textContent = payload.source === "api"
+        ? `Найдено предложений: ${payload.items.length}`
+        : `Базовые направления набора${updateLabel}. Наличие и условия подтвердит куратор.`;
+      status.textContent = payload.items.length
+        ? `Показано вакансий: ${payload.items.length}.`
+        : "Сейчас в этом направлении нет опубликованных вакансий. Оставьте общую заявку — куратор проверит новые предложения.";
+    } catch (error) {
+      if (error?.name === "AbortError") {
+        return;
+      }
+      meta.textContent = "Не удалось загрузить подборку.";
+      status.textContent = "Обновите страницу или оставьте общую заявку — куратор поможет подобрать направление.";
+    }
+    results.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  };
+
+  section.addEventListener("click", (event) => {
+    const sectorButton = event.target.closest("[data-vacancy-sector-open]");
+    if (sectorButton) {
+      showSector(sectorButton.dataset.vacancySectorOpen);
+      return;
+    }
+    const detailsButton = event.target.closest("[data-vacancy-details]");
+    if (detailsButton) {
+      const vacancy = vacancyById.get(detailsButton.dataset.vacancyDetails);
+      if (vacancy) {
+        openVacancy(vacancy);
+      }
+      return;
+    }
+    const applyButton = event.target.closest("[data-vacancy-apply]");
+    if (applyButton) {
+      const vacancy = vacancyById.get(applyButton.dataset.vacancyApply);
+      if (vacancy) {
+        applyVacancy(vacancy, "vacancy-list");
+      }
+    }
+  });
+
+  qs("[data-vacancy-results-close]", section)?.addEventListener("click", () => {
+    controller?.abort();
+    activeSector = "";
+    results.hidden = true;
+    sectorButtons.forEach((button) => {
+      button.classList.remove("is-active");
+      button.setAttribute("aria-expanded", "false");
+    });
+    sectorButtons[0]?.focus();
+  });
+
+  qs("[data-vacancy-dialog-apply]", dialog)?.addEventListener("click", () => {
+    const vacancy = vacancyById.get(dialog.dataset.vacancyId);
+    if (vacancy) {
+      applyVacancy(vacancy, "vacancy-detail");
+    }
   });
 }
 
@@ -963,7 +1194,7 @@ function initStories() {
   const filterStatus = qs("[data-story-filter-status]", section);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
   const stories = Object.values(storyContent);
-  const initialStoryIds = ["family", "dog", "student"];
+  const initialStoryIds = ["family", "dog", "student", "doctor"];
   let activeFilter = "all";
   let timerId = null;
   let rotationBag = [];
@@ -1550,16 +1781,30 @@ function initResumeBuilder() {
         .toLocaleLowerCase("ru-RU")
         .replace(/[^a-zа-яё0-9]+/gi, "-")
         .replace(/^-+|-+$/g, "");
-      await new Promise((resolve, reject) => {
+      const filename = `kurs-na-sever-${safeName || "resume"}.pdf`;
+      const blob = await new Promise((resolve, reject) => {
         try {
-          window.pdfMake
-            .createPdf(definition)
-            .download(`kurs-na-sever-${safeName}.pdf`, resolve);
+          window.pdfMake.createPdf(definition).getBlob(resolve);
         } catch (error) {
           reject(error);
         }
       });
-      status.textContent = "PDF готов. QR ведёт на kursnasever.ru.";
+      const resumeFile = new File([blob], filename, {
+        type: "application/pdf",
+        lastModified: Date.now(),
+      });
+      setResumeAttachment(resumeFile, "builder");
+
+      const downloadUrl = URL.createObjectURL(blob);
+      const download = document.createElement("a");
+      download.href = downloadUrl;
+      download.download = filename;
+      download.hidden = true;
+      document.body.append(download);
+      download.click();
+      download.remove();
+      window.setTimeout(() => URL.revokeObjectURL(downloadUrl), 1000);
+      status.textContent = "PDF готов, скачан и прикреплён к заявке.";
     } catch {
       status.textContent = "Не удалось собрать PDF. Попробуйте ещё раз.";
     } finally {
@@ -1640,14 +1885,8 @@ function parseDate(value) {
   return date;
 }
 
-function calculateAge(date) {
-  const today = new Date();
-  let age = today.getFullYear() - date.getFullYear();
-  const monthDelta = today.getMonth() - date.getMonth();
-  if (monthDelta < 0 || (monthDelta === 0 && today.getDate() < date.getDate())) {
-    age -= 1;
-  }
-  return age;
+function calculateAge(date, today = new Date()) {
+  return calculateAgeOn(date, today);
 }
 
 function getFieldControls(form, fieldName) {
@@ -1655,6 +1894,9 @@ function getFieldControls(form, fieldName) {
     return ["birth-day", "birth-month", "birth-year"]
       .map((id) => qs(`#${id}`, form))
       .filter(Boolean);
+  }
+  if (fieldName === "applicantType") {
+    return qsa('input[name="applicantType"]', form);
   }
   const control = qs(`#${fieldName}`, form);
   return control ? [control] : [];
@@ -1697,7 +1939,7 @@ function clearErrors(form) {
   });
 }
 
-const formStepOneFields = new Set(["surname", "name", "middlename", "birthdate", "email", "phone"]);
+const formStepOneFields = new Set(["applicantType", "surname", "name", "middlename", "birthdate", "email", "phone"]);
 
 function focusFirstError(form, errors) {
   const first = errors.find((error) => getFieldControls(form, error.field).length);
@@ -1786,6 +2028,13 @@ function setApplicantTypeMode(form, type) {
     region.placeholder = studentMode
       ? "Начните вводить регион обучения"
       : "Начните вводить регион";
+  }
+
+  const birthdateHint = qs("#birthdate-hint", form);
+  if (birthdateHint) {
+    birthdateHint.textContent = studentMode
+      ? "Участие в студенческом маршруте — с 16 лет"
+      : "Маршрут трудоустройства и переезда — с 18 лет";
   }
 
   ["sphere", "wishPost", "wishSalary", ...studentFieldNames].forEach((fieldName) => {
@@ -2113,10 +2362,14 @@ function validateFormStep(form, step) {
   if (birthdate) {
     const date = parseDate(birthdate);
     const age = date ? calculateAge(date) : -1;
+    const minimumAge = minimumAgeFor(applicantType);
     if (!date) {
       errors.push({ field: "birthdate", message: "Проверьте дату рождения." });
-    } else if (age < 18) {
-      errors.push({ field: "birthdate", message: "Возраст участника должен быть не менее 18 лет." });
+    } else if (age < minimumAge) {
+      errors.push({
+        field: "birthdate",
+        message: `Для выбранного маршрута минимальный возраст — ${minimumAge} лет.`,
+      });
     }
   }
 
@@ -2164,7 +2417,15 @@ function validateFormStep(form, step) {
     errors.push({ field: "phone", message: "Введите номер полностью." });
   }
 
-  const file = qs("#resume", form)?.files?.[0];
+  const salary = qs("#wishSalary", form)?.value.trim() || "";
+  if (step === 2 && applicantType === "relocation" && salary && !/^\d+$/.test(salary)) {
+    errors.push({ field: "wishSalary", message: "Укажите доход только цифрами." });
+  }
+
+  const file = state.resumeAttachment.file || qs("#resume", form)?.files?.[0];
+  if (step === 2 && !file && !state.resumeFileId) {
+    errors.push({ field: "resume", message: "Прикрепите резюме или соберите его на сайте." });
+  }
   if (file && file.size > 10 * 1024 * 1024) {
     errors.push({ field: "resume", message: "Размер файла не должен превышать 10 МБ." });
   }
@@ -2262,7 +2523,43 @@ async function loadSpheres(select) {
   select.value = currentValue === "students" ? "" : currentValue;
 }
 
-function prefillApplication({ role = "", sphere = "", city = "", source = "direct", applicantType } = {}) {
+function clearApplicationVacancyContext(form, applicantType, source = "route-switch") {
+  const vacancyIdInput = qs("#vacancyId", form);
+  const vacancySectorInput = qs("#vacancySector", form);
+  const context = qs("[data-application-context]", form);
+
+  if (vacancyIdInput) {
+    vacancyIdInput.value = "";
+  }
+  if (vacancySectorInput) {
+    vacancySectorInput.value = "";
+  }
+  if (context) {
+    context.hidden = true;
+    qs("[data-application-context-title]", context).textContent = "";
+    qs("[data-application-context-meta]", context).textContent = "";
+  }
+
+  state.applicationContext = {
+    source,
+    vacancyId: "",
+    vacancySector: "",
+    role: "",
+    sphere: "",
+    city: "",
+    applicantType,
+  };
+}
+
+function prefillApplication({
+  vacancyId = "",
+  vacancySector = "",
+  role = "",
+  sphere = "",
+  city = "",
+  source = "direct",
+  applicantType,
+} = {}) {
   const form = qs("#application-form");
   if (!form) {
     return;
@@ -2288,7 +2585,34 @@ function prefillApplication({ role = "", sphere = "", city = "", source = "direc
     const comment = qs("#comment", form);
     comment.value = comment.value || `Интересует переезд в город ${city}.`;
   }
-  state.applicationContext = { source, role, sphere, city, applicantType: resolvedApplicantType };
+
+  const vacancyIdInput = qs("#vacancyId", form);
+  const vacancySectorInput = qs("#vacancySector", form);
+  const context = qs("[data-application-context]", form);
+  if (vacancyIdInput) {
+    vacancyIdInput.value = vacancyId;
+  }
+  if (vacancySectorInput) {
+    vacancySectorInput.value = vacancySector;
+  }
+  if (context) {
+    context.hidden = !vacancyId;
+    qs("[data-application-context-title]", context).textContent = role;
+    qs("[data-application-context-meta]", context).textContent = [
+      VACANCY_SECTORS[vacancySector] || "",
+      city,
+    ].filter(Boolean).join(" · ");
+  }
+
+  state.applicationContext = {
+    source,
+    vacancyId,
+    vacancySector,
+    role,
+    sphere,
+    city,
+    applicantType: resolvedApplicantType,
+  };
   scrollToSection("#application");
 }
 
@@ -2300,8 +2624,8 @@ function initApplicationForm() {
 
   const phone = qs("#phone", form);
   const file = qs("#resume", form);
-  const fileName = qs("#resume-name", form);
   const sphere = qs("#sphere", form);
+  const wishSalary = qs("#wishSalary", form);
   const next = qs("#form-next", form);
   const back = qs("#form-back", form);
   const submit = qs("#form-submit", form);
@@ -2319,7 +2643,15 @@ function initApplicationForm() {
   qsa('input[name="applicantType"]', form).forEach((control) => {
     control.addEventListener("change", () => {
       clearErrors(form);
-      setApplicantTypeMode(form, getApplicantType(form));
+      const applicantType = getApplicantType(form);
+      if (
+        state.applicationContext.vacancyId
+        && !isVacancyRouteCompatible(state.applicationContext.applicantType, applicantType)
+      ) {
+        clearApplicationVacancyContext(form, applicantType);
+      }
+      state.applicationContext.applicantType = applicantType;
+      setApplicantTypeMode(form, applicantType);
     });
   });
 
@@ -2341,10 +2673,14 @@ function initApplicationForm() {
     phone.value = normalizePhone(phone.value);
   });
 
+  wishSalary?.addEventListener("input", () => {
+    wishSalary.value = digitsOnly(wishSalary.value).slice(0, 9);
+    setFieldError(form, "wishSalary", "");
+  });
+
   file.addEventListener("change", () => {
     const selected = file.files?.[0];
-    fileName.textContent = selected ? selected.name : "PDF, DOC или DOCX до 10 МБ";
-    state.resumeFileId = null;
+    setResumeAttachment(selected || null, selected ? "upload" : "");
   });
 
   form.addEventListener("input", () => hideFormFeedback(form));
@@ -2413,12 +2749,21 @@ function initApplicationForm() {
     }
 
     try {
-      const resume = file.files?.[0];
+      const applicantType = getApplicantType(form);
+      if (
+        state.applicationContext.vacancyId
+        && !isVacancyRouteCompatible(state.applicationContext.applicantType, applicantType)
+      ) {
+        clearApplicationVacancyContext(form, applicantType);
+      }
+      state.applicationContext.applicantType = applicantType;
+
+      const resume = state.resumeAttachment.file || file.files?.[0];
       if (resume && !state.resumeFileId) {
         state.resumeFileId = await apiClient.uploadFile(resume);
       }
 
-      const applicantType = getApplicantType(form);
+      const normalizedSalary = digitsOnly(qs("#wishSalary", form).value);
 
       const payload = {
         personal: {
@@ -2431,6 +2776,12 @@ function initApplicationForm() {
         },
         application: {
           applicantType,
+          ...(state.applicationContext.vacancyId
+            ? {
+                vacancyId: state.applicationContext.vacancyId,
+                vacancySector: state.applicationContext.vacancySector,
+              }
+            : {}),
           referralCode: qs("#referral", form).value.trim(),
           region: qs("#region", form).value.trim(),
           ...(applicantType === "student"
@@ -2453,7 +2804,7 @@ function initApplicationForm() {
             : {
                 sphere: sphere.value,
                 wishPost: qs("#wishPost", form).value.trim(),
-                wishSalary: qs("#wishSalary", form).value.trim(),
+                ...(normalizedSalary ? { wishSalary: normalizedSalary } : {}),
               }),
           comment: qs("#comment", form).value.trim(),
         },
@@ -2474,9 +2825,8 @@ function initApplicationForm() {
 
       await apiClient.submitApplication(payload);
       form.reset();
-      state.resumeFileId = null;
-      state.applicationContext = { source: "direct", role: "", sphere: "", city: "" };
-      fileName.textContent = "PDF, DOC или DOCX до 10 МБ";
+      setResumeAttachment(null);
+      clearApplicationVacancyContext(form, "relocation", "direct");
       birthdateInput.sync();
       regionCombobox.reset();
       setApplicantTypeMode(form, "relocation");
@@ -2521,14 +2871,6 @@ function initApplicationForm() {
         submitLabel.textContent = originalText;
       }
     }
-  });
-
-  qsa("[data-apply-role]").forEach((button) => {
-    button.addEventListener("click", () => prefillApplication({
-      role: button.dataset.applyRole,
-      sphere: button.dataset.applySphere || "",
-      source: "vacancy-card",
-    }));
   });
 
   qs("[data-student-apply]")?.addEventListener("click", () => prefillApplication({

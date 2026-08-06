@@ -22,6 +22,7 @@
   <link rel="stylesheet" href="styles/human-ui-v9.css?v=20260802-1">
   <link rel="stylesheet" href="styles/editorial-v10.css?v=20260803-3">
   <link rel="stylesheet" href="styles/north-life-v1.css?v=20260803-1">
+  <link rel="stylesheet" href="styles/client-revision-v12.css?v=20260806-1">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к основному содержанию</a>
@@ -33,15 +34,15 @@
       </a>
 
       <nav class="desktop-nav" aria-label="Основная навигация">
-        <a href="#vacancies">Работа</a>
-        <a href="#route">Переезд</a>
-        <a href="#support">Меры поддержки</a>
-        <a href="#stories">Истории</a>
+        <a href="#vacancies">Вакансии</a>
+        <a href="#support">Поддержка</a>
+        <a href="#stories">Истории переезда</a>
       </nav>
 
       <div class="site-header__actions">
-        <a class="button button--primary button--compact" href="#north-routes">
-          Подробнее
+        <a class="site-header__phone" href="tel:+79113223615" aria-label="Позвонить: плюс семь, девятьсот одиннадцать, триста двадцать два, тридцать шесть, пятнадцать">+7 (911) 322-36-15</a>
+        <a class="button button--primary button--compact" href="#application">
+          Оставить заявку
           <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
         </a>
         <button class="menu-button" type="button" aria-label="Открыть меню" aria-controls="mobile-nav" aria-expanded="false" data-menu-open>
@@ -61,14 +62,15 @@
         </button>
       </div>
       <nav aria-label="Мобильная навигация">
-        <a href="#vacancies">Работа</a>
-        <a href="#route">Переезд</a>
+        <a href="#vacancies">Вакансии</a>
+        <a href="#support">Поддержка</a>
+        <a href="#stories">Истории переезда</a>
+        <a href="#route">Как всё проходит</a>
         <a href="#cities">Города</a>
-        <a href="#support">Меры поддержки</a>
-        <a href="#stories">Истории</a>
         <a href="#students">Студентам</a>
         <a href="#contacts">Контакты</a>
       </nav>
+      <a class="mobile-nav__phone" href="tel:+79113223615">+7 (911) 322-36-15</a>
       <a class="button button--primary button--full" href="#application">
         Оставить заявку
         <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
@@ -86,7 +88,7 @@
         <canvas class="hero-scene__aurora" data-aurora-canvas aria-hidden="true"></canvas>
         <img
           class="hero-scene__person"
-          src="assets/images/hero-person.png"
+          src="assets/images/hero-person-smile-v12.png"
           alt=""
           width="941"
           height="1672"
@@ -99,11 +101,11 @@
             Карьера и жизнь в Арктике
           </p>
           <h1 id="hero-title">Курс<br>на Север</h1>
-          <p class="hero-scene__lead">Открой Север. Построй карьеру.</p>
-          <p class="hero-scene__copy">Работа, поддержка и понятный план переезда.</p>
+          <p class="hero-scene__lead">Впиши своё имя в историю развития Арктики</p>
+          <p class="hero-scene__copy">Найди работу, получи поддержку и переезжай с понятным планом.</p>
           <div class="hero-scene__actions">
-            <a class="button button--primary" href="#north-routes">
-              Подробнее
+            <a class="button button--primary" href="#application">
+              Оставить заявку
               <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
             </a>
             <a class="button button--secondary" href="#vacancies">Смотреть вакансии</a>
@@ -232,7 +234,7 @@
             <p class="eyebrow">Понятный путь</p>
             <h2 id="route-title">Переезжай с «Курсом на Север»: 3 шага</h2>
           </div>
-          <p>Одна заявка.<br>Один куратор.<br>Один понятный план.</p>
+          <p>Север начинается<br>не с дороги,<br>а с решения.</p>
         </div>
 
         <div class="steps-grid">
@@ -245,8 +247,8 @@
           <article class="step-card">
             <span class="step-card__number">02</span>
             <div class="step-card__icon"><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"></div>
-            <h3>Получите подборку</h3>
-            <p>Куратор свяжется в течение одного рабочего дня и предложит карьерный маршрут.</p>
+            <h3>Обсудите детали</h3>
+            <p>Куратор свяжется в течение одного рабочего дня, уточнит ваши цели и предложит карьерный маршрут.</p>
           </article>
           <article class="step-card step-card--accent">
             <span class="step-card__number">03</span>
@@ -254,6 +256,17 @@
             <h3>Спланируйте переезд</h3>
             <p>Соберём вакансии, поддержку и бытовые задачи в единую дорожную карту.</p>
           </article>
+        </div>
+
+        <div class="project-summary" aria-labelledby="project-summary-title">
+          <div>
+            <p class="eyebrow">Описание проекта</p>
+            <h3 id="project-summary-title">«Курс на Север» — твой навигатор по переезду и трудоустройству</h3>
+          </div>
+          <div class="project-summary__copy">
+            <p>Служба кадрового сопровождения работает с мая 2023 года по инициативе губернатора Мурманской области. Команда помогает пройти весь путь: от выбора вакансии и обсуждения условий до переезда и адаптации на новом месте.</p>
+            <p><strong>Участие в проекте полностью бесплатно для всех категорий участников.</strong></p>
+          </div>
         </div>
 
         <div class="metrics" aria-label="Курс на Север в цифрах">
@@ -277,10 +290,10 @@
             <p class="eyebrow">Работа на Севере</p>
             <h2 id="vacancies-title">Найдите своё направление</h2>
           </div>
-          <p>Люди, команды и работа,<br>в которой есть смысл.</p>
+          <p>Участие в проекте полностью бесплатно<br>для всех категорий участников.</p>
         </div>
 
-        <div class="filter-row" role="toolbar" aria-label="Фильтр карьерных направлений">
+        <div class="filter-row" role="toolbar" aria-label="Фильтр карьерных направлений" hidden>
           <button type="button" class="filter-chip is-active" data-vacancy-filter="all" aria-pressed="true">Все</button>
           <button type="button" class="filter-chip" data-vacancy-filter="industry" aria-pressed="false">Промышленность</button>
           <button type="button" class="filter-chip" data-vacancy-filter="medicine" aria-pressed="false">Медицина</button>
@@ -288,12 +301,12 @@
           <button type="button" class="filter-chip" data-vacancy-filter="students" aria-pressed="false">Старт карьеры</button>
         </div>
 
-        <div class="vacancy-grid vacancy-grid--v6">
+        <div class="vacancy-grid vacancy-grid--v6" hidden aria-hidden="true">
           <div class="vacancy-grid__human">
             <article class="vacancy-card vacancy-card--human vacancy-card--featured" data-vacancy-sector="industry">
               <picture class="vacancy-card__media" aria-hidden="true">
-                <source srcset="assets/images/career-engineer-human-v6.webp" type="image/webp">
-                <img src="assets/images/career-engineer-human-v6.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+                <source srcset="assets/images/career-industry-smile-v12.webp" type="image/webp">
+                <img src="assets/images/career-industry-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
               </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -312,8 +325,8 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--doctor" data-vacancy-sector="medicine">
               <picture class="vacancy-card__media" aria-hidden="true">
-                <source srcset="assets/images/career-doctor-human-v6.webp" type="image/webp">
-                <img src="assets/images/career-doctor-human-v6.png" alt="" width="1122" height="1402" loading="lazy" decoding="async">
+                <source srcset="assets/images/career-medicine-smile-v12.webp" type="image/webp">
+                <img src="assets/images/career-medicine-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
               </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -334,8 +347,8 @@
           <div class="vacancy-grid__objects">
             <article class="vacancy-card vacancy-card--human vacancy-card--education" data-vacancy-sector="education">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-teacher-human-v11.webp" type="image/webp">
-              <img src="assets/images/career-teacher-human-v11.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source srcset="assets/images/career-education-smile-v12.webp" type="image/webp">
+              <img src="assets/images/career-education-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -353,8 +366,8 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--port" data-vacancy-sector="industry">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-port-human-v11.webp" type="image/webp">
-              <img src="assets/images/career-port-human-v11.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source srcset="assets/images/career-port-smile-v12.webp" type="image/webp">
+              <img src="assets/images/career-port-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -372,8 +385,8 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--energy" data-vacancy-sector="industry">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-energy-human-v11.webp" type="image/webp">
-              <img src="assets/images/career-energy-human-v11.png" alt="" width="1123" height="1401" loading="lazy" decoding="async">
+              <source srcset="assets/images/career-safety-smile-v12.webp" type="image/webp">
+              <img src="assets/images/career-safety-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -391,8 +404,8 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--analytics" data-vacancy-sector="students">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-analyst-human-v11.webp" type="image/webp">
-              <img src="assets/images/career-analyst-human-v11.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source srcset="assets/images/career-students-smile-v12.webp" type="image/webp">
+              <img src="assets/images/career-students-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -409,6 +422,62 @@
             </article>
           </div>
         </div>
+
+        <div class="career-directions" aria-label="Направления вакансий">
+          <button class="career-direction career-direction--industry" type="button" data-vacancy-sector-open="industry" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-industry-smile-v12.webp" alt="Улыбающийся инженер на промышленном предприятии" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">01</span>
+            <span class="career-direction__copy"><small>Вакансии направления</small><strong>Промышленность</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+          <button class="career-direction career-direction--medicine" type="button" data-vacancy-sector-open="medicine" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-medicine-smile-v12.webp" alt="Улыбающаяся врач в современной клинике" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">02</span>
+            <span class="career-direction__copy"><small>Вакансии направления</small><strong>Здравоохранение</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+          <button class="career-direction career-direction--education" type="button" data-vacancy-sector-open="education" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-education-smile-v12.webp" alt="Улыбающаяся учительница в школьном кабинете" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">03</span>
+            <span class="career-direction__copy"><small>Вакансии направления</small><strong>Образование</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+          <button class="career-direction career-direction--port" type="button" data-vacancy-sector-open="port" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-port-smile-v12.webp" alt="Улыбающийся специалист морского порта" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">04</span>
+            <span class="career-direction__copy"><small>Вакансии направления</small><strong>Вакансии порта</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+          <button class="career-direction career-direction--safety" type="button" data-vacancy-sector-open="safety" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-safety-smile-v12.webp" alt="Улыбающийся специалист по производственной безопасности" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">05</span>
+            <span class="career-direction__copy"><small>Вакансии направления</small><strong>Безопасность</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+          <button class="career-direction career-direction--students" type="button" data-vacancy-sector-open="students" aria-controls="vacancy-results" aria-expanded="false">
+            <img src="assets/images/career-students-smile-v12.webp" alt="Улыбающийся молодой специалист в лаборатории" width="1000" height="1250" loading="lazy" decoding="async">
+            <span class="career-direction__shade" aria-hidden="true"></span>
+            <span class="career-direction__index">06</span>
+            <span class="career-direction__copy"><small>Практика и первый оффер</small><strong>Старт карьеры</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
+          </button>
+        </div>
+
+        <section class="vacancy-results" id="vacancy-results" aria-labelledby="vacancy-results-title" data-vacancy-results hidden>
+          <div class="vacancy-results__header">
+            <div>
+              <p class="eyebrow">Подборка направления</p>
+              <h3 id="vacancy-results-title" data-vacancy-list-title>Вакансии</h3>
+              <p data-vacancy-list-meta></p>
+            </div>
+            <button class="button button--secondary button--compact" type="button" data-vacancy-results-close>Все направления</button>
+          </div>
+          <p class="vacancy-results__status" role="status" aria-live="polite" data-vacancy-status></p>
+          <div class="vacancy-list" data-vacancy-list></div>
+          <div class="vacancy-resume-cta">
+            <div><strong>Подготовьте резюме заранее</strong><span>Соберите аккуратный PDF на сайте и сразу приложите его к заявке.</span></div>
+            <button class="button button--secondary button--compact" type="button" data-open-resume>Собрать резюме</button>
+          </div>
+        </section>
       </div>
     </section>
 
@@ -508,12 +577,11 @@
         </div>
       </div>
       <div class="container">
-        <div class="section-heading section-heading--split">
+        <div class="section-heading">
           <div>
             <p class="eyebrow">Регион рядом</p>
             <h2 id="support-title">Меры поддержки</h2>
           </div>
-          <p>Переезд, жильё, выплаты.<br>Без разрозненных инструкций.</p>
         </div>
 
         <div class="support-layout">
@@ -541,7 +609,7 @@
           </div>
 
           <article class="support-detail" data-support-detail aria-live="polite" aria-atomic="true">
-            <img class="support-detail__photo" data-support-photo src="assets/images/support-general-v7.webp" alt="Семья распаковывает вещи после переезда в Мурманск." width="1536" height="1024" loading="lazy" decoding="async">
+            <img class="support-detail__photo" data-support-photo src="assets/images/support-general-smile-v12.webp" alt="Улыбающаяся семья распаковывает вещи после переезда в Мурманск." width="1536" height="1024" loading="lazy" decoding="async">
             <div class="support-detail__shade"></div>
             <div class="support-detail__content">
               <p class="support-detail__eyebrow" data-support-eyebrow>Для всех участников</p>
@@ -563,12 +631,11 @@
 
     <section class="section process-section reveal" id="process" aria-labelledby="process-title">
       <div class="container">
-        <div class="section-heading section-heading--inline">
+        <div class="section-heading">
           <div>
             <p class="eyebrow">После заявки</p>
             <h2 id="process-title">Поддержка на каждом шагу</h2>
           </div>
-          <p>Восемь задач.<br>Один ответственный куратор.</p>
         </div>
 
         <ol class="process-rail" data-horizontal-scroll>
@@ -591,7 +658,7 @@
             <p class="eyebrow">Личный опыт</p>
             <h2 id="stories-title">Север глазами тех,<br>кто переезжает</h2>
           </div>
-          <p>Выберите близкую ситуацию.<br>Откройте весь маршрут.</p>
+          <p>Возможно, чей-то путь уже похож на ваш.<br>Присмотритесь.</p>
         </div>
 
         <div class="story-controls">
@@ -651,6 +718,8 @@
             </span>
             </button>
           </div>
+
+          <div class="story-slot" data-story-slot></div>
         </div>
 
         <p class="story-disclaimer"><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Сейчас показаны собирательные истории. Реальные отзывы и фотографии будут публиковаться только с согласия участников.</p>
@@ -662,9 +731,9 @@
         <div class="students-panel">
           <div class="students-panel__media">
             <picture>
-              <source media="(max-width: 680px)" srcset="assets/images/students-mgtu-arrival-mobile-v8.webp" type="image/webp">
-              <source srcset="assets/images/students-mgtu-arrival-v8.webp" type="image/webp">
-              <img src="assets/images/students-mgtu-arrival-v8.png" alt="Студенты приехали к зданию МГТУ в Мурманске" width="1586" height="992" loading="lazy" decoding="async">
+              <source media="(max-width: 680px)" srcset="assets/images/students-mgtu-arrival-smile-mobile-v12.webp" type="image/webp">
+              <source srcset="assets/images/students-mgtu-arrival-smile-v12.webp" type="image/webp">
+              <img src="assets/images/students-mgtu-arrival-smile-v12.png" alt="Улыбающиеся студенты приехали к зданию МГТУ в Мурманске" width="1600" height="1000" loading="lazy" decoding="async">
             </picture>
             <span class="students-panel__tag"><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true">Старт карьеры</span>
           </div>
@@ -688,7 +757,7 @@
       </div>
     </section>
 
-    <section class="section about-section reveal" id="about" aria-labelledby="about-title" data-parallax-section data-parallax-range="24" data-parallax-pointer="3">
+    <section class="section about-section reveal" id="about" aria-labelledby="about-title" data-parallax-section data-parallax-range="24" data-parallax-pointer="3" hidden aria-hidden="true">
       <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
         <div class="section-parallax__layer--wide section-parallax__layer--crab" data-parallax-layer data-parallax-depth="0.18" data-parallax-y="0.3" data-parallax-x="0.03" style="--parallax-opacity: 0.2">
           <img src="assets/images/motif-king-crab-isolated-v6.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
@@ -743,6 +812,35 @@
       </div>
     </section>
 
+    <section class="section press-section reveal" id="press" aria-labelledby="press-title">
+      <div class="container">
+        <div class="section-heading section-heading--split">
+          <div>
+            <p class="eyebrow">Публикации</p>
+            <h2 id="press-title">СМИ о нас</h2>
+          </div>
+          <p>О проекте, людях<br>и результатах программы.</p>
+        </div>
+        <div class="press-grid">
+          <a class="press-card press-card--interfax" href="https://www.interfax-russia.ru/northwest/news/murmanskaya-oblast-zapustila-programmu-kadrovogo-soprovozhdeniya-kurs-na-sever" target="_blank" rel="noopener noreferrer">
+            <span class="press-card__source">Интерфакс Россия</span>
+            <strong>Мурманская область запустила программу кадрового сопровождения «Курс на Север»</strong>
+            <span class="press-card__link">Читать публикацию <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+          <a class="press-card press-card--rbc" href="https://murmansk.rbc.ru/murmansk/10/09/2025/68c15cf59a7947a20d51d1b3" target="_blank" rel="noopener noreferrer">
+            <span class="press-card__source">РБК Мурманск · 10 сентября 2025</span>
+            <strong>По проекту «Курс на Север» в Мурманскую область переехали 707 человек</strong>
+            <span class="press-card__link">Читать публикацию <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+          <a class="press-card press-card--fedpress" href="https://projects.fedpress.ru/murmansk2-9" target="_blank" rel="noopener noreferrer">
+            <span class="press-card__source">ФедералПресс · спецпроект</span>
+            <strong>Мурманск. На Севере — жить: как регион помогает строить карьеру и переезжать</strong>
+            <span class="press-card__link">Открыть спецпроект <img src="assets/icons/arrow-up-right.svg" alt="" aria-hidden="true"></span>
+          </a>
+        </div>
+      </div>
+    </section>
+
     <section class="section application-section reveal" id="application" aria-labelledby="application-title" data-parallax-section data-parallax-range="32" data-parallax-pointer="4">
       <div class="section-parallax section-parallax--edge-fade" aria-hidden="true">
         <div class="section-parallax__layer--wide section-parallax__layer--port" data-parallax-layer data-parallax-depth="0.2" data-parallax-y="0.42" data-parallax-x="-0.03" style="--parallax-opacity: 0.13">
@@ -758,6 +856,7 @@
             <div class="application-intro__facts">
               <span><img src="assets/icons/clock.svg" alt="" aria-hidden="true">5 минут на заявку</span>
               <span><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Данные защищены</span>
+              <span><img src="assets/icons/file-pdf.svg" alt="" aria-hidden="true">Резюме обязательно</span>
             </div>
           </div>
 
@@ -768,13 +867,27 @@
               </button>
               <i></i>
               <button type="button" class="form-progress__step" data-form-step-button="2">
-                <span>2</span>Работа и переезд
+                <span>2</span>Ваш маршрут
               </button>
               <small id="form-step-status">Шаг 1 из 2</small>
             </div>
 
             <div class="form-step is-active" data-form-step="1">
               <div class="form-grid">
+                <fieldset class="field field--full applicant-type">
+                  <legend>Какой маршрут вам нужен?</legend>
+                  <div class="applicant-type__options">
+                    <label>
+                      <input type="radio" name="applicantType" value="relocation" checked>
+                      <span><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"><strong>Работа и переезд</strong><small>Подбор вакансии и помощь с переездом · с 18 лет</small></span>
+                    </label>
+                    <label>
+                      <input type="radio" name="applicantType" value="student">
+                      <span><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true"><strong>Студент / выпускник</strong><small>Практика, стажировка или первый оффер · с 16 лет</small></span>
+                    </label>
+                  </div>
+                  <span class="field__error" data-error-for="applicantType"></span>
+                </fieldset>
                 <div class="field">
                   <label for="surname">Фамилия</label>
                   <input id="surname" name="surname" type="text" autocomplete="family-name" required>
@@ -800,7 +913,7 @@
                     <input id="birth-year" type="text" inputmode="numeric" autocomplete="bday-year" maxlength="4" placeholder="ГГГГ" aria-label="Год рождения" aria-required="true">
                     <input id="birthdate" name="birthdate" type="hidden">
                   </div>
-                  <span class="field__hint" id="birthdate-hint">Минимальный возраст участника — 18 лет</span>
+                  <span class="field__hint" id="birthdate-hint">Маршрут трудоустройства и переезда — с 18 лет</span>
                   <span class="field__error" data-error-for="birthdate"></span>
                 </div>
                 <div class="field">
@@ -818,20 +931,13 @@
 
             <div class="form-step" data-form-step="2" hidden>
               <div class="form-grid">
-                <fieldset class="field field--full applicant-type">
-                  <legend>Какой маршрут вам нужен?</legend>
-                  <div class="applicant-type__options">
-                    <label>
-                      <input type="radio" name="applicantType" value="relocation" checked>
-                      <span><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"><strong>Работа и переезд</strong><small>Подбор вакансии и помощь с переездом</small></span>
-                    </label>
-                    <label>
-                      <input type="radio" name="applicantType" value="student">
-                      <span><img src="assets/icons/graduation-cap.svg" alt="" aria-hidden="true"><strong>Студент / выпускник</strong><small>Практика, стажировка или первый оффер</small></span>
-                    </label>
-                  </div>
-                  <span class="field__error" data-error-for="applicantType"></span>
-                </fieldset>
+                <input id="vacancyId" name="vacancyId" type="hidden">
+                <input id="vacancySector" name="vacancySector" type="hidden">
+                <aside class="application-context field--full" data-application-context hidden>
+                  <span class="application-context__icon"><img src="assets/icons/briefcase.svg" alt="" aria-hidden="true"></span>
+                  <span><small>Выбранная вакансия</small><strong data-application-context-title></strong><em data-application-context-meta></em></span>
+                  <a href="#vacancies">Изменить</a>
+                </aside>
                 <div class="field">
                   <label for="region" data-region-label>Регион проживания</label>
                   <div class="region-combobox">
@@ -855,7 +961,7 @@
                 </div>
                 <div class="field" data-relocation-field>
                   <label for="wishSalary">Желаемый доход</label>
-                  <input id="wishSalary" name="wishSalary" type="text" inputmode="numeric">
+                  <input id="wishSalary" name="wishSalary" type="text" inputmode="numeric" pattern="[0-9]*" maxlength="9" placeholder="Например, 120000">
                   <span class="field__error" data-error-for="wishSalary"></span>
                 </div>
                 <div class="student-fields field--full" data-student-fields hidden>
@@ -908,7 +1014,7 @@
                 <div class="field field--full">
                   <label>Резюме</label>
                   <div class="file-input">
-                    <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,.rtf" aria-describedby="resume-name">
+                    <input id="resume" name="resume" type="file" accept=".pdf,.doc,.docx,.rtf" aria-describedby="resume-name" required aria-required="true">
                     <label for="resume"><img src="assets/icons/download-simple.svg" alt="" aria-hidden="true">Выбрать файл</label>
                     <span id="resume-name">PDF, DOC или DOCX до 10 МБ</span>
                   </div>
@@ -928,7 +1034,7 @@
                 </div>
                 <div class="field field--full">
                   <label for="comment">Комментарий</label>
-                  <textarea id="comment" name="comment" rows="3" placeholder="Расскажите, что важно учесть при подборе"></textarea>
+                  <textarea id="comment" name="comment" rows="3" placeholder="Расскажите, что важно учесть при подборе, и укажите удобное время для звонка"></textarea>
                   <span class="field__error" data-error-for="comment"></span>
                 </div>
                 <div class="field field--full">
@@ -936,10 +1042,10 @@
                   <input id="referral" name="referral" type="text" maxlength="20">
                   <span class="field__error" data-error-for="referral"></span>
                 </div>
-                <label class="consent field--full">
+                <div class="consent field--full">
                   <input id="agreeTerms" name="agreeTerms" type="checkbox" required>
-                  <span>Соглашаюсь с условиями обработки персональных данных и <button class="legal-inline-button" type="button" data-open-privacy>политикой конфиденциальности</button>.</span>
-                </label>
+                  <span><label for="agreeTerms">Соглашаюсь с условиями обработки персональных данных и </label><button class="legal-inline-button" type="button" data-open-privacy>политикой конфиденциальности</button>.</span>
+                </div>
                 <span class="field__error field__error--consent" data-error-for="agreeTerms"></span>
               </div>
             </div>
@@ -1054,6 +1160,36 @@
     <div class="dialog__footer legal-dialog__actions">
       <button class="button button--secondary" type="button" data-cookie-essential data-dialog-close>Только необходимые</button>
       <button class="button button--primary" type="button" data-cookie-accept data-dialog-close>Принять все</button>
+    </div>
+  </dialog>
+
+  <dialog class="dialog vacancy-dialog" id="vacancy-dialog" aria-labelledby="vacancy-dialog-title">
+    <div class="dialog__header">
+      <div>
+        <p class="eyebrow" data-vacancy-dialog-sector>Направление</p>
+        <h2 id="vacancy-dialog-title" data-vacancy-dialog-title>Вакансия</h2>
+      </div>
+      <button class="icon-button" type="button" aria-label="Закрыть" data-dialog-close>
+        <img src="assets/icons/x.svg" alt="" aria-hidden="true">
+      </button>
+    </div>
+    <div class="dialog__body vacancy-dialog__body">
+      <div class="vacancy-dialog__meta">
+        <span data-vacancy-dialog-city></span>
+        <span data-vacancy-dialog-employer></span>
+        <strong data-vacancy-dialog-salary></strong>
+      </div>
+      <p class="vacancy-dialog__summary" data-vacancy-dialog-summary></p>
+      <section data-vacancy-dialog-section="responsibilities"><h3>Задачи</h3><ul data-vacancy-dialog-responsibilities></ul></section>
+      <section data-vacancy-dialog-section="requirements"><h3>Что важно</h3><ul data-vacancy-dialog-requirements></ul></section>
+      <section data-vacancy-dialog-section="conditions"><h3>Условия</h3><ul data-vacancy-dialog-conditions></ul></section>
+      <p class="vacancy-dialog__notice"><img src="assets/icons/shield-check.svg" alt="" aria-hidden="true">Актуальность вакансии и точные условия подтвердит куратор проекта.</p>
+    </div>
+    <div class="dialog__footer">
+      <button class="button button--primary" type="button" data-dialog-apply data-vacancy-dialog-apply>
+        Откликнуться
+        <img class="button__icon" src="assets/icons/arrow-right.svg" alt="" aria-hidden="true">
+      </button>
     </div>
   </dialog>
 
@@ -1197,7 +1333,7 @@
       <p class="resume-dialog__status" role="status" aria-live="polite" data-resume-status></p>
       <button class="button button--primary" type="button" data-print-resume>
         <img class="button__icon button__icon--leading" src="assets/icons/file-pdf.svg" alt="" aria-hidden="true">
-        Сохранить в PDF
+        Сохранить и прикрепить PDF
       </button>
     </div>
   </dialog>
@@ -1243,6 +1379,6 @@
   <script type="module" src="scripts/section-parallax.js?v=20260729-1"></script>
   <script src="scripts/vendor/pdfmake.min.js?v=0.2.10"></script>
   <script src="scripts/vendor/vfs_fonts.js?v=0.2.10"></script>
-  <script type="module" src="scripts/main.js?v=20260803-1"></script>
+  <script type="module" src="scripts/main.js?v=20260806-1"></script>
 </body>
 </html>
