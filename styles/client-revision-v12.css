@@ -217,6 +217,21 @@
   transition: transform 650ms var(--ease), filter 300ms ease;
 }
 
+.career-direction > .career-direction__media {
+  position: absolute;
+  z-index: -2;
+  inset: 0;
+  display: block;
+}
+
+.career-direction > .career-direction__media img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center 24%;
+  transition: transform 650ms var(--ease), filter 300ms ease;
+}
+
 .career-direction__shade {
   position: absolute;
   z-index: -1;
@@ -281,7 +296,9 @@
 }
 
 .career-direction:hover > img,
-.career-direction:focus-visible > img {
+.career-direction:focus-visible > img,
+.career-direction:hover > .career-direction__media img,
+.career-direction:focus-visible > .career-direction__media img {
   filter: saturate(1.06);
   transform: scale(1.045);
 }

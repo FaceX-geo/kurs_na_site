@@ -30,7 +30,8 @@ const supportContent = {
     eyebrow: "Для всех участников",
     title: "Общие меры поддержки",
     media: {
-      src: "assets/images/support-general-smile-v12.webp",
+      src: "assets/images/support-general-smile-logo-v13.webp",
+      mobileSrc: "assets/images/support-general-smile-logo-mobile-v13.webp",
       alt: "Улыбающаяся семья распаковывает вещи после переезда в Мурманск.",
       positionDesktop: "78% 42%",
       positionMobile: "86% 50%",
@@ -139,7 +140,7 @@ const storyContent = {
     lead: "Марине было важно не просто принять оффер, а синхронизировать работу, жильё, школу и дорогу для всей семьи.",
     gallery: [
       { src: "assets/images/story-avatar-family-v8.webp", alt: "Семейный портрет участницы" },
-      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья после переезда в Мурманскую область" },
+      { src: "assets/images/support-general-smile-logo-v13.webp", alt: "Улыбающаяся семья после переезда в Мурманскую область" },
       { src: "assets/images/relocation-story-summer.jpg", alt: "Летний Мурманск после переезда" },
     ],
     steps: [
@@ -252,7 +253,7 @@ const storyContent = {
     gallery: [
       { src: "assets/images/story-avatar-engineer-v9.webp", alt: "Портрет инженера Андрея" },
       { src: "assets/images/career-industry-smile-v12.webp", alt: "Улыбающийся инженер на предприятии Мурманской области" },
-      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья в Мурманской области" },
+      { src: "assets/images/support-general-smile-logo-v13.webp", alt: "Улыбающаяся семья в Мурманской области" },
     ],
     steps: [
       "Вакансию и условия работодателя проверили до финального собеседования.",
@@ -322,14 +323,14 @@ const storyContent = {
     title: "Из сервиса — в портовую логистику",
     person: "Денис, 31",
     route: "Самара → Мурманск",
-    avatar: "assets/images/career-port-smile-v12.webp",
+    avatar: "assets/images/career-port-smile-logo-v13.webp",
     avatarAlt: "Портрет портового специалиста Дениса",
     cardQuote: "Мой опыт подошёл новой отрасли — остальное помогли собрать.",
     quote: "Опыт оказался переносимым. Куратор помог увидеть подходящие роли, а работодатель — пройти вводное обучение.",
     tags: ["Переехал один", "Смена профессии", "Логистика"],
     lead: "Денис искал переход в более крупные операционные проекты без потери накопленного опыта.",
     gallery: [
-      { src: "assets/images/career-port-smile-v12.webp", alt: "Денис на рабочем причале" },
+      { src: "assets/images/career-port-smile-logo-v13.webp", alt: "Денис на рабочем причале" },
       { src: "assets/images/route-murmansk-port-summer.jpg", alt: "Мурманский порт летом" },
       { src: "assets/images/relocation-story-summer.jpg", alt: "Мурманск после переезда" },
     ],
@@ -345,15 +346,15 @@ const storyContent = {
     title: "Две карьеры в одном маршруте",
     person: "Светлана, 34",
     route: "Пермь → Полярные Зори",
-    avatar: "assets/images/career-safety-smile-v12.webp",
+    avatar: "assets/images/career-safety-smile-logo-v13.webp",
     avatarAlt: "Портрет инженера-энергетика Светланы",
     cardQuote: "Сильная роль для меня и варианты работы для мужа.",
     quote: "Мне предложили сильную роль, а для мужа нашли несколько подходящих вариантов. Только тогда решение стало семейным.",
     tags: ["Переезд вдвоём", "Энергетика", "Работа для партнёра"],
     lead: "Главным условием была возможность развиваться обоим партнёрам.",
     gallery: [
-      { src: "assets/images/career-safety-smile-v12.webp", alt: "Светлана на энергообъекте" },
-      { src: "assets/images/support-general-smile-v12.webp", alt: "Улыбающаяся семья в Мурманской области" },
+      { src: "assets/images/career-safety-smile-logo-v13.webp", alt: "Светлана на энергообъекте" },
+      { src: "assets/images/support-general-smile-logo-v13.webp", alt: "Улыбающаяся семья в Мурманской области" },
       { src: "assets/images/route-khibiny-summer.jpg", alt: "Летний Кольский полуостров" },
     ],
     steps: ["Проверка условий оффера.", "Подбор ролей для партнёра.", "Синхронизация дат переезда.", "Адаптация на новом месте."],
@@ -368,14 +369,14 @@ const storyContent = {
     title: "Диплом — и сразу в реальный проект",
     person: "Роман, 23",
     route: "Москва → Апатиты",
-    avatar: "assets/images/career-students-smile-v12.webp",
+    avatar: "assets/images/career-students-smile-logo-v13.webp",
     avatarAlt: "Портрет аналитика Романа",
     cardQuote: "Наставник, реальный проект и путь к штатной позиции.",
     quote: "Хотел не формальную стажировку, а реальные задачи. Получил наставника, проект и понятный путь к штатной позиции.",
     tags: ["Выпускник", "Переехал один", "Первый оффер"],
     lead: "Роман выбирал место, где сможет быстро превратить знания в опыт.",
     gallery: [
-      { src: "assets/images/career-students-smile-v12.webp", alt: "Роман в лаборатории" },
+      { src: "assets/images/career-students-smile-logo-v13.webp", alt: "Роман в лаборатории" },
       { src: "assets/images/students-mgtu-arrival-smile-v12.webp", alt: "Улыбающиеся молодые специалисты в Мурманске" },
       { src: "assets/images/route-khibiny-summer.jpg", alt: "Летние Хибины" },
     ],
@@ -975,8 +976,24 @@ function renderSupport(key) {
   state.activeSupport = key;
   const detail = qs("[data-support-detail]");
   const photo = qs("[data-support-photo]", detail);
+  const mobilePhotoSource = qs("[data-support-photo-source]", detail);
+  const mobilePhotoFallbackSource = qs("[data-support-photo-fallback-source]", detail);
+  const desktopPhotoSource = qs("[data-support-photo-desktop-source]", detail);
   if (photo && content.media) {
-    const nextSrc = content.media.src;
+    const nextSrc = content.media.src.replace(/\.webp$/i, ".png");
+    desktopPhotoSource?.setAttribute("srcset", content.media.src);
+    if (mobilePhotoSource) {
+      if (content.media.mobileSrc) {
+        mobilePhotoSource.srcset = content.media.mobileSrc;
+        mobilePhotoFallbackSource?.setAttribute(
+          "srcset",
+          content.media.mobileSrc.replace(/\.webp$/i, ".png"),
+        );
+      } else {
+        mobilePhotoSource.removeAttribute("srcset");
+        mobilePhotoFallbackSource?.removeAttribute("srcset");
+      }
+    }
     photo.alt = content.media.alt;
     photo.style.setProperty("--support-position-desktop", content.media.positionDesktop);
     photo.style.setProperty("--support-position-mobile", content.media.positionMobile);
@@ -1152,11 +1169,13 @@ function initSupport() {
     if (!media?.src) {
       return;
     }
-    const image = new Image();
-    image.src = media.src;
-    if (typeof image.decode === "function") {
-      image.decode().catch(() => {});
-    }
+    [media.src, media.mobileSrc].filter(Boolean).forEach((src) => {
+      const image = new Image();
+      image.src = src;
+      if (typeof image.decode === "function") {
+        image.decode().catch(() => {});
+      }
+    });
   });
 
   qsa("[data-support-tab]").forEach((tab) => {

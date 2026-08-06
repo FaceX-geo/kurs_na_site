@@ -22,7 +22,7 @@
   <link rel="stylesheet" href="styles/human-ui-v9.css?v=20260802-1">
   <link rel="stylesheet" href="styles/editorial-v10.css?v=20260803-3">
   <link rel="stylesheet" href="styles/north-life-v1.css?v=20260803-1">
-  <link rel="stylesheet" href="styles/client-revision-v12.css?v=20260806-1">
+  <link rel="stylesheet" href="styles/client-revision-v12.css?v=20260806-2">
 </head>
 <body>
   <a class="skip-link" href="#main-content">Перейти к основному содержанию</a>
@@ -366,8 +366,10 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--port" data-vacancy-sector="industry">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-port-smile-v12.webp" type="image/webp">
-              <img src="assets/images/career-port-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source media="(max-width: 680px)" srcset="assets/images/career-port-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-port-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-port-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-port-smile-logo-v13.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -385,8 +387,10 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--energy" data-vacancy-sector="industry">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-safety-smile-v12.webp" type="image/webp">
-              <img src="assets/images/career-safety-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source media="(max-width: 680px)" srcset="assets/images/career-safety-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-safety-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-safety-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-safety-smile-logo-v13.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -404,8 +408,10 @@
 
             <article class="vacancy-card vacancy-card--human vacancy-card--analytics" data-vacancy-sector="students">
             <picture class="vacancy-card__media" aria-hidden="true">
-              <source srcset="assets/images/career-students-smile-v12.webp" type="image/webp">
-              <img src="assets/images/career-students-smile-v12.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
+              <source media="(max-width: 680px)" srcset="assets/images/career-students-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-students-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-students-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-students-smile-logo-v13.png" alt="" width="1000" height="1250" loading="lazy" decoding="async">
             </picture>
             <div class="vacancy-card__body">
               <div class="vacancy-card__top">
@@ -443,19 +449,34 @@
             <span class="career-direction__copy"><small>Вакансии направления</small><strong>Образование</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
           </button>
           <button class="career-direction career-direction--port" type="button" data-vacancy-sector-open="port" aria-controls="vacancy-results" aria-expanded="false">
-            <img src="assets/images/career-port-smile-v12.webp" alt="Улыбающийся специалист морского порта" width="1000" height="1250" loading="lazy" decoding="async">
+            <picture class="career-direction__media">
+              <source media="(max-width: 680px)" srcset="assets/images/career-port-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-port-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-port-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-port-smile-logo-v13.png" alt="Улыбающийся специалист морского порта; надпись «На Севере — жить!» на борту" width="1000" height="1250" loading="lazy" decoding="async">
+            </picture>
             <span class="career-direction__shade" aria-hidden="true"></span>
             <span class="career-direction__index">04</span>
             <span class="career-direction__copy"><small>Вакансии направления</small><strong>Вакансии порта</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
           </button>
           <button class="career-direction career-direction--safety" type="button" data-vacancy-sector-open="safety" aria-controls="vacancy-results" aria-expanded="false">
-            <img src="assets/images/career-safety-smile-v12.webp" alt="Улыбающийся специалист по производственной безопасности" width="1000" height="1250" loading="lazy" decoding="async">
+            <picture class="career-direction__media">
+              <source media="(max-width: 680px)" srcset="assets/images/career-safety-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-safety-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-safety-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-safety-smile-logo-v13.png" alt="Улыбающийся специалист по производственной безопасности; надпись «На Севере — жить!» на электрощите" width="1000" height="1250" loading="lazy" decoding="async">
+            </picture>
             <span class="career-direction__shade" aria-hidden="true"></span>
             <span class="career-direction__index">05</span>
             <span class="career-direction__copy"><small>Вакансии направления</small><strong>Безопасность</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
           </button>
           <button class="career-direction career-direction--students" type="button" data-vacancy-sector-open="students" aria-controls="vacancy-results" aria-expanded="false">
-            <img src="assets/images/career-students-smile-v12.webp" alt="Улыбающийся молодой специалист в лаборатории" width="1000" height="1250" loading="lazy" decoding="async">
+            <picture class="career-direction__media">
+              <source media="(max-width: 680px)" srcset="assets/images/career-students-smile-logo-mobile-v13.webp" type="image/webp">
+              <source media="(max-width: 680px)" srcset="assets/images/career-students-smile-logo-mobile-v13.png" type="image/png">
+              <source srcset="assets/images/career-students-smile-logo-v13.webp" type="image/webp">
+              <img src="assets/images/career-students-smile-logo-v13.png" alt="Улыбающийся молодой специалист в лаборатории; надпись «На Севере — жить!» в рамке" width="1000" height="1250" loading="lazy" decoding="async">
+            </picture>
             <span class="career-direction__shade" aria-hidden="true"></span>
             <span class="career-direction__index">06</span>
             <span class="career-direction__copy"><small>Практика и первый оффер</small><strong>Старт карьеры</strong><span>Открыть подборку <img src="assets/icons/arrow-right.svg" alt="" aria-hidden="true"></span></span>
@@ -609,7 +630,12 @@
           </div>
 
           <article class="support-detail" data-support-detail aria-live="polite" aria-atomic="true">
-            <img class="support-detail__photo" data-support-photo src="assets/images/support-general-smile-v12.webp" alt="Улыбающаяся семья распаковывает вещи после переезда в Мурманск." width="1536" height="1024" loading="lazy" decoding="async">
+            <picture>
+              <source data-support-photo-source media="(max-width: 680px)" srcset="assets/images/support-general-smile-logo-mobile-v13.webp" type="image/webp">
+              <source data-support-photo-fallback-source media="(max-width: 680px)" srcset="assets/images/support-general-smile-logo-mobile-v13.png" type="image/png">
+              <source data-support-photo-desktop-source srcset="assets/images/support-general-smile-logo-v13.webp" type="image/webp">
+              <img class="support-detail__photo" data-support-photo src="assets/images/support-general-smile-logo-v13.png" alt="Улыбающаяся семья распаковывает вещи после переезда в Мурманск; надпись «На Севере — жить!» на коробе." width="1536" height="1024" loading="lazy" decoding="async">
+            </picture>
             <div class="support-detail__shade"></div>
             <div class="support-detail__content">
               <p class="support-detail__eyebrow" data-support-eyebrow>Для всех участников</p>
@@ -1379,6 +1405,6 @@
   <script type="module" src="scripts/section-parallax.js?v=20260729-1"></script>
   <script src="scripts/vendor/pdfmake.min.js?v=0.2.10"></script>
   <script src="scripts/vendor/vfs_fonts.js?v=0.2.10"></script>
-  <script type="module" src="scripts/main.js?v=20260806-1"></script>
+  <script type="module" src="scripts/main.js?v=20260806-3"></script>
 </body>
 </html>
