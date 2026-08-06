@@ -67,6 +67,16 @@ test("landing exposes six accessible sector controls and required resume", async
   assert.doesNotMatch(main, /if \(normalizedRemote\.length\)/);
 });
 
+test("nginx keeps same-origin redirects relative and templates the trusted CRM hop", async () => {
+  const nginx = await readFile(new URL("docker/nginx/default.conf", projectUrl), "utf8");
+
+  assert.match(nginx, /absolute_redirect off;/);
+  assert.match(nginx, /server __CRM_API_UPSTREAM__;/);
+  assert.match(nginx, /X-Forwarded-Proto __CRM_FORWARDED_PROTO__;/);
+  assert.match(nginx, /X-Forwarded-For __CRM_FORWARDED_CLIENT_IP__;/);
+  assert.doesNotMatch(nginx, /proxy_pass http:\/\/crm-api:8080/);
+});
+
 test("a logical submit attempt freezes keys, timestamp and exact payload across manual retries", () => {
   const attempt = createSubmitAttempt(() => new Date("2026-08-06T09:00:00.000Z"));
   const payload = bindSubmitAttemptPayload(attempt, { schemaVersion: "landing.application@1" });
