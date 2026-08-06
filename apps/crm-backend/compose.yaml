@@ -174,6 +174,24 @@ services:
         condition: service_completed_successfully
     networks: [crm-private, credential-egress]
 
+  test-snapshot-import:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    profiles: [legacy-migration]
+    environment:
+      DATABASE_URL: postgresql://kurs_crm_migrator:${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}@postgres:5432/kurs_crm
+      LEGACY_MYSQL_URL: ${LEGACY_MYSQL_URL:-}
+      CRM_TEST_SNAPSHOT_IMPORT: ${CRM_TEST_SNAPSHOT_IMPORT:-false}
+      CRM_TEST_SNAPSHOT_IMPORT_CONFIRM: ${CRM_TEST_SNAPSHOT_IMPORT_CONFIRM:-}
+      CRM_TEST_SNAPSHOT_SHA256: ${CRM_TEST_SNAPSHOT_SHA256:-}
+    command: ["node", "dist/test-snapshot-import-once.js"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [crm-private, migration-source]
+
 networks:
   crm-private:
     internal: true
@@ -187,6 +205,9 @@ networks:
   edge:
     external: true
     name: ${CRM_EDGE_NETWORK:?set CRM_EDGE_NETWORK}
+  migration-source:
+    external: true
+    name: ${CRM_MIGRATION_SOURCE_NETWORK:-kurs_na_sever_crm_migration}
 
 volumes:
   postgres-data:
