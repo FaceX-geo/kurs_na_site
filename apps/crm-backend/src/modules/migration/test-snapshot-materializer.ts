@@ -349,7 +349,7 @@ async function materializeActors(
       `INSERT INTO migration.legacy_actor
          (id, source_user_id, display_label, classification, employee_profile_id, provenance)
        VALUES ($1::uuid, $2, $3, $4, $5::uuid,
-         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_user','sourceId',$2,'snapshotSha256',$6))
+         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_user','sourceId',$2::text,'snapshotSha256',$6::text))
        ON CONFLICT (source_user_id) DO UPDATE
          SET employee_profile_id = EXCLUDED.employee_profile_id
        WHERE migration.legacy_actor.id = EXCLUDED.id`,
@@ -441,7 +441,7 @@ async function materializeEmployers(
       `INSERT INTO crm.employer
          (id, public_id, name, status, provenance, manual_review_reason, created_at, updated_at)
        VALUES ($1::uuid, $2, $3, $4,
-         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_crm_company','sourceId',$5,'snapshotSha256',$6),
+         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_crm_company','sourceId',$5::text,'snapshotSha256',$6::text),
          $7, $8::timestamptz, $8::timestamptz)
        ON CONFLICT (id) DO NOTHING`,
       [
@@ -611,7 +611,7 @@ async function materializeCases(
          (id, public_id, participation_id, funnel_code, funnel_version, stage_code, title, status,
           attributes, source_created_at, created_at, updated_at)
        VALUES ($1::uuid,$2,$3::uuid,'relocation_legacy_category_2',1,$4,$5,$6,
-         jsonb_build_object('legacyStage',$7,'legacyCompanyId',$8,'sourceCode',$9,'testSnapshot',true),
+         jsonb_build_object('legacyStage',$7::text,'legacyCompanyId',$8::text,'sourceCode',$9::text,'testSnapshot',true),
          $10::timestamptz,$10::timestamptz,$10::timestamptz)
        ON CONFLICT (id) DO NOTHING`,
       [
@@ -636,7 +636,7 @@ async function materializeCases(
       `INSERT INTO crm.case_assignment
          (id,case_id,legacy_actor_id,role,valid_from,provenance,created_at,updated_at)
        VALUES ($1::uuid,$2::uuid,$3::uuid,'owner',$4::timestamptz,
-         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_crm_deal','sourceId',$5,'snapshotSha256',$6),
+         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_crm_deal','sourceId',$5::text,'snapshotSha256',$6::text),
          $4::timestamptz,$4::timestamptz)
        ON CONFLICT (id) DO NOTHING`,
       [
@@ -695,7 +695,7 @@ async function materializeCrmTasks(
          (id,public_id,case_id,title,description,state,responsible_employee_profile_id,due_at,completed_at,
           priority,provenance,created_at,updated_at)
        SELECT $1::uuid,$2,linked_case.id,$3,$4,$5,employee.id,$6::timestamptz,$7::timestamptz,$8,
-         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_tasks','sourceId',$9,'snapshotSha256',$10),
+         jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_tasks','sourceId',$9::text,'snapshotSha256',$10::text),
          $11::timestamptz,$11::timestamptz
        FROM (SELECT $12::uuid AS id) desired_case
        LEFT JOIN crm."case" linked_case ON linked_case.id=desired_case.id
