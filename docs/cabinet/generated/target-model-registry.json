@@ -1,0 +1,1575 @@
+{
+  "registry_version": "1.0.0",
+  "snapshot_sha256": "7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+  "canonical_id_format": "namespace.object_or_relation",
+  "assignment_semantics": {
+    "contract_version": "perioded-actor-assignment-v1",
+    "required_fields": [
+      "subject_id",
+      "actor_id",
+      "actor_kind",
+      "role",
+      "valid_from",
+      "valid_to",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "actor_kind_values": [
+      "employee_profile",
+      "legacy_actor",
+      "system_connector",
+      "bot",
+      "anonymous_actor"
+    ],
+    "historical_actor_semantics": {
+      "roles": [
+        "creator",
+        "modifier",
+        "originator"
+      ],
+      "mutable": false,
+      "inactive_actor_is_preserved": true,
+      "reassignment_does_not_rewrite_history": true,
+      "valid_from": "source event or entity creation timestamp",
+      "valid_to": "null unless the source explicitly periods the historical role"
+    },
+    "operational_owner_semantics": {
+      "roles": [
+        "owner",
+        "responsible",
+        "co_executor"
+      ],
+      "mutable": true,
+      "current_relation_has_null_valid_to": true,
+      "reassignment_closes_previous_relation_at_valid_to": true,
+      "active_employee_required_for_new_assignment": true,
+      "unresolved_or_ineligible_actor_outcome": "conflict_recorded"
+    },
+    "source_actor_resolution": "source user is always preserved as identity.legacy_actor; eligible staff may additionally resolve to identity.employee_profile"
+  },
+  "semantic_fingerprint_contract": {
+    "contract_version": "keyed-semantic-fingerprint-v1",
+    "algorithm": "HMAC-SHA-256",
+    "digest_encoding": "base64url",
+    "required_context_fields": [
+      "purpose",
+      "key_version"
+    ],
+    "key_storage": "external_secret_manager",
+    "different_purposes_use_domain_separated_keys": true,
+    "raw_input_forbidden_in": [
+      "migration_ledger",
+      "generated_artifacts",
+      "stdout",
+      "logs",
+      "metrics",
+      "reconciliation_samples"
+    ],
+    "unkeyed_hash_for_personal_identifier_forbidden": true
+  },
+  "consent_snapshot_contract": {
+    "contract_version": "legacy-consent-snapshot-v1",
+    "target": "crm.consent_snapshot",
+    "source_binding": {
+      "table": "b_uts_crm_contact",
+      "column": "UF_CRM_1746464685417",
+      "source_field_id": 206
+    },
+    "required_fields": [
+      "subject_id",
+      "consent_kind",
+      "legacy_boolean_value",
+      "legacy_source_field",
+      "policy_version",
+      "captured_at",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "invariants": {
+      "policy_version": "null_or_unknown",
+      "captured_at": "null_unless_source_proves_timestamp",
+      "modern_consent_must_not_be_inferred": true,
+      "legacy_boolean_is_snapshot_not_current_authorization": true
+    }
+  },
+  "file_acl_contract": {
+    "contract_version": "file-acl-v1",
+    "target_acl": "platform.attachment_acl",
+    "target_storage": "platform.attachment_storage",
+    "source_tables": {
+      "b_disk_right": 284,
+      "b_disk_simple_right": 1276,
+      "b_disk_sharing": 8,
+      "b_disk_storage": 221
+    },
+    "required_acl_fields": [
+      "attachment_id",
+      "principal_id",
+      "principal_kind",
+      "permission",
+      "effect",
+      "inherited_from_storage_id",
+      "valid_from",
+      "valid_to",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "required_storage_fields": [
+      "storage_id",
+      "owner_principal_id",
+      "owner_principal_kind",
+      "root_attachment_id",
+      "uses_internal_rights",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "principal_resolution": {
+      "classifier_id": "disk-acl-principal-v1",
+      "allowed_principal_kinds": [
+        "user_account",
+        "employee_profile",
+        "organization_unit",
+        "group",
+        "system_connector",
+        "public_link"
+      ],
+      "unknown_principal_outcome": "conflict_recorded",
+      "unknown_principal_blocks_full": true
+    },
+    "orphan_object_or_storage_outcome": "conflict_recorded",
+    "orphan_object_or_storage_blocks_full": true,
+    "acl_reconciliation_cardinality": "every source ACL/share row has exactly one target ACL or signed conflict outcome",
+    "public_acl_default": "deny",
+    "permission_decode": {
+      "source_column": "b_disk_right.TASK_ID",
+      "strategy": "versioned_owner_approved_crosswalk",
+      "numeric_task_id_copy_forbidden": true,
+      "current_status": "BLOCKED_MISSING_APPROVED_TASK_PERMISSION_CROSSWALK",
+      "unresolved_task_id_outcome": "conflict_recorded",
+      "unresolved_task_id_blocks_full": true,
+      "required_evidence": [
+        "task_permission_crosswalk_version",
+        "decoded_acl_row_count",
+        "unknown_task_id_count"
+      ],
+      "unknown_task_id_count_required": 0
+    },
+    "legacy_external_link_contract": {
+      "source_table": "b_disk_external_link",
+      "baseline_rows": 2,
+      "legacy_secret_columns": [
+        "HASH",
+        "PASSWORD",
+        "SALT"
+      ],
+      "legacy_secret_import_forbidden": true,
+      "allowed_outcomes": [
+        "revoked_not_migrated",
+        "reissued_with_new_target_secret",
+        "excluded_with_signed_security_decision"
+      ],
+      "unresolved_decision_count_required": 0,
+      "unresolved_blocks_full": true,
+      "raw_secret_or_url_in_artifacts_forbidden": true
+    }
+  },
+  "targets": [
+    {
+      "id": "crm.activity_binding",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_act_bind"
+      ],
+      "endpoints": [
+        "crm.crm_activity",
+        "crm.crm_profile",
+        "crm.crm_case",
+        "crm.employer",
+        "crm.employer_referral"
+      ]
+    },
+    {
+      "id": "crm.activity_communication",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_act_comm"
+      ]
+    },
+    {
+      "id": "crm.case_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_deal",
+        "b_crm_observer"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "crm.crm_case",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "crm.crm_case"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "creator",
+        "modifier",
+        "observer"
+      ],
+      "historical_actor_roles": [
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner"
+      ],
+      "membership_roles": [
+        "observer"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_crm_deal",
+          "role_columns": {
+            "owner": "ASSIGNED_BY_ID",
+            "creator": "CREATED_BY_ID",
+            "modifier": "MODIFY_BY_ID"
+          }
+        },
+        {
+          "source_table": "b_crm_observer",
+          "predicate": "ENTITY_TYPE_ID = 2",
+          "subject_column": "ENTITY_ID",
+          "actor_column": "USER_ID",
+          "fixed_role": "observer",
+          "valid_from_column": "CREATED_TIME",
+          "source_updated_at_column": "LAST_UPDATED_TIME"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "crm.case_person",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_deal_contact"
+      ],
+      "endpoints": [
+        "crm.crm_case",
+        "identity.person"
+      ]
+    },
+    {
+      "id": "crm.case_relation",
+      "kind": "relation",
+      "source_tables": [
+        "b_utm_crm_deal"
+      ],
+      "endpoints": [
+        "crm.crm_case",
+        "identity.person",
+        "crm.employer",
+        "crm.employer_referral"
+      ]
+    },
+    {
+      "id": "crm.case_stage_history",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_deal_stage_history"
+      ],
+      "required_fields": [
+        "case_id",
+        "from_stage_id",
+        "to_stage_id",
+        "category_id",
+        "stage_semantic_id",
+        "actor_id",
+        "actor_kind",
+        "effective_from",
+        "effective_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "versioned stage mapping exists",
+        "effective_from <= effective_to when both are present",
+        "unmapped category/stage is conflict_recorded"
+      ]
+    },
+    {
+      "id": "crm.consent_snapshot",
+      "kind": "entity",
+      "source_tables": [
+        "b_uts_crm_contact"
+      ],
+      "required_fields": [
+        "subject_id",
+        "consent_kind",
+        "legacy_boolean_value",
+        "legacy_source_field",
+        "policy_version",
+        "captured_at",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "policy_version is null or unknown",
+        "captured_at is null unless source proves timestamp",
+        "legacy snapshot is not current legal authorization"
+      ]
+    },
+    {
+      "id": "crm.contact_point",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_field_multi"
+      ]
+    },
+    {
+      "id": "crm.crm_activity",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_act"
+      ]
+    },
+    {
+      "id": "crm.crm_case",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_deal",
+        "b_uts_crm_deal"
+      ]
+    },
+    {
+      "id": "crm.crm_profile",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_contact",
+        "b_uts_crm_contact"
+      ]
+    },
+    {
+      "id": "crm.crm_profile_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_contact",
+        "b_crm_observer"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "crm.crm_profile",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "crm.crm_profile"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "creator",
+        "modifier",
+        "observer"
+      ],
+      "historical_actor_roles": [
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner"
+      ],
+      "membership_roles": [
+        "observer"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_crm_contact",
+          "role_columns": {
+            "owner": "ASSIGNED_BY_ID",
+            "creator": "CREATED_BY_ID",
+            "modifier": "MODIFY_BY_ID"
+          }
+        },
+        {
+          "source_table": "b_crm_observer",
+          "predicate": "ENTITY_TYPE_ID = 3",
+          "subject_column": "ENTITY_ID",
+          "actor_column": "USER_ID",
+          "fixed_role": "observer",
+          "valid_from_column": "CREATED_TIME",
+          "source_updated_at_column": "LAST_UPDATED_TIME"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "crm.crm_task",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks"
+      ]
+    },
+    {
+      "id": "crm.employer",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_company"
+      ]
+    },
+    {
+      "id": "crm.employer_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_company"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "crm.employer",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "crm.employer"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "creator",
+        "modifier"
+      ],
+      "historical_actor_roles": [
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_crm_company",
+          "role_columns": {
+            "owner": "ASSIGNED_BY_ID",
+            "creator": "CREATED_BY_ID",
+            "modifier": "MODIFY_BY_ID"
+          }
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "crm.employer_referral",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_dynamic_items_1042"
+      ]
+    },
+    {
+      "id": "crm.employer_referral_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_dynamic_items_1042"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "crm.employer_referral",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "crm.employer_referral"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "creator",
+        "modifier"
+      ],
+      "historical_actor_roles": [
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_crm_dynamic_items_1042",
+          "role_columns": {
+            "owner": "ASSIGNED_BY_ID",
+            "creator": "CREATED_BY",
+            "modifier": "UPDATED_BY"
+          }
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "crm.employer_referral_stage_history",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_entity_stage_history"
+      ],
+      "required_fields": [
+        "employer_referral_id",
+        "from_stage_id",
+        "to_stage_id",
+        "stage_semantic_id",
+        "actor_id",
+        "actor_kind",
+        "effective_from",
+        "effective_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "OWNER_TYPE_ID = 1042",
+        "CATEGORY_ID = 8",
+        "versioned stage mapping exists"
+      ]
+    },
+    {
+      "id": "crm.employer_referral.case_id",
+      "kind": "foreign_key",
+      "source_tables": [
+        "b_crm_entity_relation"
+      ]
+    },
+    {
+      "id": "crm.employer_requisite",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_requisite"
+      ]
+    },
+    {
+      "id": "crm.profile_relation",
+      "kind": "relation",
+      "source_tables": [
+        "b_utm_crm_contact"
+      ],
+      "endpoints": [
+        "crm.crm_profile",
+        "identity.person",
+        "crm.employer"
+      ]
+    },
+    {
+      "id": "crm.program_participation",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_contact",
+        "b_uts_crm_contact"
+      ]
+    },
+    {
+      "id": "crm.recommender_link",
+      "kind": "relation",
+      "source_tables": [
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ],
+      "endpoints": [
+        "identity.person"
+      ]
+    },
+    {
+      "id": "crm.relocation_profile",
+      "kind": "entity",
+      "source_tables": [
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ]
+    },
+    {
+      "id": "crm.settlement_dictionary",
+      "kind": "entity",
+      "source_tables": [
+        "b_iblock_element"
+      ]
+    },
+    {
+      "id": "crm.task_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_tasks",
+        "b_tasks_member"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "crm.crm_task",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "crm.crm_task"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "responsible",
+        "co_executor",
+        "originator",
+        "creator",
+        "modifier"
+      ],
+      "historical_actor_roles": [
+        "originator",
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner",
+        "responsible",
+        "co_executor"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_tasks",
+          "role_columns": {
+            "responsible": "RESPONSIBLE_ID",
+            "creator": "CREATED_BY",
+            "modifier": "CHANGED_BY"
+          }
+        },
+        {
+          "source_table": "b_tasks_member",
+          "actor_column": "USER_ID",
+          "role_discriminator_column": "TYPE",
+          "role_map_ref": "migration-scope-manifest.json#/legacy_relation_type_maps/b_tasks_member.TYPE"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "crm.task_dependency",
+      "kind": "relation",
+      "source_tables": [
+        "b_tasks_task_dep"
+      ],
+      "endpoints": [
+        "crm.crm_task"
+      ],
+      "required_fields": [
+        "task_id",
+        "predecessor_task_id",
+        "dependency_kind",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "both endpoints have task_domain = crm",
+        "task_id != predecessor_task_id",
+        "accepted edge does not create a cycle",
+        "DIRECT = 1"
+      ]
+    },
+    {
+      "id": "crm.task_history",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks_log"
+      ],
+      "required_fields": [
+        "task_id",
+        "changed_field",
+        "before_value_protected",
+        "after_value_protected",
+        "actor_id",
+        "actor_kind",
+        "occurred_at",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "task_domain = crm",
+        "history value logging is forbidden"
+      ]
+    },
+    {
+      "id": "crm.task_result",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks_result"
+      ],
+      "required_fields": [
+        "task_id",
+        "comment_id",
+        "text_protected",
+        "status",
+        "created_by_actor_id",
+        "created_at",
+        "updated_at",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "task_domain = crm",
+        "result text is protected and never logged"
+      ]
+    },
+    {
+      "id": "crm.task_stage_definition",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks_stages"
+      ],
+      "required_fields": [
+        "code",
+        "label",
+        "sort",
+        "color",
+        "active",
+        "mapping_version",
+        "provenance"
+      ],
+      "migration_status": "blocked_pending_signed_stage_map",
+      "invariants": [
+        "legacy entity type alone must not infer CRM workflow semantics"
+      ]
+    },
+    {
+      "id": "crm.timeline_binding",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_event_relations",
+        "b_crm_timeline_bind"
+      ],
+      "endpoints": [
+        "crm.timeline_event",
+        "crm.crm_profile",
+        "crm.crm_case",
+        "crm.employer",
+        "crm.employer_referral"
+      ]
+    },
+    {
+      "id": "crm.timeline_event",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_act",
+        "b_crm_event",
+        "b_crm_timeline"
+      ]
+    },
+    {
+      "id": "identity.employee_profile",
+      "kind": "entity",
+      "source_tables": [
+        "b_user",
+        "b_utm_user"
+      ]
+    },
+    {
+      "id": "identity.employee_unit_membership",
+      "kind": "relation",
+      "source_tables": [
+        "b_utm_user"
+      ],
+      "relation_type": "perioded_membership",
+      "endpoints": [
+        "identity.employee_profile",
+        "identity.organization_unit"
+      ],
+      "endpoint_roles": {
+        "actor_target_ids": [
+          "identity.employee_profile"
+        ],
+        "subject_target_ids": [
+          "identity.organization_unit"
+        ]
+      },
+      "allowed_roles": [
+        "member"
+      ],
+      "historical_actor_roles": [],
+      "operational_owner_roles": [
+        "member"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_utm_user",
+          "actor_column": "VALUE_ID",
+          "subject_column": "VALUE_INT",
+          "predicate": "FIELD_ID=40"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "identity.legacy_actor",
+      "kind": "entity",
+      "source_tables": [
+        "b_user"
+      ]
+    },
+    {
+      "id": "identity.organization_unit",
+      "kind": "entity",
+      "source_tables": [
+        "b_iblock_section"
+      ]
+    },
+    {
+      "id": "identity.organization_unit_head",
+      "kind": "relation",
+      "source_tables": [
+        "b_uts_iblock_3_section"
+      ],
+      "relation_type": "perioded_membership",
+      "endpoints": [
+        "identity.organization_unit",
+        "identity.employee_profile"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "identity.organization_unit"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile"
+        ]
+      },
+      "allowed_roles": [
+        "head"
+      ],
+      "historical_actor_roles": [],
+      "operational_owner_roles": [
+        "head"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_uts_iblock_3_section",
+          "subject_column": "VALUE_ID",
+          "actor_column": "UF_HEAD",
+          "fixed_role": "head"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "identity.person",
+      "kind": "entity",
+      "source_tables": [
+        "b_crm_contact",
+        "b_user"
+      ]
+    },
+    {
+      "id": "identity.user_account",
+      "kind": "entity",
+      "source_tables": [
+        "b_user"
+      ]
+    },
+    {
+      "id": "migration.case_person_evidence",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_event_relations"
+      ]
+    },
+    {
+      "id": "migration.conflict",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_deal_stage_history",
+        "b_crm_entity_relation",
+        "b_tasks",
+        "b_tasks_log",
+        "b_tasks_member",
+        "b_tasks_task_dep",
+        "b_utm_user"
+      ]
+    },
+    {
+      "id": "migration.crm_stage_history_quarantine",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_deal_stage_history_with_supposed",
+        "b_crm_entity_stage_history_with_supposed"
+      ],
+      "required_fields": [
+        "source_table",
+        "source_key",
+        "owner_type_id",
+        "is_supposed",
+        "encrypted_payload",
+        "decision_status",
+        "provenance"
+      ],
+      "invariants": [
+        "canonical history write is forbidden before signed semantics decision",
+        "payload is never logged"
+      ]
+    },
+    {
+      "id": "migration.duplicate_signal",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_field_multi",
+        "b_crm_requisite"
+      ]
+    },
+    {
+      "id": "migration.file_acl_conflict",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_disk_right",
+        "b_disk_sharing",
+        "b_disk_simple_right",
+        "b_disk_storage"
+      ]
+    },
+    {
+      "id": "migration.file_checksum_evidence",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_file_hash"
+      ]
+    },
+    {
+      "id": "migration.file_conflict",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_act_elem",
+        "b_disk_object",
+        "b_disk_version"
+      ]
+    },
+    {
+      "id": "migration.file_ledger",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_file"
+      ]
+    },
+    {
+      "id": "migration.legacy_reference",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_act",
+        "b_crm_act_bind",
+        "b_crm_act_comm",
+        "b_crm_act_elem",
+        "b_crm_company",
+        "b_crm_contact",
+        "b_crm_deal",
+        "b_crm_deal_category",
+        "b_crm_deal_contact",
+        "b_crm_deal_stage_history",
+        "b_crm_deal_stage_history_with_supposed",
+        "b_crm_dynamic_items_1042",
+        "b_crm_dynamic_type",
+        "b_crm_entity_relation",
+        "b_crm_entity_stage_history",
+        "b_crm_entity_stage_history_with_supposed",
+        "b_crm_event",
+        "b_crm_event_relations",
+        "b_crm_field_multi",
+        "b_crm_item_category",
+        "b_crm_observer",
+        "b_crm_requisite",
+        "b_crm_status",
+        "b_crm_timeline",
+        "b_crm_timeline_bind",
+        "b_disk_attached_object",
+        "b_disk_object",
+        "b_disk_right",
+        "b_disk_sharing",
+        "b_disk_simple_right",
+        "b_disk_storage",
+        "b_disk_version",
+        "b_file",
+        "b_file_hash",
+        "b_group",
+        "b_iblock",
+        "b_iblock_element",
+        "b_iblock_section",
+        "b_tasks",
+        "b_tasks_log",
+        "b_tasks_member",
+        "b_tasks_result",
+        "b_tasks_stages",
+        "b_tasks_task_dep",
+        "b_tasks_task_stage",
+        "b_user",
+        "b_user_field",
+        "b_user_field_enum",
+        "b_user_field_lang",
+        "b_user_group",
+        "b_utm_crm_contact",
+        "b_utm_crm_deal",
+        "b_utm_crm_timeline",
+        "b_utm_user",
+        "b_uts_crm_contact",
+        "b_uts_crm_deal",
+        "b_uts_iblock_3_section"
+      ],
+      "required_fields": [
+        "source_system",
+        "source_entity",
+        "source_id",
+        "target_entity",
+        "target_id",
+        "provenance"
+      ],
+      "invariants": [
+        "unique(source_system, source_entity, source_id)"
+      ]
+    },
+    {
+      "id": "migration.legacy_role_evidence",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_group",
+        "b_user_group"
+      ]
+    },
+    {
+      "id": "migration.provenance",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_event",
+        "b_utm_crm_contact",
+        "b_utm_crm_deal",
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ]
+    },
+    {
+      "id": "migration.source_category_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_deal_category"
+      ]
+    },
+    {
+      "id": "migration.source_dynamic_category_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_item_category"
+      ]
+    },
+    {
+      "id": "migration.source_dynamic_type_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_dynamic_type"
+      ]
+    },
+    {
+      "id": "migration.source_enum_value",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_user_field_enum"
+      ]
+    },
+    {
+      "id": "migration.source_field_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_user_field"
+      ]
+    },
+    {
+      "id": "migration.source_field_label",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_user_field_lang"
+      ]
+    },
+    {
+      "id": "migration.source_lookup_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_iblock"
+      ]
+    },
+    {
+      "id": "migration.source_status_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_crm_status"
+      ]
+    },
+    {
+      "id": "migration.source_task_stage_definition",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_tasks_stages"
+      ],
+      "required_fields": [
+        "source_stage_id",
+        "title_protected",
+        "entity_type",
+        "system_type",
+        "sort",
+        "color",
+        "referenced",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "technical serialized payload is not directly mapped",
+        "canonical workflow write requires signed stage map"
+      ]
+    },
+    {
+      "id": "migration.source_task_stage_membership",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_tasks_task_stage"
+      ],
+      "required_fields": [
+        "source_task_id",
+        "source_stage_id",
+        "task_reference_status",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "no valid_from timestamp is fabricated",
+        "no canonical workflow state is inferred"
+      ]
+    },
+    {
+      "id": "migration.unmapped_custom_field_quarantine",
+      "kind": "migration_evidence",
+      "source_tables": [
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ],
+      "required_fields": [
+        "source_table",
+        "source_key",
+        "source_column",
+        "encrypted_value",
+        "source_field_definition_id",
+        "reason_code",
+        "decision_status",
+        "provenance"
+      ],
+      "invariants": [
+        "raw value is restricted encrypted quarantine only",
+        "raw value never appears in generated artifacts, stdout or logs",
+        "pending owner decision blocks cutover"
+      ]
+    },
+    {
+      "id": "platform.activity_attachment_binding",
+      "kind": "relation",
+      "source_tables": [
+        "b_crm_act_elem"
+      ],
+      "endpoints": [
+        "crm.crm_activity",
+        "platform.attachment"
+      ]
+    },
+    {
+      "id": "platform.attachment",
+      "kind": "entity",
+      "source_tables": [
+        "b_file",
+        "b_uts_crm_contact",
+        "b_uts_crm_deal"
+      ]
+    },
+    {
+      "id": "platform.attachment_acl",
+      "kind": "entity",
+      "source_tables": [
+        "b_disk_right",
+        "b_disk_sharing",
+        "b_disk_simple_right"
+      ],
+      "required_fields": [
+        "attachment_id",
+        "principal_id",
+        "principal_kind",
+        "permission",
+        "effect",
+        "inherited_from_storage_id",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "default deny",
+        "unknown principal blocks FULL",
+        "undecoded b_disk_right.TASK_ID blocks FULL"
+      ]
+    },
+    {
+      "id": "platform.attachment_storage",
+      "kind": "entity",
+      "source_tables": [
+        "b_disk_storage"
+      ],
+      "required_fields": [
+        "storage_id",
+        "owner_principal_id",
+        "owner_principal_kind",
+        "root_attachment_id",
+        "uses_internal_rights",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "orphan root or unknown owner blocks FULL"
+      ]
+    },
+    {
+      "id": "platform.attachment_version",
+      "kind": "entity",
+      "source_tables": [
+        "b_disk_version"
+      ]
+    },
+    {
+      "id": "platform.disk_object",
+      "kind": "entity",
+      "source_tables": [
+        "b_disk_object"
+      ]
+    },
+    {
+      "id": "platform.entity_attachment_binding",
+      "kind": "relation",
+      "source_tables": [
+        "b_disk_attached_object"
+      ],
+      "endpoints": [
+        "platform.attachment",
+        "crm.crm_profile",
+        "crm.crm_case",
+        "crm.employer",
+        "crm.employer_referral",
+        "crm.crm_task",
+        "project.project_task"
+      ]
+    },
+    {
+      "id": "platform.timeline_attachment_binding",
+      "kind": "relation",
+      "source_tables": [
+        "b_utm_crm_timeline"
+      ],
+      "endpoints": [
+        "crm.timeline_event",
+        "platform.attachment"
+      ]
+    },
+    {
+      "id": "project.project_task",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks"
+      ]
+    },
+    {
+      "id": "project.task_assignment",
+      "kind": "relation",
+      "source_tables": [
+        "b_tasks",
+        "b_tasks_member"
+      ],
+      "relation_type": "perioded_actor_assignment",
+      "endpoints": [
+        "project.project_task",
+        "identity.employee_profile",
+        "identity.legacy_actor"
+      ],
+      "endpoint_roles": {
+        "subject_target_ids": [
+          "project.project_task"
+        ],
+        "actor_target_ids": [
+          "identity.employee_profile",
+          "identity.legacy_actor"
+        ]
+      },
+      "allowed_roles": [
+        "owner",
+        "responsible",
+        "co_executor",
+        "originator",
+        "creator",
+        "modifier"
+      ],
+      "historical_actor_roles": [
+        "originator",
+        "creator",
+        "modifier"
+      ],
+      "operational_owner_roles": [
+        "owner",
+        "responsible",
+        "co_executor"
+      ],
+      "source_bindings": [
+        {
+          "source_table": "b_tasks",
+          "role_columns": {
+            "responsible": "RESPONSIBLE_ID",
+            "creator": "CREATED_BY",
+            "modifier": "CHANGED_BY"
+          }
+        },
+        {
+          "source_table": "b_tasks_member",
+          "actor_column": "USER_ID",
+          "role_discriminator_column": "TYPE",
+          "role_map_ref": "migration-scope-manifest.json#/legacy_relation_type_maps/b_tasks_member.TYPE"
+        }
+      ],
+      "required_fields": [
+        "subject_id",
+        "actor_id",
+        "actor_kind",
+        "role",
+        "valid_from",
+        "valid_to",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "actor_contract_ref": "migration-scope-manifest.json#/actor_assignment_contract",
+      "valid_from_policy": "source timestamp when available, otherwise migration effective_at with inferred provenance",
+      "valid_to_policy": "null for current relation; closed explicitly when operational assignment changes"
+    },
+    {
+      "id": "project.task_dependency",
+      "kind": "relation",
+      "source_tables": [
+        "b_tasks_task_dep"
+      ],
+      "endpoints": [
+        "project.project_task"
+      ],
+      "required_fields": [
+        "task_id",
+        "predecessor_task_id",
+        "dependency_kind",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "both endpoints have task_domain = project",
+        "task_id != predecessor_task_id",
+        "accepted edge does not create a cycle",
+        "DIRECT = 1"
+      ]
+    },
+    {
+      "id": "project.task_history",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks_log"
+      ],
+      "required_fields": [
+        "task_id",
+        "changed_field",
+        "before_value_protected",
+        "after_value_protected",
+        "actor_id",
+        "actor_kind",
+        "occurred_at",
+        "source_table",
+        "source_key",
+        "provenance"
+      ],
+      "invariants": [
+        "task_domain = project",
+        "history value logging is forbidden"
+      ]
+    },
+    {
+      "id": "project.task_stage_definition",
+      "kind": "entity",
+      "source_tables": [
+        "b_tasks_stages"
+      ],
+      "required_fields": [
+        "code",
+        "label",
+        "sort",
+        "color",
+        "active",
+        "mapping_version",
+        "provenance"
+      ],
+      "migration_status": "blocked_pending_signed_stage_map",
+      "invariants": [
+        "legacy entity type alone must not infer project workflow semantics"
+      ]
+    }
+  ],
+  "source_field_target_aliases": [
+    {
+      "alias": "attachment",
+      "canonical_id": "platform.attachment"
+    },
+    {
+      "alias": "consent",
+      "canonical_id": "crm.consent_snapshot"
+    },
+    {
+      "alias": "crm_case",
+      "canonical_id": "crm.crm_case"
+    },
+    {
+      "alias": "crm_profile",
+      "canonical_id": "crm.crm_profile"
+    },
+    {
+      "alias": "employer_referral",
+      "canonical_id": "crm.employer_referral"
+    },
+    {
+      "alias": "program_participation",
+      "canonical_id": "crm.program_participation"
+    },
+    {
+      "alias": "recommendation",
+      "canonical_id": "crm.recommender_link"
+    },
+    {
+      "alias": "relocation_profile",
+      "canonical_id": "crm.relocation_profile"
+    }
+  ]
+}

@@ -1,0 +1,3601 @@
+{
+  "manifest_version": "1.2.0",
+  "status": "baseline_current_dump",
+  "source_system": "bitrix",
+  "snapshot": {
+    "file": "sitemanager-final.sql.gz",
+    "sha256": "7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+    "tables_total": 1669,
+    "logical_rows_total": 1353224,
+    "production_cutover_requires_fresh_snapshot": true
+  },
+  "global_rules": {
+    "source_is_immutable": true,
+    "silent_drop_forbidden": true,
+    "password_hashes_tokens_cookies_excluded": true,
+    "historical_import_sends_notifications": false,
+    "raw_pii_in_developer_environments": false,
+    "coverage_denominator": "all_rows_of_all_manifest_tables",
+    "schema_count_or_checksum_change_blocks_run": true,
+    "coverage_denominator_rows": 438424,
+    "included_source_tables": 55,
+    "every_manifest_row_requires_exactly_one_outcome": true,
+    "selection_is_a_row_classification_not_a_coverage_filter": true,
+    "ledger_source_tables": 57,
+    "quarantine_source_tables": 2
+  },
+  "entities": [
+    {
+      "source_table": "b_crm_act",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 7737,
+      "selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "PROVIDER_ID",
+        "PROVIDER_TYPE_ID",
+        "SUBJECT",
+        "RESPONSIBLE_ID",
+        "AUTHOR_ID",
+        "EDITOR_ID",
+        "CREATED",
+        "LAST_UPDATED",
+        "START_TIME",
+        "END_TIME",
+        "COMPLETED",
+        "DIRECTION"
+      ],
+      "inclusion_rule": "all CRM activities bound to selected CRM entities",
+      "target": [
+        "crm.crm_activity",
+        "crm.timeline_event"
+      ],
+      "transform_version": "crm-activity-v1",
+      "reconciliation": "7737 activity outcomes; historical actors preserved",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 7737,
+      "migration_query_id": "MIG-Q-B_CRM_ACT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 7737,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 7737,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 7737,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_act_bind",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 8026,
+      "selected_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "OWNER_ID",
+        "OWNER_TYPE_ID"
+      ],
+      "inclusion_rule": "bindings involving selected CRM entities",
+      "target": [
+        "crm.activity_binding"
+      ],
+      "transform_version": "crm-activity-binding-v1",
+      "reconciliation": "every selected activity has binding outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 8026,
+      "migration_query_id": "MIG-Q-B_CRM_ACT_BIND-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 8026,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 8026,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 8026,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_act_comm",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1259,
+      "selected_columns": [
+        "ID",
+        "ACTIVITY_ID",
+        "TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID",
+        "VALUE"
+      ],
+      "inclusion_rule": "communications for selected activities",
+      "target": [
+        "crm.activity_communication"
+      ],
+      "transform_version": "crm-activity-communication-v1",
+      "reconciliation": "raw contact values protected; all selected rows have outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1259,
+      "migration_query_id": "MIG-Q-B_CRM_ACT_COMM-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1259,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1259,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1259,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_act_elem",
+      "primary_key": [
+        "ACTIVITY_ID",
+        "STORAGE_TYPE_ID",
+        "ELEMENT_ID"
+      ],
+      "baseline_count": 446,
+      "selected_columns": [
+        "ACTIVITY_ID",
+        "STORAGE_TYPE_ID",
+        "ELEMENT_ID"
+      ],
+      "inclusion_rule": "attachment elements for selected activities",
+      "target": [
+        "platform.activity_attachment_binding",
+        "migration.file_conflict"
+      ],
+      "transform_version": "crm-activity-attachment-v1",
+      "reconciliation": "storage type 3 points to b_disk_object; 5 of 446 unresolved have explicit outcomes",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ACTIVITY_ID",
+          "STORAGE_TYPE_ID",
+          "ELEMENT_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 446,
+      "migration_query_id": "MIG-Q-B_CRM_ACT_ELEM-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 446,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 446,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 446,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_company",
+      "depends_on": [
+        "b_user"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 797,
+      "selected_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "TITLE",
+        "COMPANY_TYPE",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "crm.employer",
+        "crm.employer_assignment"
+      ],
+      "transform_version": "employer-v2",
+      "reconciliation": "797 ledger outcomes; 709 active-owner + 88 inactive-owner + 0 missing",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 797,
+      "migration_query_id": "MIG-Q-B_CRM_COMPANY-V2",
+      "dry_run_classifier": {
+        "id": "crm-company-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 709,
+          "would_quarantine": 88,
+          "would_conflict": 0,
+          "would_exclude": 0
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 797,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 797,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 797,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_contact",
+      "depends_on": [
+        "b_user"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 3186,
+      "selected_columns": [
+        "ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "NAME",
+        "SECOND_NAME",
+        "LAST_NAME",
+        "FULL_NAME",
+        "BIRTHDATE",
+        "TYPE_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "identity.person",
+        "crm.crm_profile",
+        "crm.program_participation",
+        "crm.crm_profile_assignment"
+      ],
+      "transform_version": "crm-person-v2",
+      "reconciliation": "3186 ledger outcomes; owner links 2728 active + 458 inactive + 0 missing",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3186,
+      "migration_query_id": "MIG-Q-B_CRM_CONTACT-V2",
+      "dry_run_classifier": {
+        "id": "crm-contact-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 2088,
+          "would_quarantine": 458,
+          "would_conflict": 640,
+          "would_exclude": 0
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 3186,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3186,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3186,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_deal",
+      "depends_on": [
+        "b_user",
+        "b_crm_contact",
+        "b_crm_company"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1899,
+      "selected_columns": [
+        "ID",
+        "TITLE",
+        "CATEGORY_ID",
+        "STAGE_ID",
+        "CONTACT_ID",
+        "COMPANY_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY_ID",
+        "MODIFY_BY_ID",
+        "SOURCE_ID",
+        "DATE_CREATE",
+        "DATE_MODIFY",
+        "CLOSEDATE",
+        "CLOSED"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "crm.crm_case",
+        "crm.case_person",
+        "crm.case_assignment"
+      ],
+      "transform_version": "crm-case-v2",
+      "reconciliation": "1899 ledger outcomes; 1514 direct-contact, 2 event-recovered, 383 explicit conflict/outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1899,
+      "migration_query_id": "MIG-Q-B_CRM_DEAL-V2",
+      "dry_run_classifier": {
+        "id": "crm-case-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 1237,
+          "would_quarantine": 123,
+          "would_conflict": 539,
+          "would_exclude": 0
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1899,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1899,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1899,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_deal_category",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 4,
+      "selected_columns": [
+        "ID",
+        "CREATED_DATE",
+        "NAME",
+        "IS_LOCKED",
+        "SORT",
+        "ORIGIN_ID",
+        "ORIGINATOR_ID"
+      ],
+      "inclusion_rule": "all rows",
+      "selection_baseline_count": 4,
+      "target": [
+        "migration.source_category_definition"
+      ],
+      "transform_version": "source-deal-category-v1",
+      "reconciliation": "4 explicit category rows; category 0 is separately recorded as implicit source default",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 4,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 4,
+      "migration_query_id": "MIG-Q-B_CRM_DEAL_CATEGORY-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_deal_contact",
+      "primary_key": [
+        "DEAL_ID",
+        "CONTACT_ID"
+      ],
+      "baseline_count": 1660,
+      "selected_columns": [
+        "DEAL_ID",
+        "CONTACT_ID",
+        "SORT",
+        "IS_PRIMARY"
+      ],
+      "inclusion_rule": "all rows for selected deals",
+      "target": [
+        "crm.case_person"
+      ],
+      "transform_version": "case-person-v1",
+      "reconciliation": "98 multi-contact deals; primary flag agrees with b_crm_deal.CONTACT_ID",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "DEAL_ID",
+          "CONTACT_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1660,
+      "migration_query_id": "MIG-Q-B_CRM_DEAL_CONTACT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1660,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1660,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1660,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_deal_stage_history",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 4619,
+      "selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "inclusion_rule": "all rows classified by category and versioned stage map; unmapped/reversed rows become blocking conflicts",
+      "selection_baseline_count": 3932,
+      "selection_conflict_baseline_count": 687,
+      "classifier_id": "crm-case-stage-history-category-stage-v1",
+      "target": [
+        "crm.case_stage_history",
+        "migration.conflict"
+      ],
+      "transform_version": "crm-case-stage-history-v1",
+      "reconciliation": "4 619 rows = 3 932 mapped canonical history + 687 blocking conflicts; all owner/responsible references valid",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3932,
+        "excluded_rows": 0,
+        "conflict_rows": 687,
+        "baseline_rows": 4619,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 4619,
+      "migration_query_id": "MIG-Q-B_CRM_DEAL_STAGE_HISTORY-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_deal_stage_history_with_supposed",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 9399,
+      "selected_columns": [
+        "ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "inclusion_rule": "all rows enter restricted quarantine until supposed-stage semantics receive a signed owner decision",
+      "selection_baseline_count": 9399,
+      "classifier_id": "crm-supposed-stage-history-quarantine-v1",
+      "source_disposition": "quarantine_only",
+      "required_row_outcome": "quarantined",
+      "target": [
+        "migration.crm_stage_history_quarantine"
+      ],
+      "transform_version": "crm-supposed-case-stage-history-quarantine-v1",
+      "reconciliation": "9 399 rows have quarantine ledger outcomes; none silently become canonical history",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 9399,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 9399,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 9399,
+      "migration_query_id": "MIG-Q-B_CRM_DEAL_STAGE_HISTORY_WITH_SUPPOSED-V1"
+    },
+    {
+      "source_table": "b_crm_dynamic_items_1042",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1808,
+      "selected_columns": [
+        "ID",
+        "STAGE_ID",
+        "COMPANY_ID",
+        "CONTACT_ID",
+        "ASSIGNED_BY_ID",
+        "CREATED_BY",
+        "UPDATED_BY",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UF_CRM_4_1772366498",
+        "UF_CRM_4_1772366586",
+        "UF_CRM_4_1772366686",
+        "UF_CRM_4_1772366729",
+        "UF_CRM_4_1772693942281",
+        "UF_CRM_4_1772694354360"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "crm.employer_referral",
+        "crm.employer_referral_assignment"
+      ],
+      "transform_version": "employer-referral-v1",
+      "reconciliation": "1808 outcomes; 1795 complete candidate+employer, 13 explicit conflicts",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1808,
+      "migration_query_id": "MIG-Q-B_CRM_DYNAMIC_ITEMS_1042-V1",
+      "covered_mirror_columns": [],
+      "quarantine_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1808,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1808,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1808,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_dynamic_type",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 4,
+      "selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "CODE",
+        "NAME",
+        "TITLE",
+        "TABLE_NAME",
+        "CREATED_BY",
+        "IS_CATEGORIES_ENABLED",
+        "IS_STAGES_ENABLED",
+        "IS_CLIENT_ENABLED",
+        "CREATED_TIME",
+        "UPDATED_TIME",
+        "UPDATED_BY"
+      ],
+      "inclusion_rule": "all rows classified; ENTITY_TYPE_ID=1042 is included",
+      "selection_baseline_count": 1,
+      "target": [
+        "migration.source_dynamic_type_definition"
+      ],
+      "transform_version": "source-dynamic-type-v1",
+      "reconciliation": "one selected dynamic type; every one of 4 rows has an outcome",
+      "selection_predicate_sql": "ENTITY_TYPE_ID = 1042",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 3,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1,
+        "excluded_rows": 3,
+        "conflict_rows": 0,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 4,
+      "migration_query_id": "MIG-Q-B_CRM_DYNAMIC_TYPE-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_entity_relation",
+      "primary_key": [
+        "SRC_ENTITY_TYPE_ID",
+        "SRC_ENTITY_ID",
+        "DST_ENTITY_TYPE_ID",
+        "DST_ENTITY_ID"
+      ],
+      "baseline_count": 1802,
+      "selected_columns": [
+        "SRC_ENTITY_TYPE_ID",
+        "SRC_ENTITY_ID",
+        "DST_ENTITY_TYPE_ID",
+        "DST_ENTITY_ID"
+      ],
+      "inclusion_rule": "relations involving selected deal/referral entities",
+      "target": [
+        "crm.employer_referral.case_id",
+        "migration.conflict"
+      ],
+      "transform_version": "referral-case-relation-v1",
+      "reconciliation": "1801 canonical deal-to-referral links; noncanonical links have explicit outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "SRC_ENTITY_TYPE_ID",
+          "SRC_ENTITY_ID",
+          "DST_ENTITY_TYPE_ID",
+          "DST_ENTITY_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1802,
+      "migration_query_id": "MIG-Q-B_CRM_ENTITY_RELATION-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1802,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1802,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1802,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_entity_stage_history",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 3201,
+      "selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "EFFECTIVE_DATE",
+        "START_DATE",
+        "END_DATE",
+        "PERIOD_YEAR",
+        "PERIOD_QUARTER",
+        "PERIOD_MONTH",
+        "START_PERIOD_YEAR",
+        "START_PERIOD_QUARTER",
+        "START_PERIOD_MONTH",
+        "END_PERIOD_YEAR",
+        "END_PERIOD_QUARTER",
+        "END_PERIOD_MONTH",
+        "RESPONSIBLE_ID",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST"
+      ],
+      "inclusion_rule": "all rows; OWNER_TYPE_ID=1042 maps to employer-referral stage history",
+      "selection_baseline_count": 3201,
+      "selection_predicate_sql": "OWNER_TYPE_ID = 1042",
+      "target": [
+        "crm.employer_referral_stage_history"
+      ],
+      "transform_version": "crm-employer-referral-stage-history-v1",
+      "reconciliation": "3 201/3 201 rows have OWNER_TYPE_ID=1042, valid referral/responsible references and mapped stage codes",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3201,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3201,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3201,
+      "migration_query_id": "MIG-Q-B_CRM_ENTITY_STAGE_HISTORY-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_entity_stage_history_with_supposed",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 4271,
+      "selected_columns": [
+        "ID",
+        "OWNER_TYPE_ID",
+        "OWNER_ID",
+        "CREATED_TIME",
+        "CREATED_DATE",
+        "CATEGORY_ID",
+        "STAGE_SEMANTIC_ID",
+        "STAGE_ID",
+        "IS_LOST",
+        "IS_SUPPOSED",
+        "LAST_UPDATE_DATE",
+        "CLOSE_DATE",
+        "SPENT_TIME"
+      ],
+      "inclusion_rule": "all rows enter restricted quarantine after OWNER_TYPE_ID classification until supposed-stage semantics receive a signed owner decision",
+      "selection_baseline_count": 4271,
+      "classifier_id": "crm-entity-supposed-stage-history-quarantine-v1",
+      "source_disposition": "quarantine_only",
+      "required_row_outcome": "quarantined",
+      "target": [
+        "migration.crm_stage_history_quarantine"
+      ],
+      "transform_version": "crm-supposed-entity-stage-history-quarantine-v1",
+      "reconciliation": "4 271 rows have quarantine ledger outcomes; none silently become canonical history",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 4271,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 4271,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 4271,
+      "migration_query_id": "MIG-Q-B_CRM_ENTITY_STAGE_HISTORY_WITH_SUPPOSED-V1"
+    },
+    {
+      "source_table": "b_crm_event",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 105490,
+      "selected_columns": [
+        "ID",
+        "EVENT_ID",
+        "EVENT_NAME",
+        "DATE_CREATE",
+        "CREATED_BY_ID",
+        "EVENT_TEXT_1",
+        "EVENT_TEXT_2",
+        "EVENT_TYPE",
+        "FILES"
+      ],
+      "inclusion_rule": "events related to selected contacts/deals/companies",
+      "target": [
+        "crm.timeline_event",
+        "migration.provenance"
+      ],
+      "transform_version": "crm-event-v1",
+      "reconciliation": "fingerprint deduplication; every selected event has target or excluded reason",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 105490,
+      "migration_query_id": "MIG-Q-B_CRM_EVENT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 105490,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 105490,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 105490,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_event_relations",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 110795,
+      "selected_columns": [
+        "ID",
+        "EVENT_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ENTITY_FIELD"
+      ],
+      "inclusion_rule": "relations involving selected CRM entities",
+      "target": [
+        "crm.timeline_binding",
+        "migration.case_person_evidence"
+      ],
+      "transform_version": "crm-event-relation-v1",
+      "reconciliation": "two no-contact deals obtain deterministic candidate evidence; all selected relations have outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 110795,
+      "migration_query_id": "MIG-Q-B_CRM_EVENT_RELATIONS-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 110795,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 110795,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 110795,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_field_multi",
+      "depends_on": [
+        "b_crm_contact",
+        "b_crm_company"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 7753,
+      "selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "ELEMENT_ID",
+        "TYPE_ID",
+        "VALUE_TYPE",
+        "COMPLEX_ID",
+        "VALUE"
+      ],
+      "inclusion_rule": "contact/company/deal phone and email values used by selected entities",
+      "target": [
+        "crm.contact_point",
+        "migration.duplicate_signal"
+      ],
+      "transform_version": "contact-point-v2",
+      "reconciliation": "selected values have target or excluded reason; raw values protected",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 7753,
+      "migration_query_id": "MIG-Q-B_CRM_FIELD_MULTI-V2",
+      "dry_run_classifier": {
+        "id": "crm-contact-point-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 4089,
+          "would_quarantine": 2091,
+          "would_conflict": 952,
+          "would_exclude": 621
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 7753,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 7753,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 7753,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_item_category",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 8,
+      "selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "IS_DEFAULT",
+        "IS_SYSTEM",
+        "CODE",
+        "CREATED_DATE",
+        "NAME",
+        "SORT",
+        "SETTINGS"
+      ],
+      "inclusion_rule": "all rows classified; ENTITY_TYPE_ID=1042 and ID=8 is included",
+      "selection_baseline_count": 1,
+      "target": [
+        "migration.source_dynamic_category_definition"
+      ],
+      "transform_version": "source-dynamic-category-v1",
+      "reconciliation": "one selected category; every one of 8 rows has an outcome",
+      "selection_predicate_sql": "ENTITY_TYPE_ID = 1042 AND ID = 8",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 7,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1,
+        "excluded_rows": 7,
+        "conflict_rows": 0,
+        "baseline_rows": 8,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 8,
+      "migration_query_id": "MIG-Q-B_CRM_ITEM_CATEGORY-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_observer",
+      "primary_key": [
+        "USER_ID",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID"
+      ],
+      "baseline_count": 90,
+      "selected_columns": [
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "USER_ID",
+        "SORT",
+        "CREATED_TIME",
+        "LAST_UPDATED_TIME"
+      ],
+      "inclusion_rule": "all rows classified by ENTITY_TYPE_ID into typed perioded observer assignments",
+      "selection_baseline_count": 90,
+      "classifier_id": "crm-observer-entity-type-v1",
+      "target": [
+        "crm.case_assignment",
+        "crm.crm_profile_assignment"
+      ],
+      "transform_version": "crm-observer-assignment-v1",
+      "reconciliation": "90 valid observer relations: ENTITY_TYPE_ID=2 case observer 16; ENTITY_TYPE_ID=3 CRM-profile observer 74",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 90,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 90,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "USER_ID",
+          "ENTITY_ID",
+          "ENTITY_TYPE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 90,
+      "migration_query_id": "MIG-Q-B_CRM_OBSERVER-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_requisite",
+      "depends_on": [
+        "b_crm_company"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 426,
+      "selected_columns": [
+        "ID",
+        "ENTITY_TYPE_ID",
+        "ENTITY_ID",
+        "RQ_INN",
+        "RQ_KPP",
+        "NAME",
+        "DATE_CREATE",
+        "DATE_MODIFY"
+      ],
+      "inclusion_rule": "requisites bound to selected companies",
+      "target": [
+        "crm.employer_requisite",
+        "migration.duplicate_signal"
+      ],
+      "transform_version": "employer-requisite-v2",
+      "reconciliation": "395 companies with INN; 20 duplicate-INN clusters affecting 45 companies",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 426,
+      "migration_query_id": "MIG-Q-B_CRM_REQUISITE-V2",
+      "dry_run_classifier": {
+        "id": "crm-employer-requisite-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 331,
+          "would_quarantine": 46,
+          "would_conflict": 43,
+          "would_exclude": 6
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 426,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 426,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 426,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_status",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 172,
+      "selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "STATUS_ID",
+        "NAME",
+        "NAME_INIT",
+        "SORT",
+        "SYSTEM",
+        "COLOR",
+        "SEMANTICS",
+        "CATEGORY_ID"
+      ],
+      "inclusion_rule": "all rows classified; six workflow groups plus CONTACT_TYPE, COMPANY_TYPE, SOURCE and EVENT_TYPE are included",
+      "selection_baseline_count": 96,
+      "target": [
+        "migration.source_status_definition"
+      ],
+      "transform_version": "source-status-definition-v1",
+      "reconciliation": "96 selected status definitions; every one of 172 rows has an outcome",
+      "selection_predicate_sql": "ENTITY_ID IN ('DEAL_STAGE', 'DEAL_STAGE_1', 'DEAL_STAGE_2', 'DEAL_STAGE_3', 'DEAL_STAGE_5', 'DYNAMIC_1042_STAGE_8', 'CONTACT_TYPE', 'COMPANY_TYPE', 'SOURCE', 'EVENT_TYPE')",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 76,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 96,
+        "excluded_rows": 76,
+        "conflict_rows": 0,
+        "baseline_rows": 172,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 172,
+      "migration_query_id": "MIG-Q-B_CRM_STATUS-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_timeline",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 67857,
+      "selected_columns": [
+        "ID",
+        "TYPE_ID",
+        "TYPE_CATEGORY_ID",
+        "CREATED",
+        "AUTHOR_ID",
+        "ASSOCIATED_ENTITY_TYPE_ID",
+        "ASSOCIATED_ENTITY_ID",
+        "SETTINGS"
+      ],
+      "inclusion_rule": "timeline entries for selected CRM entities",
+      "target": [
+        "crm.timeline_event"
+      ],
+      "transform_version": "crm-timeline-v1",
+      "reconciliation": "fingerprint deduplication against activity/event sources",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 67857,
+      "migration_query_id": "MIG-Q-B_CRM_TIMELINE-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 67857,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 67857,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 67857,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_crm_timeline_bind",
+      "primary_key": [
+        "OWNER_ID",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID"
+      ],
+      "baseline_count": 71120,
+      "selected_columns": [
+        "OWNER_ID",
+        "ENTITY_ID",
+        "ENTITY_TYPE_ID"
+      ],
+      "inclusion_rule": "bindings involving selected CRM entities",
+      "target": [
+        "crm.timeline_binding"
+      ],
+      "transform_version": "crm-timeline-binding-v1",
+      "reconciliation": "all selected bindings have target or excluded reason",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "OWNER_ID",
+          "ENTITY_ID",
+          "ENTITY_TYPE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 71120,
+      "migration_query_id": "MIG-Q-B_CRM_TIMELINE_BIND-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 71120,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 71120,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 71120,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_attached_object",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 30,
+      "selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "VERSION_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "inclusion_rule": "rows referenced by selected CRM timeline/entity attachments",
+      "target": [
+        "platform.entity_attachment_binding"
+      ],
+      "transform_version": "disk-attached-object-v1",
+      "reconciliation": "every selected binding resolves to disk object/version or explicit outcome",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 30,
+      "migration_query_id": "MIG-Q-B_DISK_ATTACHED_OBJECT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 30,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 30,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 30,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_object",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 961,
+      "selected_columns": [
+        "ID",
+        "STORAGE_ID",
+        "PARENT_ID",
+        "REAL_OBJECT_ID",
+        "FILE_ID",
+        "TYPE",
+        "CREATE_TIME",
+        "UPDATE_TIME"
+      ],
+      "excluded_columns": [
+        "XML_ID",
+        "SYNC_UPDATE_TIME"
+      ],
+      "inclusion_rule": "objects referenced by selected CRM/task/file bindings",
+      "target": [
+        "platform.disk_object",
+        "migration.file_conflict"
+      ],
+      "transform_version": "disk-object-v1",
+      "reconciliation": "2 unresolved FILE_ID values have explicit outcomes",
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 961,
+      "migration_query_id": "MIG-Q-B_DISK_OBJECT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 961,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 961,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 961,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_right",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 284,
+      "selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "TASK_ID",
+        "ACCESS_CODE",
+        "DOMAIN",
+        "NEGATIVE"
+      ],
+      "inclusion_rule": "all rows classified by ACL principal and disk object resolution",
+      "selection_baseline_count": 284,
+      "classifier_id": "disk-acl-principal-v1",
+      "target": [
+        "platform.attachment_acl",
+        "migration.file_acl_conflict"
+      ],
+      "transform_version": "disk-object-acl-v1",
+      "reconciliation": "284 ACL rows resolve object and principal; unknown principal or orphan blocks FULL",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 284,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 284,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 284,
+      "migration_query_id": "MIG-Q-B_DISK_RIGHT-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_sharing",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 8,
+      "selected_columns": [
+        "ID",
+        "PARENT_ID",
+        "CREATED_BY",
+        "FROM_ENTITY",
+        "TO_ENTITY",
+        "LINK_STORAGE_ID",
+        "LINK_OBJECT_ID",
+        "REAL_OBJECT_ID",
+        "REAL_STORAGE_ID",
+        "CAN_FORWARD",
+        "STATUS",
+        "TYPE",
+        "IS_EDITABLE"
+      ],
+      "excluded_columns": [
+        "DESCRIPTION",
+        "TASK_NAME"
+      ],
+      "inclusion_rule": "all rows classified into explicit attachment share ACL semantics",
+      "selection_baseline_count": 8,
+      "classifier_id": "disk-sharing-acl-v1",
+      "target": [
+        "platform.attachment_acl",
+        "migration.file_acl_conflict"
+      ],
+      "transform_version": "disk-sharing-acl-v1",
+      "reconciliation": "8 share rows resolve storage, object and principals; unknown/orphan blocks FULL",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 8,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 8,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 8,
+      "migration_query_id": "MIG-Q-B_DISK_SHARING-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_simple_right",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1276,
+      "selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "ACCESS_CODE"
+      ],
+      "inclusion_rule": "all rows classified by ACL principal and disk object resolution",
+      "selection_baseline_count": 1276,
+      "classifier_id": "disk-simple-acl-principal-v1",
+      "target": [
+        "platform.attachment_acl",
+        "migration.file_acl_conflict"
+      ],
+      "transform_version": "disk-simple-object-acl-v1",
+      "reconciliation": "1 276 ACL rows resolve object and principal; unknown principal or orphan blocks FULL",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1276,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1276,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1276,
+      "migration_query_id": "MIG-Q-B_DISK_SIMPLE_RIGHT-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_storage",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 221,
+      "selected_columns": [
+        "ID",
+        "CODE",
+        "XML_ID",
+        "MODULE_ID",
+        "ENTITY_TYPE",
+        "ENTITY_ID",
+        "ROOT_OBJECT_ID",
+        "USE_INTERNAL_RIGHTS",
+        "SITE_ID"
+      ],
+      "excluded_columns": [
+        "NAME",
+        "ENTITY_MISC_DATA"
+      ],
+      "inclusion_rule": "all rows classified into attachment storage ownership and ACL inheritance semantics",
+      "selection_baseline_count": 221,
+      "classifier_id": "disk-storage-owner-v1",
+      "target": [
+        "platform.attachment_storage",
+        "migration.file_acl_conflict"
+      ],
+      "transform_version": "disk-storage-v1",
+      "reconciliation": "221 storage rows resolve root object and owner; orphan or unknown owner blocks FULL",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 221,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 221,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 221,
+      "migration_query_id": "MIG-Q-B_DISK_STORAGE-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_disk_version",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 671,
+      "selected_columns": [
+        "ID",
+        "OBJECT_ID",
+        "FILE_ID",
+        "SIZE",
+        "CREATE_TIME",
+        "CREATED_BY"
+      ],
+      "inclusion_rule": "versions referenced by selected disk attached objects",
+      "target": [
+        "platform.attachment_version",
+        "migration.file_conflict"
+      ],
+      "transform_version": "disk-version-v1",
+      "reconciliation": "2 unresolved FILE_ID values have explicit outcomes",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 671,
+      "migration_query_id": "MIG-Q-B_DISK_VERSION-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 671,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 671,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 671,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_file",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 3941,
+      "selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODULE_ID",
+        "HEIGHT",
+        "WIDTH",
+        "FILE_SIZE",
+        "CONTENT_TYPE",
+        "SUBDIR",
+        "FILE_NAME",
+        "ORIGINAL_NAME"
+      ],
+      "inclusion_rule": "all metadata referenced by selected entities",
+      "target": [
+        "platform.attachment",
+        "migration.file_ledger"
+      ],
+      "transform_version": "file-metadata-v1",
+      "reconciliation": "metadata-only does not count as migrated binary; upload snapshot required",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3941,
+      "migration_query_id": "MIG-Q-B_FILE-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 3941,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3941,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3941,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_file_hash",
+      "primary_key": [
+        "FILE_ID"
+      ],
+      "baseline_count": 2008,
+      "selected_columns": [
+        "FILE_ID",
+        "FILE_SIZE",
+        "FILE_HASH"
+      ],
+      "inclusion_rule": "hashes for selected b_file rows",
+      "target": [
+        "migration.file_checksum_evidence"
+      ],
+      "transform_version": "file-checksum-v1",
+      "reconciliation": "source checksum evidence only; never treated as credential secret",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "FILE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 2008,
+      "migration_query_id": "MIG-Q-B_FILE_HASH-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 2008,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 2008,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 2008,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_group",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 16,
+      "selected_columns": [
+        "ID",
+        "ACTIVE",
+        "NAME",
+        "STRING_ID"
+      ],
+      "inclusion_rule": "all rows as role-candidate evidence",
+      "target": [
+        "migration.legacy_role_evidence"
+      ],
+      "transform_version": "role-evidence-v1",
+      "reconciliation": "no legacy group directly grants target role",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 16,
+      "migration_query_id": "MIG-Q-B_GROUP-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 16,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 16,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 16,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_iblock",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 37,
+      "selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "IBLOCK_TYPE_ID",
+        "CODE",
+        "API_CODE",
+        "NAME",
+        "ACTIVE",
+        "SORT",
+        "XML_ID",
+        "VERSION"
+      ],
+      "inclusion_rule": "all rows classified; iblocks 3 and 21 are included",
+      "selection_baseline_count": 2,
+      "target": [
+        "migration.source_lookup_definition"
+      ],
+      "transform_version": "source-iblock-definition-v1",
+      "reconciliation": "department and settlement iblocks selected; all 37 rows have an outcome",
+      "selection_predicate_sql": "ID IN (3, 21)",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 35,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 2,
+        "excluded_rows": 35,
+        "conflict_rows": 0,
+        "baseline_rows": 37,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 37,
+      "migration_query_id": "MIG-Q-B_IBLOCK-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_iblock_element",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 3591,
+      "selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "MODIFIED_BY",
+        "DATE_CREATE",
+        "CREATED_BY",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "SORT",
+        "NAME",
+        "XML_ID",
+        "CODE"
+      ],
+      "inclusion_rule": "all rows classified; IBLOCK_ID=21 settlement dictionary rows are included",
+      "selection_baseline_count": 61,
+      "target": [
+        "crm.settlement_dictionary"
+      ],
+      "transform_version": "settlement-dictionary-v1",
+      "reconciliation": "61 dictionary rows; 701 uses, 29 distinct used IDs and zero invalid references",
+      "selection_predicate_sql": "IBLOCK_ID = 21",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 3530,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 61,
+        "excluded_rows": 3530,
+        "conflict_rows": 0,
+        "baseline_rows": 3591,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3591,
+      "migration_query_id": "MIG-Q-B_IBLOCK_ELEMENT-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_iblock_section",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 29,
+      "selected_columns": [
+        "ID",
+        "IBLOCK_ID",
+        "IBLOCK_SECTION_ID",
+        "ACTIVE",
+        "NAME",
+        "LEFT_MARGIN",
+        "RIGHT_MARGIN",
+        "DEPTH_LEVEL"
+      ],
+      "inclusion_rule": "department iblock sections only",
+      "target": [
+        "identity.organization_unit"
+      ],
+      "transform_version": "organization-unit-v1",
+      "reconciliation": "5 selected department units and 5 valid department heads",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 29,
+      "migration_query_id": "MIG-Q-B_IBLOCK_SECTION-V1",
+      "selection_baseline_count": 5,
+      "selection_predicate_sql": "IBLOCK_ID = 3",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 24,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 5,
+        "excluded_rows": 24,
+        "conflict_rows": 0,
+        "baseline_rows": 29,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks",
+      "depends_on": [
+        "b_user"
+      ],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 89,
+      "selected_columns": [
+        "ID",
+        "TITLE",
+        "DESCRIPTION",
+        "RESPONSIBLE_ID",
+        "CREATED_BY",
+        "CHANGED_BY",
+        "STATUS",
+        "PRIORITY",
+        "DEADLINE",
+        "START_DATE_PLAN",
+        "END_DATE_PLAN",
+        "GROUP_ID",
+        "PARENT_ID",
+        "STAGE_ID"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "crm.crm_task",
+        "project.project_task",
+        "crm.task_assignment",
+        "project.task_assignment",
+        "migration.conflict"
+      ],
+      "transform_version": "legacy-task-v2",
+      "reconciliation": "39 CRM-only + 23 project-only + 21 dual-use + 6 neither = 89",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 89,
+      "migration_query_id": "MIG-Q-B_TASKS-V2",
+      "dry_run_classifier": {
+        "id": "legacy-task-domain-v2",
+        "expected_projection_counts": {
+          "would_migrate": 61,
+          "would_quarantine": 1,
+          "would_conflict": 27,
+          "would_exclude": 0
+        }
+      },
+      "selection_baseline_count": 62,
+      "selection_conflict_baseline_count": 27,
+      "classifier_id": "legacy-task-domain-v1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 62,
+        "excluded_rows": 0,
+        "conflict_rows": 27,
+        "baseline_rows": 89,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_log",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 629,
+      "selected_columns": [
+        "ID",
+        "CREATED_DATE",
+        "USER_ID",
+        "TASK_ID",
+        "FIELD",
+        "FROM_VALUE",
+        "TO_VALUE"
+      ],
+      "inclusion_rule": "all rows classified by task domain and change FIELD",
+      "selection_baseline_count": 399,
+      "selection_conflict_baseline_count": 230,
+      "classifier_id": "legacy-task-history-domain-and-field-v1",
+      "target": [
+        "crm.task_history",
+        "project.task_history",
+        "migration.conflict"
+      ],
+      "transform_version": "legacy-task-history-v1",
+      "reconciliation": "629 rows = 399 direct CRM/project history + 230 domain/current-task conflicts; 9 missing user refs are typed system UF task events, never invented employees",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 399,
+        "excluded_rows": 0,
+        "conflict_rows": 230,
+        "baseline_rows": 629,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 629,
+      "migration_query_id": "MIG-Q-B_TASKS_LOG-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_member",
+      "primary_key": [
+        "TASK_ID",
+        "USER_ID",
+        "TYPE"
+      ],
+      "baseline_count": 187,
+      "selected_columns": [
+        "TASK_ID",
+        "USER_ID",
+        "TYPE"
+      ],
+      "inclusion_rule": "all rows for selected tasks",
+      "target": [
+        "crm.task_assignment",
+        "project.task_assignment",
+        "migration.conflict"
+      ],
+      "transform_version": "legacy-task-member-v1",
+      "reconciliation": "187 valid actor references: A=co_executor 9, O=originator 89, R=responsible 89, unknown=0 blocking conflicts",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "TASK_ID",
+          "USER_ID",
+          "TYPE"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 187,
+      "migration_query_id": "MIG-Q-B_TASKS_MEMBER-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 187,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 187,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 187,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_result",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 3,
+      "selected_columns": [
+        "ID",
+        "TASK_ID",
+        "COMMENT_ID",
+        "TEXT",
+        "CREATED_BY",
+        "CREATED_AT",
+        "UPDATED_AT",
+        "STATUS"
+      ],
+      "inclusion_rule": "all rows classified by task domain into protected typed task-result records",
+      "selection_baseline_count": 3,
+      "selection_predicate_sql": "1 = 1",
+      "target": [
+        "crm.task_result"
+      ],
+      "transform_version": "legacy-task-result-v1",
+      "reconciliation": "3/3 protected CRM task-result records have STATUS=1 and valid task/creator/comment references",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3,
+      "migration_query_id": "MIG-Q-B_TASKS_RESULT-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_stages",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 89,
+      "selected_columns": [
+        "ID",
+        "TITLE",
+        "SORT",
+        "COLOR",
+        "SYSTEM_TYPE",
+        "ENTITY_ID",
+        "ENTITY_TYPE"
+      ],
+      "excluded_columns": [
+        "ADDITIONAL_FILTER",
+        "TO_UPDATE",
+        "TO_UPDATE_ACCESS"
+      ],
+      "inclusion_rule": "all rows classified by reference usage; source definitions are evidence until an owner-approved canonical stage map exists",
+      "selection_baseline_count": 18,
+      "classifier_id": "legacy-task-stage-definition-domain-v1",
+      "target": [
+        "migration.source_task_stage_definition"
+      ],
+      "transform_version": "legacy-task-stage-definition-v1",
+      "reconciliation": "89 rows = 18 referenced source-stage definitions + 71 explicitly unreferenced; serialized technical payloads are not directly mapped",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 71,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 18,
+        "excluded_rows": 71,
+        "conflict_rows": 0,
+        "baseline_rows": 89,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 89,
+      "migration_query_id": "MIG-Q-B_TASKS_STAGES-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_task_dep",
+      "primary_key": [
+        "TASK_ID",
+        "PARENT_TASK_ID",
+        "DIRECT"
+      ],
+      "baseline_count": 4,
+      "selected_columns": [
+        "TASK_ID",
+        "PARENT_TASK_ID",
+        "DIRECT"
+      ],
+      "inclusion_rule": "all rows classified by task domain; every dependency passes orphan and cycle checks",
+      "selection_baseline_count": 0,
+      "selection_conflict_baseline_count": 1,
+      "classifier_id": "legacy-task-dependency-domain-v1",
+      "target": [
+        "crm.task_dependency",
+        "project.task_dependency",
+        "migration.conflict"
+      ],
+      "transform_version": "legacy-task-dependency-v1",
+      "reconciliation": "3 DIRECT=0 reflexive closure rows are explicitly excluded; 1 DIRECT=1 non-self edge matches b_tasks.PARENT_ID but remains blocking until child task domain is resolved and cycle check passes",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 3,
+      "classification_balance": {
+        "selected_rows": 0,
+        "excluded_rows": 3,
+        "conflict_rows": 1,
+        "baseline_rows": 4,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "unique_index",
+        "constraint": "TASK_ID",
+        "columns": [
+          "TASK_ID",
+          "PARENT_TASK_ID",
+          "DIRECT"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 4,
+      "migration_query_id": "MIG-Q-B_TASKS_TASK_DEP-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_tasks_task_stage",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 174,
+      "selected_columns": [
+        "ID",
+        "TASK_ID",
+        "STAGE_ID"
+      ],
+      "inclusion_rule": "all rows preserved as non-perioded source-stage membership evidence; no history timestamp or canonical workflow state is inferred",
+      "selection_baseline_count": 174,
+      "classifier_id": "legacy-task-stage-assignment-domain-v1",
+      "target": [
+        "migration.source_task_stage_membership"
+      ],
+      "transform_version": "legacy-task-stage-assignment-v1",
+      "reconciliation": "174 source memberships preserved: 168 current-task refs + 6 missing-current-task refs; all stage refs valid; no temporal period is fabricated",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 174,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 174,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 174,
+      "migration_query_id": "MIG-Q-B_TASKS_TASK_STAGE-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_user",
+      "depends_on": [],
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 218,
+      "selected_columns": [
+        "ID",
+        "TIMESTAMP_X",
+        "ACTIVE",
+        "BLOCKED",
+        "LOGIN",
+        "EXTERNAL_AUTH_ID",
+        "NAME",
+        "LAST_NAME",
+        "SECOND_NAME",
+        "EMAIL",
+        "PERSONAL_PHONE",
+        "PERSONAL_MOBILE",
+        "WORK_PHONE",
+        "WORK_POSITION",
+        "DATE_REGISTER",
+        "LAST_LOGIN",
+        "LAST_ACTIVITY_DATE"
+      ],
+      "excluded_columns": [
+        "PASSWORD",
+        "CHECKWORD",
+        "STORED_HASH",
+        "CONFIRM_CODE",
+        "BX_USER_ID"
+      ],
+      "inclusion_rule": "all rows",
+      "target": [
+        "identity.person",
+        "migration.legacy_actor",
+        "identity.employee_profile"
+      ],
+      "conditional_target": "reviewed identity.user_account only for approved active department-linked employees",
+      "transform_version": "actor-v2",
+      "reconciliation": "218 = 20 employee candidates + 191 connectors + 6 bots + 1 anonymous",
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 218,
+      "migration_query_id": "MIG-Q-B_USER-V2",
+      "dry_run_classifier": {
+        "id": "legacy-actor-safe-v2",
+        "expected_projection_counts": {
+          "would_migrate": 217,
+          "would_quarantine": 0,
+          "would_conflict": 1,
+          "would_exclude": 0
+        }
+      },
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 218,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 218,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 218,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_user_field",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 366,
+      "selected_columns": [
+        "ID",
+        "ENTITY_ID",
+        "FIELD_NAME",
+        "USER_TYPE_ID",
+        "XML_ID",
+        "SORT",
+        "MULTIPLE",
+        "MANDATORY",
+        "SETTINGS"
+      ],
+      "inclusion_rule": "all rows classified; 46 versioned custom-field definitions are included",
+      "selection_baseline_count": 46,
+      "target": [
+        "migration.source_field_definition"
+      ],
+      "transform_version": "source-field-definition-v1",
+      "reconciliation": "46 selected definitions; every one of 366 rows has an outcome",
+      "selection_predicate_sql": "ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406)",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 320,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 46,
+        "excluded_rows": 320,
+        "conflict_rows": 0,
+        "baseline_rows": 366,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 366,
+      "migration_query_id": "MIG-Q-B_USER_FIELD-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_user_field_enum",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 650,
+      "selected_columns": [
+        "ID",
+        "USER_FIELD_ID",
+        "VALUE",
+        "DEF",
+        "SORT",
+        "XML_ID"
+      ],
+      "inclusion_rule": "all rows classified; enum values for fields 171, 200, 250, 356, 361 and 386 are included",
+      "selection_baseline_count": 143,
+      "target": [
+        "migration.source_enum_value"
+      ],
+      "transform_version": "source-enum-value-v1",
+      "reconciliation": "143 selected enum values; every one of 650 rows has an outcome",
+      "selection_predicate_sql": "USER_FIELD_ID IN (171, 200, 250, 356, 361, 386)",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 507,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 143,
+        "excluded_rows": 507,
+        "conflict_rows": 0,
+        "baseline_rows": 650,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 650,
+      "migration_query_id": "MIG-Q-B_USER_FIELD_ENUM-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_user_field_lang",
+      "primary_key": [
+        "USER_FIELD_ID",
+        "LANGUAGE_ID"
+      ],
+      "baseline_count": 660,
+      "selected_columns": [
+        "USER_FIELD_ID",
+        "LANGUAGE_ID",
+        "EDIT_FORM_LABEL",
+        "LIST_COLUMN_LABEL",
+        "LIST_FILTER_LABEL"
+      ],
+      "inclusion_rule": "all rows classified; Russian labels for the 46 selected custom fields are included",
+      "selection_baseline_count": 46,
+      "target": [
+        "migration.source_field_label"
+      ],
+      "transform_version": "source-field-label-v1",
+      "reconciliation": "46 Russian source labels; every one of 660 rows has an outcome",
+      "selection_predicate_sql": "LANGUAGE_ID = 'ru' AND USER_FIELD_ID IN (14, 40, 84, 114, 119, 120, 128, 129, 167, 169, 170, 171, 183, 189, 194, 196, 200, 206, 223, 224, 225, 233, 250, 251, 252, 253, 254, 255, 263, 267, 310, 332, 341, 345, 356, 358, 359, 360, 361, 375, 383, 384, 385, 386, 404, 406)",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_excluded_baseline_count": 614,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 46,
+        "excluded_rows": 614,
+        "conflict_rows": 0,
+        "baseline_rows": 660,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "USER_FIELD_ID",
+          "LANGUAGE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 660,
+      "migration_query_id": "MIG-Q-B_USER_FIELD_LANG-V1",
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_user_group",
+      "primary_key": [
+        "USER_ID",
+        "GROUP_ID"
+      ],
+      "baseline_count": 70,
+      "selected_columns": [
+        "USER_ID",
+        "GROUP_ID",
+        "DATE_ACTIVE_FROM",
+        "DATE_ACTIVE_TO"
+      ],
+      "inclusion_rule": "all rows as evidence",
+      "target": [
+        "migration.legacy_role_evidence"
+      ],
+      "transform_version": "role-evidence-v1",
+      "reconciliation": "zero automatic platform_superadmin grants",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "unique_index",
+        "constraint": "ix_user_group",
+        "columns": [
+          "USER_ID",
+          "GROUP_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 70,
+      "migration_query_id": "MIG-Q-B_USER_GROUP-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 70,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 70,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 70,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_utm_crm_contact",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1370,
+      "selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "inclusion_rule": "allowlisted multi-valued CRM fields",
+      "target": [
+        "crm.profile_relation",
+        "migration.provenance"
+      ],
+      "transform_version": "contact-multivalue-v1",
+      "reconciliation": "do not parse b_uts PHP-array mirror as source of truth",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1370,
+      "migration_query_id": "MIG-Q-B_UTM_CRM_CONTACT-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1370,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1370,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1370,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_utm_crm_deal",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 1868,
+      "selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE",
+        "VALUE_INT",
+        "VALUE_DOUBLE",
+        "VALUE_DATE"
+      ],
+      "inclusion_rule": "allowlisted multi-valued deal fields",
+      "target": [
+        "crm.case_relation",
+        "migration.provenance"
+      ],
+      "transform_version": "deal-multivalue-v1",
+      "reconciliation": "summary employer links are provenance, not canonical referrals",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1868,
+      "migration_query_id": "MIG-Q-B_UTM_CRM_DEAL-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1868,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1868,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1868,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_utm_crm_timeline",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 27,
+      "selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "inclusion_rule": "FIELD_ID=14 UF_CRM_COMMENT_FILES",
+      "target": [
+        "platform.timeline_attachment_binding"
+      ],
+      "transform_version": "crm-timeline-attachment-v1",
+      "reconciliation": "27 of 27 values point to valid b_disk_attached_object rows",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 27,
+      "migration_query_id": "MIG-Q-B_UTM_CRM_TIMELINE-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 27,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 27,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 27,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_utm_user",
+      "primary_key": [
+        "ID"
+      ],
+      "baseline_count": 29,
+      "selected_columns": [
+        "ID",
+        "VALUE_ID",
+        "FIELD_ID",
+        "VALUE_INT"
+      ],
+      "inclusion_rule": "UF_DEPARTMENT values",
+      "target": [
+        "identity.employee_unit_membership",
+        "migration.conflict"
+      ],
+      "transform_version": "employee-unit-v1",
+      "reconciliation": "29 assignments have explicit outcome; one missing-section conflict resolved",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 29,
+      "migration_query_id": "MIG-Q-B_UTM_USER-V1",
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 29,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 29,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 29,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_uts_crm_contact",
+      "primary_key": [
+        "VALUE_ID"
+      ],
+      "baseline_count": 3186,
+      "selected_columns": [
+        "VALUE_ID",
+        "UF_CRM_1739523138",
+        "UF_CRM_1742294677003",
+        "UF_CRM_1741079182998",
+        "UF_CRM_1746464685417",
+        "UF_CRM_1740391753843",
+        "UF_CRM_1772658002",
+        "UF_CRM_1760617147",
+        "UF_CRM_1739527814",
+        "UF_CRM_1739527830",
+        "UF_CRM_1741078462909",
+        "UF_CRM_1741078526352",
+        "UF_CRM_1739525055",
+        "UF_CRM_1739525147"
+      ],
+      "inclusion_rule": "all rows; only allowlisted custom fields",
+      "target": [
+        "crm.consent_snapshot",
+        "crm.crm_profile",
+        "crm.program_participation",
+        "crm.recommender_link",
+        "crm.relocation_profile",
+        "migration.provenance",
+        "migration.unmapped_custom_field_quarantine",
+        "platform.attachment"
+      ],
+      "transform_version": "contact-custom-fields-v1",
+      "reconciliation": "one custom-field outcome per allowlisted source value",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 3186,
+      "migration_query_id": "MIG-Q-B_UTS_CRM_CONTACT-V1",
+      "covered_mirror_columns": [
+        "UF_CRM_1742462391",
+        "UF_CRM_1770903563151"
+      ],
+      "quarantine_columns": [
+        "UF_CRM_1739523543",
+        "UF_CRM_1739523580",
+        "UF_CRM_1739527974",
+        "UF_CRM_1739527981",
+        "UF_CRM_1739527998",
+        "UF_CRM_1739528005",
+        "UF_CRM_1739528011",
+        "UF_CRM_1739528018",
+        "UF_CRM_1739528075",
+        "UF_CRM_1739528082",
+        "UF_CRM_1739528094",
+        "UF_CRM_1739528102",
+        "UF_CRM_1740040915825",
+        "UF_CRM_1740044077213",
+        "UF_CRM_1740048364411",
+        "UF_CRM_1740048395522",
+        "UF_CRM_1740048519651",
+        "UF_CRM_1740048540802",
+        "UF_CRM_1740132832",
+        "UF_CRM_1741082133807",
+        "UF_CRM_1741676375374",
+        "UF_CRM_1742295017163",
+        "UF_CRM_1742380309798",
+        "UF_CRM_1742467303909",
+        "UF_CRM_1742469388976",
+        "UF_CRM_1752227910571",
+        "UF_CRM_1752227934739",
+        "UF_CRM_1752228066795",
+        "UF_CRM_1752228102627",
+        "UF_CRM_1752228197739",
+        "UF_CRM_1752228469231",
+        "UF_CRM_1754386170222",
+        "UF_CRM_1754466933161",
+        "UF_CRM_1769003481790",
+        "UF_CRM_1769154350",
+        "UF_CRM_1769167267",
+        "UF_CRM_SW24_DEALS_COUNT"
+      ],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 3186,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 3186,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 3186,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_uts_crm_deal",
+      "primary_key": [
+        "VALUE_ID"
+      ],
+      "baseline_count": 1898,
+      "selected_columns": [
+        "VALUE_ID",
+        "UF_CRM_1742469270280",
+        "UF_CRM_1742550450292",
+        "UF_CRM_1768909094",
+        "UF_CRM_1753863368307",
+        "UF_CRM_1774964823614",
+        "UF_CRM_1753863405091",
+        "UF_CRM_1753863435404",
+        "UF_CRM_1760952900341",
+        "UF_CRM_1760966132418",
+        "UF_CRM_1760954707",
+        "UF_CRM_1760954734989",
+        "UF_CRM_1760955367445",
+        "UF_CRM_1760955131",
+        "UF_CRM_1760965805010",
+        "UF_CRM_1772658211",
+        "UF_CRM_1769425500",
+        "UF_CRM_1771334896"
+      ],
+      "inclusion_rule": "all rows; allowlisted custom fields only",
+      "target": [
+        "crm.crm_case",
+        "crm.recommender_link",
+        "crm.relocation_profile",
+        "migration.provenance",
+        "migration.unmapped_custom_field_quarantine",
+        "platform.attachment"
+      ],
+      "transform_version": "deal-custom-fields-v1",
+      "reconciliation": "1898 source rows plus explicit missing-row outcome for one deal",
+      "excluded_columns": [],
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 1898,
+      "migration_query_id": "MIG-Q-B_UTS_CRM_DEAL-V1",
+      "covered_mirror_columns": [
+        "UF_CRM_1742462733",
+        "UF_CRM_1760954951",
+        "UF_CRM_1770105639",
+        "UF_CRM_1772605893",
+        "UF_CRM_1773992042"
+      ],
+      "quarantine_columns": [
+        "UF_CRM_1760949864184",
+        "UF_CRM_1760965847353",
+        "UF_CRM_1760965864305",
+        "UF_CRM_1760965965578",
+        "UF_CRM_1763969920020",
+        "UF_CRM_1764054233873",
+        "UF_CRM_1764054361312",
+        "UF_CRM_1764054532841",
+        "UF_CRM_1764055477599",
+        "UF_CRM_1764055643832",
+        "UF_CRM_RFEV26192",
+        "UF_CRM_1768812065",
+        "UF_CRM_1769068804758",
+        "UF_CRM_1769437402774",
+        "UF_CRM_1769686883",
+        "UF_CRM_1772456363",
+        "UF_CRM_1772457542",
+        "UF_CRM_1772607874",
+        "UF_CRM_1772607933",
+        "UF_CRM_1772608012",
+        "UF_CRM_1772608094",
+        "UF_CRM_1773653118301",
+        "UF_CRM_1773672469764",
+        "UF_CRM_1775564513",
+        "UF_CRM_1780303189841",
+        "UF_CRM_1780646458701"
+      ],
+      "selection_predicate_sql": "1 = 1",
+      "selection_baseline_count": 1898,
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 1898,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 1898,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_disposition": "include_row_ledger"
+    },
+    {
+      "source_table": "b_uts_iblock_3_section",
+      "primary_key": [
+        "VALUE_ID"
+      ],
+      "baseline_count": 5,
+      "selected_columns": [
+        "VALUE_ID",
+        "UF_HEAD"
+      ],
+      "inclusion_rule": "all rows",
+      "selection_baseline_count": 5,
+      "target": [
+        "identity.organization_unit_head"
+      ],
+      "transform_version": "organization-unit-head-v1",
+      "reconciliation": "5 department head links; all point to valid legacy user 3",
+      "excluded_columns": [],
+      "quarantine_columns": [],
+      "covered_mirror_columns": [],
+      "selection_predicate_sql": "1 = 1",
+      "selection_excluded_baseline_count": 0,
+      "selection_conflict_baseline_count": 0,
+      "classification_balance": {
+        "selected_rows": 5,
+        "excluded_rows": 0,
+        "conflict_rows": 0,
+        "baseline_rows": 5,
+        "invariant": "selected_rows + excluded_rows + conflict_rows = baseline_rows"
+      },
+      "source_key": {
+        "kind": "primary_key",
+        "constraint": "PRIMARY",
+        "columns": [
+          "VALUE_ID"
+        ]
+      },
+      "coverage_scope": "all_source_rows",
+      "expected_row_outcomes": 5,
+      "migration_query_id": "MIG-Q-B_UTS_IBLOCK_3_SECTION-V1",
+      "source_disposition": "include_row_ledger"
+    }
+  ],
+  "blocking_reconciliation": {
+    "user_outcomes": 218,
+    "department_assignments": 29,
+    "contacts": 3186,
+    "deals": 1899,
+    "companies": 797,
+    "employer_referrals": 1808,
+    "tasks": 89,
+    "deal_without_structural_candidate_evidence": 383,
+    "contact_only_program_participants": 1002,
+    "incomplete_employer_referrals": 13,
+    "duplicate_contact_clusters": 219,
+    "dual_use_tasks": 21,
+    "missing_task_links": 3,
+    "department_conflicts": 1,
+    "unexplained_target_orphans": 0,
+    "imported_legacy_secrets": 0,
+    "manifest_source_tables": 57,
+    "source_row_outcomes": 438424,
+    "custom_field_definitions_selected": 46,
+    "enum_values_selected": 143,
+    "crm_status_definitions_selected": 96,
+    "settlement_dictionary_rows": 61,
+    "settlement_field_values": 701,
+    "settlement_distinct_used": 29,
+    "invalid_settlement_references": 0,
+    "department_units": 5,
+    "department_head_assignments": 5,
+    "invalid_department_head_references": 0,
+    "included_source_tables": 55,
+    "quarantine_source_tables": 2,
+    "populated_crm_uf_serialized_mirrors_excluded": 7,
+    "populated_unmapped_crm_uf_columns_quarantined": 63,
+    "crm_case_stage_history_rows": 4619,
+    "crm_case_supposed_stage_history_quarantine_rows": 9399,
+    "crm_typed_entity_stage_history_rows": 3201,
+    "crm_entity_supposed_stage_history_quarantine_rows": 4271,
+    "crm_observer_relations": 90,
+    "task_history_rows": 629,
+    "task_dependency_source_rows": 4,
+    "task_dependency_reflexive_closure_excluded": 3,
+    "task_dependency_domain_conflicts": 1,
+    "task_stage_definition_source_rows": 89,
+    "task_stage_definition_referenced_rows": 18,
+    "task_stage_membership_evidence_rows": 174,
+    "task_result_rows": 3,
+    "file_acl_rows": 1568,
+    "file_storage_rows": 221,
+    "inactive_owner_decisions_required": 617,
+    "inactive_owner_unresolved_required": 0
+  },
+  "row_outcome_contract": {
+    "contract_version": "row-outcome-v1",
+    "ledger_key_components": [
+      "snapshot_sha256",
+      "source_table",
+      "canonical_json(source_key)",
+      "transform_version"
+    ],
+    "allowed_outcomes": [
+      "migrated",
+      "linked_existing",
+      "excluded_with_reason",
+      "conflict_recorded",
+      "quarantined"
+    ],
+    "cardinality": "exactly_one_current_outcome_per_ledger_key",
+    "coverage_numerator": "distinct ledger keys with an allowed outcome",
+    "coverage_denominator": 438424,
+    "coverage_gate": "numerator_equals_denominator_and_duplicate_keys_equal_zero",
+    "cutover_blocking_outcomes": [
+      "conflict_recorded",
+      "quarantined"
+    ],
+    "excluded_row_requires_reason_code": true,
+    "attempts_and_revisions_are_append_only_audit_records": true
+  },
+  "file_migration_contract": {
+    "contract_version": "file-migration-v2",
+    "run_mode_required": true,
+    "modes": {
+      "FULL": {
+        "meaning": "metadata, binary payload, binding, checksum, storage ownership and effective ACL are present and verified in target storage on one freeze watermark",
+        "current_snapshot_status": "BLOCKED_MISSING_UPLOAD_SNAPSHOT",
+        "required_evidence": [
+          "db_snapshot_id",
+          "upload_snapshot_id",
+          "freeze_watermark",
+          "source_binary_checksum",
+          "target_object_id",
+          "target_binary_checksum",
+          "binding_reconciliation",
+          "acl_reconciliation",
+          "malware_scan_result",
+          "unknown_principal_count",
+          "orphan_acl_object_count",
+          "orphan_storage_count",
+          "task_permission_crosswalk_version",
+          "external_link_decision_reconciliation"
+        ],
+        "cutover_allowed_without_binary_snapshot": false,
+        "scope_change_waiver_allowed": false,
+        "required_zero_metrics": [
+          "missing_binary_count",
+          "binding_mismatch_count",
+          "acl_mismatch_count",
+          "unknown_principal_count",
+          "orphan_acl_object_count",
+          "orphan_storage_count",
+          "malware_blocking_count",
+          "unknown_task_id_count",
+          "unresolved_external_link_decision_count"
+        ],
+        "common_snapshot_invariant": "db_snapshot_id and upload_snapshot_id are signed against the same freeze_watermark"
+      },
+      "PARTIAL": {
+        "meaning": "metadata and available bindings/ACL evidence migrate; every missing binary or unresolved ACL is explicitly unavailable",
+        "current_snapshot_status": "AVAILABLE_REQUIRES_OWNER_APPROVAL",
+        "required_evidence": [
+          "approved_scope_exception_id",
+          "db_snapshot_id",
+          "freeze_watermark",
+          "metadata_reconciliation",
+          "missing_binary_reason_code",
+          "acl_exception_list",
+          "user_visible_unavailable_state"
+        ],
+        "metadata_never_counts_as_migrated_binary": true,
+        "only_status_after_any_file_waiver": "PARTIAL_MIGRATION_ACCEPTED"
+      }
+    },
+    "current_snapshot_capability": "PARTIAL_ONLY",
+    "sql_file_metadata_rows": 3941,
+    "source_binary_snapshot_present": false,
+    "full_claim_requires_100_percent": [
+      "binary_reconciliation",
+      "binding_reconciliation",
+      "acl_reconciliation",
+      "storage_reconciliation",
+      "malware_scan"
+    ],
+    "source_acl_tables": {
+      "b_disk_right": 284,
+      "b_disk_simple_right": 1276,
+      "b_disk_sharing": 8,
+      "b_disk_storage": 221
+    },
+    "unknown_principal_or_orphan_blocks_full": true,
+    "full_scope_change_escape": false
+  },
+  "actor_assignment_contract": {
+    "contract_version": "perioded-actor-assignment-v1",
+    "required_fields": [
+      "subject_id",
+      "actor_id",
+      "actor_kind",
+      "role",
+      "valid_from",
+      "valid_to",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "actor_kind_values": [
+      "employee_profile",
+      "legacy_actor",
+      "system_connector",
+      "bot",
+      "anonymous_actor"
+    ],
+    "historical_actor_semantics": {
+      "roles": [
+        "creator",
+        "modifier",
+        "originator"
+      ],
+      "mutable": false,
+      "inactive_actor_is_preserved": true,
+      "reassignment_does_not_rewrite_history": true,
+      "valid_from": "source event or entity creation timestamp",
+      "valid_to": "null unless the source explicitly periods the historical role"
+    },
+    "operational_owner_semantics": {
+      "roles": [
+        "owner",
+        "responsible",
+        "co_executor"
+      ],
+      "mutable": true,
+      "current_relation_has_null_valid_to": true,
+      "reassignment_closes_previous_relation_at_valid_to": true,
+      "active_employee_required_for_new_assignment": true,
+      "unresolved_or_ineligible_actor_outcome": "conflict_recorded"
+    },
+    "source_actor_resolution": "source user is always preserved as identity.legacy_actor; eligible staff may additionally resolve to identity.employee_profile"
+  },
+  "legacy_relation_type_maps": {
+    "b_tasks_member.TYPE": {
+      "source_table": "b_tasks_member",
+      "source_column": "TYPE",
+      "task_domain_contract_ref": "migration-scope-manifest.json#/legacy_task_domain_contract",
+      "target_relation_by_task_domain": {
+        "crm": "crm.task_assignment",
+        "project": "project.task_assignment"
+      },
+      "mappings": {
+        "A": {
+          "role": "co_executor",
+          "baseline_count": 9,
+          "actor_semantics": "operational_owner",
+          "target_relation_by_task_domain": {
+            "crm": "crm.task_assignment",
+            "project": "project.task_assignment"
+          },
+          "unresolved_task_domain_outcome": "conflict_recorded"
+        },
+        "O": {
+          "role": "originator",
+          "baseline_count": 89,
+          "actor_semantics": "historical_actor",
+          "target_relation_by_task_domain": {
+            "crm": "crm.task_assignment",
+            "project": "project.task_assignment"
+          },
+          "unresolved_task_domain_outcome": "conflict_recorded"
+        },
+        "R": {
+          "role": "responsible",
+          "baseline_count": 89,
+          "actor_semantics": "operational_owner",
+          "target_relation_by_task_domain": {
+            "crm": "crm.task_assignment",
+            "project": "project.task_assignment"
+          },
+          "unresolved_task_domain_outcome": "conflict_recorded"
+        }
+      },
+      "unknown": {
+        "baseline_count": 0,
+        "outcome": "conflict_recorded",
+        "blocking": true
+      },
+      "baseline_total": 187
+    }
+  },
+  "file_acl_contract": {
+    "contract_version": "file-acl-v1",
+    "target_acl": "platform.attachment_acl",
+    "target_storage": "platform.attachment_storage",
+    "source_tables": {
+      "b_disk_right": 284,
+      "b_disk_simple_right": 1276,
+      "b_disk_sharing": 8,
+      "b_disk_storage": 221
+    },
+    "required_acl_fields": [
+      "attachment_id",
+      "principal_id",
+      "principal_kind",
+      "permission",
+      "effect",
+      "inherited_from_storage_id",
+      "valid_from",
+      "valid_to",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "required_storage_fields": [
+      "storage_id",
+      "owner_principal_id",
+      "owner_principal_kind",
+      "root_attachment_id",
+      "uses_internal_rights",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "principal_resolution": {
+      "classifier_id": "disk-acl-principal-v1",
+      "allowed_principal_kinds": [
+        "user_account",
+        "employee_profile",
+        "organization_unit",
+        "group",
+        "system_connector",
+        "public_link"
+      ],
+      "unknown_principal_outcome": "conflict_recorded",
+      "unknown_principal_blocks_full": true
+    },
+    "orphan_object_or_storage_outcome": "conflict_recorded",
+    "orphan_object_or_storage_blocks_full": true,
+    "acl_reconciliation_cardinality": "every source ACL/share row has exactly one target ACL or signed conflict outcome",
+    "public_acl_default": "deny",
+    "permission_decode": {
+      "source_column": "b_disk_right.TASK_ID",
+      "strategy": "versioned_owner_approved_crosswalk",
+      "numeric_task_id_copy_forbidden": true,
+      "current_status": "BLOCKED_MISSING_APPROVED_TASK_PERMISSION_CROSSWALK",
+      "unresolved_task_id_outcome": "conflict_recorded",
+      "unresolved_task_id_blocks_full": true,
+      "required_evidence": [
+        "task_permission_crosswalk_version",
+        "decoded_acl_row_count",
+        "unknown_task_id_count"
+      ],
+      "unknown_task_id_count_required": 0
+    },
+    "legacy_external_link_contract": {
+      "source_table": "b_disk_external_link",
+      "baseline_rows": 2,
+      "legacy_secret_columns": [
+        "HASH",
+        "PASSWORD",
+        "SALT"
+      ],
+      "legacy_secret_import_forbidden": true,
+      "allowed_outcomes": [
+        "revoked_not_migrated",
+        "reissued_with_new_target_secret",
+        "excluded_with_signed_security_decision"
+      ],
+      "unresolved_decision_count_required": 0,
+      "unresolved_blocks_full": true,
+      "raw_secret_or_url_in_artifacts_forbidden": true
+    }
+  },
+  "custom_field_quarantine_contract": {
+    "contract_version": "crm-uf-quarantine-v1",
+    "target": "migration.unmapped_custom_field_quarantine",
+    "populated_physical_columns_without_direct_mapping": 70,
+    "approved_serialized_mirrors_excluded": 7,
+    "populated_unmapped_physical_columns_quarantined": 63,
+    "decision_owner": "migration_data_owner",
+    "decision_status": "pending",
+    "allowed_owner_decisions": [
+      "map_to_canonical_target",
+      "exclude_with_signed_reason"
+    ],
+    "field_ledger_key_components": [
+      "snapshot_sha256",
+      "source_table",
+      "canonical_json(source_key)",
+      "source_column",
+      "transform_version"
+    ],
+    "raw_value_storage": "restricted encrypted quarantine only; never generated artifacts, stdout, logs or reconciliation samples",
+    "column_name_and_aggregate_counts_only_in_generated_artifacts": true,
+    "approved_mirror_basis": {
+      "field_ids": [
+        189,
+        194,
+        254,
+        341,
+        345,
+        375,
+        404
+      ],
+      "canonical_source": "b_utm_*",
+      "reason_code": "serialized_multi_value_mirror_excluded_canonical_source_b_utm",
+      "reference": "source-field-map.json#/common_rules"
+    },
+    "pending_decision_blocks_cutover": true,
+    "row_ledger_semantics": "field quarantine is a sidecar outcome and does not create a second row-level migration outcome"
+  },
+  "inactive_owner_resolution_contract": {
+    "contract_version": "inactive-operational-owner-v1",
+    "classifier_id": "inactive-operational-owner-v1",
+    "baseline": {
+      "contacts": 458,
+      "deals": 70,
+      "companies": 88,
+      "employer_referrals": 0,
+      "tasks": 1,
+      "total": 617,
+      "unresolved": 0
+    },
+    "source_role": "current_operational_owner",
+    "historical_legacy_owner_is_immutable": true,
+    "required_per_record_fields": [
+      "source_table",
+      "source_key",
+      "source_owner_id",
+      "legacy_actor_id",
+      "decision_id",
+      "decision_outcome",
+      "new_operational_owner_id",
+      "rule_version",
+      "decided_by",
+      "decided_at",
+      "signature"
+    ],
+    "allowed_decision_outcomes": [
+      "signed_manual_reassignment",
+      "signed_versioned_rule_reassignment"
+    ],
+    "signature_contract": {
+      "algorithm": "Ed25519",
+      "signed_payload": "canonical_json(source_table, source_key, source_owner_id, decision_outcome, new_operational_owner_id, rule_version, decided_by, decided_at)"
+    },
+    "unresolved_required": 0,
+    "silent_fallback_forbidden": true
+  },
+  "legacy_task_domain_contract": {
+    "contract_version": "legacy-task-domain-v1",
+    "classifier_id": "legacy-task-domain-v1",
+    "baseline": {
+      "crm_only": 39,
+      "project_only": 23,
+      "dual_use_review": 21,
+      "neither_review": 6,
+      "total": 89
+    },
+    "direct_selected_rows": 62,
+    "conflict_rows_requiring_signed_decision": 27,
+    "dependent_sources_inherit_task_domain": [
+      "b_tasks_member",
+      "b_tasks_log",
+      "b_tasks_task_dep",
+      "b_tasks_task_stage",
+      "b_tasks_result"
+    ],
+    "allowed_target_domains": [
+      "crm",
+      "project"
+    ],
+    "unresolved_domain_outcome": "conflict_recorded",
+    "task_domain_decision_required_before_dependent_target_write": true
+  },
+  "crm_stage_history_contract": {
+    "contract_version": "crm-stage-history-v1",
+    "case_history": {
+      "source_table": "b_crm_deal_stage_history",
+      "baseline_rows": 4619,
+      "mapped_rows": 3932,
+      "conflict_rows": 687,
+      "classifier_id": "crm-case-stage-history-category-stage-v1",
+      "target": "crm.case_stage_history",
+      "interval_rule": "START_DATE <= END_DATE for every mapped row"
+    },
+    "employer_referral_history": {
+      "source_table": "b_crm_entity_stage_history",
+      "baseline_rows": 3201,
+      "owner_type_id": 1042,
+      "category_id": 8,
+      "mapped_rows": 3201,
+      "conflict_rows": 0,
+      "target": "crm.employer_referral_stage_history"
+    },
+    "supposed_sources": {
+      "b_crm_deal_stage_history_with_supposed": 9399,
+      "b_crm_entity_stage_history_with_supposed": 4271,
+      "required_outcome": "quarantined",
+      "canonical_history_write_allowed": false
+    }
+  },
+  "task_source_stage_contract": {
+    "contract_version": "legacy-task-source-stage-v1",
+    "task_stage_id": {
+      "source_column": "b_tasks.STAGE_ID",
+      "total_rows": 89,
+      "zero_sentinel_rows": 73,
+      "nonzero_rows": 16,
+      "distinct_nonzero_stage_ids": 6,
+      "invalid_stage_references": 0,
+      "directly_classified_project_nonzero_rows": 15,
+      "unresolved_task_domain_nonzero_rows": 1,
+      "canonical_status_inference_forbidden": true
+    },
+    "definitions": {
+      "source_table": "b_tasks_stages",
+      "total_rows": 89,
+      "referenced_rows": 18,
+      "unreferenced_rows": 71,
+      "target": "migration.source_task_stage_definition",
+      "canonical_workflow_write_requires_signed_stage_map": true
+    },
+    "memberships": {
+      "source_table": "b_tasks_task_stage",
+      "total_rows": 174,
+      "current_task_references": 168,
+      "missing_current_task_references": 6,
+      "valid_stage_references": 174,
+      "target": "migration.source_task_stage_membership",
+      "temporal_period_inference_forbidden": true
+    }
+  },
+  "task_history_contract": {
+    "contract_version": "legacy-task-history-v1",
+    "source_table": "b_tasks_log",
+    "baseline_rows": 629,
+    "directly_classified_rows": 399,
+    "conflict_rows": 230,
+    "missing_user_reference_rows": 9,
+    "missing_user_reference_semantics": "system_connector for UF_CRM_TASK_ADDED/DELETED events; never invent employee identity",
+    "targets_by_task_domain": {
+      "crm": "crm.task_history",
+      "project": "project.task_history"
+    }
+  },
+  "semantic_fingerprint_contract": {
+    "contract_version": "keyed-semantic-fingerprint-v1",
+    "algorithm": "HMAC-SHA-256",
+    "digest_encoding": "base64url",
+    "required_context_fields": [
+      "purpose",
+      "key_version"
+    ],
+    "key_storage": "external_secret_manager",
+    "different_purposes_use_domain_separated_keys": true,
+    "raw_input_forbidden_in": [
+      "migration_ledger",
+      "generated_artifacts",
+      "stdout",
+      "logs",
+      "metrics",
+      "reconciliation_samples"
+    ],
+    "unkeyed_hash_for_personal_identifier_forbidden": true
+  },
+  "consent_snapshot_contract": {
+    "contract_version": "legacy-consent-snapshot-v1",
+    "target": "crm.consent_snapshot",
+    "source_binding": {
+      "table": "b_uts_crm_contact",
+      "column": "UF_CRM_1746464685417",
+      "source_field_id": 206
+    },
+    "required_fields": [
+      "subject_id",
+      "consent_kind",
+      "legacy_boolean_value",
+      "legacy_source_field",
+      "policy_version",
+      "captured_at",
+      "source_table",
+      "source_key",
+      "provenance"
+    ],
+    "invariants": {
+      "policy_version": "null_or_unknown",
+      "captured_at": "null_unless_source_proves_timestamp",
+      "modern_consent_must_not_be_inferred": true,
+      "legacy_boolean_is_snapshot_not_current_authorization": true
+    }
+  }
+}

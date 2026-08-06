@@ -8,7 +8,7 @@ services:
     env_file:
       - path: .env.local
         required: false
-    image: kurs-na-site:local
+    image: ${LANDING_IMAGE:-kurs-na-site:local}
     container_name: kurs_na_site
     restart: unless-stopped
     ports:

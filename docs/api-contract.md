@@ -1,13 +1,16 @@
 # API Contract — Kurs na Sever (REST JSON v1)
 
 ## Base
-- Base URL: `/api/v1`
-- Auth: `Authorization: Bearer <token>` (or session/cookie in backend perimeter)
+- Canonical Base URL: `/public/v1`
+- Compatibility alias: `/api/v1` (deprecated; retained for existing landing integrations)
+- Auth: public intake is cookie-free and does not require a bearer token or CRM session
 - Content-Type: `application/json` (except multipart upload)
+- Browser credentials mode: `omit`
 - Error envelope (common):
 
 ```json
 {
+  "code": "validation_error",
   "message": "Validation failed",
   "requestId": "req_01J...",
   "errors": [
@@ -15,6 +18,23 @@
   ]
 }
 ```
+
+`code`, `message`, `requestId` and `errors[]` are present in every public API error. The client may
+map `errors[].field` to a form control, but must use `code` for programmatic branching and retain
+`requestId` for support diagnostics.
+
+## Idempotent writes
+
+Every public `POST` requires an `Idempotency-Key` header. The key is an opaque value of 8–128
+characters matching `^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$`.
+
+- One form submit attempt creates two different keys: one for upload and one for application.
+- Automatic network/transient retries reuse the original key until a receipt is returned.
+- A new logical write uses a new key; upload and application keys must never be interchanged.
+- First creation returns `201`. A replay of the same request may return `200` with
+  `Idempotency-Replayed: true` and the original receipt.
+- Reusing a key with different content returns `409 idempotency_conflict`.
+- POST retries are allowed only when the request carries its stable idempotency key.
 
 ## 1) Create application
 ### `POST /applications`
@@ -43,19 +63,32 @@ Creates candidate application.
     "comment": "Готов к переезду в течение 2 месяцев"
   },
   "consents": {
-    "privacyAccepted": true
+    "privacyAccepted": true,
+    "privacyPolicyVersion": "landing-inline-2026-08-06",
+    "acceptedAt": "2026-08-06T09:00:00.000Z"
   },
   "attachments": {
-    "resumeFileId": "file_8f8f1d"
+    "resumeFileId": "file_8f8f1d",
+    "resumeFileBindingToken": "ub1.example-opaque-binding-token-at-least-32-chars"
   },
   "meta": {
     "source": "web",
+    "entryPoint": {
+      "source": "vacancy-card",
+      "vacancyId": "vac_medicine_therapist_01",
+      "vacancySector": "medicine"
+    },
     "utm": {
       "utm_source": "vk",
       "utm_campaign": "kns-2026"
     },
-    "timestamp": "2026-02-28T10:25:00.000Z",
-    "clientFingerprint": "fp_182739812"
+    "timestamp": "2026-08-06T09:00:00.000Z",
+    "consentState": "necessary",
+    "landing": {
+      "host": "cursnasever.facex.pro",
+      "path": "/",
+      "url": "https://cursnasever.facex.pro/"
+    }
   }
 }
 ```
@@ -96,10 +129,13 @@ Student request variant:
     "comment": "Ищу производственную практику с возможностью дальнейшего трудоустройства"
   },
   "consents": {
-    "privacyAccepted": true
+    "privacyAccepted": true,
+    "privacyPolicyVersion": "landing-inline-2026-08-06",
+    "acceptedAt": "2026-08-06T10:25:00.000Z"
   },
   "attachments": {
-    "resumeFileId": "file_student_12a8"
+    "resumeFileId": "file_student_12a8",
+    "resumeFileBindingToken": "ub1.example-student-binding-token-at-least-32-chars"
   },
   "meta": {
     "source": "web",
@@ -108,15 +144,30 @@ Student request variant:
       "applicantType": "student"
     },
     "utm": {},
-    "timestamp": "2026-07-31T10:25:00.000Z",
-    "clientFingerprint": "fp_182739812"
+    "timestamp": "2026-08-06T10:25:00.000Z"
   }
 }
 ```
 
 Backend validation must reject mixed payloads: `studentProfile` must not be accepted for `relocation`, and `sphere`, `wishPost`, `wishSalary` must not be accepted for `student`.
 
-`attachments.resumeFileId` is required for both applicant types. The backend must verify that the file exists, belongs to the active upload/session perimeter, has an allowed type, and does not exceed the configured size limit.
+Canonical `/public/v1/applications` requires `privacyPolicyVersion` and `acceptedAt` together with
+`privacyAccepted: true`. Only deprecated `/api/v1/applications` may temporarily omit the evidence
+pair for the compatibility window; the backend does not invent a policy version or client timestamp.
+`landing-inline-2026-08-06` identifies the currently deployed inline privacy text and must be
+changed whenever that text or its processing purpose changes.
+
+The legacy alias still accepts `meta.clientFingerprint` for payload compatibility, but the current
+landing does not collect or generate it without an approved privacy basis. Clients may send
+`meta.source`, `meta.utm`, `meta.timestamp`, `sessionId`, `consentState`, `landing` and
+`attribution.firstTouch`/`attribution.lastTouch` with `capturedAt`, `landingUrl`, `referrer`, `utm`
+and `clickIds` (`yclid`, `gclid`, `vkClickId`). These extensions are additive and do not change the
+legacy payload shape.
+
+Both `attachments.resumeFileId` and the opaque `resumeFileBindingToken` returned by the exact upload
+attempt are required for canonical applications. The backend stores only a keyed token hash,
+consumes the binding atomically with submission creation and rejects reuse or a mismatched file/token
+pair. The deprecated alias may omit the token only during the explicit compatibility window.
 
 For `studentProfile.status = "graduated"`, `practicePeriod` is omitted and must not be required. For course values `"1"` through `"6"`, both `practicePeriod.start` and `practicePeriod.end` are required in `YYYY-MM` format.
 
@@ -125,23 +176,27 @@ For `studentProfile.status = "graduated"`, `practicePeriod` is omitted and must 
 {
   "applicationId": "app_24132",
   "status": "received",
-  "createdAt": "2026-02-28T10:25:01.001Z"
+  "createdAt": "2026-08-06T09:00:01.001Z"
 }
 ```
 
+An idempotent replay returns the same receipt with `200` and `Idempotency-Replayed: true`.
+
 ### Errors
+- `409` — idempotency key conflict
 - `422` — validation error with `errors[]`
 - `429` — rate limit
 - `500`/`502`/`503`/`504` — server side errors
 
 ## 2) Fetch published vacancies
-### `GET /vacancies?sector={sector}`
-Returns published vacancies for one of the supported sectors. An omitted `sector` may return all published vacancies.
+### `GET /vacancies?sector={sector}&cursor={cursor}&limit={limit}`
+Returns published vacancies for one of the supported sectors. An omitted `sector` may return all
+published vacancies. `limit` defaults to `20` and is capped at `100`; `cursor` is opaque and must be
+returned unchanged by the client.
 
 ### Success `200`
 ```json
 {
-  "updatedAt": "2026-08-06T00:00:00+03:00",
   "items": [
     {
       "id": "vac_industry_engineer_01",
@@ -158,30 +213,48 @@ Returns published vacancies for one of the supported sectors. An omitted `sector
       "sphere": "engineering",
       "published": true
     }
-  ]
+  ],
+  "page": {
+    "limit": 20,
+    "nextCursor": "eyJpZCI6InZhY19pbmR1c3RyeV9lbmdpbmVlcl8wMSJ9",
+    "hasMore": true
+  }
 }
 ```
 
 The backend remains the source of truth for publication status, employer, salary and conditions. The bundled static catalog is only a safe frontend fallback and must not be treated as proof that a position is currently open.
 
 ## 3) Upload file
-### `POST /files`
+### `POST /uploads`
 Upload resume file.
+
+Compatibility routes `/public/v1/files`, `/api/v1/uploads` and `/api/v1/files` accept the same
+contract. `/api/v1/files` is retained for the previous landing client; new clients use
+`/public/v1/uploads`.
 
 ### Request
 - `multipart/form-data`
 - field: `file`
+- formats: PDF, DOC, DOCX or RTF, up to 10 MiB; the backend checks extension, MIME and file signature
 
 ### Success `201`
 ```json
 {
   "fileId": "file_8f8f1d",
   "name": "resume.pdf",
-  "size": 240182
+  "size": 240182,
+  "status": "quarantined",
+  "bindingToken": "ub1.example-opaque-binding-token-at-least-32-chars"
 }
 ```
 
+The receipt means that the file entered quarantine, not that it is already safe for distribution.
+Upload uses a durable reservation, a stable quarantine object key and an atomic DB finalize. Exact
+idempotency replay reconstructs the same binding token; a bounded reconciler removes only stale,
+uncommitted objects. The application repository verifies and consumes the file binding.
+
 ### Errors
+- `409` — idempotency key conflict
 - `413` — payload too large
 - `415` — unsupported file type
 - `422` — invalid upload payload
@@ -209,6 +282,30 @@ Also supported response shape:
 ]
 ```
 
+The raw array response is a legacy compatibility shape. Canonical `/public/v1` responses use
+`{ "items": [...] }`.
+
+## 5) Fetch map points
+
+### `GET /map-points`
+
+Returns only published landing map points:
+
+```json
+{
+  "items": [
+    {
+      "id": "murmansk",
+      "name": "Мурманск",
+      "longitude": 33.075,
+      "latitude": 68.97,
+      "sectors": ["medicine", "port"],
+      "status": "published"
+    }
+  ]
+}
+```
+
 ## Frontend mapping rules
 - `422` with `errors[].field` => field-level message under form control.
 - Field alias mapping in UI:
@@ -222,5 +319,7 @@ Also supported response shape:
   - `application.studentProfile.practicePeriod.end` -> `practiceEnd`
   - `attachments.resumeFileId` -> `resume`
 - `requestId` from any error => show in global feedback for support diagnostics.
+- `code` drives programmatic error handling; do not parse localized `message` text.
 - Submit button lock during `loading`.
-- Safe retry policy for transient statuses: `429, 500, 502, 503, 504`.
+- Safe retry policy for transient statuses: `429, 500, 502, 503, 504`. GET/HEAD/OPTIONS may retry
+  directly; POST may retry only with the unchanged `Idempotency-Key` and unchanged body.

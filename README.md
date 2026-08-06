@@ -29,31 +29,33 @@
 | Шрифты | локальные, из `assets/fonts` |
 | Статика | `nginx:1.27-alpine` |
 | Запуск | `docker-compose.yml` |
-| API | `/api/v1` |
+| API | `/public/v1` (`/api/v1` — deprecated compatibility alias) |
 
 ## Development and Deployment
 
-For a local preview, Docker Compose builds the same Nginx image used in the
-deployment:
+Исходный код редактируется локально, но Docker Engine, BuildKit, Compose, PostgreSQL и runtime
+проверки этого workspace выполняются только на Bravo через явный context `remote-build`. Локально
+разрешены статические Node-проверки и backend `pnpm verify` без запуска контейнеров.
 
-```bash
-cp .env.example .env.local
-docker compose up --build web
-```
-
-The managed staging deployment is:
+Bravo development address:
 
 ```text
-https://cursnasever.facex.pro
+http://192.168.0.108:8105/
 ```
 
-Pushes to `main` run the checked-in GitHub Actions workflow. It validates the
-static source, transfers a clean Git archive to Charlie, builds a local image
-there, and updates the `kurs-na-site` Swarm stack. Do not use a remote Docker
-context or manually publish a container to another server.
+Static landing и CRM backend развёртываются двумя Compose-проектами из одного immutable source
+archive. Backend подключает API к существующей landing-сети `kurs_na_site_default` с alias
+`crm-api`, после чего Nginx маршрутизирует `/public/v1`, `/api/v1`, `/internal/v1` и health routes до
+static fallback. Production secrets хранятся только в закрытом server-side env-файле.
 
-The first stack creation remains an explicit `infra-as-code` operation; routine
-updates are owned by this repository's GitHub Actions workflow.
+```bash
+docker --context remote-build compose -f apps/crm-backend/compose.yaml --env-file /secure/path/crm.env up -d --build
+docker --context remote-build compose -f docker-compose.yml up -d --build
+```
+
+После каждого runtime-изменения обязательны readiness, логи, HTTP smoke и визуальная проверка Bravo
+URL. GitHub Actions staging на `main` является отдельным release-контуром и не заменяет Bravo
+acceptance; production cutover остаётся явным операторским действием.
 
 ## Runtime Topology
 
@@ -74,7 +76,7 @@ updates are owned by this repository's GitHub Actions workflow.
 │   ├── brand-spec.md          # визуальные правила
 │   └── content-map.md         # карта переноса контента со старого сайта
 ├── .github/workflows/
-│   └── app-swarm-deploy.yml   # GitHub Actions deploy to Charlie
+│   └── app-swarm-deploy.yml   # отдельный GitHub Actions staging-контур
 ├── scripts/
 │   └── facex-local-build-deploy.sh # server-local build and Swarm update
 ├── docker-compose.yml         # local development check
@@ -111,7 +113,7 @@ updates are owned by this repository's GitHub Actions workflow.
 
 Что он делает:
 
-- работает с `baseUrl="/api/v1"`;
+- использует canonical `baseUrl="/public/v1"`; `/api/v1` остаётся только compatibility alias;
 - поддерживает `GET /dictionaries/spheres`;
 - поддерживает `POST /files` для загрузки резюме;
 - поддерживает `POST /applications` для отправки заявки;
@@ -164,10 +166,12 @@ updates are owned by this repository's GitHub Actions workflow.
 
 ## Nginx Layer
 
-Используется очень простой конфиг:
+Nginx одновременно раздаёт статику и является same-origin edge для backend:
 
 - корень: `/usr/share/nginx/html`;
 - входная страница: `index.html`;
+- API/identity/health routes проксируются в `crm-api:8080` до static fallback;
+- клиентский `X-Forwarded-For` не сохраняется — edge выставляет фактический `$remote_addr`;
 - fallback: `try_files $uri $uri/ /index.html;`
 
 Это значит, что статика отдается без дополнительной логики, а корневая страница всегда под рукой.

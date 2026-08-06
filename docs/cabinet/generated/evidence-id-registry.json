@@ -1,0 +1,1873 @@
+{
+  "registry_version": "1.0.0",
+  "source": "requirements-crosswalk.csv",
+  "lifecycle_contract": "planned IDs become evidence-backed at their owning gate; unknown IDs and unreasoned N/A are invalid",
+  "tests": [
+    {
+      "id": "A11Y-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-04"
+      ]
+    },
+    {
+      "id": "A11Y-CRITICAL-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-04"
+      ]
+    },
+    {
+      "id": "ACC-GATES-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "ACC-01"
+      ]
+    },
+    {
+      "id": "ACC-S0S1-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "ACC-01"
+      ]
+    },
+    {
+      "id": "API-INTAKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-04"
+      ]
+    },
+    {
+      "id": "API-INTAKE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-04"
+      ]
+    },
+    {
+      "id": "ARCH-PLT-DOMAINS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PLT-01"
+      ]
+    },
+    {
+      "id": "BRAND-CHOICE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "BRAND-01"
+      ]
+    },
+    {
+      "id": "BRAND-UNAPPROVED-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "BRAND-01"
+      ]
+    },
+    {
+      "id": "DB-AUD-APPEND-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-01"
+      ]
+    },
+    {
+      "id": "DB-AUD-MUTATE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-01"
+      ]
+    },
+    {
+      "id": "DIFF-PUBLIC-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CAB-02"
+      ]
+    },
+    {
+      "id": "DOC-PACK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "DOC-01"
+      ]
+    },
+    {
+      "id": "DOC-PACK-MISSING-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "DOC-01"
+      ]
+    },
+    {
+      "id": "E2E-AI-BATCH-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-03"
+      ]
+    },
+    {
+      "id": "E2E-AI-BATCH-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-03"
+      ]
+    },
+    {
+      "id": "E2E-AI-FALLBACK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-06"
+      ]
+    },
+    {
+      "id": "E2E-AI-PARTIALWRITE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-06"
+      ]
+    },
+    {
+      "id": "E2E-AI-READ-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-01"
+      ]
+    },
+    {
+      "id": "E2E-AI-READ-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-01"
+      ]
+    },
+    {
+      "id": "E2E-AI-REPORT-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-04"
+      ]
+    },
+    {
+      "id": "E2E-AI-REPORT-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-04"
+      ]
+    },
+    {
+      "id": "E2E-AI-TASK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-02"
+      ]
+    },
+    {
+      "id": "E2E-AI-TASK-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-02"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-LOGIN-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-01"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-LOGIN-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-01"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-MFA-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-02"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-MFA-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-02"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-RESET-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-03"
+      ]
+    },
+    {
+      "id": "E2E-AUTH-RESET-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-03"
+      ]
+    },
+    {
+      "id": "E2E-BOOTSTRAP-CRM-ADMIN-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-BOOTSTRAP-PROJECT-ADMIN-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-CAB-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CAB-01"
+      ]
+    },
+    {
+      "id": "E2E-CAB-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CAB-01"
+      ]
+    },
+    {
+      "id": "E2E-CAB-NOSITE",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CAB-02"
+      ]
+    },
+    {
+      "id": "E2E-CRM-360-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-03"
+      ]
+    },
+    {
+      "id": "E2E-CRM-360-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-03"
+      ]
+    },
+    {
+      "id": "E2E-CRM-COMMS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-10"
+      ]
+    },
+    {
+      "id": "E2E-CRM-COMMS-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-10"
+      ]
+    },
+    {
+      "id": "E2E-CRM-CROSSSCOPE-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-01"
+      ]
+    },
+    {
+      "id": "E2E-CRM-DASH-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-11"
+      ]
+    },
+    {
+      "id": "E2E-CRM-DASH-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-11"
+      ]
+    },
+    {
+      "id": "E2E-CRM-EMPLOYER-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-07"
+      ]
+    },
+    {
+      "id": "E2E-CRM-EMPLOYER-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-07"
+      ]
+    },
+    {
+      "id": "E2E-CRM-FUNNELS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-01"
+      ]
+    },
+    {
+      "id": "E2E-CRM-MAYAK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-06"
+      ]
+    },
+    {
+      "id": "E2E-CRM-MAYAK-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-06"
+      ]
+    },
+    {
+      "id": "E2E-CRM-MERGE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-05"
+      ]
+    },
+    {
+      "id": "E2E-CRM-MERGE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-05"
+      ]
+    },
+    {
+      "id": "E2E-CRM-RELOCATION-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-08"
+      ]
+    },
+    {
+      "id": "E2E-CRM-RELOCATION-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-08"
+      ]
+    },
+    {
+      "id": "E2E-CRM-REPORT-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-12"
+      ]
+    },
+    {
+      "id": "E2E-CRM-REPORT-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-12"
+      ]
+    },
+    {
+      "id": "E2E-CRM-SETTINGS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-13"
+      ]
+    },
+    {
+      "id": "E2E-CRM-SETTINGS-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-13"
+      ]
+    },
+    {
+      "id": "E2E-CRM-TASK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-09"
+      ]
+    },
+    {
+      "id": "E2E-CRM-TASK-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-09"
+      ]
+    },
+    {
+      "id": "E2E-CRM-TRANSITION-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-02"
+      ]
+    },
+    {
+      "id": "E2E-CRM-TRANSITION-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-02"
+      ]
+    },
+    {
+      "id": "E2E-PLT-CROSSDOMAIN-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PLT-01"
+      ]
+    },
+    {
+      "id": "E2E-PM-NOTIFY-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-07"
+      ]
+    },
+    {
+      "id": "E2E-PM-NOTIFY-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-07"
+      ]
+    },
+    {
+      "id": "E2E-PM-RBAC-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-06"
+      ]
+    },
+    {
+      "id": "E2E-PM-RBAC-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-06"
+      ]
+    },
+    {
+      "id": "E2E-PM-REPORT-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-05"
+      ]
+    },
+    {
+      "id": "E2E-PM-REPORT-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-05"
+      ]
+    },
+    {
+      "id": "E2E-PM-STATUS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-03"
+      ]
+    },
+    {
+      "id": "E2E-PM-STATUS-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-03"
+      ]
+    },
+    {
+      "id": "E2E-PM-TASK-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-02"
+      ]
+    },
+    {
+      "id": "E2E-PM-TASK-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-02"
+      ]
+    },
+    {
+      "id": "E2E-PM-TREE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-01"
+      ]
+    },
+    {
+      "id": "E2E-PM-TREE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-01"
+      ]
+    },
+    {
+      "id": "E2E-PM-VIEWS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-04"
+      ]
+    },
+    {
+      "id": "E2E-PM-VIEWS-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-04"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-AUDIT-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-CRM-ADMIN-ADDITIONAL-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-CRM-ADMIN-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-CRM-ORDINARY-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-MIGRATION-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-PLATFORM-ADMIN-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-PROJECT-ADMIN-ADDITIONAL-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-PROJECT-ADMIN-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-ROLE-PROJECT-ORDINARY-REVOKE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-SA-FOUREYES-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-04"
+      ]
+    },
+    {
+      "id": "E2E-SA-FOUREYES-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-04"
+      ]
+    },
+    {
+      "id": "E2E-SA-LIFECYCLE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-02"
+      ]
+    },
+    {
+      "id": "E2E-SA-LIFECYCLE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-02"
+      ]
+    },
+    {
+      "id": "E2E-SA-ROLE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-SA-ROLE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "E2E-SA-SECURITY-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-05"
+      ]
+    },
+    {
+      "id": "E2E-SA-SECURITY-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-05"
+      ]
+    },
+    {
+      "id": "E2E-SA-USERS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-01"
+      ]
+    },
+    {
+      "id": "E2E-SA-USERS-403",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-01"
+      ]
+    },
+    {
+      "id": "E2E-STATES-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-03"
+      ]
+    },
+    {
+      "id": "E2E-STATES-MISSING-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-03"
+      ]
+    },
+    {
+      "id": "MIG-CONFLICT-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-02"
+      ]
+    },
+    {
+      "id": "MIG-CONFLICT-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-02"
+      ]
+    },
+    {
+      "id": "MIG-CRM-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-07"
+      ]
+    },
+    {
+      "id": "MIG-CRM-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-07"
+      ]
+    },
+    {
+      "id": "MIG-CUTOVER-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-03"
+      ]
+    },
+    {
+      "id": "MIG-CUTOVER-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-03"
+      ]
+    },
+    {
+      "id": "MIG-EMPLOYEE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-05"
+      ]
+    },
+    {
+      "id": "MIG-EMPLOYEE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-05"
+      ]
+    },
+    {
+      "id": "MIG-FILE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-09"
+      ]
+    },
+    {
+      "id": "MIG-FILE-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-09"
+      ]
+    },
+    {
+      "id": "MIG-RELATIONS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-06"
+      ]
+    },
+    {
+      "id": "MIG-RELATIONS-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-06"
+      ]
+    },
+    {
+      "id": "MIG-RUN-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-01"
+      ]
+    },
+    {
+      "id": "MIG-RUN-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-01"
+      ]
+    },
+    {
+      "id": "MIG-SECRET-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-08"
+      ]
+    },
+    {
+      "id": "MIG-SECRET-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-08"
+      ]
+    },
+    {
+      "id": "MIG-USERS-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-04"
+      ]
+    },
+    {
+      "id": "MIG-USERS-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-04"
+      ]
+    },
+    {
+      "id": "OPS-HEALTH-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-01"
+      ]
+    },
+    {
+      "id": "OPS-RESTORE-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-02"
+      ]
+    },
+    {
+      "id": "OPS-SPA-FALLBACK-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-01"
+      ]
+    },
+    {
+      "id": "OPS-STALEBACKUP-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-02"
+      ]
+    },
+    {
+      "id": "SEC-AI-INJECTION-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-05"
+      ]
+    },
+    {
+      "id": "SEC-AI-POLICY-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-05"
+      ]
+    },
+    {
+      "id": "SEC-AUD-REDACT-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-02"
+      ]
+    },
+    {
+      "id": "SEC-AUD-SECRET-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-02"
+      ]
+    },
+    {
+      "id": "UX-BEGINNER-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-02"
+      ]
+    },
+    {
+      "id": "UX-BEGINNER-P1-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-02"
+      ]
+    },
+    {
+      "id": "VIS-REF-001",
+      "kind": "positive_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-01"
+      ]
+    },
+    {
+      "id": "VIS-REF-NEG-001",
+      "kind": "forbidden_test",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "UX-01"
+      ]
+    }
+  ],
+  "audit_evidence": [
+    {
+      "id": "AUD-AI-BATCH-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-03"
+      ]
+    },
+    {
+      "id": "AUD-AI-FAIL-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-06"
+      ]
+    },
+    {
+      "id": "AUD-AI-POLICY-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-05"
+      ]
+    },
+    {
+      "id": "AUD-AI-READ-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-01"
+      ]
+    },
+    {
+      "id": "AUD-AI-REPORT-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-04"
+      ]
+    },
+    {
+      "id": "AUD-AI-TASK-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AI-02"
+      ]
+    },
+    {
+      "id": "AUD-AUD-EXPORT-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-02"
+      ]
+    },
+    {
+      "id": "AUD-AUD-READ-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUD-01"
+      ]
+    },
+    {
+      "id": "AUD-AUTH-LOGIN-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-01"
+      ]
+    },
+    {
+      "id": "AUD-AUTH-MFA-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-02"
+      ]
+    },
+    {
+      "id": "AUD-AUTH-RESET-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "AUTH-03"
+      ]
+    },
+    {
+      "id": "AUD-CAB-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CAB-01"
+      ]
+    },
+    {
+      "id": "AUD-CRM-COMMS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-10"
+      ]
+    },
+    {
+      "id": "AUD-CRM-DASH-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-11"
+      ]
+    },
+    {
+      "id": "AUD-CRM-EMPLOYER-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-07"
+      ]
+    },
+    {
+      "id": "AUD-CRM-MAYAK-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-06"
+      ]
+    },
+    {
+      "id": "AUD-CRM-MERGE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-05"
+      ]
+    },
+    {
+      "id": "AUD-CRM-READ-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-01"
+      ]
+    },
+    {
+      "id": "AUD-CRM-RELOCATION-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-08"
+      ]
+    },
+    {
+      "id": "AUD-CRM-REPORT-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-12"
+      ]
+    },
+    {
+      "id": "AUD-CRM-SETTINGS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-13"
+      ]
+    },
+    {
+      "id": "AUD-CRM-TASK-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-09"
+      ]
+    },
+    {
+      "id": "AUD-CRM-TRANSITION-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-02"
+      ]
+    },
+    {
+      "id": "AUD-CRM-UPDATE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-03"
+      ]
+    },
+    {
+      "id": "AUD-INTAKE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-04"
+      ]
+    },
+    {
+      "id": "AUD-MIG-CONFLICT-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-02"
+      ]
+    },
+    {
+      "id": "AUD-MIG-CRM-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-07"
+      ]
+    },
+    {
+      "id": "AUD-MIG-CUTOVER-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-03"
+      ]
+    },
+    {
+      "id": "AUD-MIG-EMPLOYEE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-05"
+      ]
+    },
+    {
+      "id": "AUD-MIG-FILE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-09"
+      ]
+    },
+    {
+      "id": "AUD-MIG-RELATIONS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-06"
+      ]
+    },
+    {
+      "id": "AUD-MIG-RUN-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-01"
+      ]
+    },
+    {
+      "id": "AUD-MIG-SECRET-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-08"
+      ]
+    },
+    {
+      "id": "AUD-MIG-USERS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-04"
+      ]
+    },
+    {
+      "id": "AUD-OPS-CONFIG-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-01"
+      ]
+    },
+    {
+      "id": "AUD-OPS-RESTORE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "OPS-02"
+      ]
+    },
+    {
+      "id": "AUD-PLT-DOMAINS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PLT-01"
+      ]
+    },
+    {
+      "id": "AUD-PM-NOTIFY-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-07"
+      ]
+    },
+    {
+      "id": "AUD-PM-RBAC-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-06"
+      ]
+    },
+    {
+      "id": "AUD-PM-REPORT-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-05"
+      ]
+    },
+    {
+      "id": "AUD-PM-STATUS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-03"
+      ]
+    },
+    {
+      "id": "AUD-PM-TASK-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-02"
+      ]
+    },
+    {
+      "id": "AUD-PM-TREE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-01"
+      ]
+    },
+    {
+      "id": "AUD-PM-VIEWS-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-04"
+      ]
+    },
+    {
+      "id": "AUD-RELEASE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "ACC-01"
+      ]
+    },
+    {
+      "id": "AUD-SA-FOUREYES-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-04"
+      ]
+    },
+    {
+      "id": "AUD-SA-INVITE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-01"
+      ]
+    },
+    {
+      "id": "AUD-SA-LIFECYCLE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-02"
+      ]
+    },
+    {
+      "id": "AUD-SA-ROLE-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "event_type": "identity.role_assignment_changed",
+      "required_fields": [
+        "actor_id",
+        "subject_id",
+        "domain",
+        "role",
+        "scope_before",
+        "scope_after",
+        "operation",
+        "reason",
+        "policy_version",
+        "approval_request_id_if_critical",
+        "occurred_at"
+      ],
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "AUD-SA-SECURITY-001",
+      "kind": "audit_evidence",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-05"
+      ]
+    }
+  ],
+  "migration_queries": [
+    {
+      "id": "MIG-Q-ACTIVITIES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-10"
+      ]
+    },
+    {
+      "id": "MIG-Q-CASEPERSON-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-03"
+      ]
+    },
+    {
+      "id": "MIG-Q-CONFLICT-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-02"
+      ]
+    },
+    {
+      "id": "MIG-Q-CRM-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-07"
+      ]
+    },
+    {
+      "id": "MIG-Q-DASH-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-11"
+      ]
+    },
+    {
+      "id": "MIG-Q-DEALS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-01"
+      ]
+    },
+    {
+      "id": "MIG-Q-DUPLICATES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-05"
+      ]
+    },
+    {
+      "id": "MIG-Q-EMPLOYEE-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-05"
+      ]
+    },
+    {
+      "id": "MIG-Q-FILES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-09"
+      ]
+    },
+    {
+      "id": "MIG-Q-MANIFEST-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-01"
+      ]
+    },
+    {
+      "id": "MIG-Q-OWNERS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-02"
+      ]
+    },
+    {
+      "id": "MIG-Q-PMROLES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-06"
+      ]
+    },
+    {
+      "id": "MIG-Q-PMSTATUS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-03"
+      ]
+    },
+    {
+      "id": "MIG-Q-PMTASK-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-02"
+      ]
+    },
+    {
+      "id": "MIG-Q-PROJECTS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PM-01"
+      ]
+    },
+    {
+      "id": "MIG-Q-RECOMMENDER-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-06"
+      ]
+    },
+    {
+      "id": "MIG-Q-RECON-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-03",
+        "ACC-01"
+      ]
+    },
+    {
+      "id": "MIG-Q-REFERRALS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-07"
+      ]
+    },
+    {
+      "id": "MIG-Q-RELATIONS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-06"
+      ]
+    },
+    {
+      "id": "MIG-Q-RELOCATION-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-08"
+      ]
+    },
+    {
+      "id": "MIG-Q-REPORT-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-12"
+      ]
+    },
+    {
+      "id": "MIG-Q-ROLES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-03"
+      ]
+    },
+    {
+      "id": "MIG-Q-SECRET-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "MIG-08"
+      ]
+    },
+    {
+      "id": "MIG-Q-SOURCE-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-04"
+      ]
+    },
+    {
+      "id": "MIG-Q-STAGES-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-02"
+      ]
+    },
+    {
+      "id": "MIG-Q-TASKCLASS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "PLT-01"
+      ]
+    },
+    {
+      "id": "MIG-Q-TASKS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "CRM-09"
+      ]
+    },
+    {
+      "id": "MIG-Q-USERS-001",
+      "kind": "migration_query",
+      "lifecycle": "planned_until_gate_evidence_is_persisted",
+      "requirements": [
+        "SA-01",
+        "MIG-04"
+      ]
+    }
+  ],
+  "exemptions": [
+    {
+      "requirement_id": "ACC-01",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-03",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-04",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-05",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-06",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AI-06",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AUD-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AUD-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AUTH-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AUTH-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "AUTH-03",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "BRAND-01",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "BRAND-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "BRAND-01",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "CAB-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "CAB-02",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "CAB-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "CAB-02",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "CRM-13",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "DOC-01",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "DOC-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "DOC-01",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "DOC-01",
+      "field": "visual_reference",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "OPS-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "OPS-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "PM-04",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "PM-05",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "PM-07",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "SA-04",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "SA-05",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-01",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-01",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-01",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-02",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-02",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-02",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-03",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-03",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-03",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-04",
+      "field": "audit_evidence",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-04",
+      "field": "migration_query",
+      "reason": "not_applicable_to_requirement"
+    },
+    {
+      "requirement_id": "UX-04",
+      "field": "operation",
+      "reason": "not_applicable_to_requirement"
+    }
+  ]
+}

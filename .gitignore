@@ -5,3 +5,19 @@
 .env.local
 .env.staging
 .env.production
+
+sitemanager-final.sql.gz
+artifacts/migration/private/
+artifacts/migration/raw/
+artifacts/migration/staging/
+
+# Local render/browser QA and exported artifacts may contain personal or contract data.
+tmp/
+output/
+
+# Machine-local Docker client configuration is never a repository artifact.
+docker/bravo-client-config.json
+
+# Generated Python runtime caches.
+**/__pycache__/
+*.py[cod]

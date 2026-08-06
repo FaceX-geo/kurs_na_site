@@ -1,0 +1,7429 @@
+{
+  "_coverage": {
+    "matched_unique_tables": 1354,
+    "total_tables": 1669,
+    "unmatched_tables": [
+      "b_abtest",
+      "b_admin_notify",
+      "b_admin_notify_lang",
+      "b_agent",
+      "b_ai_baas_package",
+      "b_ai_chatbot_chat",
+      "b_ai_chatbot_chatbot",
+      "b_ai_chatbot_message",
+      "b_ai_chatbot_message_unread",
+      "b_ai_counter",
+      "b_ai_engine",
+      "b_ai_history",
+      "b_ai_image_style_prompt",
+      "b_ai_plan",
+      "b_ai_prompt",
+      "b_ai_prompt_category",
+      "b_ai_prompt_display_rule",
+      "b_ai_prompt_owner",
+      "b_ai_prompt_owner_option",
+      "b_ai_prompt_share",
+      "b_ai_prompt_translate_name",
+      "b_ai_queue",
+      "b_ai_recent_role",
+      "b_ai_role",
+      "b_ai_role_display_rule",
+      "b_ai_role_favorite",
+      "b_ai_role_industry",
+      "b_ai_role_owner",
+      "b_ai_role_prompt",
+      "b_ai_role_share",
+      "b_ai_role_translate_description",
+      "b_ai_role_translate_name",
+      "b_ai_section",
+      "b_ai_usage",
+      "b_bitrixcloud_option",
+      "b_blog",
+      "b_cache_clean_path",
+      "b_cache_tag",
+      "b_captcha",
+      "b_checklist",
+      "b_component_params",
+      "b_composite_log",
+      "b_composite_page",
+      "b_consent_agreement",
+      "b_consent_field",
+      "b_consent_user_consent",
+      "b_consent_user_consent_item",
+      "b_conv_context",
+      "b_conv_context_attribute",
+      "b_conv_context_counter_day",
+      "b_conv_context_entity_item",
+      "b_counter_data",
+      "b_culture",
+      "b_dav_connections",
+      "b_dav_locks",
+      "b_dav_tokens",
+      "b_entity_usage",
+      "b_extranet_user",
+      "b_favorite",
+      "b_filters",
+      "b_finder_dest",
+      "b_forum",
+      "b_forum2site",
+      "b_geoip_handlers",
+      "b_geoname",
+      "b_hlblock_entity",
+      "b_hlblock_entity_lang",
+      "b_hlblock_entity_rights",
+      "b_hlsys_marking_code_group",
+      "b_hot_keys",
+      "b_hot_keys_code",
+      "b_iblock",
+      "b_idea_email_subscribe",
+      "b_landing",
+      "b_lang",
+      "b_lang_domain",
+      "b_language",
+      "b_ldap_group",
+      "b_ldap_server",
+      "b_learn_answer",
+      "b_learn_attempt",
+      "b_learn_certification",
+      "b_learn_chapter",
+      "b_learn_course",
+      "b_learn_course_site",
+      "b_learn_exceptions_log",
+      "b_learn_gradebook",
+      "b_learn_groups",
+      "b_learn_groups_lesson",
+      "b_learn_groups_member",
+      "b_learn_lesson",
+      "b_learn_lesson_edges",
+      "b_learn_publish_prohibition",
+      "b_learn_question",
+      "b_learn_rights",
+      "b_learn_rights_all",
+      "b_learn_site_path",
+      "b_learn_student",
+      "b_learn_test",
+      "b_learn_test_mark",
+      "b_learn_test_result",
+      "b_list_rubric",
+      "b_lists_field",
+      "b_lists_permission",
+      "b_lists_socnet_group",
+      "b_lists_url",
+      "b_location",
+      "b_location_addr_fld",
+      "b_location_addr_link",
+      "b_location_address",
+      "b_location_area",
+      "b_location_field",
+      "b_location_hierarchy",
+      "b_location_name",
+      "b_location_recent_address",
+      "b_location_source",
+      "b_location_static_map_file",
+      "b_log_notification",
+      "b_log_notification_action",
+      "b_main_mail_blacklist",
+      "b_main_mail_sender",
+      "b_main_mail_sender_send_counter",
+      "b_main_messenger_message",
+      "b_market_app_favorites",
+      "b_market_tag",
+      "b_medialib_collection",
+      "b_medialib_collection_item",
+      "b_medialib_item",
+      "b_medialib_type",
+      "b_meeting",
+      "b_meeting_files",
+      "b_meeting_instance",
+      "b_meeting_instance_users",
+      "b_meeting_item",
+      "b_meeting_item_files",
+      "b_meeting_item_tasks",
+      "b_meeting_reports",
+      "b_meeting_reports_files",
+      "b_meeting_users",
+      "b_mobileapp_app",
+      "b_mobileapp_config",
+      "b_module",
+      "b_module_group",
+      "b_module_to_module",
+      "b_numerator",
+      "b_numerator_sequence",
+      "b_operation",
+      "b_option",
+      "b_option_site",
+      "b_perf_cache",
+      "b_perf_cache_hitrate",
+      "b_perf_cluster",
+      "b_perf_component",
+      "b_perf_error",
+      "b_perf_history",
+      "b_perf_hit",
+      "b_perf_index_ban",
+      "b_perf_index_complete",
+      "b_perf_index_suggest",
+      "b_perf_index_suggest_sql",
+      "b_perf_sql",
+      "b_perf_sql_backtrace",
+      "b_perf_tab_column_stat",
+      "b_perf_tab_stat",
+      "b_perf_table",
+      "b_perf_test",
+      "b_rating",
+      "b_rating_component",
+      "b_rating_component_results",
+      "b_rating_prepare",
+      "b_rating_results",
+      "b_rating_rule",
+      "b_rating_rule_vetting",
+      "b_rating_subordinate",
+      "b_rating_user",
+      "b_rating_vote",
+      "b_rating_vote_group",
+      "b_rating_voting",
+      "b_rating_voting_prepare",
+      "b_rating_voting_reaction",
+      "b_rating_weight",
+      "b_recyclebin",
+      "b_recyclebin_data",
+      "b_recyclebin_files",
+      "b_report",
+      "b_report_sharing",
+      "b_report_visual_report_configuration",
+      "b_report_visual_report_dashboard",
+      "b_report_visual_report_dashboard_row",
+      "b_report_visual_report_entity",
+      "b_report_visual_report_entity_config",
+      "b_report_visual_report_widget",
+      "b_report_visual_report_widget_config",
+      "b_rpa_field",
+      "b_rpa_item_history",
+      "b_rpa_item_history_fields",
+      "b_rpa_item_sort",
+      "b_rpa_permission",
+      "b_rpa_stage",
+      "b_rpa_stage_to_stage",
+      "b_rpa_timeline",
+      "b_rpa_type",
+      "b_salescenter_meta",
+      "b_salescenter_page",
+      "b_salescenter_page_param",
+      "b_short_uri",
+      "b_sidepanel_toolbar",
+      "b_sidepanel_toolbar_item",
+      "b_sign_blank",
+      "b_sign_blank_resource",
+      "b_sign_block",
+      "b_sign_document",
+      "b_sign_document_chat",
+      "b_sign_document_group",
+      "b_sign_document_required_field",
+      "b_sign_document_template",
+      "b_sign_document_template_folder",
+      "b_sign_document_template_folder_relation",
+      "b_sign_documentgenerator_blank",
+      "b_sign_field_value",
+      "b_sign_file",
+      "b_sign_integration_form",
+      "b_sign_legal_log",
+      "b_sign_member",
+      "b_sign_member_node",
+      "b_sign_node_sync",
+      "b_sign_permission",
+      "b_sign_service_user",
+      "b_sign_signers_list",
+      "b_sign_signers_list_user",
+      "b_signmobile_notification_queue",
+      "b_signmobile_notifications",
+      "b_site_template",
+      "b_sm_version_history",
+      "b_smile",
+      "b_smile_lang",
+      "b_smile_set",
+      "b_sticker",
+      "b_sticker_group_task",
+      "b_ticket",
+      "b_ticket_dictionary",
+      "b_ticket_dictionary_2_site",
+      "b_ticket_holidays",
+      "b_ticket_message",
+      "b_ticket_message_2_file",
+      "b_ticket_online",
+      "b_ticket_search",
+      "b_ticket_sla",
+      "b_ticket_sla_2_category",
+      "b_ticket_sla_2_criticality",
+      "b_ticket_sla_2_holidays",
+      "b_ticket_sla_2_mark",
+      "b_ticket_sla_2_site",
+      "b_ticket_sla_2_user_group",
+      "b_ticket_sla_shedule",
+      "b_ticket_supercoupons",
+      "b_ticket_supercoupons_log",
+      "b_ticket_timetable",
+      "b_ticket_timetable_cache",
+      "b_ticket_ugroups",
+      "b_ticket_user_ugroup",
+      "b_translate_file",
+      "b_translate_path",
+      "b_translate_path_lang",
+      "b_translate_path_tree",
+      "b_translate_phrase",
+      "b_translate_phrase_fts_en",
+      "b_translate_phrase_fts_ru",
+      "b_ui_avatar_mask_access",
+      "b_ui_avatar_mask_file_deleted",
+      "b_ui_avatar_mask_group",
+      "b_ui_avatar_mask_item",
+      "b_ui_avatar_mask_item_applied_to",
+      "b_ui_avatar_mask_recently_used",
+      "b_ui_entity_editor_config",
+      "b_ui_entity_editor_config_ac",
+      "b_ui_file_uploader_temp_file",
+      "b_undo",
+      "b_urlpreview_metadata",
+      "b_urlpreview_route",
+      "b_utm_blog_comment",
+      "b_utm_blog_post",
+      "b_utm_calendar_event",
+      "b_utm_forum_message",
+      "b_utm_iblock_3_section",
+      "b_utm_recyclebin_disk",
+      "b_utm_rpa_comment",
+      "b_utm_sonet_comment",
+      "b_utm_sonet_group",
+      "b_utm_sonet_log",
+      "b_uts_blog_comment",
+      "b_uts_blog_post",
+      "b_uts_calendar_event",
+      "b_uts_forum_message",
+      "b_uts_iblock_3_section",
+      "b_uts_recyclebin_disk",
+      "b_uts_rpa_comment",
+      "b_uts_sonet_comment",
+      "b_uts_sonet_group",
+      "b_uts_sonet_log",
+      "b_vote",
+      "b_vote_answer",
+      "b_vote_attached_object",
+      "b_vote_channel",
+      "b_vote_channel_2_group",
+      "b_vote_channel_2_site",
+      "b_vote_event",
+      "b_vote_event_answer",
+      "b_vote_event_question",
+      "b_vote_question",
+      "b_vote_user",
+      "b_xdi_lf_scheme",
+      "b_xdi_lf_scheme_right",
+      "b_xdi_user_right",
+      "b_xml_tree"
+    ]
+  },
+  "calendar_booking": {
+    "nonempty_tables": 11,
+    "rows": 4620,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_client"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_external_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_message_failure_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_note"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_booking_resource"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_client_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_delayed_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_favorites"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_journal"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 151,
+        "table": "b_booking_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_resource"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_resource_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_resource_linked_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_resource_notification_settings"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_resource_settings"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 219,
+        "table": "b_booking_resource_type"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 622,
+        "table": "b_booking_resource_type_notification_settings"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_scorer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_booking_wait_list_item"
+      },
+      {
+        "rows": 57,
+        "sql_chars": 926,
+        "table": "b_calendar_access"
+      },
+      {
+        "rows": 1658,
+        "sql_chars": 1433717,
+        "table": "b_calendar_event"
+      },
+      {
+        "rows": 1564,
+        "sql_chars": 201248,
+        "table": "b_calendar_event_attendee"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_event_connection"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_event_original_recursion"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_event_sect"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 76,
+        "table": "b_calendar_location"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_messenger_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_open_event_category"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_open_event_category_attendee"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_open_event_category_banned"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_open_event_category_muted"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_open_event_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_push"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_queue_handled_message"
+      },
+      {
+        "rows": 914,
+        "sql_chars": 168673,
+        "table": "b_calendar_queue_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_resource"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_room_category"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_scorer"
+      },
+      {
+        "rows": 40,
+        "sql_chars": 9772,
+        "table": "b_calendar_section"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_section_connection"
+      },
+      {
+        "rows": 367,
+        "sql_chars": 70295,
+        "table": "b_calendar_sharing_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_sharing_link_member"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_sharing_link_rule"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_calendar_sharing_object_rule"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 229,
+        "table": "b_calendar_type"
+      }
+    ],
+    "tables": 48
+  },
+  "chat_openlines_calls": {
+    "nonempty_tables": 54,
+    "rows": 83417,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_call_ai_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_call_chat_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_call_outcome"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_call_outcome_property"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_call_track"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_ai_transcribe_queue"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 83,
+        "table": "b_im_alias"
+      },
+      {
+        "rows": 20,
+        "sql_chars": 832,
+        "table": "b_im_anchor"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 434,
+        "table": "b_im_app"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_app_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_block_user"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 1427,
+        "table": "b_im_bot"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_bot_chat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_bot_network_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_bot_token"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_call"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_call_user"
+      },
+      {
+        "rows": 660,
+        "sql_chars": 160308,
+        "table": "b_im_chat"
+      },
+      {
+        "rows": 88,
+        "sql_chars": 8722,
+        "table": "b_im_chat_index"
+      },
+      {
+        "rows": 48,
+        "sql_chars": 2199,
+        "table": "b_im_chat_param"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 894,
+        "table": "b_im_command"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 165,
+        "table": "b_im_command_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_conference"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_conference_user_role"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 122,
+        "table": "b_im_counter_overflow"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 131,
+        "table": "b_im_external_avatar"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_file_param"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_file_temporary"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_file_transcription"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_hr_sync_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_last_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_last_search"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_link_calendar"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_link_calendar_index"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 79,
+        "table": "b_im_link_favorite"
+      },
+      {
+        "rows": 109,
+        "sql_chars": 5944,
+        "table": "b_im_link_file"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 75,
+        "table": "b_im_link_pin"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_link_reminder"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_link_task"
+      },
+      {
+        "rows": 596,
+        "sql_chars": 65841,
+        "table": "b_im_link_url"
+      },
+      {
+        "rows": 596,
+        "sql_chars": 15638,
+        "table": "b_im_link_url_index"
+      },
+      {
+        "rows": 3195,
+        "sql_chars": 242609,
+        "table": "b_im_log"
+      },
+      {
+        "rows": 31432,
+        "sql_chars": 6963727,
+        "table": "b_im_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_message_disappearing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_message_favorite"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_message_index"
+      },
+      {
+        "rows": 9926,
+        "sql_chars": 838614,
+        "table": "b_im_message_param"
+      },
+      {
+        "rows": 3085,
+        "sql_chars": 163281,
+        "table": "b_im_message_unread"
+      },
+      {
+        "rows": 113,
+        "sql_chars": 7950,
+        "table": "b_im_message_uuid"
+      },
+      {
+        "rows": 3695,
+        "sql_chars": 155438,
+        "table": "b_im_message_viewed"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_no_relation_permission_disk"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_notify_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_notify_group_condition"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 171,
+        "table": "b_im_option_access"
+      },
+      {
+        "rows": 12,
+        "sql_chars": 689,
+        "table": "b_im_option_group"
+      },
+      {
+        "rows": 3652,
+        "sql_chars": 119635,
+        "table": "b_im_option_state"
+      },
+      {
+        "rows": 20,
+        "sql_chars": 220,
+        "table": "b_im_option_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_permission"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_permission_duration"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_permission_log"
+      },
+      {
+        "rows": 152,
+        "sql_chars": 7239,
+        "table": "b_im_reaction"
+      },
+      {
+        "rows": 609,
+        "sql_chars": 67930,
+        "table": "b_im_recent"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_im_recent_init_queue"
+      },
+      {
+        "rows": 924,
+        "sql_chars": 67843,
+        "table": "b_im_relation"
+      },
+      {
+        "rows": 22,
+        "sql_chars": 1429,
+        "table": "b_im_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imconnectors_chat_last_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imconnectors_custom_connectors"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imconnectors_delivery_mark"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 340,
+        "table": "b_imconnectors_info_connectors"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 169,
+        "table": "b_imconnectors_status"
+      },
+      {
+        "rows": 189,
+        "sql_chars": 10345,
+        "table": "b_imopenlines_chat_index"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 1417,
+        "table": "b_imopenlines_config"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_config_automatic_messages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_config_category"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 68,
+        "table": "b_imopenlines_config_queue"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 73,
+        "table": "b_imopenlines_config_statistic"
+      },
+      {
+        "rows": 304,
+        "sql_chars": 19283,
+        "table": "b_imopenlines_dialog_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_event_log"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 476,
+        "table": "b_imopenlines_exec_log"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 281,
+        "table": "b_imopenlines_livechat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_lock"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_log"
+      },
+      {
+        "rows": 22436,
+        "sql_chars": 1337594,
+        "table": "b_imopenlines_operator_transfer"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 105,
+        "table": "b_imopenlines_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_recent"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 88,
+        "table": "b_imopenlines_rest_network_limit"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 117,
+        "table": "b_imopenlines_role"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 95,
+        "table": "b_imopenlines_role_access"
+      },
+      {
+        "rows": 27,
+        "sql_chars": 859,
+        "table": "b_imopenlines_role_permission"
+      },
+      {
+        "rows": 278,
+        "sql_chars": 229840,
+        "table": "b_imopenlines_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_session_automatic_tasks"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 221,
+        "table": "b_imopenlines_session_check"
+      },
+      {
+        "rows": 278,
+        "sql_chars": 126621,
+        "table": "b_imopenlines_session_index"
+      },
+      {
+        "rows": 334,
+        "sql_chars": 27595,
+        "table": "b_imopenlines_session_kpi_messages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_statistic_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_tracker"
+      },
+      {
+        "rows": 232,
+        "sql_chars": 10625,
+        "table": "b_imopenlines_treatment_by_hour_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_user_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_imopenlines_user_option"
+      },
+      {
+        "rows": 189,
+        "sql_chars": 6505,
+        "table": "b_imopenlines_user_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_channel"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_incoming_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_rest_app"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_rest_app_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_restriction"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_messageservice_template"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 1680,
+        "table": "b_pull_channel"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 1860,
+        "table": "b_pull_push"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_pull_push_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_pull_stack"
+      },
+      {
+        "rows": 107,
+        "sql_chars": 10317,
+        "table": "b_pull_watch"
+      }
+    ],
+    "tables": 112
+  },
+  "content_web": {
+    "nonempty_tables": 75,
+    "rows": 449628,
+    "table_list": [
+      {
+        "rows": 11,
+        "sql_chars": 4132,
+        "table": "b_adv_banner"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_banner_2_country"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_banner_2_day"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_banner_2_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_banner_2_page"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 143,
+        "table": "b_adv_banner_2_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_banner_2_stat_adv"
+      },
+      {
+        "rows": 1848,
+        "sql_chars": 31291,
+        "table": "b_adv_banner_2_weekday"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 204,
+        "table": "b_adv_contract"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_contract_2_page"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 53,
+        "table": "b_adv_contract_2_site"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 54,
+        "table": "b_adv_contract_2_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_adv_contract_2_user"
+      },
+      {
+        "rows": 168,
+        "sql_chars": 2857,
+        "table": "b_adv_contract_2_weekday"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 516,
+        "table": "b_adv_type"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 71,
+        "table": "b_blog_category"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 175,
+        "table": "b_blog_comment"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 78,
+        "table": "b_blog_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_blog_image"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 1954,
+        "table": "b_blog_post"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 63,
+        "table": "b_blog_post_category"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_blog_post_param"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 314,
+        "table": "b_blog_site_path"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 146,
+        "table": "b_blog_socnet"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 148,
+        "table": "b_blog_socnet_rights"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_blog_trackback"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 844,
+        "table": "b_blog_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_blog_user2blog"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_blog_user2user_group"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 77,
+        "table": "b_blog_user_group"
+      },
+      {
+        "rows": 76,
+        "sql_chars": 2013,
+        "table": "b_blog_user_group_perms"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 158,
+        "table": "b_forum_dictionary"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_email"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_file"
+      },
+      {
+        "rows": 151,
+        "sql_chars": 26998,
+        "table": "b_forum_filter"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 102,
+        "table": "b_forum_group"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 252,
+        "table": "b_forum_group_lang"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 822,
+        "table": "b_forum_letter"
+      },
+      {
+        "rows": 349,
+        "sql_chars": 155803,
+        "table": "b_forum_message"
+      },
+      {
+        "rows": 20,
+        "sql_chars": 299,
+        "table": "b_forum_perms"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 144,
+        "table": "b_forum_pm_folder"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_points"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_points2post"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_points_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_private_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_rank"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_rank_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_service_deleted_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_service_statistic_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_subscribe"
+      },
+      {
+        "rows": 109,
+        "sql_chars": 28322,
+        "table": "b_forum_topic"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 1746,
+        "table": "b_forum_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_user_forum"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_forum_user_points"
+      },
+      {
+        "rows": 209,
+        "sql_chars": 7479,
+        "table": "b_forum_user_topic"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_cache"
+      },
+      {
+        "rows": 3591,
+        "sql_chars": 25986726,
+        "table": "b_iblock_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_element_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_element_lock"
+      },
+      {
+        "rows": 8115,
+        "sql_chars": 449236,
+        "table": "b_iblock_element_property"
+      },
+      {
+        "rows": 3952,
+        "sql_chars": 74356,
+        "table": "b_iblock_element_right"
+      },
+      {
+        "rows": 512,
+        "sql_chars": 65344,
+        "table": "b_iblock_fields"
+      },
+      {
+        "rows": 34,
+        "sql_chars": 396,
+        "table": "b_iblock_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_iblock_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_iproperty"
+      },
+      {
+        "rows": 132,
+        "sql_chars": 4604,
+        "table": "b_iblock_messages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_offers_tmp"
+      },
+      {
+        "rows": 168,
+        "sql_chars": 25810,
+        "table": "b_iblock_property"
+      },
+      {
+        "rows": 55,
+        "sql_chars": 2323,
+        "table": "b_iblock_property_enum"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 200,
+        "table": "b_iblock_property_feature"
+      },
+      {
+        "rows": 63,
+        "sql_chars": 2986,
+        "table": "b_iblock_right"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_rss"
+      },
+      {
+        "rows": 29,
+        "sql_chars": 31023,
+        "table": "b_iblock_section"
+      },
+      {
+        "rows": 67,
+        "sql_chars": 943,
+        "table": "b_iblock_section_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_section_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_section_property"
+      },
+      {
+        "rows": 40,
+        "sql_chars": 685,
+        "table": "b_iblock_section_right"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_sequence"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 397,
+        "table": "b_iblock_site"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 395,
+        "table": "b_iblock_type"
+      },
+      {
+        "rows": 18,
+        "sql_chars": 1006,
+        "table": "b_iblock_type_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_binding"
+      },
+      {
+        "rows": 103,
+        "sql_chars": 162395,
+        "table": "b_landing_block"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_block_favourite"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 105,
+        "table": "b_landing_block_last_used"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_chat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_chat_binding"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_cookies_agreement"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_generations"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_request_to_entities"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_request_to_step"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_requests"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_site_to_chat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_copilot_steps"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_demo"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_designer_repo"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 475,
+        "table": "b_landing_domain"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 118,
+        "table": "b_landing_entity_lock"
+      },
+      {
+        "rows": 21,
+        "sql_chars": 502,
+        "table": "b_landing_entity_rights"
+      },
+      {
+        "rows": 34,
+        "sql_chars": 713,
+        "table": "b_landing_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_filter_block"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_filter_entity"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 131,
+        "table": "b_landing_folder"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 10790,
+        "table": "b_landing_history"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 134,
+        "table": "b_landing_history_step"
+      },
+      {
+        "rows": 296,
+        "sql_chars": 17830,
+        "table": "b_landing_hook_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_placement"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_repo"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 737,
+        "table": "b_landing_role"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 905,
+        "table": "b_landing_site"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 96,
+        "table": "b_landing_syspage"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 2002,
+        "table": "b_landing_template"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 200,
+        "table": "b_landing_template_ref"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_update_block"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_urlchecker_host"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_urlchecker_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_urlchecker_whitelist"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_landing_urlrewrite"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 93,
+        "table": "b_landing_view"
+      },
+      {
+        "rows": 10234,
+        "sql_chars": 5183457,
+        "table": "b_search_content"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_search_content_freq"
+      },
+      {
+        "rows": 196,
+        "sql_chars": 6614,
+        "table": "b_search_content_param"
+      },
+      {
+        "rows": 17820,
+        "sql_chars": 320330,
+        "table": "b_search_content_right"
+      },
+      {
+        "rows": 10234,
+        "sql_chars": 290862,
+        "table": "b_search_content_site"
+      },
+      {
+        "rows": 290554,
+        "sql_chars": 8083141,
+        "table": "b_search_content_stem"
+      },
+      {
+        "rows": 10234,
+        "sql_chars": 4070627,
+        "table": "b_search_content_text"
+      },
+      {
+        "rows": 34598,
+        "sql_chars": 882920,
+        "table": "b_search_content_title"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 84,
+        "table": "b_search_custom_rank"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_search_phrase"
+      },
+      {
+        "rows": 37470,
+        "sql_chars": 702754,
+        "table": "b_search_stem"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_search_suggest"
+      },
+      {
+        "rows": 17739,
+        "sql_chars": 368978,
+        "table": "b_search_tags"
+      },
+      {
+        "rows": 117,
+        "sql_chars": 1497,
+        "table": "b_search_user_right"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_autolog"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_banner"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_campaign"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_order"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_adv_region"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_keywords"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 706,
+        "table": "b_seo_search_engine"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 288,
+        "table": "b_seo_service_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_service_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_service_rtg_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_service_subscription"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_service_webhook"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_sitemap"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_sitemap_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_sitemap_iblock"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_sitemap_job"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_sitemap_runtime"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_seo_yandex_direct_stat"
+      }
+    ],
+    "tables": 155
+  },
+  "crm": {
+    "nonempty_tables": 155,
+    "rows": 558372,
+    "table_list": [
+      {
+        "rows": 797,
+        "sql_chars": 20495,
+        "table": "b_crm_access_attr_company"
+      },
+      {
+        "rows": 3186,
+        "sql_chars": 85921,
+        "table": "b_crm_access_attr_contact"
+      },
+      {
+        "rows": 1899,
+        "sql_chars": 68785,
+        "table": "b_crm_access_attr_deal"
+      },
+      {
+        "rows": 1808,
+        "sql_chars": 76685,
+        "table": "b_crm_access_attr_dynamic_1042"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 251,
+        "table": "b_crm_access_attr_lead"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_access_attr_smart_b2e_doc"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_access_attr_smart_document"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_access_attr_smart_invoice"
+      },
+      {
+        "rows": 7737,
+        "sql_chars": 8290158,
+        "table": "b_crm_act"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_act_app_type"
+      },
+      {
+        "rows": 8026,
+        "sql_chars": 147920,
+        "table": "b_crm_act_bind"
+      },
+      {
+        "rows": 438,
+        "sql_chars": 17979,
+        "table": "b_crm_act_channel_stat"
+      },
+      {
+        "rows": 1259,
+        "sql_chars": 178541,
+        "table": "b_crm_act_comm"
+      },
+      {
+        "rows": 694,
+        "sql_chars": 22948,
+        "table": "b_crm_act_counter_light"
+      },
+      {
+        "rows": 446,
+        "sql_chars": 6007,
+        "table": "b_crm_act_elem"
+      },
+      {
+        "rows": 7737,
+        "sql_chars": 593076,
+        "table": "b_crm_act_fastsearch"
+      },
+      {
+        "rows": 238,
+        "sql_chars": 4200,
+        "table": "b_crm_act_incoming_channel"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_act_mail_body"
+      },
+      {
+        "rows": 429,
+        "sql_chars": 41506,
+        "table": "b_crm_act_mail_meta"
+      },
+      {
+        "rows": 13472,
+        "sql_chars": 196120,
+        "table": "b_crm_act_ping_offsets"
+      },
+      {
+        "rows": 329,
+        "sql_chars": 11552,
+        "table": "b_crm_act_ping_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_act_sms_placeholder"
+      },
+      {
+        "rows": 854,
+        "sql_chars": 61838,
+        "table": "b_crm_act_stat"
+      },
+      {
+        "rows": 442,
+        "sql_chars": 53125,
+        "table": "b_crm_addr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ads_form_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_agent_contract_contractor"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ai_quality_assessment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ai_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ai_queue_buffer"
+      },
+      {
+        "rows": 1808,
+        "sql_chars": 34070,
+        "table": "b_crm_assigned"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_automated_solution"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_automation_qr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_automation_template"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 637,
+        "table": "b_crm_automation_trigger"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_automation_trigger_app"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_bank_detail"
+      },
+      {
+        "rows": 43,
+        "sql_chars": 857,
+        "table": "b_crm_biz_type"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 2103,
+        "table": "b_crm_button"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 72,
+        "table": "b_crm_button_avatar"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 224,
+        "table": "b_crm_button_guest"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 356,
+        "table": "b_crm_button_guest_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_call_list"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_call_list_created"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_call_list_item"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 51,
+        "table": "b_crm_catalog"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_cleaning"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_communication_category"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_communication_channel"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_communication_channel_event"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_communication_channel_rule"
+      },
+      {
+        "rows": 797,
+        "sql_chars": 337311,
+        "table": "b_crm_company"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_company_act_mark_stat"
+      },
+      {
+        "rows": 402,
+        "sql_chars": 17518,
+        "table": "b_crm_company_act_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_company_act_stm_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_company_act_sts_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_company_act_sum_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_company_fields_context"
+      },
+      {
+        "rows": 797,
+        "sql_chars": 17400,
+        "table": "b_crm_company_growth_stat"
+      },
+      {
+        "rows": 797,
+        "sql_chars": 91971,
+        "table": "b_crm_company_index"
+      },
+      {
+        "rows": 3186,
+        "sql_chars": 2457576,
+        "table": "b_crm_contact"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 572,
+        "table": "b_crm_contact_act_mark_stat"
+      },
+      {
+        "rows": 198,
+        "sql_chars": 8896,
+        "table": "b_crm_contact_act_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_contact_act_stm_stat"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 467,
+        "table": "b_crm_contact_act_sts_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_contact_act_sum_stat"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 64,
+        "table": "b_crm_contact_company"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_contact_fields_context"
+      },
+      {
+        "rows": 3186,
+        "sql_chars": 70749,
+        "table": "b_crm_contact_growth_stat"
+      },
+      {
+        "rows": 3186,
+        "sql_chars": 413973,
+        "table": "b_crm_contact_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_contractor_conversion"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 12143,
+        "table": "b_crm_conv_map"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 15074,
+        "table": "b_crm_copilot_call_assessment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_copilot_call_assessment_availability"
+      },
+      {
+        "rows": 23,
+        "sql_chars": 262,
+        "table": "b_crm_copilot_call_assessment_client_type"
+      },
+      {
+        "rows": 1067,
+        "sql_chars": 65648,
+        "table": "b_crm_counter_calculated_time"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_custom_badge"
+      },
+      {
+        "rows": 1899,
+        "sql_chars": 1670644,
+        "table": "b_crm_deal"
+      },
+      {
+        "rows": 92,
+        "sql_chars": 6233,
+        "table": "b_crm_deal_act_stat"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 240,
+        "table": "b_crm_deal_category"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_deal_channel_stat"
+      },
+      {
+        "rows": 1660,
+        "sql_chars": 34230,
+        "table": "b_crm_deal_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_deal_fields_context"
+      },
+      {
+        "rows": 1899,
+        "sql_chars": 252288,
+        "table": "b_crm_deal_index"
+      },
+      {
+        "rows": 736,
+        "sql_chars": 82112,
+        "table": "b_crm_deal_inv_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_deal_recur"
+      },
+      {
+        "rows": 4619,
+        "sql_chars": 643079,
+        "table": "b_crm_deal_stage_history"
+      },
+      {
+        "rows": 9399,
+        "sql_chars": 980870,
+        "table": "b_crm_deal_stage_history_with_supposed"
+      },
+      {
+        "rows": 2408,
+        "sql_chars": 292951,
+        "table": "b_crm_deal_sum_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_documentgenerator_template_custom_field"
+      },
+      {
+        "rows": 656,
+        "sql_chars": 156576,
+        "table": "b_crm_dp_automatic_index"
+      },
+      {
+        "rows": 56,
+        "sql_chars": 18582,
+        "table": "b_crm_dp_autosearch_user_settings"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dp_bd_mcd"
+      },
+      {
+        "rows": 7157,
+        "sql_chars": 295241,
+        "table": "b_crm_dp_comm_mcd"
+      },
+      {
+        "rows": 16258,
+        "sql_chars": 1220613,
+        "table": "b_crm_dp_entity_hash"
+      },
+      {
+        "rows": 3990,
+        "sql_chars": 313591,
+        "table": "b_crm_dp_entity_stat"
+      },
+      {
+        "rows": 554,
+        "sql_chars": 157149,
+        "table": "b_crm_dp_index"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 100,
+        "table": "b_crm_dp_index_mismatch"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dp_index_type_settings"
+      },
+      {
+        "rows": 795,
+        "sql_chars": 34416,
+        "table": "b_crm_dp_org_mcd"
+      },
+      {
+        "rows": 2585,
+        "sql_chars": 120208,
+        "table": "b_crm_dp_prsn_mcd"
+      },
+      {
+        "rows": 793,
+        "sql_chars": 29952,
+        "table": "b_crm_dp_rq_mcd"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dp_vol_mcd"
+      },
+      {
+        "rows": 1808,
+        "sql_chars": 538591,
+        "table": "b_crm_dynamic_items_1042"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_1042_fields_context"
+      },
+      {
+        "rows": 1808,
+        "sql_chars": 264247,
+        "table": "b_crm_dynamic_items_1042_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_31"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_31_fields_context"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_31_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_31_uf_crm_68f5f254bfe44"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_36"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_36_fields_context"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_36_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_39"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_39_fields_context"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_items_39_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_dynamic_recurring"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 908,
+        "table": "b_crm_dynamic_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_entity_cfg"
+      },
+      {
+        "rows": 438,
+        "sql_chars": 9286,
+        "table": "b_crm_entity_channel"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_entity_contact"
+      },
+      {
+        "rows": 694,
+        "sql_chars": 65699,
+        "table": "b_crm_entity_countable_act"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_entity_lock"
+      },
+      {
+        "rows": 12,
+        "sql_chars": 304,
+        "table": "b_crm_entity_perms"
+      },
+      {
+        "rows": 1802,
+        "sql_chars": 51197,
+        "table": "b_crm_entity_relation"
+      },
+      {
+        "rows": 3201,
+        "sql_chars": 480427,
+        "table": "b_crm_entity_stage_history"
+      },
+      {
+        "rows": 4271,
+        "sql_chars": 480736,
+        "table": "b_crm_entity_stage_history_with_supposed"
+      },
+      {
+        "rows": 1192,
+        "sql_chars": 88583,
+        "table": "b_crm_entity_uncompleted_act"
+      },
+      {
+        "rows": 105490,
+        "sql_chars": 8625426,
+        "table": "b_crm_event"
+      },
+      {
+        "rows": 110795,
+        "sql_chars": 4014913,
+        "table": "b_crm_event_relations"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_exclusion"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ext_channel_connector"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_external_sale"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 895,
+        "table": "b_crm_field_attr"
+      },
+      {
+        "rows": 5892,
+        "sql_chars": 159496,
+        "table": "b_crm_field_content_type"
+      },
+      {
+        "rows": 7753,
+        "sql_chars": 554322,
+        "table": "b_crm_field_multi"
+      },
+      {
+        "rows": 3920,
+        "sql_chars": 68465,
+        "table": "b_crm_field_multi_phone_country"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_field_set"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 247,
+        "table": "b_crm_inv_status_history"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 1262,
+        "table": "b_crm_invoice"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 915,
+        "table": "b_crm_invoice_basket"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_basket_props"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 2257,
+        "table": "b_crm_invoice_change"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_coupons"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 1241,
+        "table": "b_crm_invoice_delivery"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_discount"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_discount_data"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 173,
+        "table": "b_crm_invoice_dlv_basket"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_entity_marker"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_modules"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 661,
+        "table": "b_crm_invoice_payment"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 1340,
+        "table": "b_crm_invoice_props_value"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_recur"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_round"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_rules"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_rules_descr"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 303,
+        "table": "b_crm_invoice_sum_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_invoice_tax"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 212,
+        "table": "b_crm_item_badge"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 1665,
+        "table": "b_crm_item_category"
+      },
+      {
+        "rows": 65,
+        "sql_chars": 2025,
+        "table": "b_crm_item_category_user_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_kanban_sort"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_kanban_supervisor"
+      },
+      {
+        "rows": 888,
+        "sql_chars": 44483,
+        "table": "b_crm_last_communication"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 4794,
+        "table": "b_crm_lead"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_lead_act_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_lead_channel_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_lead_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_lead_conv_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_lead_fields_context"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 982,
+        "table": "b_crm_lead_index"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 1295,
+        "table": "b_crm_lead_status_history"
+      },
+      {
+        "rows": 18,
+        "sql_chars": 1768,
+        "table": "b_crm_lead_status_history_with_supposed"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 1361,
+        "table": "b_crm_lead_sum_stat"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 5165,
+        "table": "b_crm_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ml_model_training"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ml_prediction_history"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ml_prediction_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_multi_value_store"
+      },
+      {
+        "rows": 90,
+        "sql_chars": 5290,
+        "table": "b_crm_observer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_contact_company"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_import_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_payment_stage"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_props_form"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_props_form_queue"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 1686,
+        "table": "b_crm_order_props_match"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_order_sending_channels"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_originator"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 6024,
+        "table": "b_crm_preset"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_product_reservation_map"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_product_row"
+      },
+      {
+        "rows": 956,
+        "sql_chars": 69560,
+        "table": "b_crm_product_row_cfg"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_product_row_reservation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_ps_rq_conv_relation"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 595,
+        "table": "b_crm_quote"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 58,
+        "table": "b_crm_quote_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_quote_elem"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_quote_fields_context"
+      },
+      {
+        "rows": 370,
+        "sql_chars": 26712,
+        "table": "b_crm_recycling_relation"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 212,
+        "table": "b_crm_repeat_sale_job"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_repeat_sale_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_repeat_sale_queue"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 1103,
+        "table": "b_crm_repeat_sale_segment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_repeat_sale_segment_assignment_user"
+      },
+      {
+        "rows": 426,
+        "sql_chars": 218018,
+        "table": "b_crm_requisite"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_requisite_cfg"
+      },
+      {
+        "rows": 2302,
+        "sql_chars": 45781,
+        "table": "b_crm_requisite_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_responsible_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_responsible_queue_config"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_responsible_queue_config_members"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 869,
+        "table": "b_crm_role"
+      },
+      {
+        "rows": 494,
+        "sql_chars": 26276,
+        "table": "b_crm_role_perms"
+      },
+      {
+        "rows": 17,
+        "sql_chars": 275,
+        "table": "b_crm_role_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_rq_conv_log"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 63,
+        "table": "b_crm_sequences"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_shipment_realization"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_sl_rel"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_sl_subscr"
+      },
+      {
+        "rows": 172,
+        "sql_chars": 14098,
+        "table": "b_crm_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_store_document_contractor"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_terminal_payment"
+      },
+      {
+        "rows": 67857,
+        "sql_chars": 12092224,
+        "table": "b_crm_timeline"
+      },
+      {
+        "rows": 71120,
+        "sql_chars": 1407509,
+        "table": "b_crm_timeline_bind"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_timeline_custom_icon"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_timeline_custom_logo"
+      },
+      {
+        "rows": 1351,
+        "sql_chars": 272159,
+        "table": "b_crm_timeline_note"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_timeline_rest_app_layout_blocks"
+      },
+      {
+        "rows": 11522,
+        "sql_chars": 1605392,
+        "table": "b_crm_timeline_search"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_expenses_pack"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_phone_number"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_pool"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_site_b24"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 150,
+        "table": "b_crm_tracking_source"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_source_child"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_source_expenses"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_source_field"
+      },
+      {
+        "rows": 4706,
+        "sql_chars": 291874,
+        "table": "b_crm_tracking_trace"
+      },
+      {
+        "rows": 4707,
+        "sql_chars": 111333,
+        "table": "b_crm_tracking_trace_channel"
+      },
+      {
+        "rows": 4710,
+        "sql_chars": 87263,
+        "table": "b_crm_tracking_trace_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_trace_source"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_tracking_trace_tree"
+      },
+      {
+        "rows": 33,
+        "sql_chars": 433,
+        "table": "b_crm_user_mail_template_access"
+      },
+      {
+        "rows": 1192,
+        "sql_chars": 69671,
+        "table": "b_crm_usr_act"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 3702,
+        "table": "b_crm_usr_mt"
+      },
+      {
+        "rows": 27,
+        "sql_chars": 1082,
+        "table": "b_crm_utm"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_volume"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_wait"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 10340,
+        "table": "b_crm_webform"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_ads_field_mapping"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 302,
+        "table": "b_crm_webform_agreement"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 500,
+        "table": "b_crm_webform_counter"
+      },
+      {
+        "rows": 26,
+        "sql_chars": 650,
+        "table": "b_crm_webform_counter_daily"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 4954,
+        "table": "b_crm_webform_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_field_dep"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_field_dep_group"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 112,
+        "table": "b_crm_webform_field_preset"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 123,
+        "table": "b_crm_webform_landing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_limit"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 95,
+        "table": "b_crm_webform_queue"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 142,
+        "table": "b_crm_webform_result"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 160,
+        "table": "b_crm_webform_result_entity"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 177,
+        "table": "b_crm_webform_start_edit"
+      },
+      {
+        "rows": 21,
+        "sql_chars": 407,
+        "table": "b_crm_webpack"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 65,
+        "table": "b_crm_webpack_file_log"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 190,
+        "table": "b_crm_widget_saletarget"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_workflow_entity_stage"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_activity"
+      },
+      {
+        "rows": 318,
+        "sql_chars": 10675,
+        "table": "b_utm_crm_company"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 144,
+        "table": "b_utm_crm_company_spd"
+      },
+      {
+        "rows": 1370,
+        "sql_chars": 48910,
+        "table": "b_utm_crm_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_contact_spd"
+      },
+      {
+        "rows": 1868,
+        "sql_chars": 67253,
+        "table": "b_utm_crm_deal"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 326,
+        "table": "b_utm_crm_deal_spd"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_invoice"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_lead"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_lead_spd"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_mail_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_crm_quote"
+      },
+      {
+        "rows": 27,
+        "sql_chars": 891,
+        "table": "b_utm_crm_timeline"
+      },
+      {
+        "rows": 959,
+        "sql_chars": 11549,
+        "table": "b_uts_crm_activity"
+      },
+      {
+        "rows": 516,
+        "sql_chars": 33508,
+        "table": "b_uts_crm_company"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 481,
+        "table": "b_uts_crm_company_spd"
+      },
+      {
+        "rows": 3186,
+        "sql_chars": 1280683,
+        "table": "b_uts_crm_contact"
+      },
+      {
+        "rows": 261,
+        "sql_chars": 90365,
+        "table": "b_uts_crm_contact_spd"
+      },
+      {
+        "rows": 1898,
+        "sql_chars": 659194,
+        "table": "b_uts_crm_deal"
+      },
+      {
+        "rows": 330,
+        "sql_chars": 98095,
+        "table": "b_uts_crm_deal_spd"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 98,
+        "table": "b_uts_crm_invoice"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 220,
+        "table": "b_uts_crm_lead"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 223,
+        "table": "b_uts_crm_lead_spd"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 111,
+        "table": "b_uts_crm_mail_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_crm_quote"
+      },
+      {
+        "rows": 4270,
+        "sql_chars": 72239,
+        "table": "b_uts_crm_timeline"
+      }
+    ],
+    "tables": 294
+  },
+  "disk_files_documents": {
+    "nonempty_tables": 28,
+    "rows": 16212,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_copy_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_delete_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_file_bucket"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_file_hash"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_file_resize"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_file_save"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_file_upload"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_clouds_size_queue"
+      },
+      {
+        "rows": 30,
+        "sql_chars": 3295,
+        "table": "b_disk_attached_object"
+      },
+      {
+        "rows": 191,
+        "sql_chars": 5255,
+        "table": "b_disk_attached_view_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_cloud_import"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_deleted_log"
+      },
+      {
+        "rows": 35,
+        "sql_chars": 1404,
+        "table": "b_disk_deleted_log_v2"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_document_info"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_document_restriction_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_document_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_edit_session"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 242,
+        "table": "b_disk_external_link"
+      },
+      {
+        "rows": 961,
+        "sql_chars": 215554,
+        "table": "b_disk_object"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_object_extended_index"
+      },
+      {
+        "rows": 790,
+        "sql_chars": 57698,
+        "table": "b_disk_object_head_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_object_lock"
+      },
+      {
+        "rows": 2498,
+        "sql_chars": 41853,
+        "table": "b_disk_object_path"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_object_ttl"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_onlyoffice_document_info"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_onlyoffice_document_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_onlyoffice_restriction_log"
+      },
+      {
+        "rows": 334,
+        "sql_chars": 11751,
+        "table": "b_disk_recently_used"
+      },
+      {
+        "rows": 284,
+        "sql_chars": 7613,
+        "table": "b_disk_right"
+      },
+      {
+        "rows": 52,
+        "sql_chars": 2441,
+        "table": "b_disk_right_setup_session"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 612,
+        "table": "b_disk_sharing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_show_session"
+      },
+      {
+        "rows": 1276,
+        "sql_chars": 22315,
+        "table": "b_disk_simple_right"
+      },
+      {
+        "rows": 221,
+        "sql_chars": 23148,
+        "table": "b_disk_storage"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_tmp_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_tmp_simple_right"
+      },
+      {
+        "rows": 568,
+        "sql_chars": 39084,
+        "table": "b_disk_tracked_object"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_unified_link_access"
+      },
+      {
+        "rows": 671,
+        "sql_chars": 97236,
+        "table": "b_disk_version"
+      },
+      {
+        "rows": 108,
+        "sql_chars": 23422,
+        "table": "b_disk_volume"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_disk_volume_deleted_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_actualize_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_document"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_document_binding"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_external_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_field"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 1073,
+        "table": "b_documentgenerator_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_region"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_region_phrase"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 91,
+        "table": "b_documentgenerator_role"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 77,
+        "table": "b_documentgenerator_role_access"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 300,
+        "table": "b_documentgenerator_role_permission"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_documentgenerator_spreadsheet"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 3541,
+        "table": "b_documentgenerator_template"
+      },
+      {
+        "rows": 106,
+        "sql_chars": 8677,
+        "table": "b_documentgenerator_template_provider"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 237,
+        "table": "b_documentgenerator_template_user"
+      },
+      {
+        "rows": 3941,
+        "sql_chars": 927691,
+        "table": "b_file"
+      },
+      {
+        "rows": 1933,
+        "sql_chars": 34556,
+        "table": "b_file_duplicate"
+      },
+      {
+        "rows": 2008,
+        "sql_chars": 96965,
+        "table": "b_file_hash"
+      },
+      {
+        "rows": 71,
+        "sql_chars": 4647,
+        "table": "b_file_preview"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_file_search"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_file_version"
+      },
+      {
+        "rows": 55,
+        "sql_chars": 42623,
+        "table": "b_transformer_command"
+      }
+    ],
+    "tables": 63
+  },
+  "forms": {
+    "nonempty_tables": 11,
+    "rows": 125,
+    "table_list": [
+      {
+        "rows": 9,
+        "sql_chars": 10340,
+        "table": "b_crm_webform"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_ads_field_mapping"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 302,
+        "table": "b_crm_webform_agreement"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 500,
+        "table": "b_crm_webform_counter"
+      },
+      {
+        "rows": 26,
+        "sql_chars": 650,
+        "table": "b_crm_webform_counter_daily"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 4954,
+        "table": "b_crm_webform_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_field_dep"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_field_dep_group"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 112,
+        "table": "b_crm_webform_field_preset"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 123,
+        "table": "b_crm_webform_landing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_crm_webform_limit"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 95,
+        "table": "b_crm_webform_queue"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 142,
+        "table": "b_crm_webform_result"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 160,
+        "table": "b_crm_webform_result_entity"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 177,
+        "table": "b_crm_webform_start_edit"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_2_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_2_mail_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_2_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_answer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_crm"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_crm_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_crm_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_field_filter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_field_validator"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_menu"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_result"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_result_answer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_status_2_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_form_status_2_mail_template"
+      }
+    ],
+    "tables": 32
+  },
+  "integrations_api": {
+    "nonempty_tables": 31,
+    "rows": 5483,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_b24connector_button_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_b24connector_buttons"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_dashboard"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_dashboard_user"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 1127,
+        "table": "b_biconnector_dict_structure_agg"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 181,
+        "table": "b_biconnector_dictionary_cache"
+      },
+      {
+        "rows": 44,
+        "sql_chars": 1485,
+        "table": "b_biconnector_dictionary_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_dataset"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_dataset_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_dataset_field_format"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_source"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_source_dataset_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_source_rest"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_source_rest_connector"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_external_source_settings"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 178,
+        "table": "b_biconnector_key"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_key_user"
+      },
+      {
+        "rows": 240,
+        "sql_chars": 173461,
+        "table": "b_biconnector_log"
+      },
+      {
+        "rows": 47,
+        "sql_chars": 813,
+        "table": "b_biconnector_permission"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 277,
+        "table": "b_biconnector_permission_tmp"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 95,
+        "table": "b_biconnector_role"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 115,
+        "table": "b_biconnector_role_relation"
+      },
+      {
+        "rows": 35,
+        "sql_chars": 5421,
+        "table": "b_biconnector_superset_dashboard"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 541,
+        "table": "b_biconnector_superset_dashboard_group"
+      },
+      {
+        "rows": 32,
+        "sql_chars": 380,
+        "table": "b_biconnector_superset_dashboard_group_binding"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_superset_dashboard_group_binding_tmp"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 138,
+        "table": "b_biconnector_superset_dashboard_group_scope"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 142,
+        "table": "b_biconnector_superset_dashboard_group_scope_tmp"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 545,
+        "table": "b_biconnector_superset_dashboard_group_tmp"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_superset_dashboard_tag"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 521,
+        "table": "b_biconnector_superset_dashboard_url_parameter"
+      },
+      {
+        "rows": 42,
+        "sql_chars": 739,
+        "table": "b_biconnector_superset_scope"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_biconnector_superset_tag"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 526,
+        "table": "b_biconnector_superset_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_auth_grant"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_auth_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_command"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_counter_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_counter_history"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_counter_value"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 167,
+        "table": "b_controller_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_group_map"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_member"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_member_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_controller_task"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 1420,
+        "table": "b_rest_ap"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 254,
+        "table": "b_rest_ap_permission"
+      },
+      {
+        "rows": 50,
+        "sql_chars": 14573,
+        "table": "b_rest_app"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 542,
+        "table": "b_rest_app_lang"
+      },
+      {
+        "rows": 254,
+        "sql_chars": 11743,
+        "table": "b_rest_app_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_configuration_storage"
+      },
+      {
+        "rows": 28,
+        "sql_chars": 3184,
+        "table": "b_rest_event"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_event_offline"
+      },
+      {
+        "rows": 1421,
+        "sql_chars": 47336,
+        "table": "b_rest_free_app"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 5185,
+        "table": "b_rest_integration"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_owner_entity"
+      },
+      {
+        "rows": 13,
+        "sql_chars": 2553,
+        "table": "b_rest_placement"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 991,
+        "table": "b_rest_placement_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_stat_app"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_rest_stat_method"
+      },
+      {
+        "rows": 479,
+        "sql_chars": 29867,
+        "table": "b_rest_usage_entity"
+      },
+      {
+        "rows": 2656,
+        "sql_chars": 193373,
+        "table": "b_rest_usage_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_ap"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_contact_connect"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_user_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_zoom_meeting"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_socialservices_zoom_meeting_recording"
+      }
+    ],
+    "tables": 74
+  },
+  "mail_marketing": {
+    "nonempty_tables": 32,
+    "rows": 7725,
+    "table_list": [
+      {
+        "rows": 887,
+        "sql_chars": 902509,
+        "table": "b_event"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_event_attachment"
+      },
+      {
+        "rows": 1258,
+        "sql_chars": 361838,
+        "table": "b_event_log"
+      },
+      {
+        "rows": 120,
+        "sql_chars": 213490,
+        "table": "b_event_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_event_message_attachment"
+      },
+      {
+        "rows": 120,
+        "sql_chars": 1255,
+        "table": "b_event_message_site"
+      },
+      {
+        "rows": 232,
+        "sql_chars": 113855,
+        "table": "b_event_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_blacklist"
+      },
+      {
+        "rows": 714,
+        "sql_chars": 93383,
+        "table": "b_mail_contact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_domain_email"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_entity_options"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_filter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_filter_cond"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_mailbox"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_mailbox_access"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_mailbox_dir"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 1394,
+        "table": "b_mail_mailservices"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message_access"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message_closure"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message_delete_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message_uid"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_message_upload_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_msg_attachment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_oauth"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_spam_weight"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_user_message"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_mail_user_relations"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 7668,
+        "table": "b_mail_user_signature"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_posting"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_posting_email"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_posting_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_posting_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_posting_rubric"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_abuse"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_agreement"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_call_log"
+      },
+      {
+        "rows": 1813,
+        "sql_chars": 225229,
+        "table": "b_sender_contact"
+      },
+      {
+        "rows": 40,
+        "sql_chars": 400,
+        "table": "b_sender_contact_list"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_counter_daily"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_file_info"
+      },
+      {
+        "rows": 29,
+        "sql_chars": 3884,
+        "table": "b_sender_group"
+      },
+      {
+        "rows": 44,
+        "sql_chars": 13397,
+        "table": "b_sender_group_connector"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 188,
+        "table": "b_sender_group_counter"
+      },
+      {
+        "rows": 544,
+        "sql_chars": 100179,
+        "table": "b_sender_group_data"
+      },
+      {
+        "rows": 23,
+        "sql_chars": 212,
+        "table": "b_sender_group_deal_category"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 76,
+        "table": "b_sender_group_queue"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 2527,
+        "table": "b_sender_group_state"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_group_thread"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 170,
+        "table": "b_sender_list"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 123,
+        "table": "b_sender_mailing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_mailing_attachment"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 32281,
+        "table": "b_sender_mailing_chain"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 202,
+        "table": "b_sender_mailing_chain_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_mailing_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_mailing_subscription"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_mailing_trigger"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 200,
+        "table": "b_sender_message"
+      },
+      {
+        "rows": 204,
+        "sql_chars": 110247,
+        "table": "b_sender_message_field"
+      },
+      {
+        "rows": 45,
+        "sql_chars": 1938,
+        "table": "b_sender_message_utm"
+      },
+      {
+        "rows": 95,
+        "sql_chars": 1337,
+        "table": "b_sender_permission"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 1832,
+        "table": "b_sender_posting"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 2255,
+        "table": "b_sender_posting_click"
+      },
+      {
+        "rows": 498,
+        "sql_chars": 17072,
+        "table": "b_sender_posting_read"
+      },
+      {
+        "rows": 906,
+        "sql_chars": 4467263,
+        "table": "b_sender_posting_recipient"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_posting_thread"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_posting_unsub"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_preset_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_queue"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 114,
+        "table": "b_sender_role"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_role_access"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_role_permission"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_role_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sender_timeline_queue"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 723,
+        "table": "b_sms_template"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 96,
+        "table": "b_sms_template_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_subscription"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_subscription_rubric"
+      }
+    ],
+    "tables": 82
+  },
+  "sales_catalog_erp": {
+    "nonempty_tables": 45,
+    "rows": 17215,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_agent_contract"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_agent_contract_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_agent_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_contractor"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 141,
+        "table": "b_catalog_currency"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 276,
+        "table": "b_catalog_currency_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_currency_rate"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_disc_save_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_disc_save_range"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_disc_save_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount2cat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount2group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount2iblock"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount2product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount2section"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount_cond"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount_coupon"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_discount_module"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_docs_barcode"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_docs_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_export"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_exported_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_exported_product_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_extra"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 112,
+        "table": "b_catalog_group"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 92,
+        "table": "b_catalog_group2group"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 97,
+        "table": "b_catalog_group_lang"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 79,
+        "table": "b_catalog_iblock"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_load"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 208,
+        "table": "b_catalog_measure"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_measure_ratio"
+      },
+      {
+        "rows": 109,
+        "sql_chars": 1785,
+        "table": "b_catalog_permission"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 544,
+        "table": "b_catalog_price"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 838,
+        "table": "b_catalog_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_product2group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_product_compilation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_product_sets"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 121,
+        "table": "b_catalog_role"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 57,
+        "table": "b_catalog_role_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_rounding"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 326,
+        "table": "b_catalog_store"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_barcode"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_batch"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_batch_docs_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_docs"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_document_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_store_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_subscribe"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_subscribe_access"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 210,
+        "table": "b_catalog_vat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_catalog_viewed_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_cache"
+      },
+      {
+        "rows": 3591,
+        "sql_chars": 25986726,
+        "table": "b_iblock_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_element_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_element_lock"
+      },
+      {
+        "rows": 8115,
+        "sql_chars": 449236,
+        "table": "b_iblock_element_property"
+      },
+      {
+        "rows": 3952,
+        "sql_chars": 74356,
+        "table": "b_iblock_element_right"
+      },
+      {
+        "rows": 512,
+        "sql_chars": 65344,
+        "table": "b_iblock_fields"
+      },
+      {
+        "rows": 34,
+        "sql_chars": 396,
+        "table": "b_iblock_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_iblock_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_iproperty"
+      },
+      {
+        "rows": 132,
+        "sql_chars": 4604,
+        "table": "b_iblock_messages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_offers_tmp"
+      },
+      {
+        "rows": 168,
+        "sql_chars": 25810,
+        "table": "b_iblock_property"
+      },
+      {
+        "rows": 55,
+        "sql_chars": 2323,
+        "table": "b_iblock_property_enum"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 200,
+        "table": "b_iblock_property_feature"
+      },
+      {
+        "rows": 63,
+        "sql_chars": 2986,
+        "table": "b_iblock_right"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_rss"
+      },
+      {
+        "rows": 29,
+        "sql_chars": 31023,
+        "table": "b_iblock_section"
+      },
+      {
+        "rows": 67,
+        "sql_chars": 943,
+        "table": "b_iblock_section_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_section_iprop"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_section_property"
+      },
+      {
+        "rows": 40,
+        "sql_chars": 685,
+        "table": "b_iblock_section_right"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_iblock_sequence"
+      },
+      {
+        "rows": 37,
+        "sql_chars": 397,
+        "table": "b_iblock_site"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 395,
+        "table": "b_iblock_type"
+      },
+      {
+        "rows": 18,
+        "sql_chars": 1006,
+        "table": "b_iblock_type_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_affiliate"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_affiliate_plan"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_affiliate_plan_section"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_affiliate_tier"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_affiliate_transact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_analytics"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_auxiliary"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_b24integration_bind"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_b24integration_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_b24integration_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_b24integration_stat_provider"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_b24integration_token"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket_archive"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket_archive_packed"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket_props"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket_reservation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_basket_reservation_history"
+      },
+      {
+        "rows": 122,
+        "sql_chars": 7956,
+        "table": "b_sale_bizval"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_bizval_code_1c"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 81,
+        "table": "b_sale_bizval_persondomain"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_buyer_stat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_check"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_check_correction"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_connect"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_err_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_rest_handler"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_cashbox_z_report"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_check2cashbox"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_check_related_entities"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_company"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_company2location"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_company2service"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_company_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_company_resp_grp"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_d_ix_element"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_d_ix_section"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery2location"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery2paysystem"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 260,
+        "table": "b_sale_delivery_es"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery_req"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery_req_shp"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery_rest_handler"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 985,
+        "table": "b_sale_delivery_srv"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_delivery_yandex_taxi_claims"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_discount"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_discount_coupon"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_discount_entities"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_discount_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_discount_module"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_documentgenerator_callback_registry"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_domain_verification"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_entity_label"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_entity_marker"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_exchange_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_export"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_facebook_conversion_params"
+      },
+      {
+        "rows": 22,
+        "sql_chars": 1936,
+        "table": "b_sale_fuser"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_gift_related_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_hdaln"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_2site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_def2site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_ext"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_ext_srv"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_name"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_type"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_loc_type_name"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location2location_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_city"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_city_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_country"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_country_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_group_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_region"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_region_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_location_zip"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_archive"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_archive_packed"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_change"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_converter_crm_error"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_coupons"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_delivery"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_delivery_es"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_delivery_req"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_discount"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_discount_data"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_dlv_basket"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 154,
+        "table": "b_sale_order_entities_custom_fields"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_flags2group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_history"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_modules"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_payment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_payment_item"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_payment_ps_available"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_processing"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_product_stat"
+      },
+      {
+        "rows": 38,
+        "sql_chars": 6365,
+        "table": "b_sale_order_props"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 327,
+        "table": "b_sale_order_props_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_props_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_props_value"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_props_variant"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_round"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_rules"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_rules_descr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_order_tax"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 10550,
+        "table": "b_sale_pay_system_action"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_pay_system_err_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_pay_system_rest_handlers"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 303,
+        "table": "b_sale_person_type"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 82,
+        "table": "b_sale_person_type_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_product2product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_recurring"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 641,
+        "table": "b_sale_service_rstr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_site2group"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 263,
+        "table": "b_sale_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_status_group_task"
+      },
+      {
+        "rows": 8,
+        "sql_chars": 452,
+        "table": "b_sale_status_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_store_barcode"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_synchronizer_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tax"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tax2location"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tax_exempt2group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tax_rate"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 788,
+        "table": "b_sale_tp"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_ebay_cat"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_ebay_cat_var"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_ebay_fq"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_ebay_fr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_map"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_map_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_order"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_vk_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_tp_vk_profile"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_user_account"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_user_cards"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_user_props"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_user_props_value"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_user_transact"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_usergroup_restr"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_viewed_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sale_yandex_settings"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_product"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_product"
+      }
+    ],
+    "tables": 227
+  },
+  "security_auth": {
+    "nonempty_tables": 4,
+    "rows": 272,
+    "table_list": [
+      {
+        "rows": 13,
+        "sql_chars": 4001,
+        "table": "b_app_password"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_filter_mask"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_frame_mask"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_iprule"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_iprule_excl_ip"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_iprule_excl_mask"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_iprule_incl_ip"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_iprule_incl_mask"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_recovery_codes"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_redirect_url"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_vendor_notification"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_vendor_notification_sign"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_virus"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_white_list"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_wwall_rules"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sec_xscan_results"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_security_sitecheck"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_auth_action"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_auth_code"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_device"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_device_login"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 1539,
+        "table": "b_user_hit_auth"
+      },
+      {
+        "rows": 226,
+        "sql_chars": 31681,
+        "table": "b_user_password"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_session"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 1979,
+        "table": "b_user_stored_auth"
+      }
+    ],
+    "tables": 27
+  },
+  "tasks": {
+    "nonempty_tables": 49,
+    "rows": 5311,
+    "table_list": [
+      {
+        "rows": 105,
+        "sql_chars": 6288,
+        "table": "b_task"
+      },
+      {
+        "rows": 455,
+        "sql_chars": 3879,
+        "table": "b_task_operation"
+      },
+      {
+        "rows": 89,
+        "sql_chars": 44500,
+        "table": "b_tasks"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_checklist_items"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_checklist_items_member"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_checklist_items_tree"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_checklist_user_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_columns"
+      },
+      {
+        "rows": 25,
+        "sql_chars": 821,
+        "table": "b_tasks_custom_sort"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_deadline_change_log"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 108,
+        "table": "b_tasks_deadline_user_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_dependence"
+      },
+      {
+        "rows": 1890,
+        "sql_chars": 122949,
+        "table": "b_tasks_effective"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_elapsed_time"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_favorite"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_files_temporary"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_filters"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 1184,
+        "table": "b_tasks_flow"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_auto_created_robot"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_copilot_advice"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_copilot_collected_data"
+      },
+      {
+        "rows": 28,
+        "sql_chars": 663,
+        "table": "b_tasks_flow_member"
+      },
+      {
+        "rows": 56,
+        "sql_chars": 19504,
+        "table": "b_tasks_flow_notification"
+      },
+      {
+        "rows": 63,
+        "sql_chars": 2357,
+        "table": "b_tasks_flow_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_responsible_queue"
+      },
+      {
+        "rows": 7,
+        "sql_chars": 365,
+        "table": "b_tasks_flow_search_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_flow_user_option"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 167,
+        "table": "b_tasks_label"
+      },
+      {
+        "rows": 629,
+        "sql_chars": 35428,
+        "table": "b_tasks_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_marketing"
+      },
+      {
+        "rows": 187,
+        "sql_chars": 2233,
+        "table": "b_tasks_member"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_msg_throttle"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_onboarding_queue"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 437,
+        "table": "b_tasks_onboarding_queue_job_count"
+      },
+      {
+        "rows": 74,
+        "sql_chars": 1093,
+        "table": "b_tasks_permission"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_proj_dep"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 104,
+        "table": "b_tasks_project_last_activity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_project_user_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_projects"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_regular_parameters"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_reminder"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 326,
+        "table": "b_tasks_result"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 106,
+        "table": "b_tasks_role"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 92,
+        "table": "b_tasks_role_relation"
+      },
+      {
+        "rows": 89,
+        "sql_chars": 1213,
+        "table": "b_tasks_scenario"
+      },
+      {
+        "rows": 46,
+        "sql_chars": 1756,
+        "table": "b_tasks_scorer"
+      },
+      {
+        "rows": 57,
+        "sql_chars": 7832,
+        "table": "b_tasks_scorer_event"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_scorer_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_scrum_chat"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 1698,
+        "table": "b_tasks_scrum_entity"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 365,
+        "table": "b_tasks_scrum_epic"
+      },
+      {
+        "rows": 44,
+        "sql_chars": 4832,
+        "table": "b_tasks_scrum_item"
+      },
+      {
+        "rows": 87,
+        "sql_chars": 7055,
+        "table": "b_tasks_scrum_item_checklist_items"
+      },
+      {
+        "rows": 152,
+        "sql_chars": 1621,
+        "table": "b_tasks_scrum_item_checklist_tree"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 204,
+        "table": "b_tasks_scrum_type"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 856,
+        "table": "b_tasks_scrum_type_checklist_items"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 246,
+        "table": "b_tasks_scrum_type_checklist_tree"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 68,
+        "table": "b_tasks_scrum_type_participants"
+      },
+      {
+        "rows": 107,
+        "sql_chars": 21184,
+        "table": "b_tasks_search_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_sorting"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_sprint"
+      },
+      {
+        "rows": 89,
+        "sql_chars": 5074,
+        "table": "b_tasks_stages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_syslog"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_tag"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_task_chat"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 71,
+        "table": "b_tasks_task_dep"
+      },
+      {
+        "rows": 343,
+        "sql_chars": 5111,
+        "table": "b_tasks_task_parameter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_task_result_file"
+      },
+      {
+        "rows": 174,
+        "sql_chars": 2033,
+        "table": "b_tasks_task_stage"
+      },
+      {
+        "rows": 61,
+        "sql_chars": 639,
+        "table": "b_tasks_task_tag"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_task_template_access"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 9274,
+        "table": "b_tasks_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_template_chl_item"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_template_chl_item_member"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_template_chl_item_tree"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 59,
+        "table": "b_tasks_template_dep"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_template_dependence"
+      },
+      {
+        "rows": 18,
+        "sql_chars": 275,
+        "table": "b_tasks_template_member"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 354,
+        "table": "b_tasks_template_permission"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 174,
+        "table": "b_tasks_template_scenario"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_template_tag"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_timer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_user_option"
+      },
+      {
+        "rows": 159,
+        "sql_chars": 5406,
+        "table": "b_tasks_viewed"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_tasks_viewed_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_scrum_epic"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_scrum_item"
+      },
+      {
+        "rows": 65,
+        "sql_chars": 2252,
+        "table": "b_utm_tasks_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_task_checklist"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_task_result"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_task_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_tasks_task_template_checklist"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 58,
+        "table": "b_uts_tasks_scrum_epic"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_tasks_scrum_item"
+      },
+      {
+        "rows": 76,
+        "sql_chars": 3305,
+        "table": "b_uts_tasks_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_tasks_task_checklist"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 100,
+        "table": "b_uts_tasks_task_result"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 84,
+        "table": "b_uts_tasks_task_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_tasks_task_template_checklist"
+      }
+    ],
+    "tables": 101
+  },
+  "users_org_hr": {
+    "nonempty_tables": 76,
+    "rows": 49333,
+    "table_list": [
+      {
+        "rows": 16,
+        "sql_chars": 2616,
+        "table": "b_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_group_collection_task"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 65,
+        "table": "b_group_subordinate"
+      },
+      {
+        "rows": 9,
+        "sql_chars": 126,
+        "table": "b_group_task"
+      },
+      {
+        "rows": 165,
+        "sql_chars": 3019,
+        "table": "b_hr_access_permission"
+      },
+      {
+        "rows": 12,
+        "sql_chars": 608,
+        "table": "b_hr_access_role"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 177,
+        "table": "b_hr_access_role_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_company"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_employee"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_field_value"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_job"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_person"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_hcmlink_person_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_log"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 127,
+        "table": "b_hr_structure"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 719,
+        "table": "b_hr_structure_node"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 121,
+        "table": "b_hr_structure_node_backward_access_code"
+      },
+      {
+        "rows": 28,
+        "sql_chars": 1925,
+        "table": "b_hr_structure_node_member"
+      },
+      {
+        "rows": 28,
+        "sql_chars": 1636,
+        "table": "b_hr_structure_node_member_role"
+      },
+      {
+        "rows": 12,
+        "sql_chars": 179,
+        "table": "b_hr_structure_node_path"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 126,
+        "table": "b_hr_structure_node_relation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_hr_structure_node_role"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 466,
+        "table": "b_hr_structure_node_settings"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 349,
+        "table": "b_hr_structure_role"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_custom_section"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_custom_section_page"
+      },
+      {
+        "rows": 3085,
+        "sql_chars": 120922,
+        "table": "b_intranet_dstat_day"
+      },
+      {
+        "rows": 14212,
+        "sql_chars": 608107,
+        "table": "b_intranet_dstat_hour"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 348,
+        "table": "b_intranet_invitation"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 111,
+        "table": "b_intranet_invitation_link"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_sharepoint"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_sharepoint_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_sharepoint_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_intranet_sharepoint_queue"
+      },
+      {
+        "rows": 10,
+        "sql_chars": 551,
+        "table": "b_intranet_theme"
+      },
+      {
+        "rows": 6888,
+        "sql_chars": 234461,
+        "table": "b_intranet_ustat_day"
+      },
+      {
+        "rows": 12880,
+        "sql_chars": 553496,
+        "table": "b_intranet_ustat_hour"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_collab_last_activity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_collab_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_collab_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_event_queue"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 100,
+        "table": "b_sonet_event_user_view"
+      },
+      {
+        "rows": 22,
+        "sql_chars": 1666,
+        "table": "b_sonet_features"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_features2perms"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 534,
+        "table": "b_sonet_group"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_group_favorites"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 63,
+        "table": "b_sonet_group_pin"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 59,
+        "table": "b_sonet_group_site"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 190,
+        "table": "b_sonet_group_subject"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 94,
+        "table": "b_sonet_group_subject_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_group_tag"
+      },
+      {
+        "rows": 6,
+        "sql_chars": 215,
+        "table": "b_sonet_group_view"
+      },
+      {
+        "rows": 720,
+        "sql_chars": 143989,
+        "table": "b_sonet_log"
+      },
+      {
+        "rows": 187,
+        "sql_chars": 33803,
+        "table": "b_sonet_log_comment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_log_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_log_events"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_log_favorites"
+      },
+      {
+        "rows": 77,
+        "sql_chars": 3127,
+        "table": "b_sonet_log_follow"
+      },
+      {
+        "rows": 729,
+        "sql_chars": 134243,
+        "table": "b_sonet_log_index"
+      },
+      {
+        "rows": 36,
+        "sql_chars": 2354,
+        "table": "b_sonet_log_page"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_log_pinned"
+      },
+      {
+        "rows": 1481,
+        "sql_chars": 56806,
+        "table": "b_sonet_log_right"
+      },
+      {
+        "rows": 723,
+        "sql_chars": 7889,
+        "table": "b_sonet_log_site"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_log_smartfilter"
+      },
+      {
+        "rows": 501,
+        "sql_chars": 18400,
+        "table": "b_sonet_log_subscribe"
+      },
+      {
+        "rows": 26,
+        "sql_chars": 559,
+        "table": "b_sonet_log_tag"
+      },
+      {
+        "rows": 13,
+        "sql_chars": 352,
+        "table": "b_sonet_log_view"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_messages"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_onboarding_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_scorer"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_scorer_event"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_scorer_queue"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_smile"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_smile_lang"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_space_composition"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_space_live_watch"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_space_user_latest_activity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_space_user_recent_activity"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 69,
+        "table": "b_sonet_subscription"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 824,
+        "table": "b_sonet_user2group"
+      },
+      {
+        "rows": 508,
+        "sql_chars": 33546,
+        "table": "b_sonet_user_content_view"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_user_events"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_user_perms"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_user_relations"
+      },
+      {
+        "rows": 4,
+        "sql_chars": 93,
+        "table": "b_sonet_user_tag"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_sonet_user_welltory"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 111,
+        "table": "b_sonet_user_welltory_disclaimer"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 74,
+        "table": "b_stafftrack_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_stafftrack_handled_chat"
+      },
+      {
+        "rows": 5,
+        "sql_chars": 212,
+        "table": "b_stafftrack_option"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 114,
+        "table": "b_stafftrack_shift"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_stafftrack_shift_cancellation"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_stafftrack_shift_geo"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_stafftrack_shift_message"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 74,
+        "table": "b_stafftrack_user_statistics_hash"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_absence"
+      },
+      {
+        "rows": 26,
+        "sql_chars": 6417,
+        "table": "b_timeman_entries"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_absence"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_comment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_entity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_report_comment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_user_chart"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_monitor_user_log"
+      },
+      {
+        "rows": 26,
+        "sql_chars": 18847,
+        "table": "b_timeman_report_daily"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_report_full"
+      },
+      {
+        "rows": 46,
+        "sql_chars": 3245,
+        "table": "b_timeman_reports"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 84,
+        "table": "b_timeman_task_access_code"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 351,
+        "table": "b_timeman_work_calendar"
+      },
+      {
+        "rows": 88,
+        "sql_chars": 21540,
+        "table": "b_timeman_work_calendar_exclusion"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 244,
+        "table": "b_timeman_work_schedule"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_work_schedule_department"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_work_schedule_user"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 282,
+        "table": "b_timeman_work_schedule_violation_rules"
+      },
+      {
+        "rows": 1,
+        "sql_chars": 76,
+        "table": "b_timeman_work_shift"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_timeman_work_shift_plan"
+      },
+      {
+        "rows": 78,
+        "sql_chars": 4770,
+        "table": "b_timeman_work_time_event_log"
+      },
+      {
+        "rows": 218,
+        "sql_chars": 138605,
+        "table": "b_user"
+      },
+      {
+        "rows": 616,
+        "sql_chars": 15830,
+        "table": "b_user_access"
+      },
+      {
+        "rows": 15,
+        "sql_chars": 579,
+        "table": "b_user_access_check"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_auth_action"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_auth_code"
+      },
+      {
+        "rows": 987,
+        "sql_chars": 78967,
+        "table": "b_user_counter"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_device"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_device_login"
+      },
+      {
+        "rows": 218,
+        "sql_chars": 8866,
+        "table": "b_user_digest"
+      },
+      {
+        "rows": 366,
+        "sql_chars": 77276,
+        "table": "b_user_field"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_field_confirm"
+      },
+      {
+        "rows": 650,
+        "sql_chars": 47682,
+        "table": "b_user_field_enum"
+      },
+      {
+        "rows": 660,
+        "sql_chars": 54821,
+        "table": "b_user_field_lang"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 89,
+        "table": "b_user_field_permission"
+      },
+      {
+        "rows": 70,
+        "sql_chars": 1230,
+        "table": "b_user_group"
+      },
+      {
+        "rows": 14,
+        "sql_chars": 1539,
+        "table": "b_user_hit_auth"
+      },
+      {
+        "rows": 218,
+        "sql_chars": 22697,
+        "table": "b_user_index"
+      },
+      {
+        "rows": 2260,
+        "sql_chars": 1360457,
+        "table": "b_user_option"
+      },
+      {
+        "rows": 226,
+        "sql_chars": 31681,
+        "table": "b_user_password"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_phone_auth"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_profile_history"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_profile_record"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_user_session"
+      },
+      {
+        "rows": 19,
+        "sql_chars": 1979,
+        "table": "b_user_stored_auth"
+      },
+      {
+        "rows": 29,
+        "sql_chars": 847,
+        "table": "b_utm_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_utm_user_legal"
+      },
+      {
+        "rows": 21,
+        "sql_chars": 4422,
+        "table": "b_uts_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_uts_user_legal"
+      }
+    ],
+    "tables": 146
+  },
+  "workflow_automation": {
+    "nonempty_tables": 17,
+    "rows": 132432,
+    "table_list": [
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_automation_trigger"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_debugger_session"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_debugger_session_document"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_debugger_session_template_shards"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_debugger_session_workflow_context"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_document_type_user_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_global_const"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_global_var"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_history"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 3998,
+        "table": "b_bp_rest_activity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_rest_provider"
+      },
+      {
+        "rows": 91,
+        "sql_chars": 4178,
+        "table": "b_bp_robot_version_index"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_scheduler_event"
+      },
+      {
+        "rows": 58,
+        "sql_chars": 15171,
+        "table": "b_bp_script"
+      },
+      {
+        "rows": 11,
+        "sql_chars": 735,
+        "table": "b_bp_script_queue"
+      },
+      {
+        "rows": 135,
+        "sql_chars": 7278,
+        "table": "b_bp_script_queue_document"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 196,
+        "table": "b_bp_storage_activity"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_task"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_task_search_content"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_task_user"
+      },
+      {
+        "rows": 60388,
+        "sql_chars": 7659411,
+        "table": "b_bp_tracking"
+      },
+      {
+        "rows": 357,
+        "sql_chars": 13907,
+        "table": "b_bp_workflow_duration_stat"
+      },
+      {
+        "rows": 35215,
+        "sql_chars": 3225051,
+        "table": "b_bp_workflow_filter"
+      },
+      {
+        "rows": 2,
+        "sql_chars": 14137,
+        "table": "b_bp_workflow_instance"
+      },
+      {
+        "rows": 39,
+        "sql_chars": 1367,
+        "table": "b_bp_workflow_meta"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_workflow_permissions"
+      },
+      {
+        "rows": 709,
+        "sql_chars": 183228,
+        "table": "b_bp_workflow_result"
+      },
+      {
+        "rows": 35215,
+        "sql_chars": 5180359,
+        "table": "b_bp_workflow_state"
+      },
+      {
+        "rows": 16,
+        "sql_chars": 538,
+        "table": "b_bp_workflow_state_identify"
+      },
+      {
+        "rows": 114,
+        "sql_chars": 178227,
+        "table": "b_bp_workflow_template"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_workflow_template_draft"
+      },
+      {
+        "rows": 73,
+        "sql_chars": 2380,
+        "table": "b_bp_workflow_template_settings"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_workflow_template_user_option"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_workflow_user"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_bp_workflow_user_comment"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_document"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_file"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_log"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_move"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_preview"
+      },
+      {
+        "rows": 3,
+        "sql_chars": 214,
+        "table": "b_workflow_status"
+      },
+      {
+        "rows": 0,
+        "sql_chars": 0,
+        "table": "b_workflow_status2group"
+      }
+    ],
+    "tables": 42
+  }
+}

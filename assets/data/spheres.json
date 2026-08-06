@@ -1,0 +1,13 @@
+{
+  "updatedAt": "2026-08-06T00:00:00+03:00",
+  "source": "project-registry",
+  "items": [
+    { "value": "industry", "label": "Промышленность" },
+    { "value": "medicine", "label": "Медицина" },
+    { "value": "education", "label": "Образование" },
+    { "value": "engineering", "label": "Техническая специальность" },
+    { "value": "civil", "label": "Охрана труда и безопасность" },
+    { "value": "port", "label": "Порт и логистика" },
+    { "value": "students", "label": "Практика и старт карьеры" }
+  ]
+}

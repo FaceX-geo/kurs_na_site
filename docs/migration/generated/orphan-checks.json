@@ -1,0 +1,380 @@
+{
+  "checks": [
+    {
+      "child": "b_crm_contact.COMPANY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1,
+      "orphan_references": 0,
+      "parent": "b_crm_company.ID",
+      "parent_keys": 797,
+      "references": 1,
+      "relation": "contact.primary_company"
+    },
+    {
+      "child": "b_crm_contact_company.CONTACT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1,
+      "orphan_references": 0,
+      "parent": "b_crm_contact.ID",
+      "parent_keys": 3186,
+      "references": 1,
+      "relation": "contact_company.contact"
+    },
+    {
+      "child": "b_crm_contact_company.COMPANY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1,
+      "orphan_references": 0,
+      "parent": "b_crm_company.ID",
+      "parent_keys": 797,
+      "references": 1,
+      "relation": "contact_company.company"
+    },
+    {
+      "child": "b_crm_deal.CONTACT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1428,
+      "orphan_references": 0,
+      "parent": "b_crm_contact.ID",
+      "parent_keys": 3186,
+      "references": 1514,
+      "relation": "deal.primary_contact"
+    },
+    {
+      "child": "b_crm_deal.COMPANY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 2,
+      "orphan_references": 0,
+      "parent": "b_crm_company.ID",
+      "parent_keys": 797,
+      "references": 2,
+      "relation": "deal.company"
+    },
+    {
+      "child": "b_crm_deal_contact.DEAL_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1514,
+      "orphan_references": 0,
+      "parent": "b_crm_deal.ID",
+      "parent_keys": 1899,
+      "references": 1660,
+      "relation": "deal_contact.deal"
+    },
+    {
+      "child": "b_crm_deal_contact.CONTACT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1573,
+      "orphan_references": 0,
+      "parent": "b_crm_contact.ID",
+      "parent_keys": 3186,
+      "references": 1660,
+      "relation": "deal_contact.contact"
+    },
+    {
+      "child": "b_crm_event_relations.EVENT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 105490,
+      "orphan_references": 0,
+      "parent": "b_crm_event.ID",
+      "parent_keys": 105490,
+      "references": 110795,
+      "relation": "event_relation.event"
+    },
+    {
+      "child": "b_crm_timeline_bind.OWNER_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 67857,
+      "orphan_references": 0,
+      "parent": "b_crm_timeline.ID",
+      "parent_keys": 67857,
+      "references": 71120,
+      "relation": "timeline_bind.timeline"
+    },
+    {
+      "child": "b_crm_act_bind.ACTIVITY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 7737,
+      "orphan_references": 0,
+      "parent": "b_crm_act.ID",
+      "parent_keys": 7737,
+      "references": 8026,
+      "relation": "activity_bind.activity"
+    },
+    {
+      "child": "b_tasks_member.TASK_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 89,
+      "orphan_references": 0,
+      "parent": "b_tasks.ID",
+      "parent_keys": 89,
+      "references": 187,
+      "relation": "task_member.task"
+    },
+    {
+      "child": "b_tasks_member.USER_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 10,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 187,
+      "relation": "task_member.user"
+    },
+    {
+      "child": "b_tasks.RESPONSIBLE_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 8,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 89,
+      "relation": "task.responsible"
+    },
+    {
+      "child": "b_tasks.CREATED_BY",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 9,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 89,
+      "relation": "task.created_by"
+    },
+    {
+      "child": "b_tasks.PARENT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 1,
+      "orphan_references": 0,
+      "parent": "b_tasks.ID",
+      "parent_keys": 89,
+      "references": 1,
+      "relation": "task.parent"
+    },
+    {
+      "child": "b_calendar_event.SECTION_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 22,
+      "orphan_references": 0,
+      "parent": "b_calendar_section.ID",
+      "parent_keys": 40,
+      "references": 1658,
+      "relation": "calendar_event.section"
+    },
+    {
+      "child": "b_calendar_event.CREATED_BY",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 16,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 1658,
+      "relation": "calendar_event.created_by"
+    },
+    {
+      "child": "b_im_message.CHAT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 648,
+      "orphan_references": 0,
+      "parent": "b_im_chat.ID",
+      "parent_keys": 660,
+      "references": 31432,
+      "relation": "chat_message.chat"
+    },
+    {
+      "child": "b_im_message.AUTHOR_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 212,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 5638,
+      "relation": "chat_message.author"
+    },
+    {
+      "child": "b_im_relation.CHAT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 659,
+      "orphan_references": 0,
+      "parent": "b_im_chat.ID",
+      "parent_keys": 660,
+      "references": 924,
+      "relation": "chat_relation.chat"
+    },
+    {
+      "child": "b_im_relation.USER_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 215,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 924,
+      "relation": "chat_relation.user"
+    },
+    {
+      "child": "b_disk_object.STORAGE_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 221,
+      "orphan_references": 0,
+      "parent": "b_disk_storage.ID",
+      "parent_keys": 221,
+      "references": 961,
+      "relation": "disk_object.storage"
+    },
+    {
+      "child": "b_disk_object.PARENT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 71,
+      "orphan_references": 0,
+      "parent": "b_disk_object.ID",
+      "parent_keys": 961,
+      "references": 740,
+      "relation": "disk_object.parent"
+    },
+    {
+      "child": "b_disk_object.REAL_OBJECT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 957,
+      "orphan_references": 0,
+      "parent": "b_disk_object.ID",
+      "parent_keys": 961,
+      "references": 961,
+      "relation": "disk_object.real_object"
+    },
+    {
+      "child": "b_disk_object.FILE_ID",
+      "distinct_orphan_keys": 2,
+      "distinct_references": 663,
+      "orphan_references": 2,
+      "parent": "b_file.ID",
+      "parent_keys": 3941,
+      "references": 671,
+      "relation": "disk_object.file"
+    },
+    {
+      "child": "b_disk_version.OBJECT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 671,
+      "orphan_references": 0,
+      "parent": "b_disk_object.ID",
+      "parent_keys": 961,
+      "references": 671,
+      "relation": "disk_version.object"
+    },
+    {
+      "child": "b_disk_version.FILE_ID",
+      "distinct_orphan_keys": 2,
+      "distinct_references": 663,
+      "orphan_references": 2,
+      "parent": "b_file.ID",
+      "parent_keys": 3941,
+      "references": 671,
+      "relation": "disk_version.file"
+    },
+    {
+      "child": "b_iblock_element.IBLOCK_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 22,
+      "orphan_references": 0,
+      "parent": "b_iblock.ID",
+      "parent_keys": 37,
+      "references": 3591,
+      "relation": "iblock_element.iblock"
+    },
+    {
+      "child": "b_iblock_element.IBLOCK_SECTION_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 16,
+      "orphan_references": 0,
+      "parent": "b_iblock_section.ID",
+      "parent_keys": 29,
+      "references": 57,
+      "relation": "iblock_element.section"
+    },
+    {
+      "child": "b_iblock_section.IBLOCK_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 7,
+      "orphan_references": 0,
+      "parent": "b_iblock.ID",
+      "parent_keys": 37,
+      "references": 29,
+      "relation": "iblock_section.iblock"
+    },
+    {
+      "child": "b_iblock_section.IBLOCK_SECTION_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 6,
+      "orphan_references": 0,
+      "parent": "b_iblock_section.ID",
+      "parent_keys": 29,
+      "references": 14,
+      "relation": "iblock_section.parent"
+    },
+    {
+      "child": "b_iblock_property.IBLOCK_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 32,
+      "orphan_references": 0,
+      "parent": "b_iblock.ID",
+      "parent_keys": 37,
+      "references": 168,
+      "relation": "iblock_property.iblock"
+    },
+    {
+      "child": "b_iblock_element_property.IBLOCK_PROPERTY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 54,
+      "orphan_references": 0,
+      "parent": "b_iblock_property.ID",
+      "parent_keys": 168,
+      "references": 8115,
+      "relation": "element_property.property"
+    },
+    {
+      "child": "b_iblock_element_property.IBLOCK_ELEMENT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 3527,
+      "orphan_references": 0,
+      "parent": "b_iblock_element.ID",
+      "parent_keys": 3591,
+      "references": 8115,
+      "relation": "element_property.element"
+    },
+    {
+      "child": "b_crm_dynamic_items_1042.COMPANY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 427,
+      "orphan_references": 0,
+      "parent": "b_crm_company.ID",
+      "parent_keys": 797,
+      "references": 1802,
+      "relation": "dynamic1042.company"
+    },
+    {
+      "child": "b_crm_dynamic_items_1042.CONTACT_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 0,
+      "orphan_references": 0,
+      "parent": "b_crm_contact.ID",
+      "parent_keys": 3186,
+      "references": 0,
+      "relation": "dynamic1042.contact"
+    },
+    {
+      "child": "b_crm_dynamic_items_1042.ASSIGNED_BY_ID",
+      "distinct_orphan_keys": 0,
+      "distinct_references": 7,
+      "orphan_references": 0,
+      "parent": "b_user.ID",
+      "parent_keys": 218,
+      "references": 1808,
+      "relation": "dynamic1042.assigned"
+    }
+  ],
+  "method": "aggregate check over decoded scalar keys; NULL/0/empty references ignored",
+  "summary": {
+    "checks": 37,
+    "checks_with_orphans": 2,
+    "orphan_references": 4
+  }
+}

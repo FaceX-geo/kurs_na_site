@@ -1,0 +1,1842 @@
+{
+  "policy_version": "1.2.0",
+  "default": "deny",
+  "unregistered_operation": "deny",
+  "self_escalation": "deny",
+  "domains": ["platform", "crm", "project", "migration", "audit", "ai", "integration"],
+  "scopes": {
+    "self": "object.subject_user_id == actor.user_id",
+    "assigned": "active_assignment(actor, object)",
+    "team": "active_common_team_membership(actor, object.owner)",
+    "department": "object_department_in_actor_memberships(actor, object)",
+    "direction": "object_direction_in_actor_memberships(actor, object)",
+    "project": "active_project_membership(actor, object.project_id)",
+    "all": "explicit_domain_all_permission(actor, object.domain)",
+    "endpoint": "registered_endpoint_policy_with_rate_limit_and_no_domain_row_authority"
+  },
+  "privileged_roles": {
+    "persistent_roles": [
+      "platform_superadmin",
+      "crm_admin",
+      "project_admin",
+      "migration_operator",
+      "audit_reader"
+    ],
+    "approval_scoped_subjects": [
+      "explicit_ai_pii_role",
+      "designated_release_owner",
+      "designated_platform_ops"
+    ],
+    "disable_archive_critical_when": "subject_is_privileged",
+    "minimum_eligible_count_after_disable_or_archive": {
+      "platform_superadmin": 2,
+      "crm_admin": 1,
+      "project_admin": 1
+    },
+    "roles_without_minimum_still_require_critical_approval": [
+      "migration_operator",
+      "audit_reader"
+    ]
+  },
+  "approval_scoped_subject_contract": {
+    "required_context_fields": [
+      "approved_request_id",
+      "actor_id",
+      "payload_hash",
+      "approved_operation",
+      "approved_permission",
+      "expires_at"
+    ],
+    "binding_guard": "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject",
+    "permission_recheck_on_every_use": true,
+    "payload_hash_recheck_on_every_use": true,
+    "scope_recheck_on_every_use": true,
+    "all_consuming_permissions_require_binding_guard": true
+  },
+  "critical_approval": {
+    "states": ["pending", "approved", "rejected", "expired", "executed", "cancelled"],
+    "proposer_must_differ_from_approver": true,
+    "payload_hash_required": true,
+    "expiry_required": true,
+    "permission_recheck_on_approve": true,
+    "permission_recheck_on_execute": true,
+    "execute_once": true,
+    "operations": [
+      {
+        "permission": "identity.roles.assign_platform",
+        "when": "target_role == 'platform_superadmin'"
+      },
+      {
+        "permission": "identity.mfa.reset",
+        "when": "subject_is_privileged"
+      },
+      {
+        "permission": "identity.breakglass.execute",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_audit",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_migration",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_initial_crm_admin",
+        "when": "crm_admin_count == 0"
+      },
+      {
+        "permission": "identity.roles.assign_initial_project_admin",
+        "when": "project_admin_count == 0"
+      },
+      {
+        "permission": "identity.roles.assign_crm_admin",
+        "when": "crm_admin_count >= 1"
+      },
+      {
+        "permission": "identity.roles.assign_project_admin",
+        "when": "project_admin_count >= 1"
+      },
+      {
+        "permission": "identity.roles.revoke_platform",
+        "when": "target_role == 'platform_superadmin'"
+      },
+      {
+        "permission": "identity.roles.revoke_crm_admin",
+        "when": "target_role == 'crm_admin'"
+      },
+      {
+        "permission": "identity.roles.revoke_project_admin",
+        "when": "target_role == 'project_admin'"
+      },
+      {
+        "permission": "identity.roles.revoke_migration",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.revoke_audit",
+        "when": "always"
+      },
+      {
+        "permission": "identity.users.disable",
+        "when": "subject_is_privileged"
+      },
+      {
+        "permission": "integration.secret.rotate",
+        "when": "always"
+      },
+      {
+        "permission": "migration.cutover.execute",
+        "when": "always"
+      },
+      {
+        "permission": "migration.rollback.execute",
+        "when": "always"
+      }
+    ]
+  },
+  "bootstrap": {
+    "initial_state_only": true,
+    "production_people_required": 2,
+    "distinct_people_required": true,
+    "separate_one_time_invites": true,
+    "mfa_required_for_each": true,
+    "single_superadmin_may_approve_second": false,
+    "closes_after_two_eligible_superadmins": true,
+    "single_account_allowed_only_for_non_production_prototype": true,
+    "prototype_single_account_denied_operations": [
+      {
+        "permission": "migration.cutover.execute",
+        "when": "always"
+      },
+      {
+        "permission": "migration.rollback.execute",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_platform",
+        "when": "target_role == 'platform_superadmin'"
+      },
+      {
+        "permission": "identity.mfa.reset",
+        "when": "subject_is_privileged"
+      },
+      {
+        "permission": "identity.breakglass.execute",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_initial_crm_admin",
+        "when": "crm_admin_count == 0"
+      },
+      {
+        "permission": "identity.roles.assign_initial_project_admin",
+        "when": "project_admin_count == 0"
+      },
+      {
+        "permission": "identity.roles.assign_crm_admin",
+        "when": "crm_admin_count >= 1"
+      },
+      {
+        "permission": "identity.roles.assign_project_admin",
+        "when": "project_admin_count >= 1"
+      },
+      {
+        "permission": "identity.roles.revoke_platform",
+        "when": "target_role == 'platform_superadmin'"
+      },
+      {
+        "permission": "identity.roles.revoke_crm_admin",
+        "when": "target_role == 'crm_admin'"
+      },
+      {
+        "permission": "identity.roles.revoke_project_admin",
+        "when": "target_role == 'project_admin'"
+      },
+      {
+        "permission": "identity.roles.revoke_migration",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.revoke_audit",
+        "when": "always"
+      },
+      {
+        "permission": "identity.users.disable",
+        "when": "subject_is_privileged"
+      },
+      {
+        "permission": "identity.roles.assign_audit",
+        "when": "always"
+      },
+      {
+        "permission": "identity.roles.assign_migration",
+        "when": "always"
+      },
+      {
+        "permission": "integration.secret.rotate",
+        "when": "always"
+      },
+      {
+        "permission": "integration.config.manage",
+        "when": "always"
+      }
+    ],
+    "domain_bootstrap": {
+      "prerequisite": "two_eligible_platform_superadmins_and_completed_production_bootstrap",
+      "crm": {
+        "operation": "AssignInitialCrmAdmin",
+        "permission": "identity.roles.assign_initial_crm_admin",
+        "enabled_when": "crm_admin_count == 0",
+        "proposer": "eligible_platform_superadmin",
+        "approver": "different_eligible_platform_superadmin",
+        "closes_irreversibly_when": "crm_admin_count >= 1"
+      },
+      "project": {
+        "operation": "AssignInitialProjectAdmin",
+        "permission": "identity.roles.assign_initial_project_admin",
+        "enabled_when": "project_admin_count == 0",
+        "proposer": "eligible_platform_superadmin",
+        "approver": "different_eligible_platform_superadmin",
+        "closes_irreversibly_when": "project_admin_count >= 1"
+      },
+      "self_assignment": "deny",
+      "critical_approval_required": true,
+      "e2e_tests": [
+        "E2E-BOOTSTRAP-CRM-ADMIN-001",
+        "E2E-BOOTSTRAP-PROJECT-ADMIN-001"
+      ]
+    },
+    "domain_admin_lifecycle": {
+      "crm": {
+        "operation": "AssignCrmAdminRole",
+        "permission": "identity.roles.assign_crm_admin",
+        "enabled_when": "crm_admin_count >= 1",
+        "proposer": "eligible_platform_superadmin",
+        "approver": "different_eligible_crm_admin",
+        "subject_must_differ_from": ["proposer", "approver"],
+        "critical_approval_required": true
+      },
+      "project": {
+        "operation": "AssignProjectAdminRole",
+        "permission": "identity.roles.assign_project_admin",
+        "enabled_when": "project_admin_count >= 1",
+        "proposer": "eligible_platform_superadmin",
+        "approver": "different_eligible_project_admin",
+        "subject_must_differ_from": ["proposer", "approver"],
+        "critical_approval_required": true
+      },
+      "revoke_platform": {
+        "operation": "RevokePlatformRole",
+        "permission": "identity.roles.revoke_platform",
+        "enabled_when": "eligible_platform_superadmin_count_after >= 2",
+        "approver": "different_eligible_platform_superadmin",
+        "subject_must_differ_from": ["proposer", "approver"],
+        "critical_approval_required": true,
+        "replacement_first": true
+      },
+      "revoke_crm": {
+        "operation": "RevokeCrmAdminRole",
+        "permission": "identity.roles.revoke_crm_admin",
+        "enabled_when": "eligible_crm_admin_count_after >= 1",
+        "approver": "different_eligible_crm_admin",
+        "subject_must_differ_from": ["proposer", "approver"],
+        "critical_approval_required": true,
+        "replacement_first": true
+      },
+      "revoke_project": {
+        "operation": "RevokeProjectAdminRole",
+        "permission": "identity.roles.revoke_project_admin",
+        "enabled_when": "eligible_project_admin_count_after >= 1",
+        "approver": "different_eligible_project_admin",
+        "subject_must_differ_from": ["proposer", "approver"],
+        "critical_approval_required": true,
+        "replacement_first": true
+      },
+      "ordinary_assignment_forbids_domain_admin": true,
+      "self_assignment": "deny",
+      "e2e_tests": [
+        "E2E-ROLE-CRM-ADMIN-ADDITIONAL-001",
+        "E2E-ROLE-PROJECT-ADMIN-ADDITIONAL-001",
+        "E2E-ROLE-PLATFORM-ADMIN-REVOKE-001",
+        "E2E-ROLE-CRM-ADMIN-REVOKE-001",
+        "E2E-ROLE-PROJECT-ADMIN-REVOKE-001"
+      ]
+    }
+  },
+  "role_lifecycle": {
+    "ordinary_roles": {
+      "crm": {
+        "assign_operation": "AssignCrmRole",
+        "assign_permission": "identity.roles.assign_crm",
+        "revoke_operation": "RevokeCrmRole",
+        "revoke_permission": "identity.roles.revoke_crm",
+        "allowed_roles": [
+          "crm_project_manager",
+          "crm_lead_specialist",
+          "crm_department_head"
+        ],
+        "forbidden_roles": [
+          "crm_admin"
+        ]
+      },
+      "project": {
+        "assign_operation": "AssignProjectRole",
+        "assign_permission": "identity.roles.assign_project",
+        "revoke_operation": "RevokeProjectRole",
+        "revoke_permission": "identity.roles.revoke_project",
+        "allowed_roles": [
+          "project_direction_lead",
+          "project_manager",
+          "project_executor"
+        ],
+        "forbidden_roles": [
+          "project_admin"
+        ]
+      },
+      "migration": {
+        "assign_operation": "AssignMigrationRole",
+        "assign_permission": "identity.roles.assign_migration",
+        "revoke_operation": "RevokeMigrationRole",
+        "revoke_permission": "identity.roles.revoke_migration",
+        "allowed_roles": [
+          "migration_operator"
+        ],
+        "critical_approval_required": true
+      },
+      "audit": {
+        "assign_operation": "AssignAuditRole",
+        "assign_permission": "identity.roles.assign_audit",
+        "revoke_operation": "RevokeAuditRole",
+        "revoke_permission": "identity.roles.revoke_audit",
+        "allowed_roles": [
+          "audit_reader"
+        ],
+        "critical_approval_required": true
+      }
+    },
+    "set_replacement_semantics": {
+      "explicit_removal_operation_required": true,
+      "implicit_role_disappearance_forbidden": true,
+      "reason_required": true,
+      "effective_access_preview_required": true,
+      "expected_version_required": true,
+      "before_after_audit_required": true,
+      "privileged_session_recalculation_or_revoke_required": true,
+      "orphaned_responsibility_or_approval_forbidden": true
+    },
+    "audit_event": {
+      "event_type": "identity.role_assignment_changed",
+      "required_fields": [
+        "actor_id",
+        "subject_id",
+        "domain",
+        "role",
+        "scope_before",
+        "scope_after",
+        "operation",
+        "reason",
+        "policy_version",
+        "approval_request_id_if_critical",
+        "occurred_at"
+      ],
+      "evidence_id": "AUD-SA-ROLE-001"
+    },
+    "e2e_tests": [
+      "E2E-ROLE-CRM-ORDINARY-REVOKE-001",
+      "E2E-ROLE-PROJECT-ORDINARY-REVOKE-001",
+      "E2E-ROLE-MIGRATION-REVOKE-001",
+      "E2E-ROLE-AUDIT-REVOKE-001"
+    ]
+  },
+  "roles": {
+    "platform_superadmin": {
+      "domain": "platform",
+      "default_scope": "all",
+      "does_not_imply": ["crm.*", "project.*", "migration.*", "audit.*"]
+    },
+    "crm_project_manager": {
+      "domain": "crm",
+      "default_scope": "assigned",
+      "does_not_imply": ["project.*", "platform.*"]
+    },
+    "crm_lead_specialist": {
+      "domain": "crm",
+      "default_scope": "team"
+    },
+    "crm_admin": {
+      "domain": "crm",
+      "default_scope": "all",
+      "does_not_imply": ["platform.*", "project.*"]
+    },
+    "crm_department_head": {
+      "domain": "crm",
+      "default_scope": "department"
+    },
+    "project_admin": {
+      "domain": "project",
+      "default_scope": "all",
+      "does_not_imply": ["crm.*", "platform.*"]
+    },
+    "project_direction_lead": {
+      "domain": "project",
+      "default_scope": "direction"
+    },
+    "project_manager": {
+      "domain": "project",
+      "default_scope": "project",
+      "does_not_imply": ["crm.*"]
+    },
+    "project_executor": {
+      "domain": "project",
+      "default_scope": "assigned"
+    },
+    "migration_operator": {
+      "domain": "migration",
+      "default_scope": "assigned",
+      "does_not_imply": ["identity.credentials.*", "identity.roles.*"]
+    },
+    "audit_reader": {
+      "domain": "audit",
+      "default_scope": "assigned",
+      "does_not_imply": ["business_object.full_read"]
+    }
+  },
+  "principals": {
+    "anonymous_client": {
+      "kind": "pre_auth",
+      "authentication": "none",
+      "owner": "identity",
+      "scope": "registered_endpoint_only",
+      "grant_path": "public_endpoint_policy",
+      "ttl_or_rotation": "per_request",
+      "ui_assignable": false
+    },
+    "mfa_challenge_subject": {
+      "kind": "challenge_token",
+      "authentication": "signed_single_purpose_mfa_challenge",
+      "owner": "identity",
+      "scope": "self",
+      "grant_path": "successful_primary_factor",
+      "ttl_or_rotation": "single_use_short_ttl",
+      "ui_assignable": false
+    },
+    "public_intake_client": {
+      "kind": "external_endpoint",
+      "authentication": "provider_contract_or_public_anti_abuse_policy",
+      "owner": "integration",
+      "scope": "intake_create_only",
+      "grant_path": "versioned_intake_endpoint_policy",
+      "ttl_or_rotation": "per_request_or_provider_key_rotation",
+      "ui_assignable": false
+    },
+    "health_probe": {
+      "kind": "service_principal",
+      "authentication": "trusted_network_or_signed_probe",
+      "owner": "platform",
+      "scope": "health_and_readiness_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "authenticated": {
+      "kind": "session_state",
+      "authentication": "valid_user_session",
+      "owner": "identity",
+      "scope": "self",
+      "grant_path": "successful_login_and_required_mfa",
+      "ttl_or_rotation": "session_idle_and_absolute_ttl",
+      "ui_assignable": false
+    },
+    "authenticated_domain_user": {
+      "kind": "derived_subject",
+      "authentication": "valid_user_session",
+      "owner": "authorization",
+      "scope": "effective_domain_scope",
+      "grant_path": "at_least_one_active_domain_role",
+      "ttl_or_rotation": "recomputed_on_role_or_membership_change",
+      "ui_assignable": false
+    },
+    "explicit_ai_pii_role": {
+      "kind": "approval_scoped_subject",
+      "authentication": "fresh_password_and_mfa",
+      "owner": "data_protection_owner",
+      "scope": "approved_ai_provider_and_dataset",
+      "grant_path": "approved_request_id_and_payload_hash",
+      "ttl_or_rotation": "single_request_max_15_minutes",
+      "ui_assignable": false,
+      "required_context": [
+        "approved_request_id",
+        "actor_id",
+        "payload_hash",
+        "approved_operation",
+        "approved_permission",
+        "dataset_scope",
+        "expires_at"
+      ],
+      "auto_expire": true
+    },
+    "designated_release_owner": {
+      "kind": "approval_scoped_subject",
+      "authentication": "fresh_password_and_mfa",
+      "owner": "release_governance",
+      "scope": "named_migration_run",
+      "grant_path": "approved_request_id_and_payload_hash",
+      "ttl_or_rotation": "single_release_window",
+      "ui_assignable": false,
+      "required_context": [
+        "approved_request_id",
+        "actor_id",
+        "payload_hash",
+        "approved_operation",
+        "approved_permission",
+        "migration_run_id",
+        "expires_at"
+      ],
+      "auto_expire": true
+    },
+    "approval_proposer": {
+      "kind": "derived_subject",
+      "authentication": "valid_user_session",
+      "owner": "approval",
+      "scope": "own_approval_request",
+      "grant_path": "request.proposer_id == actor.user_id",
+      "ttl_or_rotation": "approval_request_expiry",
+      "ui_assignable": false
+    },
+    "eligible_critical_approver": {
+      "kind": "derived_subject",
+      "authentication": "fresh_password_and_mfa",
+      "owner": "approval",
+      "scope": "permission_and_domain_of_request",
+      "grant_path": "active_unlocked_eligible_role_and_actor_not_proposer",
+      "ttl_or_rotation": "rechecked_on_decision",
+      "ui_assignable": false
+    },
+    "approved_operation_executor": {
+      "kind": "derived_subject",
+      "authentication": "fresh_password_and_mfa",
+      "owner": "approval",
+      "scope": "approved_payload_hash_only",
+      "grant_path": "valid_unexpired_approved_request",
+      "ttl_or_rotation": "single_use_until_request_expiry",
+      "ui_assignable": false
+    },
+    "breakglass_recovery_custodian": {
+      "kind": "offline_custodian",
+      "authentication": "two_person_offline_ceremony",
+      "owner": "security",
+      "scope": "declared_recovery_action",
+      "grant_path": "sealed_breakglass_protocol",
+      "ttl_or_rotation": "single_use_and_immediate_secret_rotation",
+      "ui_assignable": false
+    },
+    "designated_platform_ops": {
+      "kind": "approval_scoped_subject",
+      "authentication": "fresh_password_and_mfa",
+      "owner": "platform",
+      "scope": "named_integration_or_backup_contour",
+      "grant_path": "approved_request_id_and_payload_hash",
+      "ttl_or_rotation": "single_operation_max_30_minutes",
+      "ui_assignable": false,
+      "required_context": [
+        "approved_request_id",
+        "actor_id",
+        "payload_hash",
+        "approved_operation",
+        "approved_permission",
+        "operation_scope",
+        "expires_at"
+      ],
+      "auto_expire": true
+    },
+    "invited_account": {
+      "kind": "session_state",
+      "authentication": "one_time_invite_token",
+      "owner": "identity",
+      "scope": "self",
+      "grant_path": "active_unconsumed_invite",
+      "ttl_or_rotation": "single_use_short_ttl",
+      "ui_assignable": false
+    },
+    "recovery_subject": {
+      "kind": "session_state",
+      "authentication": "one_time_reset_token",
+      "owner": "identity",
+      "scope": "self",
+      "grant_path": "active_unconsumed_reset_request",
+      "ttl_or_rotation": "single_use_short_ttl",
+      "ui_assignable": false
+    },
+    "identity_risk_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "identity",
+      "scope": "risk_state_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "identity_policy_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "identity",
+      "scope": "credential_and_mfa_policy_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "approval_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "approval",
+      "scope": "approval_expiry_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "crm_policy_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "crm",
+      "scope": "document_expiry_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "migration_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "migration",
+      "scope": "named_migration_run",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "ai_command_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "ai",
+      "scope": "confirmed_draft_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "message_worker": {
+      "kind": "service_principal",
+      "authentication": "workload_identity",
+      "owner": "messaging",
+      "scope": "outbox_delivery_only",
+      "grant_path": "deployment_manifest",
+      "ttl_or_rotation": "automatic_credential_rotation",
+      "ui_assignable": false
+    },
+    "message_callback_verifier": {
+      "kind": "service_principal",
+      "authentication": "verified_provider_signature",
+      "owner": "messaging",
+      "scope": "delivery_status_callback_only",
+      "grant_path": "provider_webhook_configuration",
+      "ttl_or_rotation": "provider_secret_rotation_policy",
+      "ui_assignable": false
+    }
+  },
+  "permissions": [
+    {
+      "code": "identity.profile.read_self",
+      "operations": ["GetOwnProfile"],
+      "roles": ["authenticated"],
+      "scopes": ["self"]
+    },
+    {
+      "code": "identity.profile.update_self",
+      "operations": ["UpdateOwnProfile"],
+      "roles": ["authenticated"],
+      "scopes": ["self"],
+      "guards": ["allowlisted_fields", "expected_version"]
+    },
+    {
+      "code": "identity.sessions.read_self",
+      "operations": ["ListOwnSessions"],
+      "roles": ["authenticated"],
+      "scopes": ["self"]
+    },
+    {
+      "code": "identity.sessions.revoke_self",
+      "operations": ["RevokeOwnSession", "RevokeAllOwnSessions"],
+      "roles": ["authenticated"],
+      "scopes": ["self"],
+      "guards": ["fresh_auth_for_revoke_all"]
+    },
+    {
+      "code": "identity.users.read",
+      "operations": ["ListUsers", "GetUser"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["pii_allowlist"]
+    },
+    {
+      "code": "identity.users.invite",
+      "operations": ["InviteUser"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["actor_not_subject", "reason"]
+    },
+    {
+      "code": "identity.users.disable",
+      "operations": ["DisableUser", "ArchiveUser"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "impact_gate",
+        "eligible_platform_superadmin_count_after_at_least_two_if_subject_has_role",
+        "eligible_crm_admin_count_after_at_least_one_if_subject_has_role",
+        "eligible_project_admin_count_after_at_least_one_if_subject_has_role",
+        "replacement_assigned_before_disable_if_privileged",
+        "critical_if_subject_privileged",
+        "no_orphaned_critical_approvals",
+        "reassign_operational_ownership_before_disable",
+        "expected_version"
+      ]
+    },
+    {
+      "code": "identity.users.enable",
+      "operations": ["EnableUser"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["owner_queue_resolved", "expected_version"]
+    },
+    {
+      "code": "identity.credentials.reset",
+      "operations": ["RequestAdminPasswordReset"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["actor_not_subject", "fresh_mfa", "reason", "revoke_sessions_and_tokens"]
+    },
+    {
+      "code": "identity.mfa.reset",
+      "operations": ["ResetUserMfa"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["actor_not_subject", "fresh_mfa", "critical_if_privileged"]
+    },
+    {
+      "code": "identity.sessions.read_all",
+      "operations": ["ListUserSessions"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["reason", "masked_ip"]
+    },
+    {
+      "code": "identity.sessions.revoke_all",
+      "operations": ["RevokeUserSessions"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["actor_not_subject", "reason"]
+    },
+    {
+      "code": "identity.roles.preview",
+      "operations": ["PreviewEffectiveAccess"],
+      "roles": ["platform_superadmin", "crm_admin", "project_admin"],
+      "scopes": ["department", "direction", "project", "all"]
+    },
+    {
+      "code": "identity.roles.assign_platform",
+      "operations": ["AssignPlatformRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["actor_not_subject", "critical_for_superadmin"]
+    },
+    {
+      "code": "identity.roles.assign_crm",
+      "operations": ["AssignCrmRole"],
+      "roles": ["crm_admin"],
+      "scopes": ["department", "all"],
+      "guards": [
+        "actor_not_subject",
+        "target_scope_within_actor_authority",
+        "target_role_not_crm_admin",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_operational_responsibility"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_crm",
+      "operations": ["RevokeCrmRole"],
+      "roles": ["crm_admin"],
+      "scopes": ["department", "all"],
+      "guards": [
+        "actor_not_subject",
+        "target_scope_within_actor_authority",
+        "target_role_not_crm_admin",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_operational_responsibility"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_project",
+      "operations": ["AssignProjectRole"],
+      "roles": ["project_admin", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": [
+        "actor_not_subject",
+        "target_scope_within_actor_authority",
+        "target_role_not_project_admin",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_operational_responsibility"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_project",
+      "operations": ["RevokeProjectRole"],
+      "roles": ["project_admin", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": [
+        "actor_not_subject",
+        "target_scope_within_actor_authority",
+        "target_role_not_project_admin",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_operational_responsibility"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_initial_crm_admin",
+      "operations": ["AssignInitialCrmAdmin"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "production_platform_bootstrap_closed",
+        "crm_admin_count_zero",
+        "signed_business_owner_nomination",
+        "critical_approval",
+        "proposer_approver_subject_all_distinct",
+        "closes_irreversibly_after_first_eligible_crm_admin"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_initial_project_admin",
+      "operations": ["AssignInitialProjectAdmin"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "production_platform_bootstrap_closed",
+        "project_admin_count_zero",
+        "signed_business_owner_nomination",
+        "critical_approval",
+        "proposer_approver_subject_all_distinct",
+        "closes_irreversibly_after_first_eligible_project_admin"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_crm_admin",
+      "operations": ["AssignCrmAdminRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "crm_admin_count_at_least_one",
+        "existing_eligible_crm_admin_approver",
+        "critical_approval",
+        "proposer_approver_subject_all_distinct",
+        "actor_not_subject"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_project_admin",
+      "operations": ["AssignProjectAdminRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "project_admin_count_at_least_one",
+        "existing_eligible_project_admin_approver",
+        "critical_approval",
+        "proposer_approver_subject_all_distinct",
+        "actor_not_subject"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_platform",
+      "operations": ["RevokePlatformRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "critical_for_superadmin",
+        "eligible_platform_superadmin_count_after_at_least_two",
+        "replacement_assigned_before_revoke",
+        "no_orphaned_critical_approvals",
+        "revoke_subject_sessions"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_crm_admin",
+      "operations": ["RevokeCrmAdminRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "existing_eligible_crm_admin_approver",
+        "critical_approval",
+        "eligible_crm_admin_count_after_at_least_one",
+        "replacement_assigned_before_revoke",
+        "proposer_approver_subject_all_distinct",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_project_admin",
+      "operations": ["RevokeProjectAdminRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "existing_eligible_project_admin_approver",
+        "critical_approval",
+        "eligible_project_admin_count_after_at_least_one",
+        "replacement_assigned_before_revoke",
+        "proposer_approver_subject_all_distinct",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_migration",
+      "operations": ["AssignMigrationRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "critical_approval",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_migration",
+      "operations": ["RevokeMigrationRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "critical_approval",
+        "reason",
+        "transfer_active_migration_runs_before_revoke",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "identity.roles.assign_audit",
+      "operations": ["AssignAuditRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "critical_approval",
+        "reason",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "identity.roles.revoke_audit",
+      "operations": ["RevokeAuditRole"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": [
+        "actor_not_subject",
+        "critical_approval",
+        "reason",
+        "transfer_active_audit_scope_before_revoke",
+        "effective_access_preview",
+        "expected_version",
+        "privileged_session_recalculation_or_revoke",
+        "no_orphaned_critical_approvals"
+      ]
+    },
+    {
+      "code": "crm.case.read",
+      "operations": ["GetCase"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate", "field_mask"]
+    },
+    {
+      "code": "crm.case.list",
+      "operations": ["ListCases"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate", "field_mask", "stable_pagination"]
+    },
+    {
+      "code": "crm.case.create",
+      "operations": ["CreateCase"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["state_machine", "intake_or_manual_permission"]
+    },
+    {
+      "code": "crm.case.update",
+      "operations": ["UpdateCase"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate", "expected_version"]
+    },
+    {
+      "code": "crm.case.transition",
+      "operations": ["TransitionCase"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["state_machine", "expected_version"]
+    },
+    {
+      "code": "crm.case.reopen",
+      "operations": ["ReopenCase"],
+      "roles": ["crm_lead_specialist", "crm_admin"],
+      "scopes": ["team", "department", "all"],
+      "guards": ["reason", "expected_version"]
+    },
+    {
+      "code": "crm.person.pii_view",
+      "operations": ["ViewCrmPersonPii"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["view_audit"]
+    },
+    {
+      "code": "crm.person.export",
+      "operations": ["ExportCandidates"],
+      "roles": ["crm_admin", "crm_department_head"],
+      "scopes": ["department", "all"],
+      "guards": ["reason", "export_audit"]
+    },
+    {
+      "code": "crm.duplicates.merge",
+      "operations": ["MergeCandidate"],
+      "roles": ["crm_lead_specialist", "crm_admin"],
+      "scopes": ["team", "department", "all"],
+      "guards": ["human_reviewer", "reason", "reversible_ledger", "expected_version"]
+    },
+    {
+      "code": "crm.employer.manage",
+      "operations": ["CreateEmployer", "UpdateEmployer"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["inn_conflict_check", "expected_version"]
+    },
+    {
+      "code": "crm.referral.manage",
+      "operations": ["CreateEmployerReferral", "TransitionEmployerReferral"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["state_machine", "expected_version"]
+    },
+    {
+      "code": "crm.task.manage",
+      "operations": ["CreateCrmTask", "UpdateCrmTask", "TransitionCrmTask"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["crm_task_only", "state_machine", "expected_version"]
+    },
+    {
+      "code": "crm.communication.send_bulk",
+      "operations": ["ConfirmBulkCommunication"],
+      "roles": ["crm_lead_specialist", "crm_admin"],
+      "scopes": ["team", "department", "all"],
+      "guards": ["selection_hash", "explicit_confirm", "per_item_outcome"]
+    },
+    {
+      "code": "crm.report.read",
+      "operations": ["BuildCrmReport"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["formula_allowlist"]
+    },
+    {
+      "code": "crm.report.export",
+      "operations": ["ExportCrmReport"],
+      "roles": ["crm_admin", "crm_department_head"],
+      "scopes": ["department", "all"],
+      "guards": ["export_audit"]
+    },
+    {
+      "code": "crm.settings.manage",
+      "operations": ["UpdateCrmSettings"],
+      "roles": ["crm_admin"],
+      "scopes": ["all"],
+      "guards": ["fresh_auth", "expected_version"]
+    },
+    {
+      "code": "project.project.read",
+      "operations": ["ListProjects", "GetProject"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["direction", "project", "assigned", "all"],
+      "guards": ["membership_predicate"]
+    },
+    {
+      "code": "project.project.manage",
+      "operations": ["CreateProject", "UpdateProject", "MoveProject", "ArchiveProject"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["no_cycle", "expected_version", "archive_impact_gate"]
+    },
+    {
+      "code": "project.task.read",
+      "operations": ["ListProjectTasks", "GetProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["direction", "project", "assigned", "all"],
+      "guards": ["membership_predicate"]
+    },
+    {
+      "code": "project.task.create",
+      "operations": ["CreateProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["target_membership_valid"]
+    },
+    {
+      "code": "project.task.transition",
+      "operations": ["TransitionProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["direction", "project", "assigned", "all"],
+      "guards": ["state_machine", "expected_version"]
+    },
+    {
+      "code": "project.task.assign",
+      "operations": ["AssignProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["target_membership_valid", "expected_version"]
+    },
+    {
+      "code": "project.report.export",
+      "operations": ["ExportProjectReport"],
+      "roles": ["project_admin", "project_direction_lead"],
+      "scopes": ["direction", "all"],
+      "guards": ["export_audit"]
+    },
+    {
+      "code": "ai.assist.read",
+      "operations": ["AiSummarize", "AiSearch"],
+      "roles": ["authenticated_domain_user"],
+      "scopes": ["self", "assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["inherit_underlying_read_permission"]
+    },
+    {
+      "code": "ai.pii.unmasked",
+      "operations": ["SendUnmaskedPiiToApprovedAiProvider"],
+      "roles": ["explicit_ai_pii_role"],
+      "scopes": ["assigned", "department"],
+      "guards": [
+        "purpose",
+        "data_region",
+        "no_training",
+        "retention_policy",
+        "visible_scope",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "migration.run.execute",
+      "operations": ["ProfileMigrationRun", "DryRunMigration", "ExecuteMigrationRun", "ImportCrmDomain"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["manifest_checksum", "state_machine", "idempotency"]
+    },
+    {
+      "code": "migration.conflict.resolve",
+      "operations": ["ResolveMigrationConflict"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["human_reason", "expected_version"]
+    },
+    {
+      "code": "migration.cutover.execute",
+      "operations": ["ExecuteCutover"],
+      "roles": ["designated_release_owner"],
+      "scopes": ["assigned"],
+      "guards": [
+        "all_gates_green",
+        "signed_go_no_go",
+        "critical_approval",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "audit.events.read",
+      "operations": ["ListAuditEvents", "GetAuditEvent"],
+      "roles": ["audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["redaction"]
+    },
+    {
+      "code": "audit.events.export",
+      "operations": ["ExportAuditEvents"],
+      "roles": ["audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["export_audit", "redaction"]
+    },
+    {
+      "code": "audit.events.mutate",
+      "operations": ["UpdateAuditEvent", "DeleteAuditEvent"],
+      "roles": [],
+      "scopes": [],
+      "effect": "deny"
+    },
+    {
+      "code": "identity.users.update",
+      "operations": ["UpdateUserProfile"],
+      "roles": ["platform_superadmin"],
+      "scopes": ["all"],
+      "guards": ["expected_version", "actor_not_subject_for_privilege_fields"]
+    },
+    {
+      "code": "identity.approvals.read",
+      "operations": ["ListApprovalRequests", "GetApprovalRequest"],
+      "roles": ["approval_proposer", "eligible_critical_approver", "audit_reader"],
+      "scopes": ["self", "assigned", "all"],
+      "guards": ["payload_redaction"]
+    },
+    {
+      "code": "identity.breakglass.execute",
+      "operations": ["ExecuteBreakglassRecovery"],
+      "roles": ["breakglass_recovery_custodian"],
+      "scopes": ["all"],
+      "guards": ["two_person_control", "time_bound", "critical_approval", "worm_checkpoint"]
+    },
+    {
+      "code": "crm.dashboard.read",
+      "operations": ["GetCrmDashboard"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate", "formula_version"]
+    },
+    {
+      "code": "crm.duplicates.read",
+      "operations": ["ListDuplicateCandidates", "GetDuplicateCandidate"],
+      "roles": ["crm_lead_specialist", "crm_admin"],
+      "scopes": ["team", "department", "all"],
+      "guards": ["row_predicate", "pii_allowlist"]
+    },
+    {
+      "code": "crm.employer.read",
+      "operations": ["ListEmployers", "GetEmployer"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate"]
+    },
+    {
+      "code": "crm.employer.merge",
+      "operations": ["MergeEmployer"],
+      "roles": ["crm_lead_specialist", "crm_admin"],
+      "scopes": ["team", "department", "all"],
+      "guards": ["reason", "reversible_ledger", "expected_version"]
+    },
+    {
+      "code": "crm.task.read",
+      "operations": ["ListCrmTasks", "GetCrmTask"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate"]
+    },
+    {
+      "code": "crm.communication.read",
+      "operations": ["ListCommunications", "GetCommunication"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["row_predicate", "pii_allowlist"]
+    },
+    {
+      "code": "crm.communication.send_one",
+      "operations": ["ConfirmSingleCommunication"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["preview_hash", "explicit_confirm", "idempotency_key"]
+    },
+    {
+      "code": "crm.roles.define",
+      "operations": ["DefineCrmRoleTemplate"],
+      "roles": ["crm_admin"],
+      "scopes": ["all"],
+      "guards": ["fresh_auth", "cannot_assign_self"]
+    },
+    {
+      "code": "project.dashboard.read",
+      "operations": ["GetProjectDashboard", "GetProjectWorkload"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["assigned", "direction", "project", "all"],
+      "guards": ["membership_predicate", "formula_version"]
+    },
+    {
+      "code": "project.direction.read",
+      "operations": ["ListDirections", "GetDirection"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["assigned", "direction", "project", "all"],
+      "guards": ["membership_predicate"]
+    },
+    {
+      "code": "project.direction.manage",
+      "operations": ["CreateDirection", "UpdateDirection", "ArchiveDirection"],
+      "roles": ["project_admin"],
+      "scopes": ["all"],
+      "guards": ["expected_version", "archive_impact_gate"]
+    },
+    {
+      "code": "project.task.update",
+      "operations": ["UpdateProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["assigned", "direction", "project", "all"],
+      "guards": ["field_policy", "expected_version", "membership_predicate"]
+    },
+    {
+      "code": "project.task.comment",
+      "operations": ["AddProjectTaskComment"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["assigned", "direction", "project", "all"],
+      "guards": ["object_visible", "pii_redaction"]
+    },
+    {
+      "code": "project.task.archive",
+      "operations": ["ArchiveProjectTask"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["reason", "dependency_guard", "expected_version"]
+    },
+    {
+      "code": "project.file.manage",
+      "operations": ["UploadProjectAttachment", "RemoveProjectAttachment"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager", "project_executor"],
+      "scopes": ["assigned", "direction", "project", "all"],
+      "guards": ["object_access", "file_scan", "expected_version"]
+    },
+    {
+      "code": "project.report.read",
+      "operations": ["BuildProjectReport"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["formula_allowlist"]
+    },
+    {
+      "code": "project.settings.manage",
+      "operations": ["UpdateProjectSettings"],
+      "roles": ["project_admin"],
+      "scopes": ["all"],
+      "guards": ["fresh_auth", "expected_version"]
+    },
+    {
+      "code": "project.roles.assign_scoped",
+      "operations": ["AssignProjectScopedRole"],
+      "roles": ["project_admin", "project_manager"],
+      "scopes": ["project", "direction", "all"],
+      "guards": ["actor_not_subject", "target_scope_within_actor_authority"]
+    },
+    {
+      "code": "ai.report.draft",
+      "operations": ["CreateAiReportDraft"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head", "project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["underlying_report_permission", "formula_allowlist"]
+    },
+    {
+      "code": "ai.task.draft_crm",
+      "operations": ["CreateAiCrmTaskDraft"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["no_write", "underlying_task_create_permission"]
+    },
+    {
+      "code": "ai.task.draft_project",
+      "operations": ["CreateAiProjectTaskDraft"],
+      "roles": ["project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["direction", "project", "all"],
+      "guards": ["no_write", "underlying_task_create_permission"]
+    },
+    {
+      "code": "ai.batch.confirm",
+      "operations": ["ConfirmAiBatch"],
+      "roles": ["crm_lead_specialist", "crm_admin", "project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["team", "department", "direction", "project", "all"],
+      "guards": ["same_human_actor", "selection_fingerprint", "per_item_rbac_and_version_recheck"]
+    },
+    {
+      "code": "migration.run.read",
+      "operations": ["ListMigrationRuns", "GetMigrationRun"],
+      "roles": ["migration_operator", "audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["pii_redaction"]
+    },
+    {
+      "code": "migration.conflict.read",
+      "operations": ["ListMigrationConflicts", "GetMigrationConflict"],
+      "roles": ["migration_operator", "audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["pii_redaction"]
+    },
+    {
+      "code": "migration.reconciliation.read",
+      "operations": ["GetMigrationReconciliation"],
+      "roles": ["migration_operator", "audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["pii_redaction"]
+    },
+    {
+      "code": "migration.cutover.propose",
+      "operations": ["ProposeMigrationCutover"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["all_gates_green", "proposer_not_executor"]
+    },
+    {
+      "code": "integration.status.read",
+      "operations": ["GetIntegrationStatus"],
+      "roles": ["platform_superadmin", "crm_admin", "project_admin"],
+      "scopes": ["all"],
+      "guards": ["no_secret_values"]
+    },
+    {
+      "code": "integration.config.manage",
+      "operations": ["UpdateIntegrationConfig"],
+      "roles": ["crm_admin", "project_admin", "designated_platform_ops"],
+      "scopes": ["all"],
+      "guards": [
+        "fresh_auth",
+        "expected_version",
+        "no_secret_values_in_audit",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "crm.recommender.manage",
+      "operations": ["RequestDocument", "ReviewDocument", "LinkRecommender"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["state_machine", "expected_version"]
+    },
+    {
+      "code": "crm.communication.confirm",
+      "operations": ["ConfirmCommunicationDraft"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["same_human_actor", "preview_hash"]
+    },
+    {
+      "code": "crm.communication.send",
+      "operations": ["QueueCommunication"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["outbox_transaction", "idempotency_key"]
+    },
+    {
+      "code": "crm.communication.cancel",
+      "operations": ["CancelCommunication"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin"],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["not_submitted_to_provider"]
+    },
+    {
+      "code": "identity.credentials.accept_invite",
+      "operations": ["AcceptInvite"],
+      "roles": ["invited_account"],
+      "scopes": ["self"],
+      "guards": ["one_time_token", "password_policy"]
+    },
+    {
+      "code": "identity.credentials.change",
+      "operations": ["ChangeOwnPassword"],
+      "roles": ["authenticated"],
+      "scopes": ["self"],
+      "guards": ["fresh_auth", "rotate_current_session", "revoke_other_sessions"]
+    },
+    {
+      "code": "identity.credentials.recover",
+      "operations": ["CompletePasswordReset"],
+      "roles": ["recovery_subject"],
+      "scopes": ["self"],
+      "guards": ["one_time_token", "password_policy", "revoke_all_sessions_and_tokens"]
+    },
+    {
+      "code": "identity.mfa.enroll",
+      "operations": ["EnrollMfa"],
+      "roles": ["authenticated"],
+      "scopes": ["self"],
+      "guards": ["fresh_password", "valid_totp", "recovery_codes_shown_once"]
+    },
+    {
+      "code": "identity.approvals.propose",
+      "operations": ["ProposeCriticalOperation"],
+      "roles": ["platform_superadmin", "crm_admin", "project_admin", "designated_release_owner"],
+      "scopes": ["department", "direction", "project", "all"],
+      "guards": [
+        "payload_hash",
+        "expiry",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "identity.approvals.decide",
+      "operations": ["ApproveOrRejectCriticalOperation"],
+      "roles": ["eligible_critical_approver"],
+      "scopes": ["all"],
+      "guards": ["proposer_not_approver", "permission_recheck", "payload_hash_unchanged"]
+    },
+    {
+      "code": "identity.approvals.execute",
+      "operations": ["ExecuteCriticalOperation"],
+      "roles": ["approved_operation_executor"],
+      "scopes": ["all"],
+      "guards": ["approved", "unexpired", "one_time", "permission_recheck"]
+    },
+    {
+      "code": "identity.approvals.cancel",
+      "operations": ["CancelCriticalOperation"],
+      "roles": ["approval_proposer", "eligible_critical_approver"],
+      "scopes": ["all"],
+      "guards": ["not_executed"]
+    },
+    {
+      "code": "ai.task.confirm_domain",
+      "operations": ["ConfirmAiCrmTaskDraft", "ConfirmAiProjectTaskDraft"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["same_human_actor", "draft_hash", "expiry", "rbac_recheck", "version_recheck"]
+    },
+    {
+      "code": "identity.navigation.resolve",
+      "operations": ["ResolveNavigation"],
+      "roles": ["authenticated"],
+      "scopes": ["self"],
+      "guards": ["derive_menu_from_current_effective_permissions"]
+    },
+    {
+      "code": "identity.authentication.login",
+      "operations": ["Login"],
+      "roles": ["anonymous_client"],
+      "scopes": ["endpoint"],
+      "guards": ["rate_limit", "generic_failure_message", "credential_hash_verification", "rotate_session_id", "audit_attempt"]
+    },
+    {
+      "code": "identity.credentials.request_recovery",
+      "operations": ["RequestPasswordReset"],
+      "roles": ["anonymous_client"],
+      "scopes": ["endpoint"],
+      "guards": ["rate_limit", "generic_response", "single_use_token", "short_ttl", "audit_attempt"]
+    },
+    {
+      "code": "identity.mfa.verify",
+      "operations": ["VerifyMfa"],
+      "roles": ["mfa_challenge_subject"],
+      "scopes": ["self"],
+      "guards": ["rate_limit", "single_purpose_challenge", "rotate_session_id", "audit_attempt"]
+    },
+    {
+      "code": "integration.intake.create",
+      "operations": ["CreateApplication"],
+      "roles": ["public_intake_client"],
+      "scopes": ["endpoint"],
+      "guards": [
+        "versioned_schema",
+        "anti_abuse_policy",
+        "idempotency_key",
+        "durable_persistence_before_2xx",
+        "json_503_on_persistence_failure",
+        "pii_minimization"
+      ]
+    },
+    {
+      "code": "notification.inbox.read",
+      "operations": ["ListNotifications"],
+      "roles": ["authenticated_domain_user"],
+      "scopes": ["self"],
+      "guards": ["permission_safe_payload", "stable_pagination"]
+    },
+    {
+      "code": "notification.preference.update",
+      "operations": ["UpdateNotificationPreference"],
+      "roles": ["authenticated_domain_user"],
+      "scopes": ["self"],
+      "guards": ["allowlisted_channels_and_event_types", "expected_version"]
+    },
+    {
+      "code": "ai.batch.draft",
+      "operations": ["CreateAiBatchDraft"],
+      "roles": ["crm_lead_specialist", "crm_admin", "project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["team", "department", "direction", "project", "all"],
+      "guards": ["no_business_mutation", "no_outbox", "selection_fingerprint", "pii_minimization", "draft_expiry"]
+    },
+    {
+      "code": "ai.report.confirm",
+      "operations": ["ConfirmAiReportDraft"],
+      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head", "project_admin", "project_direction_lead", "project_manager"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["same_human_actor", "draft_hash", "expiry", "rbac_recheck", "version_recheck", "one_time"]
+    },
+    {
+      "code": "migration.rollback.execute",
+      "operations": ["ExecuteRollback"],
+      "roles": ["designated_release_owner"],
+      "scopes": ["assigned"],
+      "guards": [
+        "critical_approval",
+        "rollback_window",
+        "decision_tree",
+        "reverse_delta_or_signed_owner_decision",
+        "fresh_mfa",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "migration.employee.classify",
+      "operations": ["ClassifyLegacyActor"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["manifest_bound", "explicit_actor_kind", "review_evidence", "expected_version"]
+    },
+    {
+      "code": "migration.employee.review",
+      "operations": ["ReviewEmployeeAccountEligibility"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["no_automatic_account_creation", "reviewer_id", "evidence", "expected_version"]
+    },
+    {
+      "code": "migration.employee.associations.build",
+      "operations": ["BuildEmployeeAssociations"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["typed_perioded_relations", "source_provenance", "no_identity_merge", "explicit_conflict_outcome"]
+    },
+    {
+      "code": "migration.file.import",
+      "operations": ["ImportFileBinary"],
+      "roles": ["migration_operator"],
+      "scopes": ["assigned"],
+      "guards": ["synchronized_upload_snapshot", "checksum", "size", "malware_scan", "acl_mapping", "idempotency_key"]
+    },
+    {
+      "code": "migration.file.reconcile",
+      "operations": ["ReconcileFiles"],
+      "roles": ["migration_operator", "audit_reader"],
+      "scopes": ["assigned"],
+      "guards": ["binding_and_binary_coverage", "full_status_requires_zero_unresolved", "signed_result"]
+    },
+    {
+      "code": "migration.security.scan",
+      "operations": ["ScanTargetForLegacySecrets"],
+      "roles": ["migration_operator", "designated_platform_ops"],
+      "scopes": ["assigned", "all"],
+      "guards": [
+        "denylisted_source_columns",
+        "redacted_result",
+        "zero_secret_matches_required",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "ops.health.read",
+      "operations": ["GetHealth", "GetReadiness"],
+      "roles": ["health_probe"],
+      "scopes": ["endpoint"],
+      "guards": ["json_only", "no_secrets", "no_spa_fallback", "readiness_checks_required_dependencies"]
+    },
+    {
+      "code": "ops.backup.run",
+      "operations": ["RunBackup"],
+      "roles": ["designated_platform_ops"],
+      "scopes": ["all"],
+      "guards": [
+        "fresh_mfa",
+        "consistent_recovery_point",
+        "encrypted_artifacts",
+        "checksum",
+        "audit_event",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "ops.restore.verify",
+      "operations": ["VerifyRestore"],
+      "roles": ["designated_platform_ops"],
+      "scopes": ["all"],
+      "guards": [
+        "isolated_restore_target",
+        "integrated_restore_order",
+        "rpo_rto_evidence",
+        "no_production_overwrite",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    },
+    {
+      "code": "system.risk_lock",
+      "operations": ["SystemRiskLock"],
+      "roles": ["identity_risk_worker"],
+      "scopes": ["all"],
+      "guards": ["signed_internal_event"]
+    },
+    {
+      "code": "system.require_mfa",
+      "operations": ["SystemRequireMfa"],
+      "roles": ["identity_policy_worker"],
+      "scopes": ["all"],
+      "guards": ["signed_internal_event"]
+    },
+    {
+      "code": "system.credential_expire",
+      "operations": ["SystemExpireCredential"],
+      "roles": ["identity_policy_worker"],
+      "scopes": ["all"],
+      "guards": ["signed_internal_event"]
+    },
+    {
+      "code": "system.approval_expire",
+      "operations": ["SystemExpireApproval"],
+      "roles": ["approval_worker"],
+      "scopes": ["all"],
+      "guards": ["server_time_after_expiry"]
+    },
+    {
+      "code": "system.document_expiry",
+      "operations": ["SystemExpireDocument"],
+      "roles": ["crm_policy_worker"],
+      "scopes": ["all"],
+      "guards": ["server_time_after_expiry"]
+    },
+    {
+      "code": "system.migration_detect_conflict",
+      "operations": ["SystemOpenMigrationConflict"],
+      "roles": ["migration_worker"],
+      "scopes": ["assigned"],
+      "guards": ["manifest_rule", "source_evidence"]
+    },
+    {
+      "code": "system.migration_fail",
+      "operations": ["SystemFailMigrationRun"],
+      "roles": ["migration_worker"],
+      "scopes": ["assigned"],
+      "guards": ["blocking_failure", "checkpoint"]
+    },
+    {
+      "code": "system.migration_supersede",
+      "operations": ["SystemSupersedeMigrationConflict"],
+      "roles": ["migration_worker"],
+      "scopes": ["assigned"],
+      "guards": ["new_manifest_or_evidence"]
+    },
+    {
+      "code": "system.ai_finalize",
+      "operations": ["SystemFinalizeAiDraft"],
+      "roles": ["ai_command_worker"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["draft_execution_lease", "per_item_results"]
+    },
+    {
+      "code": "system.ai_invalidate",
+      "operations": ["SystemInvalidateAiDraft"],
+      "roles": ["ai_command_worker"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["data_permission_scope_or_payload_changed"]
+    },
+    {
+      "code": "system.ai_expire",
+      "operations": ["SystemExpireAiDraft"],
+      "roles": ["ai_command_worker"],
+      "scopes": ["assigned", "team", "department", "direction", "project", "all"],
+      "guards": ["server_time_after_expiry"]
+    },
+    {
+      "code": "system.message_worker",
+      "operations": ["LeaseMessage", "SubmitMessage", "RetryMessage", "FailMessage"],
+      "roles": ["message_worker"],
+      "scopes": ["all"],
+      "guards": ["outbox_lease", "same_idempotency_key"]
+    },
+    {
+      "code": "system.message_callback",
+      "operations": ["ApplyMessageDeliveryCallback"],
+      "roles": ["message_callback_verifier"],
+      "scopes": ["all"],
+      "guards": ["verified_provider_signature", "known_message_id"]
+    },
+    {
+      "code": "integration.secret.rotate",
+      "operations": ["RotateIntegrationSecret"],
+      "roles": ["designated_platform_ops"],
+      "scopes": ["all"],
+      "guards": [
+        "fresh_auth",
+        "critical_approval",
+        "secret_not_in_audit",
+        "approved_request_actor_payload_operation_permission_scope_expiry_match_if_approval_scoped_subject"
+      ]
+    }
+  ],
+  "consistency_checks": [
+    "every_openapi_operation_has_registered_command_or_query",
+    "every_command_or_query_has_one_permission",
+    "every_scope_has_row_predicate_test",
+    "every_critical_permission_has_approval_policy",
+    "every_ordinary_role_assignment_has_explicit_revoke_permission",
+    "every_role_mutation_has_reason_preview_version_audit_and_session_recalculation",
+    "every_approval_scoped_subject_permission_binds_request_actor_payload_operation_permission_scope_and_expiry",
+    "every_permission_has_allow_and_deny_test",
+    "unregistered_command_is_denied"
+  ]
+}
