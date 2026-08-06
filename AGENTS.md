@@ -23,10 +23,12 @@ Landing — самостоятельное статическое приложе
 Рабочие пути:
 
 - `apps/crm-backend/`;
+- `apps/crm-frontend/`;
 - `docs/cabinet/`;
 - `docs/migration/`.
 
-Внутри `apps/crm-backend/` обязательно действует вложенный `AGENTS.md`. Не
+Внутри `apps/crm-backend/` и `apps/crm-frontend/` обязательно действуют
+вложенные `AGENTS.md`. Не
 переноси в CRM визуальный язык Landing или продуктовые решения Tracker.
 
 ## Интеграционный шов Landing ↔ CRM

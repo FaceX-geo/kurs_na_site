@@ -1,0 +1,35 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.app-shell",
+  "version": "1.0.0",
+  "purpose": "Provide one authenticated CRM shell with stable navigation, search, notifications, user context and assistant launcher.",
+  "variants": ["desktop", "mobile-navigation"],
+  "states": ["ready", "offline", "navigation-restricted"],
+  "inputs": [
+    { "name": "navigation", "type": "AuthorizedAppShellNavigationItem[]", "required": true },
+    { "name": "activeRoute", "type": "string", "required": true },
+    { "name": "children", "type": "ReactNode", "required": true },
+    { "name": "search", "type": "ReactNode", "required": false },
+    { "name": "notifications", "type": "ReactNode", "required": false },
+    { "name": "user", "type": "ReactNode", "required": false },
+    { "name": "assistantAction", "type": "ReactNode", "required": false }
+  ],
+  "events": {
+    "navigate": { "payload": "AppShellNavigationItem", "description": "Requests an authorized route transition." }
+  },
+  "accessibility": {
+    "landmarks": ["navigation", "banner", "main"],
+    "keyboard": "Every navigation item and launcher remains reachable at all breakpoints.",
+    "focus": "The route owner focuses the new page heading after navigation.",
+    "screenReader": "The active route uses aria-current=page."
+  },
+  "motion": {
+    "default": "Colour and surface feedback use 150ms.",
+    "reducedMotion": "Spatial interpolation is removed."
+  },
+  "invariants": [
+    "The feature layer supplies only navigation authorized by businessRole and permissions; the shell never expands access.",
+    "Помощник is a persistent launcher and search remains Найти в CRM.",
+    "Authentication screens never render this shell."
+  ]
+}

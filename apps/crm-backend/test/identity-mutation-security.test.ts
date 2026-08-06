@@ -21,6 +21,8 @@ const context: AuthContext = {
   csrfTokenHash: keyedHash(csrfToken, config.session.tokenPepper),
   roles: ["crm_project_manager"],
   permissions: ["crm.case.transition"],
+  businessRole: "SPECIALIST",
+  employeeProfileId: "019fd7d0-6789-7000-8000-000000000004",
 };
 
 function request(origin: string): FastifyRequest {

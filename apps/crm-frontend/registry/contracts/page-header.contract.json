@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.page-header",
+  "version": "1.0.0",
+  "purpose": "Anchor one CRM route with its validated context, title, description and guarded actions.",
+  "variants": ["route", "detail", "compact"],
+  "states": ["ready", "loading", "restricted"],
+  "inputs": [
+    { "name": "title", "type": "string", "required": true },
+    { "name": "description", "type": "string", "required": false },
+    { "name": "breadcrumb", "type": "BreadcrumbItem[]", "required": false },
+    { "name": "actions", "type": "ReactNode", "required": false },
+    { "name": "eyebrow", "type": "string", "required": false },
+    { "name": "children", "type": "ReactNode", "required": false }
+  ],
+  "events": {
+    "navigate": { "payload": "{ id: string }", "description": "Requests navigation to a permitted breadcrumb target." }
+  },
+  "accessibility": {
+    "role": "header",
+    "keyboard": "Breadcrumb actions and route actions are native controls.",
+    "focus": "The h1 can receive programmatic route focus.",
+    "screenReader": "Exactly one h1 names the route."
+  },
+  "motion": { "default": "No required motion.", "reducedMotion": "No change." },
+  "invariants": ["Actions do not imply successful mutations.", "Breadcrumbs never expose a hidden parent name."]
+}

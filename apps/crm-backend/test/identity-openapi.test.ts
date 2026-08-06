@@ -67,6 +67,14 @@ describe("identity OpenAPI", () => {
     expect(verify?.responses).toHaveProperty("403");
     expect(verify?.responses).toHaveProperty("503");
 
+    const refreshCsrf = document.paths["/internal/v1/auth/csrf/refresh"]?.post;
+    expect(refreshCsrf?.security).toEqual([{ sessionCookie: [] }]);
+    expect(refreshCsrf?.description).toContain("Origin/Referer");
+    expect(refreshCsrf?.description).toContain("Предыдущий CSRF-токен не принимается");
+    expect(refreshCsrf?.responses).toHaveProperty("401");
+    expect(refreshCsrf?.responses).toHaveProperty("403");
+    expect(refreshCsrf?.responses).toHaveProperty("429");
+
     const ownSessions = document.paths["/internal/v1/auth/sessions"]?.get;
     expect(ownSessions?.parameters).toEqual(
       expect.arrayContaining([
@@ -75,6 +83,32 @@ describe("identity OpenAPI", () => {
       ]),
     );
     expect(ownSessions?.responses?.["200"]).toEqual(expect.objectContaining({ content: expect.any(Object) }));
+
+    const responseSchema = (response: unknown) =>
+      response as
+        | {
+            content?: {
+              "application/json"?: {
+                schema?: {
+                  properties?: Record<string, { properties?: Record<string, unknown> }>;
+                };
+              };
+            };
+          }
+        | undefined;
+    const loginUserProperties = responseSchema(
+      document.paths["/internal/v1/auth/login"]?.post?.responses?.["200"],
+    )?.content?.["application/json"]?.schema?.properties?.user?.properties;
+    expect(loginUserProperties).toHaveProperty("permissions");
+    expect(loginUserProperties).toHaveProperty("businessRole");
+    expect(loginUserProperties).toHaveProperty("employeeProfileId");
+
+    const ownProfileProperties = responseSchema(
+      document.paths["/internal/v1/auth/session"]?.get?.responses?.["200"],
+    )?.content?.["application/json"]?.schema?.properties;
+    expect(ownProfileProperties).toHaveProperty("permissions");
+    expect(ownProfileProperties).toHaveProperty("businessRole");
+    expect(ownProfileProperties).toHaveProperty("employeeProfileId");
   });
 
   it("keeps trusted-origin and CSRF enforcement on the reauthentication branch", async () => {
@@ -99,13 +133,23 @@ describe("identity OpenAPI", () => {
       csrfTokenHash: keyedHash(csrfToken, config.session.tokenPepper),
       roles: [],
       permissions: [],
+      businessRole: null,
+      employeeProfileId: null,
     };
     vi.spyOn(service, "authenticate").mockResolvedValue(context);
     const reauthenticate = vi.spyOn(service, "reauthenticate").mockResolvedValue({
       sessionToken: "new-session-token",
       csrfToken: "new-csrf-token",
       expiresAt: "2026-08-06T16:00:00.000Z",
-      user: { id: context.userAccountId, email: context.email, displayName: "Иван Иванов", roles: [] },
+      user: {
+        id: context.userAccountId,
+        email: context.email,
+        displayName: "Иван Иванов",
+        roles: [],
+        permissions: [],
+        businessRole: null,
+        employeeProfileId: null,
+      },
     });
     await app.register(identityPlugin, {
       config,

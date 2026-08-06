@@ -107,3 +107,8 @@ cutover.
 Алгоритм классифицирует повторяемое и собирает безопасную доказательную базу. Человек сохраняет
 контроль над объединением дублей, переназначением неактивных владельцев, трактовкой воронок,
 разделением CRM/project tasks и самим cutover. Эти решения нельзя выводить из legacy эвристик.
+
+Доказуемая техническая связь legacy actor с employee profile вынесена в отдельный узкий seam:
+[`legacy-staff-association-reconciliation.md`](legacy-staff-association-reconciliation.md). Она
+делает уже materialized case assignments доступными row scope, но не расширяет migration scope и
+не подменяет human decision для ownerless/inactive ownership.

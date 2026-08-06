@@ -1,0 +1,56 @@
+.route-fallback {
+  display: grid;
+  max-width: 760px;
+  gap: 24px;
+  padding: 42px;
+  border: 1px solid var(--crm-color-border, #dce5f3);
+  border-radius: 14px;
+  background: #fff;
+}
+
+.route-fallback > svg {
+  color: #2764d8;
+}
+
+.route-fallback p,
+.route-fallback h1 {
+  margin: 0;
+}
+
+.route-fallback div {
+  display: grid;
+  gap: 12px;
+}
+
+.route-fallback div > p:first-child {
+  color: #2764d8;
+  font-size: 13px;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.route-fallback h1 {
+  font-size: clamp(28px, 4vw, 44px);
+  letter-spacing: -0.035em;
+  line-height: 1.1;
+}
+
+.route-fallback div > p:last-child {
+  color: #53668e;
+  line-height: 1.55;
+}
+
+.route-fallback > button {
+  display: inline-flex;
+  width: fit-content;
+  min-height: 46px;
+  align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  border: 1px solid #2764d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #144fb9;
+  font-weight: 600;
+}

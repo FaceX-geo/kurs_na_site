@@ -1,0 +1,48 @@
+{
+  "name": "@kurs-na-sever/crm-frontend",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "npm run typecheck && vite build && node scripts/prepare-sites-build.mjs",
+    "preview": "vite preview",
+    "typecheck": "tsc --noEmit",
+    "lint": "biome check src scripts tests vite.config.mts",
+    "format": "biome check --write src scripts tests vite.config.mts",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "api:generate": "openapi-typescript ../crm-backend/openapi/openapi.json -o src/shared/api/generated/openapi.ts && biome format --write src/shared/api/generated/openapi.ts",
+    "registry:check": "node scripts/verify-ui-registry.mjs",
+    "verify": "npm run api:generate && npm run registry:check && npm run lint && npm run typecheck && npm run test && npm run build && npm run test:sites",
+    "test:sites": "node --test tests/sites-worker.test.mjs"
+  },
+  "engines": {
+    "node": ">=22.22.0 <26"
+  },
+  "dependencies": {
+    "@fontsource-variable/onest": "^5.3.0",
+    "@tabler/icons-react": "^3.44.0",
+    "@tanstack/react-query": "^5.101.4",
+    "@vitejs/plugin-react": "5.0.4",
+    "openapi-fetch": "^0.17.0",
+    "react": "19.2.7",
+    "react-dom": "19.2.7",
+    "react-router": "8.3.0",
+    "vite": "6.4.3",
+    "zod": "^4.4.3"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^2.5.7",
+    "@testing-library/react": "^16.3.2",
+    "@testing-library/user-event": "^14.6.3",
+    "@types/node": "^22.20.1",
+    "@types/react": "^19.2.17",
+    "@types/react-dom": "^19.2.3",
+    "@vitest/coverage-v8": "^4.1.10",
+    "jsdom": "^29.1.1",
+    "openapi-typescript": "^7.13.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  }
+}

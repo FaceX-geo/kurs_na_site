@@ -26,6 +26,8 @@ const context: AuthContext = {
   csrfTokenHash: "a".repeat(64),
   roles: [],
   permissions: [],
+  businessRole: null,
+  employeeProfileId: null,
 };
 
 function sessionRow(id: string, createdAt: string) {

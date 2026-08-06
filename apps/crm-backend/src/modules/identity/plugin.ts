@@ -4,6 +4,11 @@ import { ErrorEnvelopeSchema } from "../../common/errors.js";
 import type { AppConfig } from "../../config/env.js";
 import type { DatabaseHandle } from "../../db/client.js";
 import type { IdentityAdminService } from "./admin-service.js";
+import {
+  AuthenticatedSessionReceiptSchema,
+  CsrfRefreshReceiptSchema,
+  OwnProfileSchema,
+} from "./auth-contracts.js";
 import { IDENTITY_OPERATIONS } from "./operation-registry.js";
 import { type AuthContext, IdentityService, type SessionReceipt as SessionReceiptValue } from "./service.js";
 import {
@@ -56,18 +61,6 @@ const MfaBody = Type.Union([
   ),
 ]);
 
-const SessionReceipt = Type.Object({
-  status: Type.Literal("authenticated"),
-  csrfToken: Type.String(),
-  expiresAt: Type.String({ format: "date-time" }),
-  user: Type.Object({
-    id: Type.String({ format: "uuid" }),
-    email: Type.String({ format: "email" }),
-    displayName: Type.String(),
-    roles: Type.Array(Type.String()),
-  }),
-});
-
 const SessionPageResponse = Type.Object(
   {
     items: Type.Array(OwnSessionItemSchema),
@@ -106,7 +99,7 @@ export const identityPlugin: FastifyPluginAsync<IdentityPluginOptions> = async (
         tags: ["identity"],
         body: LoginBody,
         response: {
-          200: SessionReceipt,
+          200: AuthenticatedSessionReceiptSchema,
           202: Type.Union([
             Type.Object({
               status: Type.Literal("mfa_required"),
@@ -161,7 +154,7 @@ export const identityPlugin: FastifyPluginAsync<IdentityPluginOptions> = async (
           { additionalProperties: true },
         ),
         response: {
-          200: SessionReceipt,
+          200: AuthenticatedSessionReceiptSchema,
           401: ErrorEnvelopeSchema,
           403: ErrorEnvelopeSchema,
           409: ErrorEnvelopeSchema,
@@ -203,6 +196,41 @@ export const identityPlugin: FastifyPluginAsync<IdentityPluginOptions> = async (
     return service.authenticate(request);
   }
 
+  app.post(
+    IDENTITY_OPERATIONS["csrf.refresh"].path,
+    {
+      config: { rateLimit: { max: 10, timeWindow: "1 minute" } },
+      schema: {
+        operationId: IDENTITY_OPERATIONS["csrf.refresh"].operationId,
+        tags: ["identity"],
+        summary: "Обновить CSRF-токен текущей сессии",
+        description:
+          "Требует действующую session cookie и доверенный Origin/Referer. Предыдущий CSRF-токен не принимается и после успешной ротации становится недействительным.",
+        security: [{ sessionCookie: [] }],
+        headers: Type.Object(
+          {
+            origin: Type.Optional(Type.String({ maxLength: 2_048 })),
+            referer: Type.Optional(Type.String({ maxLength: 2_048 })),
+          },
+          { additionalProperties: true },
+        ),
+        response: {
+          200: CsrfRefreshReceiptSchema,
+          401: ErrorEnvelopeSchema,
+          403: ErrorEnvelopeSchema,
+          429: ErrorEnvelopeSchema,
+        },
+      },
+    },
+    async (request, reply) => {
+      reply.header("cache-control", "no-store, private");
+      reply.header("pragma", "no-cache");
+      service.assertTrustedOrigin(request);
+      const context = await authenticated(request);
+      return service.refreshCsrfToken(context, request.id);
+    },
+  );
+
   app.get(
     "/internal/v1/auth/session",
     {
@@ -211,13 +239,7 @@ export const identityPlugin: FastifyPluginAsync<IdentityPluginOptions> = async (
         tags: ["identity"],
         security: [{ sessionCookie: [] }],
         response: {
-          200: Type.Object({
-            userAccountId: Type.String({ format: "uuid" }),
-            email: Type.String({ format: "email" }),
-            authenticationLevel: Type.String(),
-            roles: Type.Array(Type.String()),
-            permissions: Type.Array(Type.String()),
-          }),
+          200: OwnProfileSchema,
           401: ErrorEnvelopeSchema,
         },
       },
@@ -230,6 +252,8 @@ export const identityPlugin: FastifyPluginAsync<IdentityPluginOptions> = async (
         authenticationLevel: context.authenticationLevel,
         roles: context.roles,
         permissions: context.permissions,
+        businessRole: context.businessRole,
+        employeeProfileId: context.employeeProfileId,
       };
     },
   );

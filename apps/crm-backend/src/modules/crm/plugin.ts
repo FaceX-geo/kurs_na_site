@@ -13,6 +13,8 @@ import {
   CrmCaseParamsSchema,
   type CrmCaseTransitionBody,
   CrmCaseTransitionBodySchema,
+  CrmCaseTransitionHeadersSchema,
+  CrmCaseTransitionResultSchema,
   CrmDictionaryListSchema,
   CrmEmployerDetailSchema,
   type CrmEmployerListQuery,
@@ -65,6 +67,22 @@ const commonErrors = {
   403: { $ref: "ErrorEnvelope#" },
   422: { $ref: "ErrorEnvelope#" },
   500: { $ref: "ErrorEnvelope#" },
+} as const;
+
+const caseTransitionResponseSchema = {
+  ...CrmCaseTransitionResultSchema,
+  headers: {
+    ETag: {
+      type: "string",
+      pattern: '^"v[1-9][0-9]*"$',
+      description: "Версия CRM-кейса для следующего If-Match",
+    },
+    "Idempotency-Replayed": {
+      type: "string",
+      enum: ["true"],
+      description: "Присутствует только для точного replay завершённого перехода",
+    },
+  },
 } as const;
 
 function schemaFor(
@@ -156,7 +174,7 @@ export async function crmPlugin(app: FastifyInstance, options: CrmPluginOptions)
 
   app.post<{
     Params: { caseId: string };
-    Headers: { "if-match"?: string; "x-csrf-token": string };
+    Headers: { "if-match"?: string; "idempotency-key": string; "x-csrf-token": string };
     Body: CrmCaseTransitionBody;
   }>(
     CRM_OPERATIONS["cases.transition"].path,
@@ -165,9 +183,9 @@ export async function crmPlugin(app: FastifyInstance, options: CrmPluginOptions)
         "cases.transition",
         {
           params: CrmCaseParamsSchema,
-          headers: CrmVersionHeadersSchema,
+          headers: CrmCaseTransitionHeadersSchema,
           body: CrmCaseTransitionBodySchema,
-          response: { 200: CrmCaseDetailSchema },
+          response: { 200: caseTransitionResponseSchema },
         },
         {
           404: { $ref: "ErrorEnvelope#" },
@@ -180,14 +198,16 @@ export async function crmPlugin(app: FastifyInstance, options: CrmPluginOptions)
       const actor = await options.resolveActor(request);
       await options.verifyMutationRequest(request, actor);
       const expectedVersion = parseIfMatchVersion(request.headers["if-match"]);
-      const value = await options.service.transitionCase(
+      const result = await options.service.transitionCase(
         actor,
         request.params.caseId,
         expectedVersion,
+        request.headers["idempotency-key"],
         request.body,
       );
-      setVersionEtag(reply, value.version);
-      return value;
+      setVersionEtag(reply, result.value.case.version);
+      if (result.replayed) reply.header("idempotency-replayed", "true");
+      return result.value;
     },
   );
 

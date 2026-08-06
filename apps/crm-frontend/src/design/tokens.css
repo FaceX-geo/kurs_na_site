@@ -1,0 +1,126 @@
+:root {
+  color-scheme: light;
+
+  /* CRM pack v5, adapted locally from the verified 1536 × 1024 PDF baseline. */
+  --crm-font-sans:
+    "Onest Variable", "Onest", -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --crm-font-size-meta: 0.75rem;
+  --crm-font-size-small: 0.875rem;
+  --crm-font-size-body: 1rem;
+  --crm-font-size-card-title: 1.125rem;
+  --crm-font-size-section: clamp(1.5rem, 2vw, 2.25rem);
+  --crm-font-size-screen: clamp(2rem, 3vw, 3.25rem);
+  --crm-line-height-tight: 1.15;
+  --crm-line-height-body: 1.5;
+  --crm-font-weight-regular: 400;
+  --crm-font-weight-medium: 500;
+  --crm-font-weight-semibold: 600;
+  --crm-font-weight-bold: 700;
+
+  --crm-color-canvas: #f6f9fd;
+  --crm-color-surface: #ffffff;
+  --crm-color-surface-subtle: #eff4fa;
+  --crm-color-surface-hover: #e9f0f8;
+  --crm-color-ink: #071942;
+  --crm-color-text: #16264a;
+  --crm-color-text-secondary: #52617c;
+  --crm-color-text-muted: #6d7890;
+  --crm-color-text-disabled: #8d98ad;
+  --crm-color-border: #d9e2ee;
+  --crm-color-border-strong: #b8c6d9;
+  --crm-color-sidebar: #061a3d;
+  --crm-color-sidebar-text: #f7faff;
+  --crm-color-sidebar-muted: #b8c6dc;
+  --crm-color-work: #2764d8;
+  --crm-color-work-hover: #1e52bd;
+  --crm-color-reference-coral: #ec194c;
+  --crm-color-action: #d61042;
+  --crm-color-action-hover: #c30f3b;
+  --crm-color-action-pressed: #aa0d35;
+  --crm-color-action-text: #ffffff;
+  --crm-color-success: #18865b;
+  --crm-color-success-surface: #e5f5ec;
+  --crm-color-attention: #a55f08;
+  --crm-color-attention-surface: #fff6da;
+  --crm-color-danger: #b42318;
+  --crm-color-danger-surface: #fef3f2;
+  --crm-color-ai: #147985;
+  --crm-color-ai-surface: #e8f9fb;
+  --crm-color-focus: #1d4ed8;
+  --crm-color-focus-outer: rgba(29, 78, 216, 0.24);
+  --crm-color-selection: #e7f0ff;
+  --crm-color-overlay: rgba(6, 26, 61, 0.52);
+
+  --crm-kanban-new: #2f6feb;
+  --crm-kanban-new-soft: #e7f0ff;
+  --crm-kanban-review: #2aa6b6;
+  --crm-kanban-review-soft: #e8f9fb;
+  --crm-kanban-documents: #7357c8;
+  --crm-kanban-documents-soft: #f1edff;
+  --crm-kanban-selection: #9a6910;
+  --crm-kanban-selection-soft: #fff6da;
+  --crm-kanban-waiting: #bd5528;
+  --crm-kanban-waiting-soft: #fff0e6;
+  --crm-kanban-work: #168f96;
+  --crm-kanban-work-soft: #e4f6f7;
+  --crm-kanban-done: #238b57;
+  --crm-kanban-done-soft: #e5f5ec;
+
+  --crm-sidebar-width: 260px;
+  --crm-topbar-height: 72px;
+  --crm-content-max: 1440px;
+  --crm-hit-target: 44px;
+  --crm-control-height: 48px;
+  --crm-table-row-height: 56px;
+  --crm-modal-width: 640px;
+  --crm-gutter: clamp(1.25rem, 3.25vw, 3.25rem);
+
+  --crm-space-1: 0.25rem;
+  --crm-space-2: 0.5rem;
+  --crm-space-3: 0.75rem;
+  --crm-space-4: 1rem;
+  --crm-space-5: 1.25rem;
+  --crm-space-6: 1.5rem;
+  --crm-space-8: 2rem;
+  --crm-space-10: 2.5rem;
+  --crm-space-12: 3rem;
+
+  --crm-radius-small: 8px;
+  --crm-radius-control: 12px;
+  --crm-radius-panel: 16px;
+  --crm-radius-pill: 999px;
+  --crm-shadow-control: 0 1px 2px rgba(7, 25, 66, 0.08);
+  --crm-shadow-panel: 0 12px 32px rgba(7, 25, 66, 0.12);
+  --crm-shadow-overlay: 0 24px 64px rgba(7, 25, 66, 0.22);
+  --crm-focus-ring: 0 0 0 2px var(--crm-color-surface), 0 0 0 4px var(--crm-color-focus);
+
+  --crm-motion-press: 100ms;
+  --crm-motion-state: 150ms;
+  --crm-motion-panel: 220ms;
+  --crm-motion-distance: 12px;
+  --crm-motion-ease: cubic-bezier(0.2, 0, 0, 1);
+  --crm-opacity-disabled: 0.5;
+
+  --crm-z-sidebar: 20;
+  --crm-z-topbar: 30;
+  --crm-z-overlay: 50;
+  --crm-z-modal: 60;
+  --crm-z-toast: 70;
+}
+
+@media (max-width: 820px) {
+  :root {
+    --crm-sidebar-width: 0px;
+    --crm-topbar-height: 64px;
+    --crm-gutter: 1rem;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --crm-motion-press: 1ms;
+    --crm-motion-state: 1ms;
+    --crm-motion-panel: 1ms;
+    --crm-motion-distance: 0px;
+  }
+}

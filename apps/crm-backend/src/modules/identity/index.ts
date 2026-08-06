@@ -15,6 +15,24 @@ export {
 } from "./admin-role-registry.js";
 export { credentialDeliveryPayload, IdentityAdminService } from "./admin-service.js";
 export {
+  AuthenticatedSessionReceiptSchema,
+  AuthenticatedUserSchema,
+  BusinessRoleSchema,
+  type CsrfRefreshReceipt,
+  CsrfRefreshReceiptSchema,
+  OwnProfileSchema,
+} from "./auth-contracts.js";
+export {
+  BUSINESS_ROLE_CODES,
+  BUSINESS_ROLE_REGISTRY,
+  type BusinessRole,
+  BusinessRoleConflictError,
+  type BusinessRoleDefinition,
+  type InternalBusinessRoleCode,
+  internalRoleForBusinessRole,
+  resolveBusinessRole,
+} from "./business-role-registry.js";
+export {
   IDENTITY_OPERATION_LIST,
   IDENTITY_OPERATIONS,
   type IdentityOperationDefinition,

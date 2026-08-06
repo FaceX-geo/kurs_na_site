@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import {
+  isLegacyTaskAssociationSuccessful,
   JULY_22_TEST_SNAPSHOT_CONFIRMATION,
   JULY_22_TEST_SNAPSHOT_SHA256,
   normalizeLegacyPhone,
@@ -51,5 +52,11 @@ describe("July 22 test snapshot materializer", () => {
     expect(normalizeLegacyPhone("8 (921) 555-12-34")).toBe("+79215551234");
     expect(normalizeLegacyPhone("921 555 12 34")).toBe("+79215551234");
     expect(normalizeLegacyPhone("123")).toBeNull();
+  });
+
+  it("does not count a preserved task as associated when both canonical links are missing", () => {
+    expect(isLegacyTaskAssociationSuccessful(null, null)).toBe(false);
+    expect(isLegacyTaskAssociationSuccessful("case-id", null)).toBe(true);
+    expect(isLegacyTaskAssociationSuccessful(null, "employee-id")).toBe(true);
   });
 });

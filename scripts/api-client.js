@@ -1,5 +1,6 @@
 const DEFAULT_RETRY_STATUS = new Set([429, 500, 502, 503, 504]);
 const MAX_VACANCY_PAGES = 20;
+const MAX_STORY_PAGES = 20;
 
 export function createIdempotencyKey(scope = "request") {
   const normalizedScope = String(scope)
@@ -142,6 +143,72 @@ export default class ApiClient {
 
     throw new ApiError("Список вакансий превысил безопасный лимит страниц.", {
       code: "vacancy_page_limit_exceeded",
+      status: 502,
+    });
+  }
+
+  async getStories(signal) {
+    const items = [];
+    const suppressedIds = [];
+    const seenCursors = new Set();
+    const seenIds = new Set();
+    let cursor = "";
+
+    for (let page = 0; page < MAX_STORY_PAGES; page += 1) {
+      const query = new URLSearchParams({ limit: "100" });
+      if (cursor) query.set("cursor", cursor);
+      const data = await this.request("GET", `/stories?${query}`, { signal });
+      if (!Array.isArray(data?.items) || !Array.isArray(data?.suppressedIds)) {
+        throw new ApiError("API вернул некорректный список историй.", {
+          code: "invalid_response_contract",
+          status: 502,
+          payload: data,
+        });
+      }
+      for (const item of data.items) {
+        const itemId = typeof item?.id === "string" ? item.id : "";
+        if (!itemId || seenIds.has(itemId)) {
+          throw new ApiError("API вернул некорректную страницу историй.", {
+            code: "invalid_response_contract",
+            status: 502,
+            payload: data,
+          });
+        }
+        seenIds.add(itemId);
+        items.push(item);
+      }
+      for (const suppressedId of data.suppressedIds) {
+        if (typeof suppressedId !== "string" || !suppressedId || seenIds.has(suppressedId)) {
+          throw new ApiError("API вернул противоречивую страницу историй.", {
+            code: "invalid_response_contract",
+            status: 502,
+            payload: data,
+          });
+        }
+        seenIds.add(suppressedId);
+        suppressedIds.push(suppressedId);
+      }
+      const nextCursor = data?.page?.nextCursor;
+      const hasMore = data?.page?.hasMore;
+      if (hasMore === false && !nextCursor) return { items, suppressedIds };
+      if (
+        hasMore !== true ||
+        typeof nextCursor !== "string" ||
+        !nextCursor ||
+        seenCursors.has(nextCursor)
+      ) {
+        throw new ApiError("API вернул некорректный курсор историй.", {
+          code: "invalid_response_contract",
+          status: 502,
+          payload: data,
+        });
+      }
+      seenCursors.add(nextCursor);
+      cursor = nextCursor;
+    }
+
+    throw new ApiError("Список историй превысил безопасный лимит страниц.", {
+      code: "story_page_limit_exceeded",
       status: 502,
     });
   }

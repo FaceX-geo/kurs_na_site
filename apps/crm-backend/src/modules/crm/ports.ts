@@ -9,6 +9,7 @@ import type {
   CrmCaseListQuery,
   CrmCaseSummary,
   CrmCaseTransitionBody,
+  CrmCaseTransitionResult,
   CrmDictionaryList,
   CrmEmployerDetail,
   CrmEmployerListQuery,
@@ -99,6 +100,28 @@ export interface CrmTransitionExecution {
   readonly access: CrmAccessScope;
 }
 
+export interface CrmIdempotencyContext {
+  readonly key: string;
+  readonly scope: string;
+  readonly requestHash: string;
+}
+
+export interface CrmIdempotentResult<T> {
+  readonly value: T;
+  readonly replayed: boolean;
+}
+
+export interface CrmCaseTransitionExecution extends CrmTransitionExecution {
+  readonly idempotency: CrmIdempotencyContext;
+}
+
+export interface CrmCaseTransitionReplayQuery {
+  readonly aggregateId: string;
+  readonly actor: CrmActorContext;
+  readonly access: CrmAccessScope;
+  readonly idempotency: CrmIdempotencyContext;
+}
+
 export type CrmMutationResult<T> =
   | { readonly kind: "updated"; readonly value: T }
   | { readonly kind: "not_found" }
@@ -120,10 +143,18 @@ export interface CrmRepositoryPort {
   ): Promise<CrmRepositoryPage<CrmCaseSummary>>;
   getCase(access: CrmAccessScope, caseId: string): Promise<CrmCaseDetail | null>;
   /**
+   * Returns the authoritative response stored for an exact completed request.
+   * Implementations must fail closed for changed payloads, incomplete claims,
+   * malformed receipts and resources outside the supplied SQL scope.
+   */
+  findCaseTransitionReplay(query: CrmCaseTransitionReplayQuery): Promise<CrmCaseTransitionResult | null>;
+  /**
    * A transition implementation must atomically write the aggregate version,
    * state history, mandatory audit event and outbox event. No partial success is valid.
    */
-  transitionCase(command: CrmTransitionExecution): Promise<CrmMutationResult<CrmCaseDetail>>;
+  transitionCase(
+    command: CrmCaseTransitionExecution,
+  ): Promise<CrmMutationResult<CrmIdempotentResult<CrmCaseTransitionResult>>>;
 
   listPeople(
     access: CrmAccessScope,
@@ -169,8 +200,9 @@ export interface CrmServicePort {
     actor: CrmActorContext,
     caseId: string,
     expectedVersion: number,
+    idempotencyKey: string,
     body: CrmCaseTransitionBody,
-  ): Promise<CrmCaseDetail>;
+  ): Promise<CrmIdempotentResult<CrmCaseTransitionResult>>;
 
   listPeople(actor: CrmActorContext, query: CrmPersonListQuery): Promise<Page<CrmPersonSummary>>;
   getCandidateSummary(actor: CrmActorContext, personId: string): Promise<CrmCandidateSummary>;

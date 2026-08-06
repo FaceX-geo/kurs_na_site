@@ -14,7 +14,9 @@ const EXPECTED_COUNTS = {
   canonicalContacts: 2546,
   canonicalEmployers: 797,
   canonicalCases: 1237,
-  canonicalCrmTasks: 38,
+  associatedCrmTasks: 37,
+  reviewRequiredCrmTasks: 1,
+  sourceCrmTaskRows: 38,
 } as const;
 const UUID_NAMESPACE = "kurs-na-sever:test-snapshot-materialization:v1";
 const ADVISORY_LOCK_KEY = 4_936_470_150;
@@ -88,6 +90,11 @@ interface LegacyTaskRow extends RowDataPacket {
   STATUS: number | string;
   TITLE: string;
   UF_CRM_TASK: string;
+}
+
+interface MaterializedTaskAssociation extends Record<string, unknown> {
+  case_id: string | null;
+  responsible_employee_profile_id: string | null;
 }
 
 export interface TestSnapshotMaterializationConfig {
@@ -212,6 +219,13 @@ function legacyTaskCaseId(value: string): number | null {
   if (!match?.[1]) return null;
   const parsed = Number(match[1]);
   return Number.isSafeInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
+export function isLegacyTaskAssociationSuccessful(
+  caseId: string | null,
+  responsibleEmployeeProfileId: string | null,
+): boolean {
+  return caseId !== null || responsibleEmployeeProfileId !== null;
 }
 
 function taskState(status: number | string): "cancelled" | "done" | "in_progress" | "to_do" {
@@ -643,10 +657,12 @@ async function materializeCases(
     );
     await pg.query(
       `INSERT INTO crm.case_assignment
-         (id,case_id,legacy_actor_id,role,valid_from,provenance,created_at,updated_at)
-       VALUES ($1::uuid,$2::uuid,$3::uuid,'owner',$4::timestamptz,
+         (id,case_id,employee_profile_id,legacy_actor_id,role,valid_from,provenance,created_at,updated_at)
+       SELECT $1::uuid,$2::uuid,actor.employee_profile_id,actor.id,'owner',$4::timestamptz,
          jsonb_build_object('sourceSystem','bitrix','sourceEntity','b_crm_deal','sourceId',$5::text,'snapshotSha256',$6::text),
-         $4::timestamptz,$4::timestamptz)
+         $4::timestamptz,$4::timestamptz
+       FROM migration.legacy_actor AS actor
+       WHERE actor.id=$3::uuid
        ON CONFLICT (id) DO NOTHING`,
       [
         stableLegacyUuid("b_crm_deal.case_assignment", row.ID),
@@ -678,7 +694,7 @@ async function materializeCases(
 async function materializeCrmTasks(
   mysql: Awaited<ReturnType<typeof createConnection>>,
   pg: Client,
-): Promise<number> {
+): Promise<{ associated: number; preserved: number; reviewRequired: number }> {
   const rows = await queryRows<LegacyTaskRow>(
     mysql,
     `
@@ -691,15 +707,18 @@ async function materializeCrmTasks(
       AND NOT (t.GROUP_ID>0)
     ORDER BY t.ID`,
   );
-  if (rows.length !== EXPECTED_COUNTS.canonicalCrmTasks) {
-    throw new MigrationError("TEST_SNAPSHOT_SOURCE_COUNT_MISMATCH", "Canonical CRM task count drifted");
+  if (rows.length !== EXPECTED_COUNTS.sourceCrmTaskRows) {
+    throw new MigrationError("TEST_SNAPSHOT_SOURCE_COUNT_MISMATCH", "Legacy CRM task source count drifted");
   }
+  let associated = 0;
+  let reviewRequired = 0;
   for (const row of rows) {
     const state = taskState(row.STATUS);
     const linkedDealId = legacyTaskCaseId(row.UF_CRM_TASK);
     const caseId = linkedDealId === null ? null : stableLegacyUuid("b_crm_deal.case", linkedDealId);
     const employeeId = stableLegacyUuid("b_user.employee", row.RESPONSIBLE_ID);
-    await pg.query(
+    const taskId = stableLegacyUuid("b_tasks.crm_task", row.ID);
+    const insert = await pg.query<MaterializedTaskAssociation>(
       `INSERT INTO crm.task
          (id,public_id,case_id,title,description,state,responsible_employee_profile_id,due_at,completed_at,
           priority,provenance,created_at,updated_at)
@@ -709,9 +728,10 @@ async function materializeCrmTasks(
        FROM (SELECT $12::uuid AS id) desired_case
        LEFT JOIN crm."case" linked_case ON linked_case.id=desired_case.id
        LEFT JOIN identity.employee_profile employee ON employee.id=$13::uuid
-       ON CONFLICT (id) DO NOTHING`,
+       ON CONFLICT (id) DO NOTHING
+       RETURNING case_id,responsible_employee_profile_id`,
       [
-        stableLegacyUuid("b_tasks.crm_task", row.ID),
+        taskId,
         `task_legacy_${row.ID}`,
         nonBlank(row.TITLE) ?? `Legacy task ${row.ID}`,
         nonBlank(row.DESCRIPTION),
@@ -726,15 +746,36 @@ async function materializeCrmTasks(
         employeeId,
       ],
     );
-    await upsertLegacyReference(
-      pg,
-      "b_tasks.crm_task",
-      row.ID,
-      "crm.task",
-      stableLegacyUuid("b_tasks.crm_task", row.ID),
-    );
+    const association =
+      insert.rows[0] ??
+      (
+        await pg.query<MaterializedTaskAssociation>(
+          `SELECT case_id,responsible_employee_profile_id
+           FROM crm.task
+           WHERE id=$1::uuid`,
+          [taskId],
+        )
+      ).rows[0];
+    if (!association) {
+      throw new MigrationError(
+        "TEST_SNAPSHOT_CRM_TASK_FAILED",
+        "A preserved legacy CRM task could not be verified",
+      );
+    }
+    if (isLegacyTaskAssociationSuccessful(association.case_id, association.responsible_employee_profile_id)) {
+      associated += 1;
+    } else {
+      reviewRequired += 1;
+    }
+    await upsertLegacyReference(pg, "b_tasks.crm_task", row.ID, "crm.task", taskId);
   }
-  return rows.length;
+  if (
+    associated !== EXPECTED_COUNTS.associatedCrmTasks ||
+    reviewRequired !== EXPECTED_COUNTS.reviewRequiredCrmTasks
+  ) {
+    throw new MigrationError("TEST_SNAPSHOT_ASSOCIATION_DRIFT", "Legacy CRM task association counts drifted");
+  }
+  return { associated, preserved: rows.length, reviewRequired };
 }
 
 export async function materializeJuly22TestSnapshot(
@@ -783,11 +824,13 @@ export async function materializeJuly22TestSnapshot(
       actors: actorCounts.actors,
       canonicalCases: cases,
       canonicalContacts: contacts,
-      canonicalCrmTasks: crmTasks,
+      canonicalCrmTasks: crmTasks.associated,
       canonicalEmployees: actorCounts.employees,
       canonicalEmployers: employers,
       contactPointsProjected: contactPoints,
+      crmTasksReviewRequired: crmTasks.reviewRequired,
       employerRequisitesApplied: requisites,
+      legacyCrmTaskRowsPreserved: crmTasks.preserved,
     };
     await pg.query(
       `UPDATE migration.test_snapshot_materialization

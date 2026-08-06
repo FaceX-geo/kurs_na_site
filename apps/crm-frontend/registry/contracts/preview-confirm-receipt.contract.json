@@ -1,0 +1,36 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.preview-confirm-receipt",
+  "version": "1.0.0",
+  "purpose": "Make critical and repeated CRM writes explicit, reviewable and evidenced.",
+  "variants": ["single", "batch", "critical"],
+  "states": ["draft", "preview", "confirming", "executing", "receipt"],
+  "inputs": [
+    { "name": "phase", "type": "OperationPhase", "required": true },
+    { "name": "title", "type": "string", "required": true },
+    { "name": "operationId", "type": "string", "required": true },
+    { "name": "description", "type": "string", "required": false },
+    { "name": "previewItems", "type": "PreviewItem[]", "required": false },
+    { "name": "receipt", "type": "OperationReceipt|null", "required": false },
+    { "name": "pending", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "requestPreview": { "payload": "void", "description": "Validates and prepares impact without executing the mutation." },
+    "confirm": { "payload": "void", "description": "Requests the exact backend operation after human review." },
+    "cancel": { "payload": "void", "description": "Discards or closes the current draft/preview." },
+    "openReceiptTarget": { "payload": "void", "description": "Navigates to the record evidenced by the receipt." }
+  },
+  "accessibility": {
+    "role": "region and status/alert receipt",
+    "keyboard": "All decisions are native buttons in deterministic order.",
+    "focus": "Failure preserves review context; receipt action follows evidence.",
+    "screenReader": "Before/after, consequence, outcome and evidence are textual."
+  },
+  "motion": { "default": "No required motion.", "reducedMotion": "No change." },
+  "invariants": [
+    "Draft never calls the mutation operation.",
+    "Confirm uses CSRF plus backend-required version and idempotency metadata from the API layer.",
+    "A batch retry always starts a new preview and includes only retryable items.",
+    "Queued provider work is not described as delivered without provider evidence."
+  ]
+}

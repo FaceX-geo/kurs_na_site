@@ -125,12 +125,46 @@ export const CrmVersionHeadersSchema = Type.Object(
   { additionalProperties: true },
 );
 
+export const CrmCaseTransitionHeadersSchema = Type.Object(
+  {
+    "if-match": Type.Optional(Type.String({ minLength: 1, maxLength: 64 })),
+    "idempotency-key": Type.String({
+      minLength: 8,
+      maxLength: 128,
+      pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+    }),
+    "x-csrf-token": Type.String({ minLength: 16, maxLength: 512 }),
+  },
+  { additionalProperties: true },
+);
+
 export const CrmCaseTransitionBodySchema = Type.Object(
   {
     toStageCode: CodeSchema,
     reasonCode: Type.Optional(CodeSchema),
     reasonText: Type.Optional(Type.String({ minLength: 1, maxLength: 4_000 })),
     evidence: Type.Optional(Type.Record(Type.String({ minLength: 1, maxLength: 128 }), Type.Unknown())),
+  },
+  { additionalProperties: false },
+);
+
+export const CrmCaseTransitionReceiptSchema = Type.Object(
+  {
+    id: IdentifierSchema,
+    auditEventId: IdentifierSchema,
+    operationId: Type.Literal("TransitionCase"),
+    requestId: Type.String({ minLength: 1, maxLength: 256 }),
+    caseId: IdentifierSchema,
+    version: VersionSchema,
+    occurredAt: IsoTimestampSchema,
+  },
+  { additionalProperties: false },
+);
+
+export const CrmCaseTransitionResultSchema = Type.Object(
+  {
+    case: CrmCaseDetailSchema,
+    receipt: CrmCaseTransitionReceiptSchema,
   },
   { additionalProperties: false },
 );
@@ -563,6 +597,8 @@ export type CrmCaseSummary = Static<typeof CrmCaseSummarySchema>;
 export type CrmCaseDetail = Static<typeof CrmCaseDetailSchema>;
 export type CrmCaseListQuery = Static<typeof CrmCaseListQuerySchema>;
 export type CrmCaseTransitionBody = Static<typeof CrmCaseTransitionBodySchema>;
+export type CrmCaseTransitionReceipt = Static<typeof CrmCaseTransitionReceiptSchema>;
+export type CrmCaseTransitionResult = Static<typeof CrmCaseTransitionResultSchema>;
 export type CrmPersonSummary = Static<typeof CrmPersonSummarySchema>;
 export type CrmPersonListQuery = Static<typeof CrmPersonListQuerySchema>;
 export type CrmCandidateSummary = Static<typeof CrmCandidateSummarySchema>;

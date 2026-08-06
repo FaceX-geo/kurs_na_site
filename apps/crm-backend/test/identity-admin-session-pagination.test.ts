@@ -24,6 +24,8 @@ const context: AuthContext = {
   csrfTokenHash: "a".repeat(64),
   roles: ["platform_superadmin"],
   permissions: ["identity.sessions.read_all"],
+  businessRole: "SUPER_ADMIN",
+  employeeProfileId: null,
 };
 
 function sessionRow(id: string, createdAt: string) {

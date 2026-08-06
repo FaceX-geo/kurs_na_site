@@ -59,10 +59,10 @@ test("landing exposes six accessible sector controls and required resume", async
   assert.match(html, /id="resume"[^>]*required/);
   assert.match(html, /id="wishSalary"[^>]*pattern="\[0-9\]\*"/);
   assert.match(html, /Живи и работай там, где другие мечтают отдыхать/);
-  assert.match(html, /scripts\/main\.js\?v=20260806-4/);
+  assert.match(html, /scripts\/main\.js\?v=20260807-1/);
 
   const main = await readFile(new URL("scripts/main.js", projectUrl), "utf8");
-  assert.match(main, /api-client\.js\?v=20260806-3/);
+  assert.match(main, /api-client\.js\?v=20260807-1/);
   assert.doesNotMatch(main, /clientFingerprint|createFingerprint/);
   assert.doesNotMatch(main, /if \(normalizedRemote\.length\)/);
 });
@@ -197,6 +197,39 @@ test("vacancy client follows signed cursor pages and rejects duplicate rows", as
   assert.deepEqual(await client.getVacancies("medicine"), [{ id: "vac_01" }, { id: "vac_02" }]);
   assert.match(urls[0], /sector=medicine/);
   assert.match(urls[1], /cursor=cursor_02/);
+});
+
+test("story client follows signed cursor pages and rejects duplicate rows", async () => {
+  const urls = [];
+  const responses = [
+    {
+      items: [{ id: "story_01" }],
+      suppressedIds: ["family"],
+      page: { nextCursor: "cursor_story_02", hasMore: true, limit: 100 },
+    },
+    {
+      items: [{ id: "story_02" }],
+      suppressedIds: ["doctor"],
+      page: { nextCursor: null, hasMore: false, limit: 100 },
+    },
+  ];
+  const client = new ApiClient({
+    fetch: async (url) => {
+      urls.push(url);
+      return new Response(JSON.stringify(responses.shift()), {
+        status: 200,
+        headers: { "content-type": "application/json" },
+      });
+    },
+    maxRetries: 0,
+  });
+
+  assert.deepEqual(await client.getStories(), {
+    items: [{ id: "story_01" }, { id: "story_02" }],
+    suppressedIds: ["family", "doctor"],
+  });
+  assert.match(urls[0], /\/public\/v1\/stories\?limit=100/);
+  assert.match(urls[1], /cursor=cursor_story_02/);
 });
 
 test("application success requires the exact receipt contract", async () => {

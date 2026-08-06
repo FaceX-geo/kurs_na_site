@@ -306,6 +306,61 @@ Returns only published landing map points:
 }
 ```
 
+## 6) Fetch published relocation stories
+
+### `GET /stories?cursor={cursor}&limit={limit}`
+
+Returns only stories explicitly published by a CRM super admin. `limit` defaults to `50` and is
+capped at `100`; `cursor` is opaque. The landing merges these records into its bundled editorial
+fallback by `id`, so an unpublished or archived managed record is never returned by this endpoint.
+
+```json
+{
+  "items": [
+    {
+      "id": "story_engineer_murmansk",
+      "tone": "berry",
+      "filters": ["children", "couple"],
+      "cardTags": ["Семья", "Инженерная карьера"],
+      "ariaLabel": "Открыть историю инженера о переезде",
+      "eyebrow": "История переезда",
+      "title": "Один оффер — маршрут для всей семьи",
+      "person": "Андрей, 38",
+      "route": "Екатеринбург → Мончегорск",
+      "avatar": "assets/images/story-avatar-engineer-v9.webp",
+      "avatarAlt": "Портрет инженера Андрея",
+      "cardQuote": "Когда сложили две карьеры, школу и жильё — риск исчез.",
+      "quote": "Полный текст истории.",
+      "tags": ["С детьми", "Промышленность"],
+      "lead": "Вводный абзац истории.",
+      "gallery": [{ "src": "assets/images/relocation-story-summer.jpg", "alt": "Мурманск летом" }],
+      "steps": ["Проверили оффер", "Согласовали дату переезда"]
+    }
+  ],
+  "suppressedIds": ["family"],
+  "page": { "limit": 50, "nextCursor": null, "hasMore": false }
+}
+```
+
+Pagination проходит по всем управляемым story records. `items` содержит опубликованные записи
+текущей страницы, а `suppressedIds` — `publicId` черновиков и архивных записей той же страницы.
+Клиент обязан пройти все курсоры, удалить эти идентификаторы из встроенного fallback и только
+после этого наложить опубликованные записи. Поэтому архивирование в CRM не возвращает старую
+историю из статического bundle.
+
+## CRM cabinet seam
+
+- Cabinet SPA: `/cabinet/`; browser routes under `/cabinet/crm/*` use the same-origin API.
+- Authentication, sessions, permissions and business roles are served only by `/internal/v1/*`.
+- Product roles are `SUPER_ADMIN` and `SPECIALIST`; technical RBAC roles remain internal backend
+  implementation details.
+- The generated backend OpenAPI document is the source of truth for all cabinet operations. The
+  frontend must not invent routes or infer access from hidden navigation.
+- Every cabinet mutation uses the session cookie, trusted-origin/CSRF validation, an
+  `Idempotency-Key`, and optimistic concurrency headers where declared by OpenAPI.
+- Public content writes are available only to `SUPER_ADMIN`; published vacancies flow through
+  `/public/v1/vacancies`, and published stories through `/public/v1/stories`.
+
 ## Frontend mapping rules
 - `422` with `errors[].field` => field-level message under form control.
 - Field alias mapping in UI:

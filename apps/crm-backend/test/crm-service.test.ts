@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import type { CrmCaseDetail } from "../src/modules/crm/contracts.js";
+import type { CrmCaseDetail, CrmCaseTransitionResult } from "../src/modules/crm/contracts.js";
 import type {
   CrmAccessScope,
   CrmActorContext,
@@ -11,6 +11,7 @@ import { CRM_DICTIONARY_REGISTRY } from "../src/registry/crm-dictionary-registry
 import { CRM_STATE_REGISTRY, createCrmStateRegistry } from "../src/registry/crm-state-registry.js";
 
 const signingKey = "crm-contract-test-signing-key-32-bytes-minimum";
+const idempotencyKey = "case-transition-key-0001";
 
 const actor: CrmActorContext = {
   userAccountId: "user-1",
@@ -51,15 +52,41 @@ function aCase(overrides: Partial<CrmCaseDetail> = {}): CrmCaseDetail {
   };
 }
 
+function transitionResponse(value: CrmCaseDetail): CrmCaseTransitionResult {
+  return {
+    case: value,
+    receipt: {
+      id: "audit-event-1",
+      auditEventId: "audit-event-1",
+      operationId: "TransitionCase",
+      requestId: actor.requestId,
+      caseId: value.id,
+      version: value.version,
+      occurredAt: "2026-08-06T10:00:00.000Z",
+    },
+  };
+}
+
+function updatedTransition(value: CrmCaseDetail) {
+  return {
+    kind: "updated" as const,
+    value: { value: transitionResponse(value), replayed: false },
+  };
+}
+
 function serviceFixture(repository: Partial<CrmRepositoryPort>, stateRegistry = CRM_STATE_REGISTRY) {
   const authorize = vi.fn(async () => access);
   const authorization: CrmAuthorizationPort = { authorize };
   const service = createCrmService({
-    repository: repository as CrmRepositoryPort,
+    repository: {
+      findCaseTransitionReplay: async () => null,
+      ...repository,
+    } as CrmRepositoryPort,
     authorization,
     stateRegistry,
     dictionaryRegistry: CRM_DICTIONARY_REGISTRY,
     cursorSigningKey: signingKey,
+    requestHashingKey: signingKey,
   });
   return { service, authorize };
 }
@@ -102,15 +129,15 @@ describe("CRM application service", () => {
       stageCode: "employed",
       version: 4,
     });
-    const transitionCase = vi.fn(async () => ({ kind: "updated" as const, value: after }));
+    const transitionCase = vi.fn(async () => updatedTransition(after));
     const { service } = serviceFixture({ getCase: async () => before, transitionCase }, registry);
 
-    const result = await service.transitionCase(actor, "case-1", 3, {
+    const result = await service.transitionCase(actor, "case-1", 3, idempotencyKey, {
       toStageCode: "employed",
       evidence: { employer_id: "employer-1" },
     });
 
-    expect(result).toBe(after);
+    expect(result).toEqual({ value: transitionResponse(after), replayed: false });
     expect(transitionCase).toHaveBeenCalledWith(
       expect.objectContaining({
         aggregateId: "case-internal-1",
@@ -135,20 +162,20 @@ describe("CRM application service", () => {
     const { service } = serviceFixture({ getCase: async () => current });
 
     await expect(
-      service.transitionCase(actor, "case-1", 3, { toStageCode: "employed" }),
+      service.transitionCase(actor, "case-1", 3, idempotencyKey, { toStageCode: "employed" }),
     ).rejects.toMatchObject({ statusCode: 409, code: "state_machine_not_active" });
   });
 
   it("requires the registry permission for a reopen transition", async () => {
     const before = aCase({ stageCode: "closed_unsuccessful" });
     const after = aCase({ stageCode: "new", version: 4 });
-    const transitionCase = vi.fn(async () => ({ kind: "updated" as const, value: after }));
+    const transitionCase = vi.fn(async () => updatedTransition(after));
     const { service, authorize } = serviceFixture({
       getCase: async () => before,
       transitionCase,
     });
 
-    await service.transitionCase(actor, "case-1", 3, {
+    await service.transitionCase(actor, "case-1", 3, idempotencyKey, {
       toStageCode: "new",
       reasonText: "Исправлены исходные данные",
     });
@@ -166,10 +193,10 @@ describe("CRM application service", () => {
   it("passes registry-defined aggregate status to the atomic repository command", async () => {
     const before = aCase({ stageCode: "new", status: "open" });
     const after = aCase({ stageCode: "qualification", status: "open", version: 4 });
-    const transitionCase = vi.fn(async () => ({ kind: "updated" as const, value: after }));
+    const transitionCase = vi.fn(async () => updatedTransition(after));
     const { service } = serviceFixture({ getCase: async () => before, transitionCase });
 
-    await service.transitionCase(actor, "case-1", 3, {
+    await service.transitionCase(actor, "case-1", 3, idempotencyKey, {
       toStageCode: "qualification",
       evidence: { owner_id: "employee-1", next_step: "Позвонить" },
     });
@@ -223,7 +250,7 @@ describe("CRM application service", () => {
     });
 
     await expect(
-      service.transitionCase(actor, "case-1", 3, { toStageCode: "qualification" }),
+      service.transitionCase(actor, "case-1", 3, idempotencyKey, { toStageCode: "qualification" }),
     ).rejects.toMatchObject({
       statusCode: 409,
       code: "version_conflict",
@@ -232,12 +259,40 @@ describe("CRM application service", () => {
     expect(transitionCase).not.toHaveBeenCalled();
   });
 
+  it("returns an authoritative completed replay before applying stale If-Match checks", async () => {
+    const replay = transitionResponse(aCase({ stageCode: "qualification", version: 4 }));
+    const findCaseTransitionReplay = vi.fn(async () => replay);
+    const transitionCase = vi.fn();
+    const { service } = serviceFixture({
+      getCase: async () => aCase({ stageCode: "documents", version: 9 }),
+      findCaseTransitionReplay,
+      transitionCase,
+    });
+
+    await expect(
+      service.transitionCase(actor, "case-1", 3, idempotencyKey, {
+        toStageCode: "qualification",
+      }),
+    ).resolves.toEqual({ value: replay, replayed: true });
+    expect(findCaseTransitionReplay).toHaveBeenCalledWith(
+      expect.objectContaining({
+        aggregateId: "case-internal-1",
+        idempotency: expect.objectContaining({
+          key: idempotencyKey,
+          scope: "crm.case.transition:user-1:case-internal-1",
+          requestHash: expect.stringMatching(/^[a-f0-9]{64}$/u),
+        }),
+      }),
+    );
+    expect(transitionCase).not.toHaveBeenCalled();
+  });
+
   it("rejects an invalid expected version before authorization or repository access", async () => {
     const getCase = vi.fn();
     const { service, authorize } = serviceFixture({ getCase });
 
     await expect(
-      service.transitionCase(actor, "case-1", 0, { toStageCode: "qualification" }),
+      service.transitionCase(actor, "case-1", 0, idempotencyKey, { toStageCode: "qualification" }),
     ).rejects.toMatchObject({ statusCode: 422, code: "invalid_expected_version" });
     expect(authorize).not.toHaveBeenCalled();
     expect(getCase).not.toHaveBeenCalled();

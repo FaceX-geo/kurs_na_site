@@ -28,6 +28,8 @@
     "migration:preflight": "tsx scripts/migrate-legacy.ts preflight",
     "migration:rehearse-transforms": "tsx scripts/rehearse-migration-transforms.ts",
     "migration:verify-projections": "tsx scripts/verify-migration-projections.ts",
+    "migration:reconcile-staff-associations": "tsx src/staff-association-reconcile-once.ts",
+    "migration:staff-association-release-gate": "tsx src/staff-association-release-gate-once.ts",
     "migration:run": "tsx scripts/migrate-legacy.ts run",
     "migration:test-snapshot": "tsx src/test-snapshot-import-once.ts",
     "verify": "pnpm lint && pnpm typecheck && pnpm test && pnpm openapi:generate && pnpm contracts:check"

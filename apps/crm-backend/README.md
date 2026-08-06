@@ -33,16 +33,26 @@ pnpm verify
 pnpm build
 ```
 
-Все Docker, Compose, PostgreSQL и runtime операции этого workspace выполняются только на Bravo:
+Все Docker, Compose, PostgreSQL и runtime операции этого workspace выполняются только на Bravo.
+Следующая команда допустима только для нового изолированного development/QA-контура без
+production-данных:
 
 ```sh
 docker --context remote-build compose -f apps/crm-backend/compose.yaml config
 docker --context remote-build compose -f apps/crm-backend/compose.yaml up --build
 ```
 
+На production общий `compose up`, `up --build`, `down` и `down -v` запрещены: они могут затронуть
+PostgreSQL и именованные volumes. Release image собирается только из `git archive <exact-sha>` или
+чистого detached worktree. Затем отдельно выполняются `run --rm --no-deps migrate`, два
+reconciliation-run и только после успешного gate — targeted
+`up -d --no-deps --force-recreate api worker`. PostgreSQL container ID и volume ID до и после
+rollout должны совпасть.
+
 Production запуск требует secret manager/CI variables и существующую edge-сеть. Не копируй
 production secrets в локальный `.env` и не запускай проектный Docker на macOS. Полный обязательный
-порядок build → health → logs → HTTP smoke → cleanup описан в [AGENTS.md](AGENTS.md).
+порядок backup/restore proof → exact-SHA build → migration/reconciliation → targeted rollout →
+health/logs/HTTP smoke описан в [AGENTS.md](AGENTS.md).
 
 Swagger UI включён вне production на `/docs`. Стабильный artifact создаётся командой:
 

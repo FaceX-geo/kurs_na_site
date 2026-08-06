@@ -31,6 +31,8 @@ describe("identity logout", () => {
       csrfTokenHash: "a".repeat(64),
       roles: [],
       permissions: [],
+      businessRole: null,
+      employeeProfileId: null,
     };
     const authenticate = vi.fn(async () => context);
     const assertTrustedMutation = vi.fn();

@@ -35,10 +35,20 @@ The initial frontend-ready projection is deliberately narrower than the raw sour
 - `2546` safe contact/person profiles;
 - `797` employers;
 - `1237` category-2 CRM cases with safe contact and owner dependencies;
-- `38` CRM-domain tasks;
+- `38` legacy CRM task rows preserved with provenance: `37` have at least one canonical case or
+  employee association, `1` has neither and is explicitly review-required rather than counted as
+  a successful canonical association;
 - unique supported contact points and non-conflicting employer requisites.
 
 All remaining SQL rows stay available in the immutable isolated MySQL source and receive migration-ledger classification where covered by the approved 57-table manifest. They are not silently coerced into canonical entities that do not yet have a signed contract.
+
+## Staff association reconciliation
+
+Migration `0161_legacy_staff_associations` keeps the immutable Bitrix actor reference and adds the
+matching canonical employee profile to each proven case assignment. The bounded 1,237 cases map to
+eight active specialists. A mismatch is fatal; an ownerless case is retained in the explicit
+privacy-safe review queue rather than auto-assigned. See
+[`legacy-staff-association-reconciliation.md`](legacy-staff-association-reconciliation.md).
 
 ## Bravo execution
 
@@ -56,7 +66,11 @@ Acceptance requires:
 
 1. the job exits with `TEST_SNAPSHOT_MATERIALIZED`;
 2. `migration.test_snapshot_materialization.state = 'completed'`;
-3. recorded counts equal the contract above;
+3. recorded counts equal the contract above: `legacyCrmTaskRowsPreserved=38`,
+   `canonicalCrmTasks=37`, `crmTasksReviewRequired=1`;
 4. API list endpoints return the canonical projection with pagination;
 5. a second job run reports `alreadyCompleted=true`;
 6. CRM API, worker and PostgreSQL remain healthy and logs contain no database or secret errors.
+7. `staff-association-release-gate` reports zero mismatches and zero legacy-only assignments,
+   explicitly returns `review_required` for the queued case/task exceptions, and proves a repeated
+   reconciliation backfills zero rows with unchanged aggregate counts.

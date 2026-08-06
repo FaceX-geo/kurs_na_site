@@ -26,6 +26,7 @@ import type {
   CrmTaskTransitionBody,
   CrmTimelineQuery,
 } from "./contracts.js";
+import { createCrmCaseTransitionIdempotency } from "./idempotency.js";
 import type {
   CrmAccessScope,
   CrmActorContext,
@@ -43,6 +44,7 @@ export interface CreateCrmServiceOptions {
   readonly stateRegistry: CrmStateRegistry;
   readonly dictionaryRegistry: CrmDictionaryRegistry;
   readonly cursorSigningKey: string;
+  readonly requestHashingKey: string;
   readonly defaultPageSize?: number;
   readonly maximumPageSize?: number;
   readonly taskStateMachine?: { readonly code: string; readonly version: number };
@@ -51,6 +53,20 @@ export interface CreateCrmServiceOptions {
 function ensureSigningKey(signingKey: string): void {
   if (signingKey.length < 32) {
     throw new Error("CRM cursor signing key must contain at least 32 characters");
+  }
+}
+
+function ensureRequestHashingKey(hashingKey: string): void {
+  if (hashingKey.length < 32) {
+    throw new Error("CRM request hashing key must contain at least 32 characters");
+  }
+}
+
+const IDEMPOTENCY_KEY_PATTERN = /^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/u;
+
+function assertIdempotencyKey(idempotencyKey: string): void {
+  if (!IDEMPOTENCY_KEY_PATTERN.test(idempotencyKey)) {
+    throw new AppError(422, "invalid_idempotency_key", "Передайте корректный Idempotency-Key");
   }
 }
 
@@ -160,6 +176,7 @@ function handleMutationResult<T>(
 
 export function createCrmService(options: CreateCrmServiceOptions): CrmServicePort {
   ensureSigningKey(options.cursorSigningKey);
+  ensureRequestHashingKey(options.requestHashingKey);
   const defaultPageSize = boundedLimit(options.defaultPageSize, 50, 200);
   const maximumPageSize = boundedLimit(options.maximumPageSize, 200, 200);
   if (defaultPageSize > maximumPageSize) {
@@ -210,15 +227,35 @@ export function createCrmService(options: CreateCrmServiceOptions): CrmServicePo
       actor: CrmActorContext,
       caseId: string,
       expectedVersion: number,
+      idempotencyKey: string,
       body: CrmCaseTransitionBody,
     ) {
       assertExpectedVersion(expectedVersion);
+      assertIdempotencyKey(idempotencyKey);
       const target = resource("crm_case", caseId);
       let access = await authorize("cases.transition", actor, target);
       const current = await options.repository.getCase(access, caseId);
       if (!current) {
         throw new AppError(404, "not_found", "CRM-кейс не найден");
       }
+
+      const idempotency = createCrmCaseTransitionIdempotency({
+        hashingKey: options.requestHashingKey,
+        idempotencyKey,
+        actor,
+        access,
+        caseId: current.id,
+        expectedVersion,
+        body,
+      });
+      const replay = await options.repository.findCaseTransitionReplay({
+        aggregateId: current.id,
+        actor,
+        access,
+        idempotency,
+      });
+      if (replay) return { value: replay, replayed: true };
+
       if (current.version !== expectedVersion) {
         throw new AppError(409, "version_conflict", "CRM-кейс уже изменён другим запросом", {
           details: { expectedVersion, currentVersion: current.version },
@@ -290,6 +327,7 @@ export function createCrmService(options: CreateCrmServiceOptions): CrmServicePo
         evidence,
         actor,
         access,
+        idempotency,
       });
       return handleMutationResult(result, expectedVersion, "CRM-кейс");
     },

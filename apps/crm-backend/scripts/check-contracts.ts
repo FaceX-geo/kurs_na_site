@@ -10,6 +10,7 @@ import { CRM_COMMAND_OPERATION_LIST } from "../src/modules/crm-commands/registry
 import { CRM_OPERATIONS_OPERATION_LIST } from "../src/modules/crm-operations/registry.js";
 import { ROLE_OPERATION_LIST, ROLE_PREVIEW_OPERATION } from "../src/modules/identity/admin-role-registry.js";
 import { IDENTITY_OPERATION_LIST } from "../src/modules/identity/operation-registry.js";
+import { PUBLIC_CONTENT_OPERATION_LIST } from "../src/modules/public-content/registry.js";
 import { CRM_OPERATION_LIST } from "../src/registry/operation-registry.js";
 
 type JsonObject = Readonly<Record<string, unknown>>;
@@ -99,6 +100,7 @@ assertRegistryOperations(paths, "CRM read model", CRM_OPERATION_LIST);
 assertRegistryOperations(paths, "CRM command", CRM_COMMAND_OPERATION_LIST);
 assertRegistryOperations(paths, "CRM operations", CRM_OPERATIONS_OPERATION_LIST);
 assertRegistryOperations(paths, "Candidate 360", CANDIDATE_360_OPERATION_LIST);
+assertRegistryOperations(paths, "Public content", PUBLIC_CONTENT_OPERATION_LIST);
 
 const queueCommunication = operationAt(
   paths,
@@ -119,6 +121,40 @@ const queueResponseHeaders = object(queueOkResponse.headers, "QueueCommunication
 for (const headerName of ["ETag", "Idempotency-Replayed"]) {
   if (!(headerName in queueResponseHeaders)) {
     throw new Error(`QueueCommunication is missing documented ${headerName} response header`);
+  }
+}
+
+const transitionCase = operationAt(paths, "/internal/v1/crm/cases/{caseId}/transitions", "POST");
+const transitionCaseParameters = array(transitionCase.parameters).map((parameter) =>
+  object(parameter, "TransitionCase parameter"),
+);
+for (const headerName of ["if-match", "idempotency-key", "x-csrf-token"]) {
+  if (
+    !transitionCaseParameters.some((parameter) => parameter.in === "header" && parameter.name === headerName)
+  ) {
+    throw new Error(`TransitionCase is missing ${headerName} header`);
+  }
+}
+if (
+  !transitionCaseParameters.some(
+    (parameter) =>
+      parameter.in === "header" && parameter.name === "idempotency-key" && parameter.required === true,
+  )
+) {
+  throw new Error("TransitionCase Idempotency-Key must be required");
+}
+const transitionCaseResponses = object(transitionCase.responses, "TransitionCase responses");
+const transitionCaseOk = object(transitionCaseResponses["200"], "TransitionCase 200 response");
+const transitionCaseHeaders = object(transitionCaseOk.headers, "TransitionCase response headers");
+for (const headerName of ["ETag", "Idempotency-Replayed"]) {
+  if (!(headerName in transitionCaseHeaders)) {
+    throw new Error(`TransitionCase is missing documented ${headerName} response header`);
+  }
+}
+const transitionCaseContract = JSON.stringify(transitionCaseOk);
+for (const receiptField of ["receipt", "auditEventId", "operationId", "requestId", "caseId", "version"]) {
+  if (!transitionCaseContract.includes(`"${receiptField}"`)) {
+    throw new Error(`TransitionCase response is missing ${receiptField}`);
   }
 }
 
@@ -159,17 +195,73 @@ for (const registered of IDENTITY_OPERATION_LIST) {
     }
     continue;
   }
+  if (registered.access === "authenticated_origin") {
+    const exactSessionOnlySecurity =
+      security.length === 1 &&
+      security.some((requirement) => "sessionCookie" in requirement && !("csrfToken" in requirement));
+    if (!exactSessionOnlySecurity) {
+      throw new Error("RefreshCsrfToken must require sessionCookie without an existing CSRF token");
+    }
+    const responses = object(operation.responses, "RefreshCsrfToken responses");
+    for (const status of ["401", "403", "429"]) {
+      if (!(status in responses)) {
+        throw new Error(`RefreshCsrfToken must publish ${status} response`);
+      }
+    }
+    continue;
+  }
   if (!security.some((requirement) => "sessionCookie" in requirement)) {
     throw new Error(`Identity operation ${registered.key} must require a session cookie`);
   }
   if (registered.permissionCode && operation["x-permission-code"] !== registered.permissionCode) {
     throw new Error(`Identity permission registry drift for ${registered.key}`);
   }
-  const parameters = array(operation.parameters).map((item) => object(item, "session list parameter"));
-  for (const name of ["cursor", "limit"]) {
-    if (!parameters.some((parameter) => parameter.in === "query" && parameter.name === name)) {
-      throw new Error(`Identity operation ${registered.key} is missing ${name} pagination`);
+  if (registered.method === "GET") {
+    const parameters = array(operation.parameters).map((item) => object(item, "identity list parameter"));
+    for (const name of ["cursor", "limit"]) {
+      if (!parameters.some((parameter) => parameter.in === "query" && parameter.name === name)) {
+        throw new Error(`Identity operation ${registered.key} is missing ${name} pagination`);
+      }
     }
+  }
+}
+
+const provisionSpecialist = operationAt(paths, "/internal/v1/admin/specialists", "POST");
+const provisionSpecialistParameters = array(provisionSpecialist.parameters).map((item) =>
+  object(item, "ProvisionSpecialist parameter"),
+);
+if (
+  !provisionSpecialistParameters.some(
+    (parameter) =>
+      parameter.in === "header" && parameter.name === "idempotency-key" && parameter.required === true,
+  )
+) {
+  throw new Error("ProvisionSpecialist Idempotency-Key must be required");
+}
+const provisionSpecialistResponses = object(provisionSpecialist.responses, "ProvisionSpecialist responses");
+const provisionSpecialistAccepted = object(
+  provisionSpecialistResponses["202"],
+  "ProvisionSpecialist 202 response",
+);
+const provisionSpecialistHeaders = object(
+  provisionSpecialistAccepted.headers,
+  "ProvisionSpecialist response headers",
+);
+if (!("Idempotency-Replayed" in provisionSpecialistHeaders)) {
+  throw new Error("ProvisionSpecialist is missing documented Idempotency-Replayed response header");
+}
+const provisionSpecialistContract = JSON.stringify(provisionSpecialistAccepted);
+for (const receiptField of [
+  "auditEventId",
+  "operationId",
+  "requestId",
+  "userId",
+  "employeeProfileId",
+  "occurredAt",
+  "credentialDelivery",
+]) {
+  if (!provisionSpecialistContract.includes(`"${receiptField}"`)) {
+    throw new Error(`ProvisionSpecialist response is missing ${receiptField}`);
   }
 }
 
@@ -177,6 +269,7 @@ const publicRoutes = [
   ["GET", "/public/v1/dictionaries/spheres"],
   ["GET", "/public/v1/map-points"],
   ["GET", "/public/v1/vacancies"],
+  ["GET", "/public/v1/stories"],
   ["POST", "/public/v1/uploads"],
   ["POST", "/public/v1/applications"],
 ] as const;
@@ -233,6 +326,7 @@ for (const legacyPath of [
   "/api/v1/dictionaries/spheres",
   "/api/v1/map-points",
   "/api/v1/vacancies",
+  "/api/v1/stories",
   "/api/v1/uploads",
   "/api/v1/files",
   "/api/v1/applications",
@@ -281,6 +375,7 @@ process.stdout.write(
     crmCommandOperations: CRM_COMMAND_OPERATION_LIST.length,
     crmOperations: CRM_OPERATIONS_OPERATION_LIST.length,
     candidate360Operations: CANDIDATE_360_OPERATION_LIST.length,
+    publicContentOperations: PUBLIC_CONTENT_OPERATION_LIST.length,
     identityOperations: IDENTITY_OPERATION_LIST.length,
     identityRoleOperations: ROLE_OPERATION_LIST.length + 1,
     crmRequirements: requiredCrmOperations.size,

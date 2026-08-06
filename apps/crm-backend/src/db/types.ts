@@ -21,6 +21,32 @@ export interface SchemaMigrationTable {
   applied_at: CreatedTimestamp;
 }
 
+export interface PublicContentTable {
+  id: string;
+  public_id: string;
+  document: JsonDocument;
+  publication_state: string;
+  version: OptionalInsert<number>;
+  published_at: Timestamp | null;
+  created_by: string;
+  updated_by: string;
+  created_at: Timestamp;
+  updated_at: Timestamp;
+  archived_at: Timestamp | null;
+}
+
+export interface PublicContentRevisionTable {
+  id: string;
+  entity_type: string;
+  entity_id: string;
+  version: number;
+  document: JsonDocument;
+  publication_state: string;
+  actor_user_account_id: string;
+  reason: string;
+  created_at: Timestamp;
+}
+
 export interface PersonTable extends VersionedRow {
   surname: string;
   given_name: string;
@@ -692,6 +718,9 @@ export interface MigrationConflictTable extends VersionedRow {
 
 export interface Database {
   "platform.schema_migration": SchemaMigrationTable;
+  "content.vacancy": PublicContentTable;
+  "content.story": PublicContentTable;
+  "content.revision": PublicContentRevisionTable;
   "identity.person": PersonTable;
   "identity.employee_profile": EmployeeProfileTable;
   "identity.user_account": UserAccountTable;

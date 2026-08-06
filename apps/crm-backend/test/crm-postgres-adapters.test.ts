@@ -17,6 +17,11 @@ import {
   missingCrmTransitionFields,
   sanitizeCrmProvenance,
 } from "../src/modules/crm/adapters/postgres-crm-repository.js";
+import {
+  createCrmCaseTransitionIdempotency,
+  crmCaseTransitionIdempotencyScope,
+  readCrmCaseTransitionReplay,
+} from "../src/modules/crm/idempotency.js";
 import type { CrmAccessScope, CrmActorContext, CrmAuthorizationRequest } from "../src/modules/crm/ports.js";
 import { CRM_OPERATIONS } from "../src/registry/operation-registry.js";
 
@@ -197,6 +202,61 @@ describe("Postgres CRM row-scope SQL", () => {
 });
 
 describe("Postgres CRM mutation invariants", () => {
+  it("binds transition idempotency to actor, operation, case, version and canonical payload", () => {
+    const hashingKey = "crm-idempotency-test-hashing-key-32-bytes";
+    const base = {
+      hashingKey,
+      idempotencyKey: "transition-key-0001",
+      actor,
+      access: access(),
+      caseId: "case-internal-1",
+      expectedVersion: 3,
+    } as const;
+    const first = createCrmCaseTransitionIdempotency({
+      ...base,
+      body: { toStageCode: "qualification", evidence: { owner_id: "employee-1", next_step: "call" } },
+    });
+    const reordered = createCrmCaseTransitionIdempotency({
+      ...base,
+      body: { toStageCode: "qualification", evidence: { next_step: "call", owner_id: "employee-1" } },
+    });
+    const changed = createCrmCaseTransitionIdempotency({
+      ...base,
+      body: { toStageCode: "qualification", evidence: { owner_id: "employee-1", next_step: "email" } },
+    });
+    const widenedAccess = createCrmCaseTransitionIdempotency({
+      ...base,
+      access: access({ visibility: "all", employeeProfileIds: [] }),
+      body: { toStageCode: "qualification", evidence: { owner_id: "employee-1", next_step: "call" } },
+    });
+
+    expect(first.scope).toBe(crmCaseTransitionIdempotencyScope(actor.userAccountId, base.caseId));
+    expect(first.requestHash).toBe(reordered.requestHash);
+    expect(first.requestHash).not.toBe(changed.requestHash);
+    expect(first.requestHash).not.toBe(widenedAccess.requestHash);
+    expect(first.requestHash).toMatch(/^[a-f0-9]{64}$/u);
+  });
+
+  it("returns a stable conflict when the same transition key is bound to a different payload hash", () => {
+    expect.assertions(2);
+    try {
+      readCrmCaseTransitionReplay(
+        {
+          request_hash: "a".repeat(64),
+          response_status: 200,
+          response_body: {},
+          resource_id: "case-internal-1",
+          state: "completed",
+          expires_at: "2099-01-01T00:00:00.000Z",
+        },
+        { aggregateId: "case-internal-1", requestHash: "b".repeat(64) },
+      );
+    } catch (error) {
+      expect(error).toMatchObject({ statusCode: 409, code: "idempotency_conflict" });
+      expect(String(error)).not.toContain("response_body");
+    }
+  });
+
   it("accepts required data from stored aggregate context or command evidence", () => {
     expect(
       missingCrmTransitionFields(

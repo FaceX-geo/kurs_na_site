@@ -1,0 +1,63 @@
+.system-states-screen {
+  display: grid;
+  gap: var(--crm-space-6);
+  max-width: 1240px;
+}
+
+.system-states-note {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: var(--crm-space-2) var(--crm-space-4);
+  padding: var(--crm-space-4) var(--crm-space-5);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-control);
+  color: var(--crm-color-text-secondary);
+  background: var(--crm-color-surface-subtle);
+}
+
+.system-states-note strong {
+  color: var(--crm-color-ink);
+}
+
+.system-states-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--crm-space-5);
+}
+
+.system-state-card {
+  display: grid;
+  min-width: 0;
+}
+
+.system-state-card .crm-state-message {
+  height: 100%;
+}
+
+.system-state-card__icon {
+  color: var(--crm-color-text-muted);
+}
+
+.system-state-card--loading .system-state-card__icon {
+  color: var(--crm-color-work);
+}
+
+.system-state-card--error .system-state-card__icon,
+.system-state-card--conflict .system-state-card__icon {
+  color: var(--crm-color-danger);
+}
+
+.system-state-card--denied .system-state-card__icon {
+  color: var(--crm-color-ink);
+}
+
+.system-state-card--archived .system-state-card__icon {
+  color: var(--crm-color-attention);
+}
+
+@media (max-width: 760px) {
+  .system-states-grid {
+    grid-template-columns: 1fr;
+  }
+}
