@@ -1,3 +1,5 @@
+ARG RELEASE_SHA=development
+
 FROM node:22-alpine AS build
 
 ENV CI=true
@@ -15,6 +17,9 @@ FROM build AS production-dependencies
 RUN pnpm prune --prod
 
 FROM node:22-alpine AS runtime
+
+ARG RELEASE_SHA
+LABEL org.opencontainers.image.revision=$RELEASE_SHA
 
 ENV NODE_ENV=production
 WORKDIR /app

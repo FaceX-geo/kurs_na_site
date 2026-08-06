@@ -3,6 +3,11 @@ name: kurs_na_sever_crm
 x-app-build: &app-build
   context: ../..
   dockerfile: apps/crm-backend/Dockerfile
+  args:
+    RELEASE_SHA: ${RELEASE_SHA:-development}
+
+x-release-labels: &release-labels
+  facex.release.sha: ${RELEASE_SHA:-development}
 
 x-runtime-hardening: &runtime-hardening
   read_only: true
@@ -51,8 +56,11 @@ services:
     build:
       context: ../..
       dockerfile: apps/crm-backend/deploy/postgres/Dockerfile
+      args:
+        RELEASE_SHA: ${RELEASE_SHA:-development}
     image: ${CRM_POSTGRES_IMAGE:-kurs-na-sever-crm-postgres:local}
     restart: unless-stopped
+    labels: *release-labels
     environment:
       POSTGRES_DB: kurs_crm
       POSTGRES_USER: postgres
@@ -74,6 +82,7 @@ services:
     <<: *runtime-hardening
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     environment:
       DATABASE_URL: postgresql://kurs_crm_migrator:${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}@postgres:5432/kurs_crm
     command: ["node", "dist/migrate-once.js"]
@@ -85,6 +94,7 @@ services:
   storage-init:
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     user: "0:0"
     command: ["sh", "-ec", "mkdir -p /data/quarantine && chown node:node /data/quarantine && chmod 0700 /data/quarantine"]
     volumes:
@@ -95,6 +105,7 @@ services:
     <<: *runtime-hardening
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     restart: unless-stopped
     environment: *api-environment
     command: ["node", "dist/server.js"]
@@ -119,6 +130,7 @@ services:
     <<: *runtime-hardening
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     restart: unless-stopped
     environment: *worker-environment
     command: ["node", "dist/worker.js"]
@@ -131,6 +143,7 @@ services:
     <<: *runtime-hardening
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     profiles: [maintenance]
     environment:
       <<: *api-environment
@@ -151,6 +164,7 @@ services:
     <<: *runtime-hardening
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
     restart: unless-stopped
     profiles: [credential-delivery]
     environment: *credential-worker-environment
