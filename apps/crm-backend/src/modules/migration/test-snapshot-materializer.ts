@@ -104,6 +104,28 @@ export interface TestSnapshotMaterializationSummary {
   readonly sourceTableCount: number;
 }
 
+type MaterializationStep =
+  | "ACTORS"
+  | "CASES"
+  | "CONTACTS"
+  | "CONTACT_POINTS"
+  | "CRM_TASKS"
+  | "EMPLOYERS"
+  | "REQUISITES";
+
+async function runMaterializationStep<T>(step: MaterializationStep, operation: () => Promise<T>): Promise<T> {
+  try {
+    return await operation();
+  } catch (error) {
+    if (error instanceof MigrationError) throw error;
+    throw new MigrationError(
+      `TEST_SNAPSHOT_${step}_FAILED`,
+      `Test snapshot materialization failed during the ${step.toLowerCase()} step`,
+      { cause: error },
+    );
+  }
+}
+
 function requireUrl(value: string | undefined, protocol: readonly string[], name: string): string {
   if (!value) throw new MigrationError("TEST_SNAPSHOT_CONFIG_REQUIRED", `${name} is required`);
   let parsed: URL;
@@ -713,8 +735,10 @@ export async function materializeJuly22TestSnapshot(
   const pg = new Client({ connectionString: config.databaseUrl, application_name: "kurs-crm-test-snapshot" });
   await pg.connect();
   let transactionOpen = false;
+  let resolvedSourceTableCount = EXPECTED_SOURCE_TABLES;
   try {
     const tableCount = await sourceTableCount(mysql);
+    resolvedSourceTableCount = tableCount;
     await pg.query("SELECT pg_advisory_lock($1)", [ADVISORY_LOCK_KEY]);
     const existing = await pg.query<{ state: string; counts: Record<string, number> }>(
       "SELECT state,counts FROM migration.test_snapshot_materialization WHERE snapshot_sha256=$1",
@@ -739,13 +763,13 @@ export async function materializeJuly22TestSnapshot(
          SET state='running',counts='{}'::jsonb,started_at=clock_timestamp(),finished_at=NULL,failure_code=NULL`,
       [config.snapshotSha256, tableCount],
     );
-    const actorCounts = await materializeActors(mysql, pg);
-    const contacts = await materializeContacts(mysql, pg);
-    const employers = await materializeEmployers(mysql, pg);
-    const contactPoints = await applyContactPoints(mysql, pg);
-    const requisites = await applyRequisites(mysql, pg);
-    const cases = await materializeCases(mysql, pg);
-    const crmTasks = await materializeCrmTasks(mysql, pg);
+    const actorCounts = await runMaterializationStep("ACTORS", () => materializeActors(mysql, pg));
+    const contacts = await runMaterializationStep("CONTACTS", () => materializeContacts(mysql, pg));
+    const employers = await runMaterializationStep("EMPLOYERS", () => materializeEmployers(mysql, pg));
+    const contactPoints = await runMaterializationStep("CONTACT_POINTS", () => applyContactPoints(mysql, pg));
+    const requisites = await runMaterializationStep("REQUISITES", () => applyRequisites(mysql, pg));
+    const cases = await runMaterializationStep("CASES", () => materializeCases(mysql, pg));
+    const crmTasks = await runMaterializationStep("CRM_TASKS", () => materializeCrmTasks(mysql, pg));
     const counts = {
       actors: actorCounts.actors,
       canonicalCases: cases,
@@ -772,6 +796,17 @@ export async function materializeJuly22TestSnapshot(
     };
   } catch (error) {
     if (transactionOpen) await pg.query("ROLLBACK").catch(() => undefined);
+    const failureCode = error instanceof MigrationError ? error.code : "TEST_SNAPSHOT_MATERIALIZATION_FAILED";
+    await pg
+      .query(
+        `INSERT INTO migration.test_snapshot_materialization
+           (snapshot_sha256,source_completed_at,environment,state,source_table_count,counts,failure_code,finished_at)
+         VALUES ($1,'2026-07-22','test','failed',$2,'{}'::jsonb,$3,clock_timestamp())
+         ON CONFLICT (snapshot_sha256) DO UPDATE
+           SET state='failed',counts='{}'::jsonb,failure_code=EXCLUDED.failure_code,finished_at=clock_timestamp()`,
+        [config.snapshotSha256, resolvedSourceTableCount, failureCode],
+      )
+      .catch(() => undefined);
     throw error;
   } finally {
     await pg.query("SELECT pg_advisory_unlock($1)", [ADVISORY_LOCK_KEY]).catch(() => undefined);
