@@ -593,12 +593,18 @@ async function materializeCases(
   if (rows.length !== EXPECTED_COUNTS.canonicalCases) {
     throw new MigrationError("TEST_SNAPSHOT_SOURCE_COUNT_MISMATCH", "Canonical case count drifted");
   }
+  const seenOpenRoutes = new Set<string>();
   for (const row of rows) {
     const caseId = stableLegacyUuid("b_crm_deal.case", row.ID);
     const personId = stableLegacyUuid("b_crm_contact.person", row.CONTACT_ID);
     const profileId = stableLegacyUuid("b_crm_contact.profile", row.CONTACT_ID);
     const participationId = stableLegacyUuid("b_crm_deal.participation", row.ID);
     const actorId = stableLegacyUuid("b_user.actor", row.ASSIGNED_BY_ID);
+    const sourceStatus = caseStatus(row.CLOSED, row.STAGE_ID);
+    const openRouteKey = `${row.CONTACT_ID}:relocation_legacy_category_2`;
+    const canonicalStatus =
+      sourceStatus === "open" && seenOpenRoutes.has(openRouteKey) ? "needs_review" : sourceStatus;
+    if (sourceStatus === "open") seenOpenRoutes.add(openRouteKey);
     await pg.query(
       `INSERT INTO crm.program_participation
          (id, crm_profile_id, program_type, status, started_at, created_at, updated_at)
@@ -620,7 +626,7 @@ async function materializeCases(
         participationId,
         stageCode(row.STAGE_ID),
         row.TITLE.trim(),
-        caseStatus(row.CLOSED, row.STAGE_ID),
+        canonicalStatus,
         row.STAGE_ID,
         row.COMPANY_ID ? String(row.COMPANY_ID) : null,
         row.SOURCE_ID,
