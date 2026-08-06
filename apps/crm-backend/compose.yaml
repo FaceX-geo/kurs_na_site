@@ -177,7 +177,13 @@ services:
 networks:
   crm-private:
     internal: true
+    ipam:
+      config:
+        - subnet: ${CRM_PRIVATE_SUBNET:-10.200.254.0/28}
   credential-egress:
+    ipam:
+      config:
+        - subnet: ${CRM_CREDENTIAL_EGRESS_SUBNET:-10.200.254.16/28}
   edge:
     external: true
     name: ${CRM_EDGE_NETWORK:?set CRM_EDGE_NETWORK}
