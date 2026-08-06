@@ -602,8 +602,8 @@ async function materializeCases(
     const actorId = stableLegacyUuid("b_user.actor", row.ASSIGNED_BY_ID);
     const sourceStatus = caseStatus(row.CLOSED, row.STAGE_ID);
     const openRouteKey = `${row.CONTACT_ID}:relocation_legacy_category_2`;
-    const canonicalStatus =
-      sourceStatus === "open" && seenOpenRoutes.has(openRouteKey) ? "needs_review" : sourceStatus;
+    const duplicateOpenRoute = sourceStatus === "open" && seenOpenRoutes.has(openRouteKey);
+    const canonicalStatus = duplicateOpenRoute ? "archived" : sourceStatus;
     if (sourceStatus === "open") seenOpenRoutes.add(openRouteKey);
     await pg.query(
       `INSERT INTO crm.program_participation
@@ -615,10 +615,11 @@ async function materializeCases(
     await pg.query(
       `INSERT INTO crm."case"
          (id, public_id, participation_id, funnel_code, funnel_version, stage_code, title, status,
-          attributes, source_created_at, created_at, updated_at)
-       VALUES ($1::uuid,$2,$3::uuid,'relocation_legacy_category_2',1,$4,$5,$6,
-         jsonb_build_object('legacyStage',$7::text,'legacyCompanyId',$8::text,'sourceCode',$9::text,'testSnapshot',true),
-         $10::timestamptz,$10::timestamptz,$10::timestamptz)
+          next_step, attributes, source_created_at, created_at, updated_at)
+       VALUES ($1::uuid,$2,$3::uuid,'relocation_legacy_category_2',1,$4,$5,$6,$7,
+         jsonb_build_object('legacyStage',$8::text,'legacyCompanyId',$9::text,'sourceCode',$10::text,
+           'testSnapshot',true,'duplicateOpenRoute',$11::boolean),
+         $12::timestamptz,$12::timestamptz,$12::timestamptz)
        ON CONFLICT (id) DO NOTHING`,
       [
         caseId,
@@ -627,9 +628,11 @@ async function materializeCases(
         stageCode(row.STAGE_ID),
         row.TITLE.trim(),
         canonicalStatus,
+        duplicateOpenRoute ? "Review duplicate open legacy route" : null,
         row.STAGE_ID,
         row.COMPANY_ID ? String(row.COMPANY_ID) : null,
         row.SOURCE_ID,
+        duplicateOpenRoute,
         iso(row.DATE_CREATE),
       ],
     );
