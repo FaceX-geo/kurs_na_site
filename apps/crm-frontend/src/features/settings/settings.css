@@ -95,6 +95,42 @@
   resize: vertical;
 }
 
+.access-employee-registry {
+  display: grid;
+  gap: var(--crm-space-4);
+  padding-top: var(--crm-space-2);
+}
+
+.access-registry-heading {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--crm-space-5);
+}
+
+.access-registry-heading h2,
+.access-registry-heading p {
+  margin: 0;
+}
+
+.access-registry-heading h2 {
+  color: var(--crm-color-ink);
+  font-size: var(--crm-font-size-card-title);
+}
+
+.access-registry-heading p {
+  max-width: 760px;
+  margin-top: var(--crm-space-2);
+  color: var(--crm-color-text-muted);
+}
+
+@media (max-width: 860px) {
+  .access-registry-heading {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 /* Landing content registry */
 .admin-content-filter {
   display: grid;

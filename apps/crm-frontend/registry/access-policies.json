@@ -3,57 +3,57 @@
   "product": "kurs-na-sever-crm",
   "policies": [
     {
-      "id": "access.specialist.dashboard",
+      "id": "access.crm.dashboard",
       "route": "/cabinet/crm/dashboard",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.dashboard.read"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["GetCrmDashboard"]
     },
     {
-      "id": "access.specialist.cases",
+      "id": "access.crm.cases",
       "route": "/cabinet/crm/relocation",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.case.list"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["ListCases", "ListCrmFunnels"]
     },
     {
-      "id": "access.specialist.people",
+      "id": "access.crm.people",
       "route": "/cabinet/crm/people",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.case.list"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["ListCrmPeople"]
     },
     {
-      "id": "access.specialist.case-detail",
+      "id": "access.crm.case-detail",
       "route": "/cabinet/crm/cases/:caseId",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.case.read"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["GetCase", "GetCandidateSummary"]
     },
     {
-      "id": "access.specialist.tasks",
+      "id": "access.crm.tasks",
       "route": "/cabinet/crm/tasks",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.task.read"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["ListCrmTasks"]
     },
     {
-      "id": "access.specialist.employers",
+      "id": "access.crm.employers",
       "route": "/cabinet/crm/employers",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.employer.read"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["ListEmployers"]
     },
     {
-      "id": "access.specialist.reports",
+      "id": "access.crm.reports",
       "route": "/cabinet/crm/reports",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.report.build"],
       "scopePolicy": "backend-effective-scope",
       "operationIds": ["ListCrmReportRuns", "BuildCrmReport"]
@@ -62,7 +62,7 @@
       "id": "access.super-admin.users",
       "route": "/cabinet/crm/admin/users",
       "businessRoles": ["SUPER_ADMIN"],
-      "requiredPermissions": ["identity.employees.read", "identity.specialists.provision"],
+      "requiredPermissions": ["identity.users.read", "identity.employees.read", "identity.specialists.provision"],
       "scopePolicy": "server-authorized-admin-registry",
       "operationIds": ["ListUsers", "ListProvisionableEmployees", "ProvisionSpecialist"]
     },

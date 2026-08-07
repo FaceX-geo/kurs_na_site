@@ -23,6 +23,7 @@
     "db:status": "tsx scripts/migrate.ts status",
     "db:rollback": "tsx scripts/migrate.ts down",
     "identity:bootstrap": "tsx scripts/bootstrap-identity.ts",
+    "identity:revoke-test-bypass-sessions": "tsx src/test-bypass-superadmin-session-revoke-once.ts",
     "openapi:generate": "tsx scripts/generate-openapi.ts",
     "contracts:check": "tsx scripts/check-contracts.ts",
     "migration:preflight": "tsx scripts/migrate-legacy.ts preflight",

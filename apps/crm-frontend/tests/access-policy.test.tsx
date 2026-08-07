@@ -1,11 +1,13 @@
 // @vitest-environment jsdom
 
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { cleanup, render, screen, waitFor } from "@testing-library/react";
-import { MemoryRouter, Route, Routes } from "react-router";
-import { afterEach, describe, expect, it } from "vitest";
+import { MemoryRouter, Route, Routes, useLocation } from "react-router";
+import { afterEach, describe, expect, it, vi } from "vitest";
+import { CrmRoutes } from "@/app/App";
 import { navigationForSession } from "@/app/navigation";
 import { createMockAuthTransport } from "@/mocks/mock-auth-transport";
-import type { OwnProfileResponse } from "@/shared/api";
+import { crmApi, type OwnProfileResponse } from "@/shared/api";
 import {
   AuthProvider,
   type AuthSession,
@@ -16,7 +18,10 @@ import {
   resolveScopeVisibility,
 } from "@/shared/auth";
 
-afterEach(cleanup);
+afterEach(() => {
+  cleanup();
+  vi.restoreAllMocks();
+});
 
 function session(role: "SUPER_ADMIN" | "SPECIALIST", permissions: string[]): AuthSession {
   return {
@@ -72,16 +77,76 @@ describe("two-role access policy", () => {
     expect(navigationForSession(session("SUPER_ADMIN", []))).toEqual([]);
     const admin = navigationForSession(
       session("SUPER_ADMIN", [
+        "crm.dashboard.read",
+        "crm.case.list",
+        "crm.task.read",
+        "crm.employer.read",
+        "crm.report.build",
+        "identity.users.read",
         "identity.employees.read",
         "content.vacancy.read",
         "content.story.read",
       ]),
     );
     expect(admin.map((item) => item.id)).toEqual([
+      "work",
+      "relocation",
+      "people",
+      "tasks",
+      "employers",
+      "reports",
       "admin-users",
       "admin-vacancies",
       "admin-stories",
     ]);
+  });
+
+  it("redirects the real trailing-slash admin root to the all-scope dashboard", async () => {
+    vi.spyOn(crmApi, "getDashboard").mockResolvedValue({
+      openCaseCount: 8,
+      overdueTaskCount: 2,
+      pendingReferralCount: 1,
+      unreadNotificationCount: 3,
+      ownDraftCommunicationCount: 0,
+      scopeVisibility: "all",
+      timezone: "Europe/Moscow",
+      dataFreshAt: "2026-08-07T10:00:00.000Z",
+    });
+    const base = createMockAuthTransport();
+    const transport = {
+      ...base,
+      async getOwnProfile() {
+        return {
+          userAccountId: "00000000-0000-4000-8000-000000000501",
+          email: "admin@example.test",
+          authenticationLevel: "mfa",
+          roles: ["platform_superadmin", "crm_admin"],
+          permissions: ["crm.dashboard.read"],
+          businessRole: "SUPER_ADMIN",
+          employeeProfileId: null,
+          scopeVisibility: "all",
+        } as OwnProfileResponse;
+      },
+    };
+    const queryClient = new QueryClient({
+      defaultOptions: { queries: { retry: false } },
+    });
+
+    render(
+      <QueryClientProvider client={queryClient}>
+        <MemoryRouter initialEntries={["/cabinet/crm/admin/"]}>
+          <AuthProvider mode="mock" transport={transport}>
+            <CrmRoutes />
+            <LocationProbe />
+          </AuthProvider>
+        </MemoryRouter>
+      </QueryClientProvider>,
+    );
+
+    await waitFor(() => {
+      expect(screen.getByTestId("current-location").textContent).toBe("/cabinet/crm/dashboard");
+    });
+    expect(await screen.findByText("Вся CRM.", { exact: false })).not.toBeNull();
   });
 
   it("allows SUPER_ADMIN route and denies missing specialist permission", async () => {
@@ -152,3 +217,8 @@ describe("two-role access policy", () => {
     expect(await screen.findByRole("heading", { name: "Доступ запрещён" })).not.toBeNull();
   });
 });
+
+function LocationProbe() {
+  const location = useLocation();
+  return <output data-testid="current-location">{location.pathname}</output>;
+}

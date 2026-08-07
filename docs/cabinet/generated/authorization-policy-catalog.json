@@ -1,5 +1,5 @@
 {
-  "policy_version": "1.2.0",
+  "policy_version": "1.3.0",
   "default": "deny",
   "unregistered_operation": "deny",
   "self_escalation": "deny",
@@ -394,7 +394,28 @@
     "platform_superadmin": {
       "domain": "platform",
       "default_scope": "all",
-      "does_not_imply": ["crm.*", "project.*", "migration.*", "audit.*"]
+      "explicit_crm_permissions": [
+        "crm.case.list",
+        "crm.case.read",
+        "crm.person.pii_view",
+        "crm.employer.read",
+        "crm.task.read",
+        "crm.communication.read",
+        "crm.dashboard.read",
+        "crm.notification.read",
+        "crm.report.build"
+      ],
+      "does_not_imply": [
+        "crm.case.transition",
+        "crm.case.reopen",
+        "crm.task.manage",
+        "crm.communication.manage",
+        "crm.communication.confirm",
+        "crm.communication.send",
+        "project.*",
+        "migration.*",
+        "audit.*"
+      ]
     },
     "crm_project_manager": {
       "domain": "crm",
@@ -1016,14 +1037,26 @@
     {
       "code": "crm.case.read",
       "operations": ["GetCase"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate", "field_mask"]
     },
     {
       "code": "crm.case.list",
       "operations": ["ListCases"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate", "field_mask", "stable_pagination"]
     },
@@ -1058,7 +1091,13 @@
     {
       "code": "crm.person.pii_view",
       "operations": ["ViewCrmPersonPii"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["view_audit"]
     },
@@ -1105,9 +1144,9 @@
       "guards": ["selection_hash", "explicit_confirm", "per_item_outcome"]
     },
     {
-      "code": "crm.report.read",
-      "operations": ["BuildCrmReport"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "code": "crm.report.build",
+      "operations": ["BuildCrmReport", "ListCrmReportRuns", "GetCrmReportRun"],
+      "roles": ["platform_superadmin", "crm_lead_specialist", "crm_admin", "crm_department_head"],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["formula_allowlist"]
     },
@@ -1266,9 +1305,28 @@
     {
       "code": "crm.dashboard.read",
       "operations": ["GetCrmDashboard"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate", "formula_version"]
+    },
+    {
+      "code": "crm.notification.read",
+      "operations": ["ListNotifications", "MarkCrmNotificationRead"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
+      "scopes": ["assigned", "team", "department", "all"],
+      "guards": ["recipient_user_account_id_equals_actor", "stable_pagination"]
     },
     {
       "code": "crm.duplicates.read",
@@ -1280,7 +1338,13 @@
     {
       "code": "crm.employer.read",
       "operations": ["ListEmployers", "GetEmployer"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate"]
     },
@@ -1294,14 +1358,26 @@
     {
       "code": "crm.task.read",
       "operations": ["ListCrmTasks", "GetCrmTask"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate"]
     },
     {
       "code": "crm.communication.read",
       "operations": ["ListCommunications", "GetCommunication"],
-      "roles": ["crm_project_manager", "crm_lead_specialist", "crm_admin", "crm_department_head"],
+      "roles": [
+        "platform_superadmin",
+        "crm_project_manager",
+        "crm_lead_specialist",
+        "crm_admin",
+        "crm_department_head"
+      ],
       "scopes": ["assigned", "team", "department", "all"],
       "guards": ["row_predicate", "pii_allowlist"]
     },

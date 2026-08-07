@@ -47,6 +47,10 @@ export function AccessSettingsScreen() {
   const [provisionIdempotencyKey, setProvisionIdempotencyKey] = useState<string | null>(null);
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const [freshMfaOpen, setFreshMfaOpen] = useState(false);
+  const canReadUsers = hasPermission(session, "identity.users.read");
+  const canReadEmployees = hasPermission(session, "identity.employees.read");
+  const canProvision = hasPermission(session, "identity.specialists.provision");
+  const mutationReady = session?.mutationAccess === "ready";
 
   const users = useInfiniteQuery({
     queryKey: ["crm", "admin", "users", search],
@@ -58,11 +62,12 @@ export function AccessSettingsScreen() {
         ...(search.trim() ? { search: search.trim() } : {}),
       }),
     getNextPageParam: nextCursorForPage,
+    enabled: canReadUsers,
   });
   const employees = useInfiniteQuery({
     queryKey: ["crm", "admin", "provisionable-employees", employeeSearch],
     initialPageParam: "",
-    enabled: dialogOpen,
+    enabled: canReadEmployees,
     queryFn: ({ pageParam }) =>
       crmApi.listProvisionableEmployees({
         limit: 100,
@@ -104,18 +109,28 @@ export function AccessSettingsScreen() {
   const rows = users.data?.pages.flatMap((page) => page.items) ?? [];
   const repeatedCursor = hasRepeatedNextCursor(users.data?.pages ?? []);
   const repeatedEmployeeCursor = hasRepeatedNextCursor(employees.data?.pages ?? []);
-  const canReadEmployees = hasPermission(session, "identity.employees.read");
-  const canProvision = hasPermission(session, "identity.specialists.provision");
-  const mutationReady = session?.mutationAccess === "ready";
-  const state = users.isPending
-    ? "loading"
-    : users.isError
-      ? users.error instanceof ApiError && users.error.status === 403
-        ? "denied"
-        : "error"
-      : rows.length === 0
-        ? "empty"
-        : "ready";
+  const state = !canReadUsers
+    ? "denied"
+    : users.isPending
+      ? "loading"
+      : users.isError
+        ? users.error instanceof ApiError && users.error.status === 403
+          ? "denied"
+          : "error"
+        : rows.length === 0
+          ? "empty"
+          : "ready";
+  const employeeState = !canReadEmployees
+    ? "denied"
+    : employees.isPending
+      ? "loading"
+      : employees.isError
+        ? employees.error instanceof ApiError && employees.error.status === 403
+          ? "denied"
+          : "error"
+        : employeeRows.length === 0
+          ? "empty"
+          : "ready";
   const columns: readonly DataTableColumn<UserRow>[] = [
     { id: "name", label: "Пользователь", render: (row) => <strong>{row.displayName}</strong> },
     { id: "email", label: "Email", render: (row) => row.email },
@@ -147,12 +162,45 @@ export function AccessSettingsScreen() {
     },
     { id: "sessions", label: "Сессии", render: (row) => row.activeSessions },
   ];
+  const employeeColumns: readonly DataTableColumn<EmployeeRow>[] = [
+    {
+      id: "name",
+      label: "Сотрудник",
+      render: (row) => <strong>{row.displayName}</strong>,
+    },
+    {
+      id: "employee-number",
+      label: "Табельный номер",
+      render: (row) => row.employeeNumber ?? "Не указан",
+    },
+    {
+      id: "email",
+      label: "Email",
+      render: (row) => row.email ?? "Не указан",
+    },
+    {
+      id: "organization-unit",
+      label: "Подразделение",
+      render: (row) => row.organizationUnitId ?? "Не связано",
+    },
+    {
+      id: "employee-profile",
+      label: "Employee profile",
+      render: (row) => row.employeeProfileId,
+    },
+    {
+      id: "state",
+      label: "Статус",
+      render: (row) => (
+        <StatusPill status={row.employmentState} label={row.employmentState} tone="success" />
+      ),
+    },
+  ];
 
   function resetProvisioning(): void {
     setDialogOpen(false);
     setFreshMfaOpen(false);
     setSelectedEmployeeId("");
-    setEmployeeSearch("");
     setEmail("");
     setReason("");
     setProvisionIdempotencyKey(null);
@@ -288,6 +336,71 @@ export function AccessSettingsScreen() {
         />
       ) : null}
 
+      <section className="access-employee-registry" aria-labelledby="migrated-employees-heading">
+        <div className="access-registry-heading">
+          <div>
+            <h2 id="migrated-employees-heading">Сотрудники из мигрированной БД</h2>
+            <p>
+              Read-only реестр активных employee profiles, для которых ещё можно создать учётную
+              запись специалиста. Пустой email остаётся пустым и не подменяется тестовым адресом.
+            </p>
+          </div>
+          <label className="access-user-search">
+            <span>Поиск сотрудников</span>
+            <input
+              type="search"
+              value={employeeSearch}
+              placeholder="ФИО, email или табельный номер"
+              onChange={(event) => setEmployeeSearch(event.currentTarget.value)}
+            />
+          </label>
+        </div>
+
+        <DataTable
+          caption="Сотрудники из мигрированной БД"
+          columns={employeeColumns}
+          rows={employeeRows}
+          getRowId={(row) => row.employeeProfileId}
+          getRowLabel={(row) => row.displayName}
+          state={employeeState}
+          empty={
+            <StateMessage
+              state="empty"
+              title="Нет сотрудников без учётной записи"
+              message="Backend не вернул активные employee profiles, доступные для создания специалиста."
+            />
+          }
+        />
+
+        {employees.isError && employeeState === "error" ? (
+          <StateMessage
+            state="error"
+            title="Сотрудники не загружены"
+            message={employees.error.message}
+            action={{ label: "Повторить", onPress: () => void employees.refetch() }}
+          />
+        ) : null}
+        {employees.hasNextPage ? (
+          <button
+            type="button"
+            className="crm-button crm-button--quiet"
+            disabled={repeatedEmployeeCursor || employees.isFetchingNextPage}
+            onClick={() => {
+              if (!repeatedEmployeeCursor) void employees.fetchNextPage();
+            }}
+          >
+            {employees.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё сотрудников"}
+          </button>
+        ) : null}
+        {repeatedEmployeeCursor ? (
+          <StateMessage
+            state="stale"
+            title="Пагинация сотрудников остановлена безопасно"
+            message="Backend повторил cursor. Frontend не запрашивает одну страницу повторно."
+          />
+        ) : null}
+      </section>
+
       <Modal
         open={dialogOpen}
         title="Создать специалиста"
@@ -362,7 +475,14 @@ export function AccessSettingsScreen() {
                   />
                 </label>
 
-                {employees.isPending ? (
+                {!canReadEmployees ? (
+                  <StateMessage
+                    compact
+                    state="denied"
+                    title="Сотрудники недоступны"
+                    message="Backend не выдал разрешение identity.employees.read."
+                  />
+                ) : employees.isPending ? (
                   <StateMessage compact state="loading" title="Загружаем сотрудников из БД" />
                 ) : employees.isError ? (
                   <StateMessage

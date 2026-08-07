@@ -236,6 +236,64 @@ describe("CRM operation and OpenAPI contracts", () => {
 });
 
 describe("CRM state registry", () => {
+  it("exposes the pinned category-2 legacy funnel as retired and transitionless", () => {
+    const definition = CRM_STATE_REGISTRY.get("case", "relocation_legacy_category_2", 1);
+    expect(definition).toMatchObject({
+      code: "relocation_legacy_category_2",
+      version: 1,
+      status: "retired",
+      source:
+        "bitrix-sitemanager-final.sql.gz@sha256:7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+      initialState: "legacy_c2_new",
+    });
+    expect(definition?.states).toEqual([
+      { code: "legacy_c2_new", title: "Новая заявка", order: 10, aggregateStatus: "open" },
+      { code: "legacy_c2_uc_ja4php", title: "Недозвон", order: 20, aggregateStatus: "open" },
+      {
+        code: "legacy_c2_preparation",
+        title: "Рассматривает возможность переезда",
+        order: 30,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_uc_g30un1",
+        title: "Переезд отложен",
+        order: 40,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_prepayment_invoice",
+        title: "Даты запланированы",
+        order: 50,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_executing",
+        title: "Билеты куплены",
+        order: 60,
+        aggregateStatus: "open",
+      },
+      { code: "legacy_c2_won", title: "Переехал", order: 70, aggregateStatus: "completed" },
+      {
+        code: "legacy_c2_lose",
+        title: "Отказ от переезда",
+        order: 80,
+        aggregateStatus: "closed_unsuccessful",
+      },
+    ]);
+    expect(definition?.transitions).toEqual([]);
+    expect(CRM_STATE_REGISTRY.list("case")).toContainEqual(definition);
+    expect(
+      CRM_STATE_REGISTRY.resolveTransition(
+        "case",
+        "relocation_legacy_category_2",
+        1,
+        "legacy_c2_new",
+        "legacy_c2_preparation",
+      ),
+    ).toBeUndefined();
+  });
+
   it("keeps post_relocation explicit but fail-closed until its lifecycle is approved", () => {
     const definition = CRM_STATE_REGISTRY.get("case", "post_relocation", 1);
     expect(definition).toMatchObject({

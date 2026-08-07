@@ -28,7 +28,9 @@ export function DashboardScreen() {
     queryKey: ["crm", "dashboard", "Europe/Moscow"],
     queryFn: () => crmApi.getDashboard(),
   });
-  const firstName = session?.displayName?.split(" ")[0] ?? "Специалист";
+  const firstName =
+    session?.displayName?.split(" ")[0] ??
+    (session?.businessRole === "SUPER_ADMIN" ? "Администратор" : "Специалист");
 
   if (dashboard.isPending) {
     return (
@@ -36,8 +38,8 @@ export function DashboardScreen() {
         <PageHeader title={`Добрый день, ${firstName}.`} />
         <StateMessage
           state="loading"
-          title="Загружаем вашу рабочую область"
-          message="Backend формирует показатели только в пределах назначенного scope."
+          title="Загружаем рабочую область"
+          message="Backend формирует показатели в пределах effective scope текущего пользователя."
         />
       </div>
     );
@@ -50,7 +52,7 @@ export function DashboardScreen() {
         <PageHeader title={`Добрый день, ${firstName}.`} />
         <StateMessage
           state={denied ? "denied" : "error"}
-          title={denied ? "Рабочая область не назначена" : "Не удалось загрузить рабочую область"}
+          title={denied ? "Рабочая область недоступна" : "Не удалось загрузить рабочую область"}
           message={dashboard.error.message}
           {...(denied
             ? {}
@@ -96,7 +98,9 @@ export function DashboardScreen() {
           onClick={() => navigate(CRM_PATHS.relocation)}
         >
           <IconBriefcase aria-hidden size={22} />
-          <strong>Открыть назначенные заявки</strong>
+          <strong>
+            {data.scopeVisibility === "all" ? "Открыть все заявки" : "Открыть доступные заявки"}
+          </strong>
         </button>
         <button
           type="button"

@@ -5,10 +5,7 @@ import { useAuth } from "@/shared/auth";
 
 export function RoleHomeRedirect() {
   const { session } = useAuth();
-  if (session?.businessRole === "SUPER_ADMIN") {
-    return <Navigate replace to={CRM_PATHS.adminUsers} />;
-  }
-  if (session?.businessRole === "SPECIALIST") {
+  if (session?.businessRole === "SUPER_ADMIN" || session?.businessRole === "SPECIALIST") {
     return <Navigate replace to={CRM_PATHS.dashboard} />;
   }
   return <Navigate replace to={CRM_PATHS.denied} />;
@@ -38,7 +35,9 @@ export function AccessDeniedScreen() {
         type="button"
         onClick={() =>
           navigate(
-            session?.businessRole === "SUPER_ADMIN" ? CRM_PATHS.adminUsers : CRM_PATHS.dashboard,
+            session?.businessRole === "SUPER_ADMIN" || session?.businessRole === "SPECIALIST"
+              ? CRM_PATHS.dashboard
+              : CRM_PATHS.denied,
           )
         }
       >
@@ -84,7 +83,9 @@ export function NotFoundScreen() {
         type="button"
         onClick={() =>
           navigate(
-            session?.businessRole === "SUPER_ADMIN" ? CRM_PATHS.adminUsers : CRM_PATHS.dashboard,
+            session?.businessRole === "SUPER_ADMIN" || session?.businessRole === "SPECIALIST"
+              ? CRM_PATHS.dashboard
+              : CRM_PATHS.denied,
           )
         }
       >

@@ -92,6 +92,27 @@ function serviceFixture(repository: Partial<CrmRepositoryPort>, stateRegistry = 
 }
 
 describe("CRM application service", () => {
+  it("lists the retired legacy category-2 funnel for migrated cases", async () => {
+    const { service, authorize } = serviceFixture({});
+
+    const funnels = await service.listFunnels(actor);
+
+    expect(funnels).toContainEqual(
+      expect.objectContaining({
+        code: "relocation_legacy_category_2",
+        version: 1,
+        status: "retired",
+        transitions: [],
+      }),
+    );
+    expect(authorize).toHaveBeenCalledWith(
+      expect.objectContaining({
+        operation: expect.objectContaining({ operationId: "ListCrmFunnels" }),
+        permissionCode: "crm.case.list",
+      }),
+    );
+  });
+
   it("executes a registry-provided post_relocation transition atomically", async () => {
     const registry = createCrmStateRegistry([
       {

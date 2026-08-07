@@ -69,6 +69,8 @@ export function CasesScreen() {
   const [transitionPhase, setTransitionPhase] = useState<OperationPhase>("draft");
   const [reasonText, setReasonText] = useState("");
   const [previewValidation, setPreviewValidation] = useState<string | null>(null);
+  const hasAllScope = session?.scopeVisibility === "all";
+  const caseCollectionLabel = hasAllScope ? "Все заявки" : "Доступные заявки";
   const view: CaseView = searchParams.get("view") === "list" ? "list" : "kanban";
   const cases = useInfiniteQuery({
     queryKey: ["crm", "cases", { query, stage }],
@@ -244,8 +246,12 @@ export function CasesScreen() {
   return (
     <div className="cases-screen">
       <PageHeader
-        title="Назначенные заявки и воронки"
-        description="Список уже ограничен backend effective scope. Frontend не запрашивает чужого ответственного и не восстанавливает скрытые итоги."
+        title={hasAllScope ? "Все заявки и воронки" : "Доступные заявки и воронки"}
+        description={
+          hasAllScope
+            ? "Backend подтвердил scope all и вернул полный разрешённый реестр CRM. Frontend не расширяет выборку и не восстанавливает скрытые итоги."
+            : "Список уже ограничен backend effective scope. Frontend не расширяет выборку и не восстанавливает скрытые итоги."
+        }
       />
 
       <div className="cases-toolbar">
@@ -258,7 +264,7 @@ export function CasesScreen() {
           onChange={changeView}
         />
         <label className="cases-search">
-          <span className="sr-only">Найти назначенную заявку</span>
+          <span className="sr-only">Найти заявку в разрешённом реестре</span>
           <IconSearch aria-hidden size={18} />
           <input
             type="search"
@@ -291,7 +297,7 @@ export function CasesScreen() {
       {view === "kanban" ? (
         state === "ready" ? (
           <KanbanBoard
-            ariaLabel="Назначенные заявки"
+            ariaLabel={caseCollectionLabel}
             columns={columns}
             cards={cards}
             onOpenCard={(card) => navigate(CRM_PATHS.case(card.id))}
@@ -321,7 +327,9 @@ export function CasesScreen() {
                   ? "Не удалось загрузить заявки"
                   : state === "loading"
                     ? "Загружаем заявки"
-                    : "Назначенных заявок нет"
+                    : hasAllScope
+                      ? "Заявок в CRM нет"
+                      : "Доступных заявок нет"
             }
             {...(cases.isError ? { message: cases.error.message } : {})}
             {...(state === "error"
@@ -331,7 +339,7 @@ export function CasesScreen() {
         )
       ) : (
         <DataTable
-          caption="Назначенные заявки"
+          caption={caseCollectionLabel}
           columns={tableColumns}
           rows={rows}
           getRowId={(row) => row.id}

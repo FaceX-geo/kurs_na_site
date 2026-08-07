@@ -16,6 +16,7 @@ import {
 } from "./business-role-registry.js";
 import { decryptSecret, keyedHash, randomToken, secureHashEquals } from "./crypto.js";
 import type { IdentitySessionItem, SessionListQuery } from "./session-contracts.js";
+import { lockAndReadTestBypassRetirementMarker } from "./test-bypass-session-revocation.js";
 
 export interface AuthContext {
   sessionId: string;
@@ -159,6 +160,14 @@ export class IdentityService {
 
     if (this.config.auth.testMfaBypass) {
       const receipt = await this.db.transaction().execute(async (transaction) => {
+        const retirementMarkerId = await lockAndReadTestBypassRetirementMarker(transaction);
+        if (retirementMarkerId) {
+          throw new AppError(
+            503,
+            "test_auth_bypass_retired",
+            "Тестовый режим аутентификации окончательно отключён",
+          );
+        }
         await appendAuditEvent(transaction, {
           eventType: "identity.session.test_mfa_bypass_authenticated",
           actorType: "user_account",

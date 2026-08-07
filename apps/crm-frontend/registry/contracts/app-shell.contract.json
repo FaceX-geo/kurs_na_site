@@ -29,6 +29,7 @@
   },
   "invariants": [
     "The feature layer supplies only navigation authorized by businessRole and permissions; the shell never expands access.",
+    "Operational read routes may be shown to SUPER_ADMIN and SPECIALIST only with their explicit permission; admin routes remain SUPER_ADMIN-only.",
     "Помощник is a persistent launcher and search remains Найти в CRM.",
     "Authentication screens never render this shell."
   ]

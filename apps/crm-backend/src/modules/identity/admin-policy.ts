@@ -2,7 +2,7 @@ import { createHash } from "node:crypto";
 import { AppError } from "../../common/errors.js";
 import type { AuthContext } from "./service.js";
 
-export const IDENTITY_POLICY_VERSION = "1.2.0";
+export const IDENTITY_POLICY_VERSION = "1.3.0";
 export const PRIVILEGED_ROLES = new Set([
   "platform_superadmin",
   "crm_admin",

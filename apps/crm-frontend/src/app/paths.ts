@@ -14,6 +14,7 @@ export const CRM_PATHS = {
   settingsAccess: "/cabinet/crm/settings/access",
   settingsIntegrations: "/cabinet/crm/settings/integrations",
   settingsSecurity: "/cabinet/crm/settings/security",
+  adminRoot: "/cabinet/crm/admin",
   adminUsers: "/cabinet/crm/admin/users",
   adminVacancies: "/cabinet/crm/admin/vacancies",
   adminStories: "/cabinet/crm/admin/stories",

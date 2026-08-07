@@ -126,7 +126,7 @@ export function AppShell() {
           </nav>
 
           <div className="crm-sidebar-footer">
-            {hasBusinessRole(session, ["SPECIALIST"]) ? (
+            {hasBusinessRole(session, ["SPECIALIST", "SUPER_ADMIN"]) ? (
               <button
                 type="button"
                 className="crm-assistant-launcher"

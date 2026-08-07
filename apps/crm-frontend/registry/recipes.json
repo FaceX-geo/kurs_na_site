@@ -7,7 +7,7 @@
       "label": "Моя работа",
       "href": "/cabinet/crm/dashboard",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.dashboard.read"
     },
     {
@@ -15,7 +15,7 @@
       "label": "Заявки и воронки",
       "href": "/cabinet/crm/relocation",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.case.list"
     },
     {
@@ -23,7 +23,7 @@
       "label": "Участники",
       "href": "/cabinet/crm/people",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.case.list"
     },
     {
@@ -31,7 +31,7 @@
       "label": "Задачи",
       "href": "/cabinet/crm/tasks",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.task.read"
     },
     {
@@ -39,7 +39,7 @@
       "label": "Работодатели",
       "href": "/cabinet/crm/employers",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.employer.read"
     },
     {
@@ -47,7 +47,7 @@
       "label": "Отчёты",
       "href": "/cabinet/crm/reports",
       "kind": "route",
-      "businessRoles": ["SPECIALIST"],
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermission": "crm.report.build"
     },
     {
@@ -55,7 +55,7 @@
       "label": "Помощник",
       "href": null,
       "kind": "separate-action",
-      "businessRoles": ["SPECIALIST"]
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"]
     },
     {
       "id": "admin-users",
@@ -63,7 +63,7 @@
       "href": "/cabinet/crm/admin/users",
       "kind": "gated-route",
       "businessRoles": ["SUPER_ADMIN"],
-      "requiredPermission": "identity.employees.read"
+      "requiredPermission": "identity.users.read"
     },
     {
       "id": "admin-vacancies",

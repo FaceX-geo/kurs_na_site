@@ -30,7 +30,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Моя работа",
     to: CRM_PATHS.dashboard,
     icon: IconHome2,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.dashboard.read",
     end: true,
   },
@@ -39,7 +39,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Заявки и воронки",
     to: CRM_PATHS.relocation,
     icon: IconTruckDelivery,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.case.list",
   },
   {
@@ -47,7 +47,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Участники",
     to: CRM_PATHS.people,
     icon: IconBriefcase2,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.case.list",
   },
   {
@@ -55,7 +55,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Задачи",
     to: CRM_PATHS.tasks,
     icon: IconNotes,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.task.read",
   },
   {
@@ -63,7 +63,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Работодатели",
     to: CRM_PATHS.employers,
     icon: IconBuildingSkyscraper,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.employer.read",
   },
   {
@@ -71,7 +71,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     label: "Отчёты",
     to: CRM_PATHS.reports,
     icon: IconChartBar,
-    businessRoles: ["SPECIALIST"],
+    businessRoles: ["SPECIALIST", "SUPER_ADMIN"],
     requiredPermission: "crm.report.build",
   },
   {
@@ -80,7 +80,7 @@ export const primaryNavigation: readonly NavigationItem[] = [
     to: CRM_PATHS.adminUsers,
     icon: IconUsers,
     businessRoles: ["SUPER_ADMIN"],
-    requiredPermission: "identity.employees.read",
+    requiredPermission: "identity.users.read",
   },
   {
     id: "admin-vacancies",
