@@ -1,3 +1,4 @@
+import type { FastifyRequest } from "fastify";
 import type { Kysely } from "kysely";
 import { describe, expect, it } from "vitest";
 import { loadConfig } from "../src/config/env.js";
@@ -71,6 +72,80 @@ function createSessionDatabase(
     },
   } as unknown as Kysely<Database>;
   return { database, insertedSessions };
+}
+
+function createAuthenticatedSessionDatabase() {
+  const session = {
+    id: "019fd7d0-6789-7000-8000-000000000020",
+    user_account_id: userId,
+    csrf_token_hash: "a".repeat(64),
+    authentication_level: "fresh_mfa",
+    idle_expires_at: new Date(Date.now() + 60_000),
+    absolute_expires_at: new Date(Date.now() + 3_600_000),
+    revoked_at: null,
+    person_id: personId,
+    email: "admin@example.test",
+    account_state: "active",
+    credential_state: "password_set",
+    risk_state: "normal",
+    mfa_state: "enrollment_required",
+  };
+  let sessionUpdates = 0;
+  const database = {
+    selectFrom(table: string) {
+      const query = {
+        innerJoin() {
+          return query;
+        },
+        leftJoin() {
+          return query;
+        },
+        select() {
+          return query;
+        },
+        where() {
+          return query;
+        },
+        async execute() {
+          if (table !== "identity.user_role_assignment as assignment") {
+            throw new Error(`Unexpected execute table ${table}`);
+          }
+          return [
+            {
+              assignment_id: "019fd7d0-6789-7000-8000-000000000021",
+              role_code: "platform_superadmin",
+              scope_type: "all",
+              scope_id: null,
+              permission_code: "identity.specialists.provision",
+              is_privileged: true,
+            },
+          ];
+        },
+        async executeTakeFirst() {
+          if (table === "identity.session as session") return session;
+          if (table === "identity.employee_profile") return undefined;
+          throw new Error(`Unexpected executeTakeFirst table ${table}`);
+        },
+      };
+      return query;
+    },
+    updateTable(table: string) {
+      if (table !== "identity.session") throw new Error(`Unexpected update table ${table}`);
+      const query = {
+        set() {
+          return query;
+        },
+        where() {
+          return query;
+        },
+        async execute() {
+          sessionUpdates += 1;
+        },
+      };
+      return query;
+    },
+  } as unknown as Kysely<Database>;
+  return { database, sessionUpdates: () => sessionUpdates };
 }
 
 describe("session business identity", () => {
@@ -207,5 +282,40 @@ describe("session business identity", () => {
       ),
     ).rejects.toMatchObject({ statusCode: 403, code: "specialist_scope_mismatch" });
     expect(fixture.insertedSessions).toEqual([]);
+  });
+
+  it("keeps MFA enrollment mandatory for a privileged session outside the explicit test bypass", async () => {
+    const fixture = createAuthenticatedSessionDatabase();
+    const service = new IdentityService(fixture.database, config);
+    const request = {
+      cookies: { [config.session.cookieName]: "opaque-session-token" },
+    } as FastifyRequest;
+
+    await expect(service.authenticate(request)).rejects.toMatchObject({
+      statusCode: 403,
+      code: "mfa_enrollment_required",
+    });
+    expect(fixture.sessionUpdates()).toBe(0);
+  });
+
+  it("permits a privileged session with pending MFA only in the explicit test bypass", async () => {
+    const fixture = createAuthenticatedSessionDatabase();
+    const testConfig = loadConfig({
+      NODE_ENV: "test",
+      CRM_TEST_AUTH_BYPASS: "true",
+      CURSOR_SIGNING_KEY: "session-business-role-cursor-key-at-least-32-chars",
+      SESSION_TOKEN_PEPPER: "session-business-role-pepper-at-least-32-chars",
+    });
+    const service = new IdentityService(fixture.database, testConfig);
+    const request = {
+      cookies: { [testConfig.session.cookieName]: "opaque-session-token" },
+    } as FastifyRequest;
+
+    await expect(service.authenticate(request)).resolves.toMatchObject({
+      userAccountId: userId,
+      businessRole: "SUPER_ADMIN",
+      authenticationLevel: "fresh_mfa",
+    });
+    expect(fixture.sessionUpdates()).toBe(1);
   });
 });

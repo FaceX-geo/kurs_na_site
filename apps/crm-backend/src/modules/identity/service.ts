@@ -399,7 +399,11 @@ export class IdentityService {
       now,
     );
 
-    if (effectiveIdentity.hasPrivilegedRole && session.mfa_state !== "enrolled") {
+    if (
+      !this.config.auth.testMfaBypass &&
+      effectiveIdentity.hasPrivilegedRole &&
+      session.mfa_state !== "enrolled"
+    ) {
       throw new AppError(403, "mfa_enrollment_required", "Для привилегированного доступа настройте MFA");
     }
 
