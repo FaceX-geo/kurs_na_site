@@ -18,6 +18,51 @@ afterEach(async () => {
 });
 
 describe("identity OpenAPI", () => {
+  it("keeps session cookies secure in the HTTPS test runtime", async () => {
+    const app = Fastify({ logger: false });
+    apps.push(app);
+    await app.register(cookie);
+    const config = loadConfig({
+      NODE_ENV: "test",
+      CRM_TEST_AUTH_BYPASS: "true",
+      SESSION_TOKEN_PEPPER: "identity-test-cookie-pepper-at-least-32-chars",
+    });
+    const service = {
+      login: vi.fn(async () => ({
+        status: "authenticated" as const,
+        receipt: {
+          sessionToken: "session-token-for-test",
+          csrfToken: "csrf-token-for-test",
+          expiresAt: "2026-08-07T14:00:00.000Z",
+          user: {
+            id: "019fd7d0-6789-7000-8000-000000000001",
+            email: "user@example.test",
+            displayName: "Иван Иванов",
+            roles: [],
+            permissions: [],
+            businessRole: null,
+            employeeProfileId: null,
+          },
+        },
+      })),
+    } as unknown as IdentityService;
+    await app.register(identityPlugin, {
+      config,
+      database: { db: null } as unknown as DatabaseHandle,
+      service,
+    });
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/internal/v1/auth/login",
+      payload: { login: "user@example.test", password: "password-with-enough-length" },
+    });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.headers["set-cookie"]).toContain("Secure");
+    expect(response.headers["set-cookie"]).toContain("HttpOnly");
+  });
+
   it("describes conditional VerifyMfa security and every runtime error branch", async () => {
     const app = Fastify({ logger: false });
     apps.push(app);

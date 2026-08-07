@@ -341,7 +341,7 @@ function setSessionCookie(reply: FastifyReply, config: AppConfig, receipt: Sessi
   reply.setCookie(config.session.cookieName, receipt.sessionToken, {
     path: "/internal/v1",
     httpOnly: true,
-    secure: config.nodeEnv === "production",
+    secure: config.nodeEnv !== "development",
     sameSite: "lax",
     expires: new Date(receipt.expiresAt),
   });

@@ -81,7 +81,7 @@ function setSessionCookie(reply: FastifyReply, config: AppConfig, token: string,
   reply.setCookie(config.session.cookieName, token, {
     path: "/internal/v1",
     httpOnly: true,
-    secure: config.nodeEnv === "production",
+    secure: config.nodeEnv !== "development",
     sameSite: "lax",
     expires: new Date(expiresAt),
   });
