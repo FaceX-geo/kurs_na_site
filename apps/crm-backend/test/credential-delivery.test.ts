@@ -36,7 +36,6 @@ function claim(overrides: Partial<ClaimedCredentialDelivery> = {}): ClaimedCrede
       userAccountId,
       credentialTokenId: tokenId,
       purpose: "invite",
-      destination: "person@example.test",
     },
     attemptCount: 1,
     ...overrides,
@@ -136,12 +135,19 @@ describe("credential delivery contracts", () => {
         rawToken: "must-not-pass",
       }),
     ).toBeNull();
+    expect(
+      parseCredentialDeliveryPayload({
+        ...(payload as Readonly<Record<string, unknown>>),
+        destination: "person@example.test",
+      }),
+    ).toBeNull();
 
     const value = deriveCredentialToken(tokenId, "invite", tokenSecret);
     expect(value).toMatch(new RegExp(`^${tokenId}\\.[A-Za-z0-9_-]{43}$`, "u"));
     expect(deriveCredentialToken(tokenId, "invite", tokenSecret)).toBe(value);
     expect(deriveCredentialToken(tokenId, "invite", signingSecret)).not.toBe(value);
     expect(JSON.stringify(payload)).not.toContain(value);
+    expect(JSON.stringify(payload)).not.toContain("person@example.test");
   });
 
   it("bounds exponential backoff", () => {
@@ -253,6 +259,7 @@ describe("credential delivery worker", () => {
     });
     expect(providerRequest).toMatchObject({
       deliveryId: eventId,
+      destination: "person@example.test",
       oneTimeCredential: deriveCredentialToken(tokenId, "invite", tokenSecret),
     });
     expect(queue.operations).toEqual([
@@ -311,6 +318,14 @@ describe("credential delivery worker", () => {
     expect(staleQueue.operations).toEqual([
       { operation: "dead_lettered", eventId, errorCode: "CREDENTIAL_TOKEN_UNAVAILABLE" },
     ]);
+
+    const invalidDestinationQueue = new FakeQueue();
+    invalidDestinationQueue.record = credential({ accountEmail: "not-an-email" });
+    await worker(invalidDestinationQueue, provider).runBatch();
+    expect(invalidDestinationQueue.operations).toEqual([
+      { operation: "dead_lettered", eventId, errorCode: "CREDENTIAL_DESTINATION_INVALID" },
+    ]);
+    expect(provider.deliver).not.toHaveBeenCalled();
   });
 });
 
@@ -323,6 +338,9 @@ describe("credential delivery migration boundary", () => {
     expect(migration).toContain("CREATE TABLE identity.credential_delivery");
     expect(migration).toContain("dead_lettered");
     expect(migration).toContain("GRANT UPDATE (available_at, attempt_count");
+    expect(migration).toContain(
+      "GRANT SELECT (id, email, account_state, credential_state, archived_at) ON identity.user_account",
+    );
     expect(migration).toContain("REVOKE ALL ON identity.credential_delivery FROM kurs_crm_api");
     expect(migration).not.toMatch(/raw.?token|one.?time.?credential/iu);
     expect(roleInit).toContain("kurs_crm_credential_worker");

@@ -2,7 +2,7 @@ import ApiClient, {
   ApiError,
   bindSubmitAttemptPayload,
   createSubmitAttempt,
-} from "./api-client.js?v=20260806-3";
+} from "./api-client.js?v=20260807-1";
 import { initAurora } from "./aurora.js?v=20260731-5";
 import { isPublishedMapPoint, projectLonLat } from "./map-geometry.js?v=20260729-1";
 import {
@@ -1203,7 +1203,7 @@ function initSupport() {
   });
 }
 
-function initStories() {
+async function initStories() {
   const section = qs("#stories");
   if (!section) {
     return;
@@ -1217,8 +1217,30 @@ function initStories() {
   const dialog = qs("#story-dialog");
   const filterStatus = qs("[data-story-filter-status]", section);
   const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  try {
+    const managedStories = await apiClient.getStories();
+    managedStories.suppressedIds.forEach((storyId) => {
+      delete storyContent[storyId];
+    });
+    managedStories.items.forEach((story) => {
+      if (["__proto__", "prototype", "constructor"].includes(story.id)) return;
+      storyContent[story.id] = {
+        ...story,
+        tone: `story-message--${story.tone}`,
+      };
+    });
+  } catch (error) {
+    if (!(error instanceof DOMException && error.name === "AbortError")) {
+      console.warn("Не удалось обновить истории из CRM; используется встроенный реестр.", error);
+    }
+  }
+
   const stories = Object.values(storyContent);
-  const initialStoryIds = ["family", "dog", "student", "doctor"];
+  const preferredStoryIds = ["family", "dog", "student", "doctor"];
+  const initialStoryIds = [
+    ...preferredStoryIds.filter((storyId) => storyContent[storyId]),
+    ...stories.map((story) => story.id).filter((storyId) => !preferredStoryIds.includes(storyId)),
+  ].slice(0, 4);
   let activeFilter = "all";
   let timerId = null;
   let rotationBag = [];
@@ -2973,7 +2995,7 @@ async function init() {
   initNorthLife();
   initLegalAndCookies();
   initSupport();
-  initStories();
+  void initStories();
   initResumeBuilder();
   initApplicationForm();
   initYear();

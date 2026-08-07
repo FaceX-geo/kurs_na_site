@@ -1,6 +1,6 @@
 # Каталог авторизационных политик
 
-Версия: 1.2
+Версия: 1.3
 Статус: нормативный baseline Gate A
 Модель: deny-by-default
 
@@ -9,7 +9,7 @@
 человеку; CI проверяет, что каждая operation требований принадлежит ровно одному
 permission, а каждый role/principal и critical reference зарегистрирован.
 Machine SHA-256:
-`122dcd1e49ed2f8de9edce85b5718e6f144885efe8f40314322760e1386ec0f1`.
+`8d88806db35381888dc3097064550f1201fcbdde88bc224dc53f0ce7da166786`.
 
 ## 1. Решение доступа
 
@@ -48,7 +48,7 @@ Membership имеет `valid_from`, `valid_to` и version. Policy decision со�
 
 | Роль | Domain | Базовый scope | Не даёт автоматически |
 |---|---|---|---|
-| `platform_superadmin` | platform | all platform accounts | CRM/project PII и business writes |
+| `platform_superadmin` | platform | all platform accounts + explicit all-scope CRM read/report | CRM case/task/communication writes и project business access |
 | `crm_project_manager` | CRM | assigned | project tracker |
 | `crm_lead_specialist` | CRM | team/department | platform/project admin |
 | `crm_admin` | CRM | all CRM | platform accounts/project data |
@@ -149,33 +149,37 @@ audit scopes, operational ownership и approvals передаются до вы�
 
 | Permission | Query/command | Grants | Scope/guard |
 |---|---|---|---|
-| `crm.dashboard.read` | `GetCrmDashboard` | all CRM roles | role scope |
-| `crm.case.list` | `ListCases` | all CRM roles | assigned/team/department/all |
-| `crm.case.read` | `GetCase` | all CRM roles | row predicate + field mask |
+| `crm.dashboard.read` | `GetCrmDashboard` | all CRM roles + platform superadmin | role scope; superadmin=`all` |
+| `crm.case.list` | `ListCases` | all CRM roles + platform superadmin | assigned/team/department/all |
+| `crm.case.read` | `GetCase` | all CRM roles + platform superadmin | row predicate + field mask |
 | `crm.case.create` | `CreateCase` | manager/lead/admin | intake/manual permission |
 | `crm.case.update` | `UpdateCase` | manager/lead/admin | expected version, row predicate |
 | `crm.case.transition` | `TransitionCase` | manager/lead/admin | state-machine guard |
 | `crm.case.reopen` | `ReopenCase` | lead/admin | required reason, expected version |
-| `crm.person.pii_view` | sensitive contact fields | manager/lead/admin/head | row predicate, view audit |
+| `crm.person.pii_view` | sensitive contact fields | manager/lead/admin/head + platform superadmin | row predicate, view audit |
 | `crm.person.export` | `ExportCandidates` | head/admin | independent export permission, reason |
 | `crm.duplicates.read` | `ListDuplicateCandidates` | lead/admin | permitted data scope |
 | `crm.duplicates.merge` | `MergeCandidate` | lead/admin | human reviewer, reason, reversible ledger |
-| `crm.employer.read` | employer queries | CRM roles | role scope |
+| `crm.employer.read` | employer queries | CRM roles + platform superadmin | role scope; superadmin=`all` |
 | `crm.employer.manage` | create/update employer | manager/lead/admin | INN conflict guard |
 | `crm.employer.merge` | `MergeEmployer` | lead/admin | reason/audit |
 | `crm.referral.manage` | employer direction commands | manager/lead/admin | state machine, row predicate |
 | `crm.recommender.manage` | recommender link/doc commands | manager/lead/admin | deterministic link/manual review |
-| `crm.task.read` | CRM task queries | CRM roles | assigned/team/department/all |
+| `crm.task.read` | CRM task queries | CRM roles + platform superadmin | assigned/team/department/all |
 | `crm.task.manage` | CRM task commands | manager/lead/admin | CRM task only, expected version |
-| `crm.communication.read` | communication queries | CRM roles | row predicate |
+| `crm.communication.read` | communication queries | CRM roles + platform superadmin | row predicate; superadmin=`all` |
+| `crm.notification.read` | own notification queries/read receipt | CRM roles + platform superadmin | recipient remains actor; permission opens the personal screen |
 | `crm.communication.send_one` | send single | manager/lead/admin | preview, idempotency |
 | `crm.communication.send_bulk` | send batch | lead/admin | selection hash, confirm, per-item outcome |
-| `crm.report.read` | build/read report | CRM roles/head | scope + formula |
+| `crm.report.build` | build/read report | lead/admin/head + platform superadmin | scope + versioned formula; superadmin=`all` |
 | `crm.report.export` | report export | head/admin | separate export permission |
 | `crm.settings.manage` | funnel/fields/integrations | CRM admin | critical changes need fresh auth |
 | `crm.roles.define` | CRM permission templates | CRM admin | cannot assign own role |
 
-`crm_project_manager` получает `crm.*`, но не `project.*`. CRM admin не получает `identity.roles.assign_platform`.
+`platform_superadmin` получает только перечисленный CRM read/report allowlist. Он не наследует
+`crm.case.transition`, `crm.case.reopen`, `crm.task.manage` или communication write permissions.
+`crm_project_manager` получает свои зарегистрированные `crm.*`, но не `project.*`. CRM admin не получает
+`identity.roles.assign_platform`.
 
 ## 7. Project policies
 

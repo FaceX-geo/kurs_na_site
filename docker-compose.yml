@@ -7,18 +7,25 @@ services:
       dockerfile: Dockerfile
       args:
         RELEASE_SHA: ${RELEASE_SHA:-development}
+        CRM_API_UPSTREAM: ${CRM_API_UPSTREAM:-crm-api:8080}
+        CRM_TRUSTED_EDGE_HEADERS: ${CRM_TRUSTED_EDGE_HEADERS:-false}
+        CRM_TEST_AUTH_BYPASS: ${CRM_TEST_AUTH_BYPASS:-false}
     env_file:
       - path: .env.local
         required: false
     image: ${LANDING_IMAGE:-kurs-na-site:local}
     container_name: kurs_na_site
     restart: unless-stopped
+    init: true
+    security_opt:
+      - no-new-privileges:true
+    pids_limit: 128
     labels:
       facex.release.sha: ${RELEASE_SHA:-development}
     ports:
       - "8105:80"
     healthcheck:
-      test: ["CMD-SHELL", "wget -q -O /dev/null http://127.0.0.1/ || exit 1"]
+      test: ["CMD-SHELL", "crm_html=$$(wget -q -O - http://127.0.0.1/cabinet/) && crm_asset=$$(printf '%s' \"$$crm_html\" | grep -oE 'src=\"[^\"]+\\.js\"' | head -n 1 | cut -d '\"' -f 2) && test -n \"$$crm_asset\" && wget -q -O /dev/null \"http://127.0.0.1$$crm_asset\" && wget -q -O /dev/null http://127.0.0.1/ || exit 1"]
       interval: 10s
       timeout: 3s
       retries: 6

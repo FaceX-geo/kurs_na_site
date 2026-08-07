@@ -170,7 +170,12 @@ Nginx одновременно раздаёт статику и является
 
 - корень: `/usr/share/nginx/html`;
 - входная страница: `index.html`;
-- API/identity/health routes проксируются в `crm-api:8080` до static fallback;
+- API/identity/health routes проксируются в build-time `CRM_API_UPSTREAM` до static fallback;
+- локальный Bravo build использует `crm-api:8080`, а managed edge — только явно заданный private
+  upstream; значение валидируется при сборке и не может превратить Nginx-конфиг в произвольный
+  фрагмент;
+- `CRM_TRUSTED_EDGE_HEADERS=true` разрешён только за управляемым Nginx edge: он берёт протокол и
+  client IP из перезаписанных edge-заголовков, не доверяя клиентскому `X-Forwarded-For`;
 - клиентский `X-Forwarded-For` не сохраняется — edge выставляет фактический `$remote_addr`;
 - fallback: `try_files $uri $uri/ /index.html;`
 

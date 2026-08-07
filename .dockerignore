@@ -4,6 +4,7 @@
 **/node_modules
 **/dist
 **/coverage
+apps/crm-frontend/qa-evidence
 apps/crm-backend/var
 README.md
 docs

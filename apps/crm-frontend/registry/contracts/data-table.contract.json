@@ -1,0 +1,30 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.data-table",
+  "version": "1.0.0",
+  "purpose": "Render a dense CRM registry with controlled selection, sorting and explicit async states.",
+  "variants": ["registry", "master-detail", "outcome"],
+  "states": ["loading", "ready", "empty", "error", "validation", "stale", "denied", "conflict", "archived"],
+  "inputs": [
+    { "name": "caption", "type": "string", "required": true },
+    { "name": "columns", "type": "DataTableColumn<T>[]", "required": true },
+    { "name": "rows", "type": "T[]", "required": true },
+    { "name": "getRowId", "type": "(row:T)=>string", "required": true },
+    { "name": "selectedId", "type": "string|null", "required": false },
+    { "name": "empty", "type": "ReactNode", "required": false },
+    { "name": "sort", "type": "DataTableSort|null", "required": false },
+    { "name": "state", "type": "AsyncState", "required": false }
+  ],
+  "events": {
+    "openRow": { "payload": "row: T", "description": "Requests row detail and controlled selection." },
+    "sortChange": { "payload": "DataTableSort", "description": "Requests a stable sort without mutating records." }
+  },
+  "accessibility": {
+    "role": "table with caption",
+    "keyboard": "Sortable headers are buttons; focusable rows open with Enter or Space.",
+    "focus": "Closing detail restores the originating row when it still exists.",
+    "screenReader": "Sort, selected row and every async state are announced."
+  },
+  "motion": { "default": "150ms row selection feedback.", "reducedMotion": "No row translation or reorder animation." },
+  "invariants": ["Selection is controlled by selectedId.", "Rows never filter hidden records in memory.", "A click is not mutation evidence."]
+}

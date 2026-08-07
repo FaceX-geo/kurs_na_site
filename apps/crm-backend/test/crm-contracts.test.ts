@@ -2,7 +2,7 @@ import swagger from "@fastify/swagger";
 import Fastify from "fastify";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { registerErrorHandling } from "../src/common/errors.js";
-import type { CrmCaseDetail } from "../src/modules/crm/contracts.js";
+import type { CrmCaseDetail, CrmCaseTransitionResult } from "../src/modules/crm/contracts.js";
 import { crmPlugin, parseCrmIfMatchVersion } from "../src/modules/crm/plugin.js";
 import type { CrmActorContext, CrmServicePort } from "../src/modules/crm/ports.js";
 import { CRM_STATE_REGISTRY, createCrmStateRegistry } from "../src/registry/crm-state-registry.js";
@@ -51,6 +51,19 @@ const caseDetail: CrmCaseDetail = {
   attributes: {},
 };
 
+const transitionResult: CrmCaseTransitionResult = {
+  case: caseDetail,
+  receipt: {
+    id: "audit-event-1",
+    auditEventId: "audit-event-1",
+    operationId: "TransitionCase",
+    requestId: "original-request-1",
+    caseId: caseDetail.id,
+    version: caseDetail.version,
+    occurredAt: "2026-08-06T10:00:00.000Z",
+  },
+};
+
 afterEach(async () => {
   await Promise.all(apps.splice(0).map((app) => app.close()));
 });
@@ -95,7 +108,18 @@ describe("CRM operation and OpenAPI contracts", () => {
     await app.ready();
 
     const document = app.swagger() as {
-      paths?: Record<string, Record<string, { operationId?: string; "x-permission-code"?: string }>>;
+      paths?: Record<
+        string,
+        Record<
+          string,
+          {
+            operationId?: string;
+            "x-permission-code"?: string;
+            parameters?: readonly { in?: string; name?: string; required?: boolean }[];
+            responses?: Readonly<Record<string, unknown>>;
+          }
+        >
+      >;
     };
 
     for (const operation of CRM_OPERATION_LIST) {
@@ -105,10 +129,20 @@ describe("CRM operation and OpenAPI contracts", () => {
       expect(route?.operationId).toBe(operation.operationId);
       expect(route?.["x-permission-code"]).toBe(operation.permissionCode);
     }
+
+    const transitionRoute = document.paths?.["/internal/v1/crm/cases/{caseId}/transitions"]?.post;
+    expect(transitionRoute?.parameters).toEqual(
+      expect.arrayContaining([
+        expect.objectContaining({ in: "header", name: "idempotency-key", required: true }),
+      ]),
+    );
+    const responseContract = JSON.stringify(transitionRoute?.responses);
+    expect(responseContract).toContain("auditEventId");
+    expect(responseContract).toContain("Idempotency-Replayed");
   });
 
   it("enforces If-Match and returns the new ETag for case transitions", async () => {
-    const transitionCase = vi.fn(async () => caseDetail);
+    const transitionCase = vi.fn(async () => ({ value: transitionResult, replayed: false }));
     const app = Fastify();
     apps.push(app);
     registerErrorHandling(app);
@@ -121,7 +155,10 @@ describe("CRM operation and OpenAPI contracts", () => {
     const missing = await app.inject({
       method: "POST",
       url: "/internal/v1/crm/cases/case-1/transitions",
-      headers: { "x-csrf-token": "csrf-token-for-contract-test" },
+      headers: {
+        "idempotency-key": "case-transition-key-0001",
+        "x-csrf-token": "csrf-token-for-contract-test",
+      },
       payload: { toStageCode: "qualification" },
     });
     expect(missing.statusCode).toBe(428);
@@ -132,22 +169,131 @@ describe("CRM operation and OpenAPI contracts", () => {
       url: "/internal/v1/crm/cases/case-1/transitions",
       headers: {
         "if-match": '"v7"',
+        "idempotency-key": "case-transition-key-0001",
         "x-csrf-token": "csrf-token-for-contract-test",
       },
       payload: { toStageCode: "qualification" },
     });
     expect(response.statusCode).toBe(200);
     expect(response.headers.etag).toBe('"v8"');
+    expect(response.json()).toEqual(transitionResult);
     expect(transitionCase).toHaveBeenCalledWith(
       expect.objectContaining({ userAccountId: "user-1" }),
       "case-1",
       7,
+      "case-transition-key-0001",
       { toStageCode: "qualification" },
     );
+
+    const missingIdempotencyKey = await app.inject({
+      method: "POST",
+      url: "/internal/v1/crm/cases/case-1/transitions",
+      headers: {
+        "if-match": '"v7"',
+        "x-csrf-token": "csrf-token-for-contract-test",
+      },
+      payload: { toStageCode: "qualification" },
+    });
+    expect(missingIdempotencyKey.statusCode).toBe(422);
+    expect(missingIdempotencyKey.json()).toMatchObject({
+      code: "validation_error",
+      errors: expect.arrayContaining([
+        expect.objectContaining({
+          code: "required",
+          message: expect.stringContaining("idempotency-key"),
+        }),
+      ]),
+    });
+  });
+
+  it("marks exact TransitionCase replay without changing the authoritative receipt", async () => {
+    const app = Fastify();
+    apps.push(app);
+    registerErrorHandling(app);
+    await app.register(crmPlugin, {
+      service: {
+        transitionCase: async () => ({ value: transitionResult, replayed: true }),
+      } as unknown as CrmServicePort,
+      resolveActor: async (request) => ({ ...actor, requestId: request.id }),
+      verifyMutationRequest: async () => undefined,
+    });
+
+    const response = await app.inject({
+      method: "POST",
+      url: "/internal/v1/crm/cases/case-1/transitions",
+      headers: {
+        "if-match": '"v7"',
+        "idempotency-key": "case-transition-key-0001",
+        "x-csrf-token": "csrf-token-for-contract-test",
+      },
+      payload: { toStageCode: "qualification" },
+    });
+    expect(response.statusCode).toBe(200);
+    expect(response.headers["idempotency-replayed"]).toBe("true");
+    expect(response.headers.etag).toBe('"v8"');
+    expect(response.json()).toEqual(transitionResult);
   });
 });
 
 describe("CRM state registry", () => {
+  it("exposes the pinned category-2 legacy funnel as retired and transitionless", () => {
+    const definition = CRM_STATE_REGISTRY.get("case", "relocation_legacy_category_2", 1);
+    expect(definition).toMatchObject({
+      code: "relocation_legacy_category_2",
+      version: 1,
+      status: "retired",
+      source:
+        "bitrix-sitemanager-final.sql.gz@sha256:7d38354b78f7c30423462799f088f097cd129eb3934b4e29b3664b0f648e79bf",
+      initialState: "legacy_c2_new",
+    });
+    expect(definition?.states).toEqual([
+      { code: "legacy_c2_new", title: "Новая заявка", order: 10, aggregateStatus: "open" },
+      { code: "legacy_c2_uc_ja4php", title: "Недозвон", order: 20, aggregateStatus: "open" },
+      {
+        code: "legacy_c2_preparation",
+        title: "Рассматривает возможность переезда",
+        order: 30,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_uc_g30un1",
+        title: "Переезд отложен",
+        order: 40,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_prepayment_invoice",
+        title: "Даты запланированы",
+        order: 50,
+        aggregateStatus: "open",
+      },
+      {
+        code: "legacy_c2_executing",
+        title: "Билеты куплены",
+        order: 60,
+        aggregateStatus: "open",
+      },
+      { code: "legacy_c2_won", title: "Переехал", order: 70, aggregateStatus: "completed" },
+      {
+        code: "legacy_c2_lose",
+        title: "Отказ от переезда",
+        order: 80,
+        aggregateStatus: "closed_unsuccessful",
+      },
+    ]);
+    expect(definition?.transitions).toEqual([]);
+    expect(CRM_STATE_REGISTRY.list("case")).toContainEqual(definition);
+    expect(
+      CRM_STATE_REGISTRY.resolveTransition(
+        "case",
+        "relocation_legacy_category_2",
+        1,
+        "legacy_c2_new",
+        "legacy_c2_preparation",
+      ),
+    ).toBeUndefined();
+  });
+
   it("keeps post_relocation explicit but fail-closed until its lifecycle is approved", () => {
     const definition = CRM_STATE_REGISTRY.get("case", "post_relocation", 1);
     expect(definition).toMatchObject({

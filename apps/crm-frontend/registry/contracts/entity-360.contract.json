@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.entity-360",
+  "version": "1.0.0",
+  "purpose": "Present one CRM entity through compact facts, masked contacts, provenance and a source-labelled timeline.",
+  "variants": ["candidate", "employer", "referral", "task", "recommender"],
+  "states": ["ready", "restricted", "archived", "stale"],
+  "inputs": [
+    { "name": "title", "type": "string", "required": true },
+    { "name": "subtitle", "type": "string", "required": false },
+    { "name": "status", "type": "ReactNode", "required": false },
+    { "name": "sections", "type": "Entity360Section[]", "required": true },
+    { "name": "timeline", "type": "Entity360TimelineItem[]", "required": false },
+    { "name": "provenance", "type": "ProvenanceItem[]", "required": false },
+    { "name": "actions", "type": "ReactNode", "required": false }
+  ],
+  "events": {
+    "action": { "payload": "owned by supplied action", "description": "Requests only a route-owned action." }
+  },
+  "accessibility": {
+    "role": "article with grouped sections",
+    "keyboard": "Actions are supplied as native controls.",
+    "focus": "Tab order follows fact groups, actions and timeline.",
+    "screenReader": "Sensitive facts are masked in the model; every history item names its source."
+  },
+  "motion": { "default": "No required motion.", "reducedMotion": "No change." },
+  "invariants": ["Full contacts require permission-filtered backend values.", "A timeline claim always includes source and timestamp.", "No raw legacy row is rendered."]
+}

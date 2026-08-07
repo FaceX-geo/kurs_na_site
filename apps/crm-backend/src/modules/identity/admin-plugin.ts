@@ -6,6 +6,11 @@ import type { DatabaseHandle } from "../../db/client.js";
 import type { RoleChangeInput } from "./admin-contracts.js";
 import { ROLE_OPERATION_LIST, ROLE_PREVIEW_OPERATION } from "./admin-role-registry.js";
 import { IdentityAdminService } from "./admin-service.js";
+import {
+  AuthenticatedSessionReceiptSchema,
+  AuthenticatedUserSchema,
+  BusinessRoleSchema,
+} from "./auth-contracts.js";
 import { IDENTITY_OPERATIONS } from "./operation-registry.js";
 import { type AuthContext, IdentityService, type SessionReceipt } from "./service.js";
 import {
@@ -19,6 +24,17 @@ const DateTime = Type.String({ format: "date-time" });
 const Reason = Type.String({ minLength: 3, maxLength: 1_000 });
 const CsrfHeaders = Type.Object(
   { "x-csrf-token": Type.String({ minLength: 32, maxLength: 256 }) },
+  { additionalProperties: true },
+);
+const IdempotentCsrfHeaders = Type.Object(
+  {
+    "idempotency-key": Type.String({
+      minLength: 8,
+      maxLength: 128,
+      pattern: "^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$",
+    }),
+    "x-csrf-token": Type.String({ minLength: 32, maxLength: 256 }),
+  },
   { additionalProperties: true },
 );
 const UserParams = Type.Object({ userId: Uuid }, { additionalProperties: false });
@@ -42,6 +58,14 @@ const InviteBody = Type.Object(
     givenName: Type.String({ minLength: 1, maxLength: 120 }),
     surname: Type.String({ minLength: 1, maxLength: 120 }),
     middleName: Type.Optional(Type.String({ minLength: 1, maxLength: 120 })),
+    reason: Reason,
+  },
+  { additionalProperties: false },
+);
+const ProvisionSpecialistBody = Type.Object(
+  {
+    employeeProfileId: Uuid,
+    email: Type.String({ format: "email", maxLength: 254 }),
     reason: Reason,
   },
   { additionalProperties: false },
@@ -136,31 +160,12 @@ const RoleChangeCoreProperties = {
   previewFingerprint: Type.String({ pattern: "^[a-f0-9]{64}$" }),
 } as const;
 
-const SessionReceiptSchema = Type.Object(
-  {
-    status: Type.Literal("authenticated"),
-    csrfToken: Type.String(),
-    expiresAt: DateTime,
-    user: Type.Object({
-      id: Uuid,
-      email: Type.String({ format: "email" }),
-      displayName: Type.String(),
-      roles: Type.Array(Type.String()),
-    }),
-  },
-  { additionalProperties: false },
-);
 const MfaEnrollmentCompletedSchema = Type.Object(
   {
     status: Type.Literal("authenticated"),
     csrfToken: Type.String(),
     expiresAt: DateTime,
-    user: Type.Object({
-      id: Uuid,
-      email: Type.String({ format: "email" }),
-      displayName: Type.String(),
-      roles: Type.Array(Type.String()),
-    }),
+    user: AuthenticatedUserSchema,
     recoveryCodes: Type.Array(Type.String(), { minItems: 10, maxItems: 10 }),
   },
   { additionalProperties: false },
@@ -176,6 +181,8 @@ const UserSchema = Type.Object(
     riskState: Type.String(),
     mfaState: Type.String(),
     employmentState: Type.Union([Type.String(), Type.Null()]),
+    employeeProfileId: Type.Union([Uuid, Type.Null()]),
+    businessRole: Type.Union([BusinessRoleSchema, Type.Null()]),
     roles: Type.Array(Type.String()),
     activeSessions: Type.Integer({ minimum: 0 }),
     version: Type.Integer({ minimum: 1 }),
@@ -184,6 +191,44 @@ const UserSchema = Type.Object(
   },
   { additionalProperties: false },
 );
+const ProvisionableEmployeeSchema = Type.Object(
+  {
+    employeeProfileId: Uuid,
+    personId: Uuid,
+    displayName: Type.String(),
+    email: Type.Union([Type.String({ format: "email" }), Type.Null()]),
+    employeeNumber: Type.Union([Type.String(), Type.Null()]),
+    organizationUnitId: Type.Union([Uuid, Type.Null()]),
+    employmentState: Type.Literal("active"),
+    createdAt: DateTime,
+  },
+  { additionalProperties: false },
+);
+const ProvisionedSpecialistReceiptSchema = Type.Object(
+  {
+    id: Uuid,
+    auditEventId: Uuid,
+    operationId: Type.Literal("ProvisionSpecialist"),
+    requestId: Type.String({ minLength: 1, maxLength: 256 }),
+    userId: Uuid,
+    employeeProfileId: Uuid,
+    businessRole: Type.Literal("SPECIALIST"),
+    expiresAt: DateTime,
+    occurredAt: DateTime,
+    credentialDelivery: Type.Literal("queued_internal"),
+  },
+  { additionalProperties: false },
+);
+const ProvisionedSpecialistResponseSchema = {
+  ...ProvisionedSpecialistReceiptSchema,
+  headers: {
+    "Idempotency-Replayed": {
+      type: "string",
+      enum: ["true"],
+      description: "Присутствует только для точного replay завершённого создания специалиста",
+    },
+  },
+} as const;
 const PageSchema = Type.Object(
   {
     limit: Type.Integer({ minimum: 1, maximum: 200 }),
@@ -296,7 +341,7 @@ function setSessionCookie(reply: FastifyReply, config: AppConfig, receipt: Sessi
   reply.setCookie(config.session.cookieName, receipt.sessionToken, {
     path: "/internal/v1",
     httpOnly: true,
-    secure: config.nodeEnv === "production",
+    secure: config.nodeEnv !== "development",
     sameSite: "lax",
     expires: new Date(receipt.expiresAt),
   });
@@ -421,7 +466,7 @@ export const identityAdminPlugin: FastifyPluginAsync<IdentityAdminPluginOptions>
         headers: CsrfHeaders,
         body: ChangePasswordBody,
         response: {
-          200: SessionReceiptSchema,
+          200: AuthenticatedSessionReceiptSchema,
           401: ErrorEnvelopeSchema,
           403: ErrorEnvelopeSchema,
           422: ErrorEnvelopeSchema,
@@ -458,6 +503,70 @@ export const identityAdminPlugin: FastifyPluginAsync<IdentityAdminPluginOptions>
       const context = await protectedContext(request);
       const result = await service.inviteUser(context, request.body, { requestId: request.id });
       return reply.status(202).send(result);
+    },
+  );
+
+  app.get<{
+    Querystring: { cursor?: string; limit?: number; search?: string };
+  }>(
+    IDENTITY_OPERATIONS["employees.list"].path,
+    {
+      schema: {
+        operationId: IDENTITY_OPERATIONS["employees.list"].operationId,
+        tags: ["identity-admin"],
+        security: [{ sessionCookie: [] }],
+        "x-permission-code": IDENTITY_OPERATIONS["employees.list"].permissionCode,
+        querystring: Type.Object(
+          {
+            cursor: Type.Optional(Type.String({ maxLength: 1_024 })),
+            limit: Type.Optional(Type.Integer({ minimum: 1, maximum: 200 })),
+            search: Type.Optional(Type.String({ minLength: 1, maxLength: 200 })),
+          },
+          { additionalProperties: false },
+        ),
+        response: {
+          200: Type.Object({ items: Type.Array(ProvisionableEmployeeSchema), page: PageSchema }),
+          401: ErrorEnvelopeSchema,
+          403: ErrorEnvelopeSchema,
+          422: ErrorEnvelopeSchema,
+        },
+      } as PermissionRouteSchema,
+    },
+    async (request) => service.listProvisionableEmployees(await authenticated(request), request.query),
+  );
+
+  app.post<{
+    Headers: Static<typeof IdempotentCsrfHeaders>;
+    Body: Static<typeof ProvisionSpecialistBody>;
+  }>(
+    IDENTITY_OPERATIONS["specialists.provision"].path,
+    {
+      schema: {
+        operationId: IDENTITY_OPERATIONS["specialists.provision"].operationId,
+        tags: ["identity-admin"],
+        security: [{ sessionCookie: [], csrfToken: [] }],
+        "x-permission-code": IDENTITY_OPERATIONS["specialists.provision"].permissionCode,
+        headers: IdempotentCsrfHeaders,
+        body: ProvisionSpecialistBody,
+        response: {
+          202: ProvisionedSpecialistResponseSchema,
+          401: ErrorEnvelopeSchema,
+          403: ErrorEnvelopeSchema,
+          404: ErrorEnvelopeSchema,
+          409: ErrorEnvelopeSchema,
+          422: ErrorEnvelopeSchema,
+        },
+      } as PermissionRouteSchema,
+    },
+    async (request, reply) => {
+      const result = await service.provisionSpecialist(
+        await protectedContext(request),
+        request.body,
+        request.headers["idempotency-key"],
+        { requestId: request.id },
+      );
+      if (result.replayed) reply.header("idempotency-replayed", "true");
+      return reply.status(202).send(result.receipt);
     },
   );
 

@@ -1,0 +1,386 @@
+.tasks-screen {
+  display: grid;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--crm-content-max);
+  gap: var(--crm-space-6);
+}
+
+.tasks-screen > * {
+  min-width: 0;
+}
+
+.tasks-pagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--crm-space-3);
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-small);
+}
+
+.tasks-toolbar {
+  display: grid;
+  grid-template-columns: auto minmax(170px, 220px) auto auto;
+  align-items: end;
+  gap: var(--crm-space-3);
+}
+
+.tasks-filter-panel {
+  display: grid;
+  gap: var(--crm-space-3);
+  padding: var(--crm-space-4);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-panel);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--crm-shadow-control);
+}
+
+.tasks-filter-control {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.tasks-filter-control select,
+.tasks-filter-control input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--crm-hit-target);
+  padding: 0 var(--crm-space-3);
+  border: 1px solid var(--crm-color-border-strong);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+}
+
+.tasks-filter-toggle {
+  display: inline-flex;
+  min-height: var(--crm-hit-target);
+  align-items: center;
+  justify-content: center;
+  gap: var(--crm-space-2);
+  padding: 0 var(--crm-space-4);
+  border: 1px solid var(--crm-color-border-strong);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+  font-weight: var(--crm-font-weight-semibold);
+}
+
+.tasks-filter-toggle.is-active {
+  border-color: var(--crm-color-work);
+  color: var(--crm-color-work);
+  background: var(--crm-color-selection);
+}
+
+.tasks-advanced-filters {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--crm-space-3);
+  padding-top: var(--crm-space-3);
+  border-top: 1px solid var(--crm-color-border);
+  animation: crm-filter-enter var(--crm-motion-state) var(--crm-motion-ease) both;
+}
+
+.tasks-active-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--crm-space-3);
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.tasks-active-filters button,
+.tasks-case-link {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: var(--crm-radius-small);
+  background: transparent;
+  color: var(--crm-color-work);
+  font-weight: var(--crm-font-weight-semibold);
+}
+
+.tasks-workspace {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(280px, 0.34fr);
+  align-items: start;
+  gap: var(--crm-space-4);
+  min-width: 0;
+}
+
+.tasks-contract-note {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--crm-space-2);
+  padding: var(--crm-space-3) var(--crm-space-4);
+  border: 1px solid #c8d8ef;
+  border-radius: var(--crm-radius-control);
+  color: var(--crm-color-text-secondary);
+  background: #f3f7fd;
+  font-size: var(--crm-font-size-small);
+  line-height: var(--crm-line-height-body);
+}
+
+.tasks-inspector {
+  position: sticky;
+  top: 94px;
+  display: grid;
+  gap: var(--crm-space-4);
+  padding: var(--crm-space-5);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-panel);
+  background: var(--crm-color-surface);
+  box-shadow: var(--crm-shadow-control);
+  animation: crm-inspector-enter var(--crm-motion-panel) var(--crm-motion-ease) both;
+}
+
+.tasks-inspector > p,
+.tasks-inspector h2 {
+  margin: 0;
+}
+
+.tasks-inspector > p {
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.tasks-inspector h2 {
+  font-size: var(--crm-font-size-card-title);
+}
+
+.tasks-inspector__status {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--crm-space-2);
+}
+
+.tasks-inspector dl {
+  display: grid;
+  gap: var(--crm-space-3);
+  margin: 0;
+}
+
+.tasks-inspector dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--crm-space-3);
+  padding-bottom: var(--crm-space-2);
+  border-bottom: 1px solid var(--crm-color-border);
+}
+
+.tasks-inspector dt,
+.tasks-inspector dd {
+  margin: 0;
+}
+
+.tasks-inspector dt {
+  color: var(--crm-color-text-muted);
+}
+
+.tasks-inspector dd {
+  text-align: right;
+}
+
+@keyframes crm-inspector-enter {
+  from {
+    transform: translateX(8px);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.tasks-search,
+.tasks-state-filter {
+  min-height: var(--crm-control-height);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+}
+
+.tasks-search {
+  display: flex;
+  align-items: center;
+  gap: var(--crm-space-3);
+  padding: 0 var(--crm-space-4);
+  color: var(--crm-color-text-muted);
+}
+
+.tasks-search input,
+.tasks-state-filter select {
+  width: 100%;
+  min-height: 46px;
+  border: 0;
+  background: transparent;
+}
+
+.tasks-state-filter select {
+  padding: 0 var(--crm-space-3);
+}
+
+.tasks-search:focus-within,
+.tasks-state-filter:focus-within {
+  border-color: var(--crm-color-work);
+  box-shadow: var(--crm-focus-ring);
+}
+
+.tasks-list-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(300px, 0.32fr);
+  align-items: start;
+  gap: var(--crm-space-4);
+}
+
+.tasks-title-cell {
+  display: grid;
+  gap: 2px;
+}
+
+.tasks-title-cell strong {
+  color: var(--crm-color-ink);
+}
+
+.tasks-title-cell small {
+  color: var(--crm-color-text-muted);
+}
+
+.tasks-icon-value,
+.tasks-due {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--crm-space-2);
+  white-space: nowrap;
+}
+
+.tasks-due.is-overdue {
+  color: var(--crm-color-danger);
+  font-weight: var(--crm-font-weight-semibold);
+}
+
+.tasks-detail {
+  display: grid;
+  gap: var(--crm-space-4);
+  padding: var(--crm-space-5);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-panel);
+  background: var(--crm-color-surface);
+  box-shadow: var(--crm-shadow-control);
+}
+
+.tasks-detail header p,
+.tasks-detail header h2,
+.tasks-detail header span {
+  margin: 0;
+}
+
+.tasks-detail header p,
+.tasks-detail header span {
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.tasks-detail header h2 {
+  margin: var(--crm-space-2) 0;
+  color: var(--crm-color-ink);
+  font-size: var(--crm-font-size-card-title);
+}
+
+.tasks-detail dl {
+  display: grid;
+  gap: var(--crm-space-3);
+  margin: 0;
+}
+
+.tasks-detail dl > div {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--crm-space-3);
+  padding-bottom: var(--crm-space-2);
+  border-bottom: 1px solid var(--crm-color-border);
+}
+
+.tasks-detail dt,
+.tasks-detail dd {
+  margin: 0;
+}
+
+.tasks-detail dt {
+  color: var(--crm-color-text-muted);
+}
+
+.tasks-detail dd {
+  color: var(--crm-color-ink);
+  text-align: right;
+}
+
+.tasks-detail dd.is-overdue {
+  color: var(--crm-color-danger);
+}
+
+.tasks-draft-fields {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--crm-space-3);
+  margin-bottom: var(--crm-space-4);
+}
+
+.tasks-draft-fields label {
+  display: grid;
+  gap: var(--crm-space-2);
+  color: var(--crm-color-text-secondary);
+  font-size: var(--crm-font-size-small);
+}
+
+.tasks-draft-fields input,
+.tasks-draft-fields select {
+  min-height: var(--crm-control-height);
+  padding: 0 var(--crm-space-3);
+  border: 1px solid var(--crm-color-border-strong);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+}
+
+@media (max-width: 1180px) {
+  .tasks-toolbar {
+    grid-template-columns: auto minmax(170px, 1fr);
+  }
+
+  .tasks-state-filter {
+    grid-column: auto;
+  }
+
+  .tasks-workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-inspector {
+    position: static;
+  }
+}
+
+@media (max-width: 720px) {
+  .tasks-toolbar {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-advanced-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .tasks-state-filter {
+    grid-column: auto;
+  }
+
+  .tasks-draft-fields {
+    grid-template-columns: 1fr;
+  }
+}

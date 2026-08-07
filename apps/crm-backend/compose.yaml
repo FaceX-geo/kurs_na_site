@@ -18,7 +18,8 @@ x-runtime-hardening: &runtime-hardening
     - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
 
 x-api-environment: &api-environment
-  NODE_ENV: production
+  NODE_ENV: ${CRM_NODE_ENV:-production}
+  CRM_TEST_AUTH_BYPASS: ${CRM_TEST_AUTH_BYPASS:-false}
   DATABASE_URL: postgresql://kurs_crm_api:${CRM_API_PASSWORD:?set CRM_API_PASSWORD}@postgres:5432/kurs_crm
   PUBLIC_ORIGINS: ${PUBLIC_ORIGINS:-https://cursnasever.facex.pro}
   CURSOR_SIGNING_KEY: ${CURSOR_SIGNING_KEY:?set CURSOR_SIGNING_KEY}
@@ -91,6 +92,19 @@ services:
         condition: service_healthy
     networks: [crm-private]
 
+  staff-association-release-gate:
+    <<: *runtime-hardening
+    build: *app-build
+    image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
+    labels: *release-labels
+    environment:
+      DATABASE_URL: postgresql://kurs_crm_migrator:${CRM_MIGRATOR_PASSWORD:?set CRM_MIGRATOR_PASSWORD}@postgres:5432/kurs_crm
+    command: ["node", "dist/staff-association-release-gate-once.js"]
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    networks: [crm-private]
+
   storage-init:
     build: *app-build
     image: ${CRM_BACKEND_IMAGE:-kurs-na-sever-crm-backend:local}
@@ -112,7 +126,7 @@ services:
     volumes:
       - quarantine-data:/data/quarantine
     depends_on:
-      migrate:
+      staff-association-release-gate:
         condition: service_completed_successfully
       storage-init:
         condition: service_completed_successfully
@@ -135,7 +149,7 @@ services:
     environment: *worker-environment
     command: ["node", "dist/worker.js"]
     depends_on:
-      migrate:
+      staff-association-release-gate:
         condition: service_completed_successfully
     networks: [crm-private]
 
@@ -170,7 +184,7 @@ services:
     environment: *credential-worker-environment
     command: ["node", "dist/credential-worker.js"]
     depends_on:
-      migrate:
+      staff-association-release-gate:
         condition: service_completed_successfully
     networks: [crm-private, credential-egress]
 

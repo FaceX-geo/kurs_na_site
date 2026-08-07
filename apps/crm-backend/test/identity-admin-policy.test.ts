@@ -21,6 +21,8 @@ function context(authenticationLevel: AuthContext["authenticationLevel"]): AuthC
     csrfTokenHash: "a".repeat(64),
     roles: ["platform_superadmin"],
     permissions: ["identity.users.disable"],
+    businessRole: "SUPER_ADMIN",
+    employeeProfileId: null,
   };
 }
 
@@ -84,13 +86,14 @@ describe("identity admin policy", () => {
       userAccountId: "019fd7d0-6789-7000-8000-000000000004",
       credentialTokenId: "019fd7d0-6789-7000-8000-000000000005",
       purpose: "invite",
-      destination: "person@example.test",
     });
     expect(payload).toMatchObject({
       credentialTokenId: "019fd7d0-6789-7000-8000-000000000005",
       purpose: "invite",
     });
     expect(Object.keys(payload)).not.toEqual(expect.arrayContaining(["token", "rawToken", "credential"]));
+    expect(Object.keys(payload)).not.toEqual(expect.arrayContaining(["destination", "email"]));
+    expect(JSON.stringify(payload)).not.toContain("person@example.test");
     expect(JSON.stringify(payload)).not.toContain("identity-credential:");
   });
 });

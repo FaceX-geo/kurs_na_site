@@ -29,6 +29,7 @@ const environmentSchema = z
     DATABASE_URL: z.string().min(1).default(DEVELOPMENT_DATABASE_URL),
     PUBLIC_ORIGINS: z.string().default("http://localhost:8105,https://cursnasever.facex.pro"),
     TRUST_PROXY: booleanFromString,
+    CRM_TEST_AUTH_BYPASS: booleanFromString,
     CURSOR_SIGNING_KEY: z.string().default(DEVELOPMENT_CURSOR_SIGNING_KEY),
     SESSION_COOKIE_NAME: z.string().min(1).default("kns_crm_session"),
     SESSION_TOKEN_PEPPER: z.string().default(DEVELOPMENT_SESSION_TOKEN_PEPPER),
@@ -64,6 +65,14 @@ const environmentSchema = z
     MIGRATION_WRITE_CONCURRENCY: z.coerce.number().int().min(1).max(32).default(10),
   })
   .superRefine((value, context) => {
+    if (value.CRM_TEST_AUTH_BYPASS && value.NODE_ENV !== "test") {
+      context.addIssue({
+        code: "custom",
+        path: ["CRM_TEST_AUTH_BYPASS"],
+        message: "CRM_TEST_AUTH_BYPASS is allowed only when NODE_ENV=test",
+      });
+    }
+
     if (
       value.NODE_ENV === "production" &&
       isUnsafeProductionSecret(value.CURSOR_SIGNING_KEY, DEVELOPMENT_CURSOR_SIGNING_KEY)
@@ -278,6 +287,9 @@ export function loadConfig(source: NodeJS.ProcessEnv = process.env) {
       .map((origin) => origin.trim())
       .filter(Boolean),
     trustProxy: value.TRUST_PROXY,
+    auth: {
+      testMfaBypass: value.CRM_TEST_AUTH_BYPASS,
+    },
     cursorSigningKey: value.CURSOR_SIGNING_KEY,
     session: {
       cookieName: value.SESSION_COOKIE_NAME,

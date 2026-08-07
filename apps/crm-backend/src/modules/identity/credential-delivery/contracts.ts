@@ -12,19 +12,25 @@ const credentialDeliveryPayloadSchema = z
     userAccountId: z.string().uuid(),
     credentialTokenId: z.string().uuid(),
     purpose: z.enum(["invite", "reset"]),
-    destination: z.string().trim().email().max(320),
   })
   .strict();
 
-export interface CredentialDeliveryPayload {
+const credentialDeliveryDestinationSchema = z.string().trim().toLowerCase().email().max(320);
+
+export interface CredentialDeliveryPayload extends Readonly<Record<string, unknown>> {
   readonly userAccountId: string;
   readonly credentialTokenId: string;
   readonly purpose: CredentialPurpose;
-  readonly destination: string;
 }
 
 export function parseCredentialDeliveryPayload(value: unknown): CredentialDeliveryPayload | null {
   const result = credentialDeliveryPayloadSchema.safeParse(value);
+  return result.success ? result.data : null;
+}
+
+/** Resolves and normalizes PII only after the worker loads the authoritative account row. */
+export function parseCredentialDeliveryDestination(value: unknown): string | null {
+  const result = credentialDeliveryDestinationSchema.safeParse(value);
   return result.success ? result.data : null;
 }
 

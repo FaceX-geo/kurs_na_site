@@ -1,3 +1,4 @@
+import type { BusinessRole } from "./business-role-registry.js";
 import type { SessionListQuery } from "./session-contracts.js";
 
 export interface RequestContext {
@@ -10,6 +11,47 @@ export interface InviteUserInput {
   readonly surname: string;
   readonly middleName?: string;
   readonly reason: string;
+}
+
+export interface ProvisionSpecialistInput {
+  readonly employeeProfileId: string;
+  readonly email: string;
+  readonly reason: string;
+}
+
+export interface ProvisionedSpecialistReceipt {
+  readonly id: string;
+  readonly auditEventId: string;
+  readonly operationId: "ProvisionSpecialist";
+  readonly requestId: string;
+  readonly userId: string;
+  readonly employeeProfileId: string;
+  readonly businessRole: "SPECIALIST";
+  readonly expiresAt: string;
+  readonly occurredAt: string;
+  readonly credentialDelivery: "queued_internal";
+}
+
+export interface ProvisionSpecialistResult {
+  readonly receipt: ProvisionedSpecialistReceipt;
+  readonly replayed: boolean;
+}
+
+export interface ProvisionableEmployeeItem {
+  readonly employeeProfileId: string;
+  readonly personId: string;
+  readonly displayName: string;
+  readonly email: string | null;
+  readonly employeeNumber: string | null;
+  readonly organizationUnitId: string | null;
+  readonly employmentState: "active";
+  readonly createdAt: string;
+}
+
+export interface EmployeeListQuery {
+  readonly cursor?: string;
+  readonly limit?: number;
+  readonly search?: string;
 }
 
 export interface CredentialTokenInput {
@@ -129,6 +171,11 @@ export interface UserListQuery {
   readonly search?: string;
   readonly accountState?: "active" | "disabled" | "archived";
   readonly mfaState?: "not_enrolled" | "enrollment_required" | "enrolled" | "recovery_required";
+}
+
+export interface UserBusinessIdentity {
+  readonly employeeProfileId: string | null;
+  readonly businessRole: BusinessRole | null;
 }
 
 export interface ApprovalListQuery {

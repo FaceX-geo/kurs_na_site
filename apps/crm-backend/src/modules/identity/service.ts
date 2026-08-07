@@ -7,8 +7,16 @@ import { newPublicId, newUuid } from "../../common/id.js";
 import { boundedLimit, decodeCursor, encodeCursor, type Page } from "../../common/pagination.js";
 import type { AppConfig } from "../../config/env.js";
 import type { Database } from "../../db/types.js";
+import { appendAuditEvent } from "../platform/audit.js";
+import type { CsrfRefreshReceipt } from "./auth-contracts.js";
+import {
+  type BusinessRole,
+  BusinessRoleConflictError,
+  resolveBusinessRole,
+} from "./business-role-registry.js";
 import { decryptSecret, keyedHash, randomToken, secureHashEquals } from "./crypto.js";
 import type { IdentitySessionItem, SessionListQuery } from "./session-contracts.js";
+import { lockAndReadTestBypassRetirementMarker } from "./test-bypass-session-revocation.js";
 
 export interface AuthContext {
   sessionId: string;
@@ -19,6 +27,8 @@ export interface AuthContext {
   csrfTokenHash: string;
   roles: readonly string[];
   permissions: readonly string[];
+  businessRole: BusinessRole | null;
+  employeeProfileId: string | null;
 }
 
 export interface SessionReceipt {
@@ -30,6 +40,9 @@ export interface SessionReceipt {
     email: string;
     displayName: string;
     roles: readonly string[];
+    permissions: readonly string[];
+    businessRole: BusinessRole | null;
+    employeeProfileId: string | null;
   };
 }
 
@@ -53,6 +66,21 @@ const INVALID_CREDENTIALS = new AppError(401, "invalid_credentials", "Невер
 
 function asDateIso(value: Date | string): string {
   return value instanceof Date ? value.toISOString() : new Date(value).toISOString();
+}
+
+function businessRoleOrDeny(roleCodes: readonly string[]): BusinessRole | null {
+  try {
+    return resolveBusinessRole(roleCodes);
+  } catch (error) {
+    if (error instanceof BusinessRoleConflictError) {
+      throw new AppError(
+        403,
+        "business_role_conflict",
+        "Для учётной записи обнаружены несовместимые продуктовые роли",
+      );
+    }
+    throw error;
+  }
 }
 
 function sessionCursorSigningKey(
@@ -129,6 +157,40 @@ export class IdentityService {
       .set({ failed_login_count: 0, locked_until: null })
       .where("id", "=", account.id)
       .execute();
+
+    if (this.config.auth.testMfaBypass) {
+      const receipt = await this.db.transaction().execute(async (transaction) => {
+        const retirementMarkerId = await lockAndReadTestBypassRetirementMarker(transaction);
+        if (retirementMarkerId) {
+          throw new AppError(
+            503,
+            "test_auth_bypass_retired",
+            "Тестовый режим аутентификации окончательно отключён",
+          );
+        }
+        await appendAuditEvent(transaction, {
+          eventType: "identity.session.test_mfa_bypass_authenticated",
+          actorType: "user_account",
+          actorId: account.id,
+          subjectType: "user_account",
+          subjectId: account.id,
+          reason: "explicit_test_runtime_configuration",
+          afterState: { authenticationLevel: "fresh_mfa" },
+          metadata: { nodeEnv: this.config.nodeEnv },
+          scopeSnapshot: { scope: "self" },
+        });
+        return this.createSessionWithDatabase(
+          transaction,
+          account.id,
+          account.person_id,
+          account.email,
+          `${account.given_name} ${account.surname}`,
+          "fresh_mfa",
+        );
+      });
+
+      return { status: "authenticated", receipt };
+    }
 
     const privilegedAssignment = await this.db
       .selectFrom("identity.user_role_assignment as assignment")
@@ -284,6 +346,7 @@ export class IdentityService {
         receipt: await this.createSessionWithDatabase(
           transaction,
           challenge.user_account_id,
+          challenge.person_id,
           challenge.email,
           `${challenge.given_name} ${challenge.surname}`,
           "mfa",
@@ -338,23 +401,18 @@ export class IdentityService {
       throw new AppError(401, "session_expired", "Сессия завершена");
     }
 
-    const grants = await this.db
-      .selectFrom("identity.user_role_assignment as assignment")
-      .innerJoin("identity.role as role", "role.code", "assignment.role_code")
-      .innerJoin("identity.role_permission as grant", "grant.role_code", "assignment.role_code")
-      .select(["assignment.role_code", "grant.permission_code", "role.is_privileged"])
-      .where("assignment.user_account_id", "=", session.user_account_id)
-      .where("assignment.archived_at", "is", null)
-      .where("assignment.valid_from", "<=", now)
-      .where((expression) =>
-        expression.or([
-          expression("assignment.valid_to", "is", null),
-          expression("assignment.valid_to", ">", now),
-        ]),
-      )
-      .execute();
+    const effectiveIdentity = await this.loadEffectiveIdentity(
+      this.db,
+      session.user_account_id,
+      session.person_id,
+      now,
+    );
 
-    if (grants.some((grant) => grant.is_privileged) && session.mfa_state !== "enrolled") {
+    if (
+      !this.config.auth.testMfaBypass &&
+      effectiveIdentity.hasPrivilegedRole &&
+      session.mfa_state !== "enrolled"
+    ) {
       throw new AppError(403, "mfa_enrollment_required", "Для привилегированного доступа настройте MFA");
     }
 
@@ -377,8 +435,10 @@ export class IdentityService {
       email: session.email,
       authenticationLevel: session.authentication_level as AuthContext["authenticationLevel"],
       csrfTokenHash: session.csrf_token_hash,
-      roles: [...new Set(grants.map((grant) => grant.role_code))],
-      permissions: [...new Set(grants.map((grant) => grant.permission_code))],
+      roles: effectiveIdentity.roles,
+      permissions: effectiveIdentity.permissions,
+      businessRole: effectiveIdentity.businessRole,
+      employeeProfileId: effectiveIdentity.employeeProfileId,
     };
   }
 
@@ -415,6 +475,62 @@ export class IdentityService {
     if (!candidate || !this.config.publicOrigins.includes(candidate)) {
       throw new AppError(403, "origin_not_trusted", "Источник запроса не разрешён");
     }
+  }
+
+  async refreshCsrfToken(context: AuthContext, requestId: string): Promise<CsrfRefreshReceipt> {
+    const csrfToken = randomToken();
+    const csrfTokenHash = keyedHash(csrfToken, this.config.session.tokenPepper);
+    const now = new Date();
+    await this.db.transaction().execute(async (transaction) => {
+      const session = await transaction
+        .selectFrom("identity.session as session")
+        .innerJoin("identity.user_account as account", "account.id", "session.user_account_id")
+        .select([
+          "session.id",
+          "session.user_account_id",
+          "session.idle_expires_at",
+          "session.absolute_expires_at",
+          "session.revoked_at",
+          "account.account_state",
+          "account.credential_state",
+          "account.risk_state",
+        ])
+        .where("session.id", "=", context.sessionId)
+        .where("session.user_account_id", "=", context.userAccountId)
+        .forUpdate(["session", "account"])
+        .executeTakeFirst();
+      if (
+        !session ||
+        session.revoked_at ||
+        new Date(session.idle_expires_at) <= now ||
+        new Date(session.absolute_expires_at) <= now ||
+        session.account_state !== "active" ||
+        session.credential_state !== "password_set" ||
+        session.risk_state !== "normal"
+      ) {
+        throw new AppError(401, "session_expired", "Сессия завершена");
+      }
+
+      await transaction
+        .updateTable("identity.session")
+        .set({ csrf_token_hash: csrfTokenHash, last_seen_at: now })
+        .where("id", "=", context.sessionId)
+        .where("user_account_id", "=", context.userAccountId)
+        .where("revoked_at", "is", null)
+        .execute();
+      await appendAuditEvent(transaction, {
+        eventType: "identity.csrf.rotated",
+        actorType: "user_account",
+        actorId: context.userAccountId,
+        subjectType: "session",
+        subjectId: context.sessionId,
+        requestId,
+        afterState: { rotated: true },
+        metadata: { mechanism: "trusted_origin_session_refresh" },
+        scopeSnapshot: { scope: "self" },
+      });
+    });
+    return { csrfToken };
   }
 
   requirePermission(context: AuthContext, permission: string): void {
@@ -630,7 +746,7 @@ export class IdentityService {
 
   async createSession(
     userAccountId: string,
-    _personId: string,
+    personId: string,
     email: string,
     displayName: string,
     authenticationLevel: AuthContext["authenticationLevel"],
@@ -639,6 +755,7 @@ export class IdentityService {
     return this.createSessionWithDatabase(
       this.db,
       userAccountId,
+      personId,
       email,
       displayName,
       authenticationLevel,
@@ -649,14 +766,16 @@ export class IdentityService {
   private async createSessionWithDatabase(
     database: Kysely<Database>,
     userAccountId: string,
+    personId: string,
     email: string,
     displayName: string,
     authenticationLevel: AuthContext["authenticationLevel"],
     maximumTtlSeconds?: number,
   ): Promise<SessionReceipt> {
+    const now = new Date();
+    const effectiveIdentity = await this.loadEffectiveIdentity(database, userAccountId, personId, now);
     const sessionToken = randomToken();
     const csrfToken = randomToken();
-    const now = new Date();
     const absoluteTtlSeconds = Math.min(
       this.config.session.absoluteTtlSeconds,
       maximumTtlSeconds ?? this.config.session.absoluteTtlSeconds,
@@ -684,19 +803,98 @@ export class IdentityService {
       })
       .execute();
 
-    const roles = await database
-      .selectFrom("identity.user_role_assignment")
-      .select("role_code")
-      .where("user_account_id", "=", userAccountId)
-      .where("valid_to", "is", null)
-      .where("archived_at", "is", null)
-      .execute();
-
     return {
       sessionToken,
       csrfToken,
       expiresAt: absoluteExpiresAt.toISOString(),
-      user: { id: userAccountId, email, displayName, roles: roles.map((role) => role.role_code) },
+      user: {
+        id: userAccountId,
+        email,
+        displayName,
+        roles: effectiveIdentity.roles,
+        permissions: effectiveIdentity.permissions,
+        businessRole: effectiveIdentity.businessRole,
+        employeeProfileId: effectiveIdentity.employeeProfileId,
+      },
+    };
+  }
+
+  private async loadEffectiveIdentity(
+    database: Kysely<Database>,
+    userAccountId: string,
+    personId: string,
+    now: Date,
+  ): Promise<{
+    roles: readonly string[];
+    permissions: readonly string[];
+    businessRole: BusinessRole | null;
+    employeeProfileId: string | null;
+    hasPrivilegedRole: boolean;
+  }> {
+    const grants = await database
+      .selectFrom("identity.user_role_assignment as assignment")
+      .innerJoin("identity.role as role", "role.code", "assignment.role_code")
+      .leftJoin("identity.role_permission as grant", "grant.role_code", "assignment.role_code")
+      .select([
+        "assignment.id as assignment_id",
+        "assignment.role_code",
+        "assignment.scope_type",
+        "assignment.scope_id",
+        "grant.permission_code",
+        "role.is_privileged",
+      ])
+      .where("assignment.user_account_id", "=", userAccountId)
+      .where("assignment.archived_at", "is", null)
+      .where("assignment.valid_from", "<=", now)
+      .where((expression) =>
+        expression.or([
+          expression("assignment.valid_to", "is", null),
+          expression("assignment.valid_to", ">", now),
+        ]),
+      )
+      .execute();
+    const employee = await database
+      .selectFrom("identity.employee_profile")
+      .select(["id", "employment_state"])
+      .where("person_id", "=", personId)
+      .where("archived_at", "is", null)
+      .executeTakeFirst();
+    const roles = [...new Set(grants.map((grant) => grant.role_code))];
+    const businessRole = businessRoleOrDeny(roles);
+    if (businessRole === "SPECIALIST") {
+      if (employee?.employment_state !== "active") {
+        throw new AppError(
+          403,
+          "employee_profile_inactive",
+          "Доступ специалиста требует активного профиля сотрудника",
+        );
+      }
+      const specialistAssignments = new Map(
+        grants
+          .filter((grant) => grant.role_code === "crm_project_manager")
+          .map((grant) => [grant.assignment_id, { scopeType: grant.scope_type, scopeId: grant.scope_id }]),
+      );
+      const assignment = [...specialistAssignments.values()][0];
+      if (
+        specialistAssignments.size !== 1 ||
+        assignment?.scopeType !== "assigned" ||
+        assignment.scopeId !== employee.id
+      ) {
+        throw new AppError(
+          403,
+          "specialist_scope_mismatch",
+          "Назначение специалиста не соответствует активному профилю сотрудника",
+        );
+      }
+    }
+    return {
+      roles,
+      permissions: [
+        ...new Set(grants.flatMap((grant) => (grant.permission_code ? [grant.permission_code] : []))),
+      ],
+      businessRole,
+      employeeProfileId: employee?.id ?? null,
+      hasPrivilegedRole: grants.some((grant) => grant.is_privileged),
     };
   }
 

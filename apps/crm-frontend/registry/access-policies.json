@@ -1,0 +1,86 @@
+{
+  "schemaVersion": "1.0.0",
+  "product": "kurs-na-sever-crm",
+  "policies": [
+    {
+      "id": "access.crm.dashboard",
+      "route": "/cabinet/crm/dashboard",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.dashboard.read"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["GetCrmDashboard"]
+    },
+    {
+      "id": "access.crm.cases",
+      "route": "/cabinet/crm/relocation",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.case.list"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["ListCases", "ListCrmFunnels"]
+    },
+    {
+      "id": "access.crm.people",
+      "route": "/cabinet/crm/people",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.case.list"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["ListCrmPeople"]
+    },
+    {
+      "id": "access.crm.case-detail",
+      "route": "/cabinet/crm/cases/:caseId",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.case.read"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["GetCase", "GetCandidateSummary"]
+    },
+    {
+      "id": "access.crm.tasks",
+      "route": "/cabinet/crm/tasks",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.task.read"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["ListCrmTasks"]
+    },
+    {
+      "id": "access.crm.employers",
+      "route": "/cabinet/crm/employers",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.employer.read"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["ListEmployers"]
+    },
+    {
+      "id": "access.crm.reports",
+      "route": "/cabinet/crm/reports",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermissions": ["crm.report.build"],
+      "scopePolicy": "backend-effective-scope",
+      "operationIds": ["ListCrmReportRuns", "BuildCrmReport", "GetCrmReportRun"]
+    },
+    {
+      "id": "access.super-admin.users",
+      "route": "/cabinet/crm/admin/users",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermissions": ["identity.users.read", "identity.employees.read", "identity.specialists.provision"],
+      "scopePolicy": "server-authorized-admin-registry",
+      "operationIds": ["ListUsers", "ListProvisionableEmployees", "ProvisionSpecialist"]
+    },
+    {
+      "id": "access.super-admin.vacancies",
+      "route": "/cabinet/crm/admin/vacancies",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermissions": ["content.vacancy.read", "content.vacancy.manage"],
+      "scopePolicy": "server-authorized-admin-registry",
+      "operationIds": ["ListAdminVacancies", "CreateVacancy", "UpdateVacancy", "PublishVacancy", "ArchiveVacancy"]
+    },
+    {
+      "id": "access.super-admin.stories",
+      "route": "/cabinet/crm/admin/stories",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermissions": ["content.story.read", "content.story.manage"],
+      "scopePolicy": "server-authorized-admin-registry",
+      "operationIds": ["ListAdminStories", "CreateStory", "UpdateStory", "PublishStory", "ArchiveStory"]
+    }
+  ]
+}

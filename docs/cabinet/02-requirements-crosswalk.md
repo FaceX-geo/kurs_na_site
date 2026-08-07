@@ -97,7 +97,8 @@ PNG, HTML без сохранения, HTTP `200` и ручное устное �
 | Только `project_executor` открывает свою project task | `200` |
 | Только `project_executor` открывает CRM candidate | `403` |
 | Только `platform_superadmin` открывает users registry | `200` |
-| `platform_superadmin` без CRM-role открывает full CRM PII | `403`/masked according to policy |
+| `platform_superadmin` открывает рабочие CRM read/report экраны | `200`, explicit `all` scope; включая CRM PII с view audit |
+| `platform_superadmin` выполняет CRM business write без отдельного write permission | `403`; case transition/reopen, task manage и communication write не наследуются |
 | `crm_admin` меняет platform role | `403` |
 | Пользователь повышает собственную role | `403` |
 | Изменение оставляет менее двух eligible superadmins | `409 SUPERADMIN_QUORUM` |

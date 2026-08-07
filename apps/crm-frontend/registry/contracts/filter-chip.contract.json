@@ -1,0 +1,28 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.filter-chip",
+  "version": "1.0.0",
+  "purpose": "Apply a controlled CRM registry filter without changing source data.",
+  "variants": ["single", "multi", "removable"],
+  "states": ["inactive", "active", "disabled"],
+  "inputs": [
+    { "name": "label", "type": "string", "required": true },
+    { "name": "value", "type": "string", "required": true },
+    { "name": "selected", "type": "boolean", "required": true },
+    { "name": "count", "type": "number|null", "required": false },
+    { "name": "disabled", "type": "boolean", "required": false },
+    { "name": "variant", "type": "FilterChipVariant", "required": false }
+  ],
+  "events": {
+    "toggle": { "payload": "{ value: string, selected: boolean }", "description": "Requests a controlled filter update." },
+    "remove": { "payload": "{ value: string }", "description": "Requests removal of a removable filter." }
+  },
+  "accessibility": {
+    "role": "button or checkbox",
+    "keyboard": "Enter and Space toggle; Delete removes only removable filters.",
+    "focus": "Focus stays on the updated filter where possible.",
+    "screenReader": "Selected state and count are announced."
+  },
+  "motion": { "default": "150ms selected feedback.", "reducedMotion": "Immediate selected state." },
+  "invariants": ["Counts are permission-scoped and must not reveal hidden records."]
+}

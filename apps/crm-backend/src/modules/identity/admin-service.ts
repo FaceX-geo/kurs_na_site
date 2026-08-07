@@ -19,8 +19,13 @@ import type {
   DecideApprovalInput,
   EffectiveAccessPreview,
   EffectiveRoleAssignment,
+  EmployeeListQuery,
   InviteUserInput,
   MfaChallengeInput,
+  ProvisionableEmployeeItem,
+  ProvisionedSpecialistReceipt,
+  ProvisionSpecialistInput,
+  ProvisionSpecialistResult,
   RecoverMfaInput,
   RequestContext,
   RoleChangeInput,
@@ -46,7 +51,16 @@ import {
   roleOperation,
   roleOperationByOperationId,
 } from "./admin-role-registry.js";
-import { deriveCredentialToken as deriveCredentialDeliveryToken } from "./credential-delivery/contracts.js";
+import {
+  type BusinessRole,
+  BusinessRoleConflictError,
+  internalRoleForBusinessRole,
+  resolveBusinessRole,
+} from "./business-role-registry.js";
+import {
+  type CredentialDeliveryPayload,
+  deriveCredentialToken as deriveCredentialDeliveryToken,
+} from "./credential-delivery/contracts.js";
 import { decryptSecret, encryptSecret, keyedHash, secureHashEquals } from "./crypto.js";
 import {
   type AuthContext,
@@ -55,6 +69,13 @@ import {
   type SessionReceipt,
 } from "./service.js";
 import type { AdminIdentitySessionItem } from "./session-contracts.js";
+import {
+  createSpecialistProvisioningIdempotency,
+  readSpecialistProvisioningReplay,
+  SPECIALIST_PROVISIONING_OPERATION_ID,
+  type SpecialistProvisioningIdempotency,
+  type StoredSpecialistProvisioningIdempotencyRecord,
+} from "./specialist-provisioning-idempotency.js";
 
 const ARGON_OPTIONS = {
   algorithm: 2,
@@ -78,6 +99,8 @@ interface UserRegistryItem {
   riskState: string;
   mfaState: string;
   employmentState: string | null;
+  employeeProfileId: string | null;
+  businessRole: BusinessRole | null;
   roles: string[];
   activeSessions: number;
   version: number;
@@ -141,6 +164,27 @@ function requirePermission(context: AuthContext, permission: string): void {
   }
 }
 
+function requireBusinessRole(context: AuthContext, businessRole: BusinessRole): void {
+  if (context.businessRole !== businessRole) {
+    throw new AppError(403, "business_role_denied", "Операция недоступна для продуктовой роли");
+  }
+}
+
+function resolvedBusinessRole(roleCodes: readonly string[]): BusinessRole | null {
+  try {
+    return resolveBusinessRole(roleCodes);
+  } catch (error) {
+    if (error instanceof BusinessRoleConflictError) {
+      throw new AppError(
+        409,
+        "business_role_conflict",
+        "Для учётной записи обнаружены несовместимые продуктовые роли",
+      );
+    }
+    throw error;
+  }
+}
+
 function normalizeEmail(email: string): string {
   return email.trim().toLocaleLowerCase("en-US");
 }
@@ -161,13 +205,11 @@ export function credentialDeliveryPayload(input: {
   readonly userAccountId: string;
   readonly credentialTokenId: string;
   readonly purpose: "invite" | "reset";
-  readonly destination: string;
-}): Readonly<Record<string, unknown>> {
+}): CredentialDeliveryPayload {
   return {
     userAccountId: input.userAccountId,
     credentialTokenId: input.credentialTokenId,
     purpose: input.purpose,
-    destination: input.destination,
   };
 }
 
@@ -279,11 +321,302 @@ export class IdentityAdminService {
           userAccountId: userId,
           credentialTokenId,
           purpose: "invite",
-          destination: email,
         }),
       );
       return { userId, expiresAt: expiresAt.toISOString() };
     });
+  }
+
+  async listProvisionableEmployees(
+    context: AuthContext,
+    query: EmployeeListQuery,
+  ): Promise<Page<ProvisionableEmployeeItem>> {
+    requirePermission(context, "identity.employees.read");
+    requireBusinessRole(context, "SUPER_ADMIN");
+    const limit = boundedLimit(query.limit, 50, 200);
+    const cursor = decodeCursor(query.cursor, this.config.cursorSigningKey);
+    let builder = this.db
+      .selectFrom("identity.employee_profile as employee")
+      .innerJoin("identity.person as person", "person.id", "employee.person_id")
+      .leftJoin("identity.user_account as account", "account.person_id", "person.id")
+      .select([
+        "employee.id as employee_profile_id",
+        "employee.person_id",
+        "employee.employee_number",
+        "employee.organization_unit_id",
+        "employee.employment_state",
+        "employee.created_at",
+        "person.given_name",
+        "person.surname",
+        "person.middle_name",
+        "person.normalized_email",
+      ])
+      .where("employee.employment_state", "=", "active")
+      .where("employee.archived_at", "is", null)
+      .where("person.archived_at", "is", null)
+      .where("account.id", "is", null)
+      .orderBy("employee.created_at", "desc")
+      .orderBy("employee.id", "desc")
+      .limit(limit + 1);
+    if (cursor) {
+      builder = builder.where((expression) =>
+        expression.or([
+          expression("employee.created_at", "<", new Date(cursor.createdAt)),
+          expression.and([
+            expression("employee.created_at", "=", new Date(cursor.createdAt)),
+            expression("employee.id", "<", cursor.id),
+          ]),
+        ]),
+      );
+    }
+    if (query.search?.trim()) {
+      const search = `%${query.search.trim().replaceAll("%", "\\%").replaceAll("_", "\\_")}%`;
+      builder = builder.where((expression) =>
+        expression.or([
+          expression("person.given_name", "ilike", search),
+          expression("person.surname", "ilike", search),
+          expression("person.middle_name", "ilike", search),
+          expression("person.normalized_email", "ilike", search),
+          expression("employee.employee_number", "ilike", search),
+        ]),
+      );
+    }
+    const rows = await builder.execute();
+    const hasMore = rows.length > limit;
+    const selected = rows.slice(0, limit);
+    const items: ProvisionableEmployeeItem[] = selected.map((row) => ({
+      employeeProfileId: row.employee_profile_id,
+      personId: row.person_id,
+      displayName: [row.given_name, row.middle_name, row.surname].filter(Boolean).join(" "),
+      email: row.normalized_email,
+      employeeNumber: row.employee_number,
+      organizationUnitId: row.organization_unit_id,
+      employmentState: "active",
+      createdAt: asDateIso(row.created_at),
+    }));
+    const last = selected.at(-1);
+    return {
+      items,
+      page: {
+        limit,
+        hasMore,
+        nextCursor:
+          hasMore && last
+            ? encodeCursor(
+                { createdAt: asDateIso(last.created_at), id: last.employee_profile_id },
+                this.config.cursorSigningKey,
+              )
+            : null,
+      },
+    };
+  }
+
+  async provisionSpecialist(
+    context: AuthContext,
+    input: ProvisionSpecialistInput,
+    idempotencyKey: string,
+    request: RequestContext,
+  ): Promise<ProvisionSpecialistResult> {
+    requirePermission(context, "identity.specialists.provision");
+    requireBusinessRole(context, "SUPER_ADMIN");
+    assertFreshMfa(context);
+    const email = normalizeEmail(input.email);
+    const reason = input.reason.trim();
+    if (reason.length < 3) {
+      throw new AppError(422, "reason_required", "Укажите причину создания специалиста");
+    }
+    const idempotency = createSpecialistProvisioningIdempotency({
+      hashingKey: this.config.piiHashingKey,
+      idempotencyKey,
+      actor: context,
+      payload: {
+        employeeProfileId: input.employeeProfileId,
+        email,
+        reason,
+      },
+    });
+
+    try {
+      return await this.db.transaction().execute(async (transaction) => {
+        const replay = await this.claimSpecialistProvisioningIdempotency(transaction, idempotency);
+        if (replay) return { receipt: replay, replayed: true };
+
+        const employee = await transaction
+          .selectFrom("identity.employee_profile as employee")
+          .innerJoin("identity.person as person", "person.id", "employee.person_id")
+          .select([
+            "employee.id",
+            "employee.person_id",
+            "employee.employment_state",
+            "employee.archived_at as employee_archived_at",
+            "person.normalized_email",
+            "person.archived_at as person_archived_at",
+          ])
+          .where("employee.id", "=", input.employeeProfileId)
+          .forUpdate(["employee", "person"])
+          .executeTakeFirst();
+        if (!employee) {
+          throw new AppError(404, "employee_not_found", "Сотрудник не найден");
+        }
+        if (
+          employee.employment_state !== "active" ||
+          employee.employee_archived_at ||
+          employee.person_archived_at
+        ) {
+          throw new AppError(409, "employee_not_active", "Профиль сотрудника неактивен");
+        }
+
+        const accountForEmployee = await transaction
+          .selectFrom("identity.user_account")
+          .select("id")
+          .where("person_id", "=", employee.person_id)
+          .forUpdate()
+          .executeTakeFirst();
+        if (accountForEmployee) {
+          throw new AppError(409, "employee_account_exists", "Для сотрудника уже существует учётная запись");
+        }
+        const accountForEmail = await transaction
+          .selectFrom("identity.user_account")
+          .select("id")
+          .where("email", "=", email)
+          .executeTakeFirst();
+        if (accountForEmail) {
+          throw new AppError(409, "user_already_exists", "Пользователь с таким email уже существует");
+        }
+        const otherPerson = await transaction
+          .selectFrom("identity.person")
+          .select("id")
+          .where("id", "!=", employee.person_id)
+          .where("normalized_email", "=", email)
+          .where("archived_at", "is", null)
+          .executeTakeFirst();
+        if (
+          otherPerson ||
+          (employee.normalized_email !== null && normalizeEmail(employee.normalized_email) !== email)
+        ) {
+          throw new AppError(
+            409,
+            "employee_identity_mismatch",
+            "Email не соответствует выбранному профилю сотрудника",
+          );
+        }
+        if (employee.normalized_email === null) {
+          await transaction
+            .updateTable("identity.person")
+            .set({ normalized_email: email })
+            .where("id", "=", employee.person_id)
+            .execute();
+        }
+
+        const now = new Date();
+        const userId = newUuid();
+        await transaction
+          .insertInto("identity.user_account")
+          .values({
+            id: userId,
+            person_id: employee.person_id,
+            email,
+            username: null,
+            password_hash: null,
+            account_state: "active",
+            credential_state: "invited",
+            risk_state: "normal",
+            mfa_state: "not_enrolled",
+            failed_login_count: 0,
+            locked_until: null,
+            created_at: now,
+            updated_at: now,
+            archived_at: null,
+          })
+          .execute();
+        await transaction
+          .insertInto("identity.user_role_assignment")
+          .values({
+            id: newUuid(),
+            user_account_id: userId,
+            role_code: internalRoleForBusinessRole("SPECIALIST"),
+            scope_type: "assigned",
+            scope_id: employee.id,
+            valid_from: now,
+            valid_to: null,
+            assigned_by: context.userAccountId,
+            reason,
+            created_at: now,
+            updated_at: now,
+            archived_at: null,
+          })
+          .execute();
+
+        const expiresAt = new Date(now.getTime() + INVITE_TTL_MS);
+        const credentialTokenId = await this.issueCredentialToken(
+          transaction,
+          userId,
+          "invite",
+          context.userAccountId,
+          reason,
+          expiresAt,
+        );
+        const occurredAt = new Date();
+        const auditEventId = await appendAuditEvent(transaction, {
+          eventType: "identity.specialist.provisioned",
+          actorType: "user_account",
+          actorId: context.userAccountId,
+          subjectType: "user_account",
+          subjectId: userId,
+          requestId: request.requestId,
+          reason,
+          beforeState: null,
+          afterState: {
+            accountState: "active",
+            credentialState: "invited",
+            businessRole: "SPECIALIST",
+            employeeProfileId: employee.id,
+            scopeType: "assigned",
+          },
+          metadata: { delivery: "outbox", credentialPurpose: "invite" },
+          policyVersion: IDENTITY_POLICY_VERSION,
+          scopeSnapshot: { scope: "employee_profile", employeeProfileId: employee.id },
+          occurredAt,
+        });
+        await this.enqueue(
+          transaction,
+          "identity.credential.delivery_requested",
+          "user_account",
+          userId,
+          credentialDeliveryPayload({
+            userAccountId: userId,
+            credentialTokenId,
+            purpose: "invite",
+          }),
+        );
+        const receipt: ProvisionedSpecialistReceipt = {
+          id: auditEventId,
+          auditEventId,
+          operationId: SPECIALIST_PROVISIONING_OPERATION_ID,
+          requestId: request.requestId,
+          userId,
+          employeeProfileId: employee.id,
+          businessRole: "SPECIALIST",
+          expiresAt: expiresAt.toISOString(),
+          occurredAt: occurredAt.toISOString(),
+          credentialDelivery: "queued_internal",
+        };
+        await this.completeSpecialistProvisioningIdempotency(transaction, idempotency, receipt);
+        return { receipt, replayed: false };
+      });
+    } catch (error) {
+      if (error instanceof AppError) {
+        throw error;
+      }
+      if (typeof error === "object" && error !== null && "code" in error && error.code === "23505") {
+        throw new AppError(
+          409,
+          "specialist_provisioning_conflict",
+          "Сотрудник или email уже связан с другой учётной записью",
+        );
+      }
+      throw error;
+    }
   }
 
   async acceptCredential(
@@ -804,7 +1137,7 @@ export class IdentityAdminService {
     return this.db.transaction().execute(async (transaction) => {
       const account = await transaction
         .selectFrom("identity.user_account")
-        .select(["id", "email", "account_state", "credential_state"])
+        .select(["id", "account_state", "credential_state"])
         .where("id", "=", subjectId)
         .forUpdate()
         .executeTakeFirst();
@@ -871,7 +1204,6 @@ export class IdentityAdminService {
           userAccountId: subjectId,
           credentialTokenId,
           purpose: "reset",
-          destination: account.email,
         }),
       );
       return { expiresAt: expiresAt.toISOString() };
@@ -899,10 +1231,11 @@ export class IdentityAdminService {
         "account.updated_at",
         "person.given_name",
         "person.surname",
+        "employee.id as employee_profile_id",
         "employee.employment_state",
         sql<
           string[]
-        >`coalesce((select array_agg(a.role_code order by a.role_code) from identity.user_role_assignment a where a.user_account_id = account.id and a.valid_to is null and a.archived_at is null), '{}'::text[])`.as(
+        >`coalesce((select array_agg(a.role_code order by a.role_code) from identity.user_role_assignment a where a.user_account_id = account.id and a.valid_from <= clock_timestamp() and (a.valid_to is null or a.valid_to > clock_timestamp()) and a.archived_at is null), '{}'::text[])`.as(
           "roles",
         ),
         sql<number>`(select count(*)::int from identity.session s where s.user_account_id = account.id and s.revoked_at is null and s.absolute_expires_at > clock_timestamp())`.as(
@@ -952,6 +1285,8 @@ export class IdentityAdminService {
       riskState: row.risk_state,
       mfaState: row.mfa_state,
       employmentState: row.employment_state,
+      employeeProfileId: row.employee_profile_id,
+      businessRole: resolvedBusinessRole(row.roles),
       roles: row.roles,
       activeSessions: Number(row.active_sessions),
       version: Number(row.version),
@@ -1007,10 +1342,11 @@ export class IdentityAdminService {
         "account.updated_at",
         "person.given_name",
         "person.surname",
+        "employee.id as employee_profile_id",
         "employee.employment_state",
         sql<
           string[]
-        >`coalesce((select array_agg(a.role_code order by a.role_code) from identity.user_role_assignment a where a.user_account_id = account.id and a.valid_to is null and a.archived_at is null), '{}'::text[])`.as(
+        >`coalesce((select array_agg(a.role_code order by a.role_code) from identity.user_role_assignment a where a.user_account_id = account.id and a.valid_from <= clock_timestamp() and (a.valid_to is null or a.valid_to > clock_timestamp()) and a.archived_at is null), '{}'::text[])`.as(
           "roles",
         ),
         sql<number>`(select count(*)::int from identity.session s where s.user_account_id = account.id and s.revoked_at is null and s.absolute_expires_at > clock_timestamp())`.as(
@@ -1029,6 +1365,8 @@ export class IdentityAdminService {
       riskState: row.risk_state,
       mfaState: row.mfa_state,
       employmentState: row.employment_state,
+      employeeProfileId: row.employee_profile_id,
+      businessRole: resolvedBusinessRole(row.roles),
       roles: row.roles,
       activeSessions: Number(row.active_sessions),
       version: Number(row.version),
@@ -2686,5 +3024,68 @@ export class IdentityAdminService {
         last_error_code: null,
       })
       .execute();
+  }
+
+  private async claimSpecialistProvisioningIdempotency(
+    transaction: Transaction<Database>,
+    command: SpecialistProvisioningIdempotency,
+  ): Promise<ProvisionedSpecialistReceipt | null> {
+    const now = new Date();
+    const inserted = await transaction
+      .insertInto("platform.idempotency_record")
+      .values({
+        scope: command.scope,
+        idempotency_key: command.key,
+        request_hash: command.requestHash,
+        response_status: null,
+        response_body: null,
+        resource_id: null,
+        state: "processing",
+        locked_until: new Date(now.getTime() + 30_000),
+        expires_at: new Date(now.getTime() + this.config.idempotencyTtlSeconds * 1_000),
+        created_at: now,
+        updated_at: now,
+      })
+      .onConflict((conflict) => conflict.columns(["scope", "idempotency_key"]).doNothing())
+      .returning("idempotency_key")
+      .executeTakeFirst();
+    if (inserted) return null;
+
+    const existing = (await transaction
+      .selectFrom("platform.idempotency_record")
+      .select(["request_hash", "response_status", "response_body", "resource_id", "state", "expires_at"])
+      .where("scope", "=", command.scope)
+      .where("idempotency_key", "=", command.key)
+      .forUpdate()
+      .executeTakeFirstOrThrow()) as StoredSpecialistProvisioningIdempotencyRecord;
+    return readSpecialistProvisioningReplay(existing, {
+      employeeProfileId: command.employeeProfileId,
+      requestHash: command.requestHash,
+    });
+  }
+
+  private async completeSpecialistProvisioningIdempotency(
+    transaction: Transaction<Database>,
+    command: SpecialistProvisioningIdempotency,
+    receipt: ProvisionedSpecialistReceipt,
+  ): Promise<void> {
+    const completed = await transaction
+      .updateTable("platform.idempotency_record")
+      .set({
+        state: "completed",
+        response_status: 202,
+        response_body: receipt,
+        resource_id: receipt.userId,
+        locked_until: null,
+        updated_at: new Date(),
+      })
+      .where("scope", "=", command.scope)
+      .where("idempotency_key", "=", command.key)
+      .where("request_hash", "=", command.requestHash)
+      .where("state", "=", "processing")
+      .executeTakeFirst();
+    if (Number(completed.numUpdatedRows) !== 1) {
+      throw new Error("Could not complete specialist provisioning idempotency record");
+    }
   }
 }

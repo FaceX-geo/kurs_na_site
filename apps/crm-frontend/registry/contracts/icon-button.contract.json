@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.icon-button",
+  "version": "1.0.0",
+  "purpose": "Expose a compact labelled action without relying on icon geometry.",
+  "variants": ["ghost", "primary", "danger", "sidebar"],
+  "states": ["idle", "hover", "focus-visible", "pressed", "disabled", "active"],
+  "inputs": [
+    { "name": "icon", "type": "UiIcon", "required": true },
+    { "name": "label", "type": "string", "required": true },
+    { "name": "tone", "type": "IconButtonTone", "required": false },
+    { "name": "badge", "type": "string|number|null", "required": false },
+    { "name": "active", "type": "boolean", "required": false },
+    { "name": "disabled", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "press": { "payload": "{ source: keyboard|pointer }", "description": "Fires once for an intentional activation." }
+  },
+  "accessibility": {
+    "role": "button",
+    "keyboard": "Enter and Space invoke once.",
+    "focus": "The full 44px target receives a visible focus ring.",
+    "screenReader": "Label and badge form the accessible name."
+  },
+  "motion": { "default": "100ms press scale.", "reducedMotion": "Keep colour feedback and remove scale." },
+  "invariants": ["A label is mandatory.", "The icon remains decorative."]
+}

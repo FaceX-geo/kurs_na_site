@@ -46,6 +46,11 @@ import {
   PostgresOperationsAuthorizationAdapter,
   PostgresOperationsReadModel,
 } from "./modules/operations/index.js";
+import {
+  createPublicContentService,
+  PostgresPublicContentRepository,
+  publicContentPlugin,
+} from "./modules/public-content/index.js";
 
 export interface ApplicationComposition {
   readonly identityService: IdentityService;
@@ -67,7 +72,9 @@ export function composeApplication(config: AppConfig, database: DatabaseHandle):
     storage: intakeAdapter,
     maxUploadBytes: config.uploads.maxBytes,
   });
-  const crmRepository = new PostgresCrmRepository(database.db);
+  const crmRepository = new PostgresCrmRepository(database.db, {
+    idempotencyTtlSeconds: config.idempotencyTtlSeconds,
+  });
   const crmTeamScopeResolver = new PostgresCrmTeamScopeResolver(database.db);
   const crmAuthorization = new PostgresCrmAuthorizationAdapter(database.db, {
     teamScopeResolver: crmTeamScopeResolver,
@@ -78,6 +85,7 @@ export function composeApplication(config: AppConfig, database: DatabaseHandle):
     stateRegistry: CRM_STATE_REGISTRY,
     dictionaryRegistry: CRM_DICTIONARY_REGISTRY,
     cursorSigningKey: config.cursorSigningKey,
+    requestHashingKey: crmRequestHashingKey,
   });
   const crmCommandService = createCrmCommandService({
     repository: new PostgresCrmCommandRepository(database.db, crmRepository, config.idempotencyTtlSeconds),
@@ -104,6 +112,12 @@ export function composeApplication(config: AppConfig, database: DatabaseHandle):
     authorization: new PostgresOperationsAuthorizationAdapter(database.db),
     cursorSigningKey: config.cursorSigningKey,
   });
+  const publicContentService = createPublicContentService(
+    new PostgresPublicContentRepository(database.db, {
+      cursorSigningKey: config.cursorSigningKey,
+      idempotencyTtlSeconds: config.idempotencyTtlSeconds,
+    }),
+  );
   const authContexts = new WeakMap<FastifyRequest, AuthContext>();
 
   const authenticate = async (request: FastifyRequest): Promise<AuthContext> => {
@@ -162,6 +176,17 @@ export function composeApplication(config: AppConfig, database: DatabaseHandle):
         uploadMaxBytes: config.uploads.maxBytes,
         aliases: true,
         allowedOrigins: config.publicOrigins,
+      });
+      await app.register(publicContentPlugin, {
+        service: publicContentService,
+        resolveAuth: authenticate,
+        async verifyMutationRequest(request, context) {
+          identityService.assertTrustedMutation(
+            request,
+            context,
+            request.headers["x-csrf-token"] as string | undefined,
+          );
+        },
       });
       await app.register(crmPlugin, {
         service: crmService,

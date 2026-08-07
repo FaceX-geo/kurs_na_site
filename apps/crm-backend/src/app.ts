@@ -61,6 +61,7 @@ export async function buildApp(config: AppConfig, dependencies: AppDependencies 
       tags: [
         { name: "system", description: "Liveness and readiness" },
         { name: "public-intake", description: "Cookie-free landing intake" },
+        { name: "public-content", description: "Versioned vacancies and relocation stories" },
         { name: "crm", description: "Authenticated CRM operations" },
         { name: "identity", description: "Authentication and sessions" },
         { name: "migration", description: "Migration control plane" },

@@ -1,0 +1,24 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.view-switcher",
+  "version": "1.0.0",
+  "purpose": "Switch controlled CRM projections such as Kanban and list without changing their scope.",
+  "variants": ["kanban-list", "tabs"],
+  "states": ["idle", "active", "disabled"],
+  "inputs": [
+    { "name": "value", "type": "string", "required": true },
+    { "name": "options", "type": "ViewSwitcherOption[]", "required": true },
+    { "name": "ariaLabel", "type": "string", "required": false }
+  ],
+  "events": {
+    "change": { "payload": "value: string", "description": "Requests a controlled projection change." }
+  },
+  "accessibility": {
+    "role": "named button group",
+    "keyboard": "Each enabled option is a native button.",
+    "focus": "Visible focus stays on the chosen option.",
+    "screenReader": "The active option uses aria-pressed."
+  },
+  "motion": { "default": "150ms surface feedback.", "reducedMotion": "Immediate state." },
+  "invariants": ["Changing view does not change ownership or permission scope."]
+}

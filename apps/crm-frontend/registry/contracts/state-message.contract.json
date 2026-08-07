@@ -1,0 +1,27 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.state-message",
+  "version": "1.0.0",
+  "purpose": "Explain the exact async or access state inside the affected CRM region.",
+  "variants": ["full", "compact"],
+  "states": ["loading", "empty", "error", "validation", "stale", "denied", "conflict", "archived"],
+  "inputs": [
+    { "name": "state", "type": "AsyncState except ready", "required": true },
+    { "name": "title", "type": "string", "required": true },
+    { "name": "message", "type": "string", "required": false },
+    { "name": "action", "type": "StateMessageAction", "required": false },
+    { "name": "icon", "type": "ReactNode", "required": false },
+    { "name": "compact", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "action": { "payload": "void", "description": "Requests only the declared recovery or next action." }
+  },
+  "accessibility": {
+    "role": "status or alert",
+    "keyboard": "Optional action is a native button.",
+    "focus": "State changes do not steal focus unless a route cannot continue.",
+    "screenReader": "Errors, validation and conflicts are assertive; other states are polite."
+  },
+  "motion": { "default": "No required motion.", "reducedMotion": "No change." },
+  "invariants": ["Denied state reveals no hidden names or counts.", "Technical error bodies are not visible copy."]
+}

@@ -1,5 +1,6 @@
 import { createHash } from "node:crypto";
 import { type Kysely, type RawBuilder, sql, type Transaction } from "kysely";
+import { AppError } from "../../../common/errors.js";
 import { newPublicId, newUuid } from "../../../common/id.js";
 import type { Database } from "../../../db/types.js";
 import { appendAuditEvent } from "../../platform/audit.js";
@@ -8,6 +9,7 @@ import type {
   CrmCandidateSummary,
   CrmCaseDetail,
   CrmCaseSummary,
+  CrmCaseTransitionResult,
   CrmEmployerDetail,
   CrmEmployerSummary,
   CrmPersonSummary,
@@ -16,11 +18,19 @@ import type {
   CrmTaskDetail,
   CrmTaskSummary,
 } from "../contracts.js";
+import {
+  crmCaseTransitionIdempotencyScope,
+  readCrmCaseTransitionReplay,
+  type StoredCrmCaseTransitionIdempotencyRecord,
+} from "../idempotency.js";
 import type {
   CrmAccessScope,
   CrmActivityRepositoryQuery,
   CrmCaseRepositoryQuery,
+  CrmCaseTransitionExecution,
+  CrmCaseTransitionReplayQuery,
   CrmEmployerRepositoryQuery,
+  CrmIdempotentResult,
   CrmMutationResult,
   CrmPersonRepositoryQuery,
   CrmReferralRepositoryQuery,
@@ -36,6 +46,7 @@ type CrmExecutor = Kysely<Database> | Transaction<Database>;
 
 export interface PostgresCrmRepositoryOptions {
   readonly auditPolicyVersion?: string;
+  readonly idempotencyTtlSeconds?: number;
 }
 
 interface CaseRow {
@@ -574,12 +585,17 @@ function pageFromRows<T extends { readonly id: string; readonly createdAt: strin
 
 export class PostgresCrmRepository implements CrmRepositoryPort {
   private readonly auditPolicyVersion: string;
+  private readonly idempotencyTtlSeconds: number;
 
   constructor(
     private readonly db: Kysely<Database>,
     options: PostgresCrmRepositoryOptions = {},
   ) {
     this.auditPolicyVersion = options.auditPolicyVersion ?? "crm-policy@1";
+    this.idempotencyTtlSeconds = options.idempotencyTtlSeconds ?? 86_400;
+    if (!Number.isSafeInteger(this.idempotencyTtlSeconds) || this.idempotencyTtlSeconds < 1) {
+      throw new Error("CRM idempotency TTL must be a positive integer");
+    }
   }
 
   async listCases(
@@ -632,6 +648,25 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
 
   async getCase(access: CrmAccessScope, caseId: string): Promise<CrmCaseDetail | null> {
     return this.getCaseWithExecutor(this.db, access, caseId);
+  }
+
+  async findCaseTransitionReplay(
+    query: CrmCaseTransitionReplayQuery,
+  ): Promise<CrmCaseTransitionResult | null> {
+    this.assertCaseTransitionIdempotency(query);
+    const existing = (await this.db
+      .selectFrom("platform.idempotency_record")
+      .select(["request_hash", "response_status", "response_body", "resource_id", "state", "expires_at"])
+      .where("scope", "=", query.idempotency.scope)
+      .where("idempotency_key", "=", query.idempotency.key)
+      .executeTakeFirst()) as StoredCrmCaseTransitionIdempotencyRecord | undefined;
+    if (!existing) return null;
+
+    await this.assertCaseVisible(this.db, query.access, query.aggregateId);
+    return readCrmCaseTransitionReplay(existing, {
+      aggregateId: query.aggregateId,
+      requestHash: query.idempotency.requestHash,
+    });
   }
 
   async listPeople(
@@ -1071,8 +1106,17 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
     return this.activityPage(rows, query.limit);
   }
 
-  async transitionCase(command: CrmTransitionExecution): Promise<CrmMutationResult<CrmCaseDetail>> {
+  async transitionCase(
+    command: CrmCaseTransitionExecution,
+  ): Promise<CrmMutationResult<CrmIdempotentResult<CrmCaseTransitionResult>>> {
     return this.db.transaction().execute(async (transaction) => {
+      this.assertCaseTransitionIdempotency(command);
+      await this.assertCaseVisible(transaction, command.access, command.aggregateId);
+      const replay = await this.claimCaseTransitionIdempotency(transaction, command);
+      if (replay) {
+        return { kind: "updated", value: { value: replay, replayed: true } };
+      }
+
       const current = await transaction
         .selectFrom("crm.case as case_row")
         .selectAll("case_row")
@@ -1081,17 +1125,25 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
         .where(caseScopeSql(command.access, "case_row"))
         .forUpdate()
         .executeTakeFirst();
-      if (!current) return { kind: "not_found" };
+      if (!current) {
+        await this.releaseCaseTransitionIdempotency(transaction, command);
+        return { kind: "not_found" };
+      }
       const currentVersion = toNumber(current.version);
       if (currentVersion !== command.expectedVersion) {
+        await this.releaseCaseTransitionIdempotency(transaction, command);
         return { kind: "version_conflict", currentVersion };
       }
       if (current.stage_code !== command.fromState) {
+        await this.releaseCaseTransitionIdempotency(transaction, command);
         return { kind: "state_conflict", currentState: current.stage_code, currentVersion };
       }
 
       const guardErrors = await this.caseGuardErrors(transaction, current, command);
-      if (guardErrors.length > 0) return { kind: "guard_failed", errors: guardErrors };
+      if (guardErrors.length > 0) {
+        await this.releaseCaseTransitionIdempotency(transaction, command);
+        return { kind: "guard_failed", errors: guardErrors };
+      }
 
       const updated = await transaction
         .updateTable("crm.case")
@@ -1110,6 +1162,7 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
           .select(["version", "stage_code"])
           .where("id", "=", current.id)
           .executeTakeFirst();
+        await this.releaseCaseTransitionIdempotency(transaction, command);
         return conflict
           ? {
               kind: "state_conflict",
@@ -1137,7 +1190,7 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
           created_at: occurredAt,
         })
         .execute();
-      await this.writeAuditAndOutbox(transaction, {
+      const auditEventId = await this.writeAuditAndOutbox(transaction, {
         aggregateType: "crm_case",
         aggregateId: current.id,
         aggregateVersion,
@@ -1155,7 +1208,20 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
 
       const detail = await this.getCaseWithExecutor(transaction, command.access, current.id);
       if (!detail) throw new Error("Updated CRM case disappeared inside its transaction");
-      return { kind: "updated", value: detail };
+      const value: CrmCaseTransitionResult = {
+        case: detail,
+        receipt: {
+          id: auditEventId,
+          auditEventId,
+          operationId: "TransitionCase",
+          requestId: command.actor.requestId,
+          caseId: current.id,
+          version: aggregateVersion,
+          occurredAt: occurredAt.toISOString(),
+        },
+      };
+      await this.completeCaseTransitionIdempotency(transaction, command, value);
+      return { kind: "updated", value: { value, replayed: false } };
     });
   }
 
@@ -1797,17 +1863,129 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
     return errors;
   }
 
+  private assertCaseTransitionIdempotency(
+    input: CrmCaseTransitionReplayQuery | CrmCaseTransitionExecution,
+  ): void {
+    if (
+      input.access.actorUserAccountId !== input.actor.userAccountId ||
+      input.access.actorEmployeeProfileId !== input.actor.employeeProfileId
+    ) {
+      throw new Error("CRM case transition access scope is not bound to its actor");
+    }
+    const expectedScope = crmCaseTransitionIdempotencyScope(input.actor.userAccountId, input.aggregateId);
+    if (input.idempotency.scope !== expectedScope) {
+      throw new Error("CRM case transition idempotency scope is not actor/resource bound");
+    }
+    if (!/^[a-f0-9]{64}$/u.test(input.idempotency.requestHash)) {
+      throw new Error("CRM case transition request hash is invalid");
+    }
+    if (!/^[A-Za-z0-9][A-Za-z0-9._:-]{7,127}$/u.test(input.idempotency.key)) {
+      throw new AppError(422, "invalid_idempotency_key", "Передайте корректный Idempotency-Key");
+    }
+  }
+
+  private async assertCaseVisible(
+    executor: CrmExecutor,
+    access: CrmAccessScope,
+    caseId: string,
+  ): Promise<void> {
+    const visible = await executor
+      .selectFrom("crm.case as case_row")
+      .select("case_row.id")
+      .where("case_row.id", "=", caseId)
+      .where("case_row.archived_at", "is", null)
+      .where(caseScopeSql(access, "case_row"))
+      .executeTakeFirst();
+    if (!visible) throw new AppError(404, "not_found", "CRM-кейс не найден");
+  }
+
+  private async claimCaseTransitionIdempotency(
+    transaction: Transaction<Database>,
+    command: CrmCaseTransitionExecution,
+  ): Promise<CrmCaseTransitionResult | null> {
+    const now = new Date();
+    const inserted = await transaction
+      .insertInto("platform.idempotency_record")
+      .values({
+        scope: command.idempotency.scope,
+        idempotency_key: command.idempotency.key,
+        request_hash: command.idempotency.requestHash,
+        response_status: null,
+        response_body: null,
+        resource_id: null,
+        state: "processing",
+        locked_until: new Date(now.getTime() + 30_000),
+        expires_at: new Date(now.getTime() + this.idempotencyTtlSeconds * 1_000),
+        created_at: now,
+        updated_at: now,
+      })
+      .onConflict((conflict) => conflict.columns(["scope", "idempotency_key"]).doNothing())
+      .returning("idempotency_key")
+      .executeTakeFirst();
+    if (inserted) return null;
+
+    const existing = (await transaction
+      .selectFrom("platform.idempotency_record")
+      .select(["request_hash", "response_status", "response_body", "resource_id", "state", "expires_at"])
+      .where("scope", "=", command.idempotency.scope)
+      .where("idempotency_key", "=", command.idempotency.key)
+      .forUpdate()
+      .executeTakeFirstOrThrow()) as StoredCrmCaseTransitionIdempotencyRecord;
+    return readCrmCaseTransitionReplay(existing, {
+      aggregateId: command.aggregateId,
+      requestHash: command.idempotency.requestHash,
+    });
+  }
+
+  private async releaseCaseTransitionIdempotency(
+    transaction: Transaction<Database>,
+    command: CrmCaseTransitionExecution,
+  ): Promise<void> {
+    await transaction
+      .deleteFrom("platform.idempotency_record")
+      .where("scope", "=", command.idempotency.scope)
+      .where("idempotency_key", "=", command.idempotency.key)
+      .where("request_hash", "=", command.idempotency.requestHash)
+      .where("state", "=", "processing")
+      .execute();
+  }
+
+  private async completeCaseTransitionIdempotency(
+    transaction: Transaction<Database>,
+    command: CrmCaseTransitionExecution,
+    value: CrmCaseTransitionResult,
+  ): Promise<void> {
+    const completed = await transaction
+      .updateTable("platform.idempotency_record")
+      .set({
+        state: "completed",
+        response_status: 200,
+        response_body: value,
+        resource_id: command.aggregateId,
+        locked_until: null,
+        updated_at: new Date(),
+      })
+      .where("scope", "=", command.idempotency.scope)
+      .where("idempotency_key", "=", command.idempotency.key)
+      .where("request_hash", "=", command.idempotency.requestHash)
+      .where("state", "=", "processing")
+      .executeTakeFirst();
+    if (Number(completed.numUpdatedRows) !== 1) {
+      throw new Error("Could not complete CRM case transition idempotency record");
+    }
+  }
+
   private async writeAuditAndOutbox(
     transaction: Transaction<Database>,
     input: AuditWriteInput,
-  ): Promise<void> {
+  ): Promise<string> {
     const metadata = {
       transitionCode: input.command.transition.code,
       machineCode: input.command.machineCode,
       machineVersion: input.command.machineVersion,
       requiredFields: [...input.command.transition.requiredFields],
     };
-    await appendAuditEvent(transaction, {
+    const auditEventId = await appendAuditEvent(transaction, {
       eventType: input.eventType,
       actorType: "user",
       actorId: input.command.actor.userAccountId,
@@ -1851,5 +2029,6 @@ export class PostgresCrmRepository implements CrmRepositoryPort {
         last_error_code: null,
       })
       .execute();
+    return auditEventId;
   }
 }

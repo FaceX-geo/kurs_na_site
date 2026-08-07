@@ -1,0 +1,38 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.auth-max",
+  "version": "1.0.0",
+  "purpose": "Represent login, provider-aware factor verification and temporary TOTP enrollment without exposing CRM data or claiming unproved MAX verification. An explicitly configured test runtime may authenticate real CRM users by password only and must be visibly marked.",
+  "variants": ["login", "verify", "recovery", "enroll", "test-password-only"],
+  "states": ["idle", "incomplete", "pending", "cooldown", "expired", "exhausted", "mismatch", "unavailable", "locked", "enrollment-pending", "test-password-only"],
+  "inputs": [
+    { "name": "mode", "type": "AuthMaxMode", "required": true },
+    { "name": "status", "type": "AuthMaxStatus", "required": true },
+    { "name": "title", "type": "string", "required": true },
+    { "name": "description", "type": "string", "required": true },
+    { "name": "children", "type": "ReactNode", "required": true },
+    { "name": "submitLabel", "type": "string", "required": true },
+    { "name": "pending", "type": "boolean", "required": false },
+    { "name": "developmentStub", "type": "boolean", "required": false },
+    { "name": "testRuntime", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "submit": { "payload": "void", "description": "Requests the route-owned login or factor action." },
+    "developmentContinue": { "payload": "void", "description": "Requests an explicitly configured local test session only." }
+  },
+  "accessibility": {
+    "role": "isolated main with labelled form",
+    "keyboard": "Form order is deterministic and errors preserve entered values.",
+    "focus": "Invalid submit focuses or describes the first invalid control.",
+    "screenReader": "Pending, cooldown, expiry, mismatch and lock are announced as text."
+  },
+  "motion": { "default": "No required motion.", "reducedMotion": "No change." },
+  "invariants": [
+    "Screens 45–48 do not render the authenticated shell or CRM data.",
+    "Email and SMS are not factor bypasses.",
+    "A test MFA bypass is accepted only by the backend with NODE_ENV=test and CRM_TEST_AUTH_BYPASS=true; its UI marker never grants access by itself.",
+    "EnrollMfa is presented only as temporary TOTP enrollment and never as MAX enrollment.",
+    "Verification copy branches on the backend provider: totp is never labelled MAX.",
+    "OTP, credentials, cookies and session secrets are never persisted or logged by this component."
+  ]
+}

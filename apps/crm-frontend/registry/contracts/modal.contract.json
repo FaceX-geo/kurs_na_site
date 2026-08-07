@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.modal",
+  "version": "1.1.0",
+  "purpose": "Contain a focused blocking form, preview or confirmation while preserving the invoker.",
+  "variants": ["narrow", "standard", "wide"],
+  "states": ["closed", "open", "blocking"],
+  "inputs": [
+    { "name": "open", "type": "boolean", "required": true },
+    { "name": "title", "type": "string", "required": true },
+    { "name": "children", "type": "ReactNode", "required": true },
+    { "name": "description", "type": "string", "required": false },
+    { "name": "footer", "type": "ReactNode", "required": false },
+    { "name": "initialFocusRef", "type": "RefObject<HTMLElement|null>", "required": false },
+    { "name": "dismissible", "type": "boolean", "required": false },
+    { "name": "size", "type": "narrow|standard|wide", "required": false }
+  ],
+  "events": {
+    "close": { "payload": "close-button|escape|backdrop|cancel", "description": "Requests close with an explicit reason." }
+  },
+  "accessibility": {
+    "role": "modal dialog",
+    "keyboard": "Tab and Shift+Tab remain inside the topmost dialog; Escape is consumed by only the topmost CRM modal and requests close only when dismissible.",
+    "focus": "Opening focuses requested/first control; closing restores the exact invoker.",
+    "screenReader": "Title and optional description label the dialog."
+  },
+  "motion": { "default": "220ms opacity and vertical context transition.", "reducedMotion": "Immediate final state with focus preserved." },
+  "invariants": [
+    "A non-dismissible critical confirmation has an explicit cancel route in its content.",
+    "Backdrop never commits an operation.",
+    "Inline callback and state updates do not restart the focus trap or replace the recorded invoker.",
+    "Closing the topmost modal restores the exact connected element that invoked it."
+  ]
+}

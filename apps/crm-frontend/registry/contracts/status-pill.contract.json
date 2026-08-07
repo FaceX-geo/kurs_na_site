@@ -1,0 +1,26 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.status-pill",
+  "version": "1.0.0",
+  "purpose": "Show a localized CRM status as text with optional interactive editing entry.",
+  "variants": ["neutral", "work", "success", "attention", "danger", "ai"],
+  "states": ["static", "interactive", "disabled"],
+  "inputs": [
+    { "name": "status", "type": "string", "required": true },
+    { "name": "label", "type": "string", "required": false },
+    { "name": "tone", "type": "StatusTone", "required": false },
+    { "name": "interactive", "type": "boolean", "required": false },
+    { "name": "disabled", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "press": { "payload": "status: string", "description": "Requests an editor or preview; it never mutates status directly." }
+  },
+  "accessibility": {
+    "role": "status or button",
+    "keyboard": "Only the interactive variant enters the tab order.",
+    "focus": "Interactive state has a visible focus ring.",
+    "screenReader": "The complete localized status is text."
+  },
+  "motion": { "default": "150ms semantic colour transition.", "reducedMotion": "Immediate colour state." },
+  "invariants": ["Colour is never the only status signal."]
+}

@@ -1,0 +1,31 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.filter-bar",
+  "version": "1.0.0",
+  "purpose": "Group server-backed filter controls and make every active filter visible and individually removable.",
+  "variants": ["dense", "wrapped"],
+  "states": ["idle", "active", "pending"],
+  "inputs": [
+    { "name": "children", "type": "ReactNode", "required": true },
+    { "name": "activeFilters", "type": "ActiveFilterDescriptor[]", "required": true },
+    { "name": "ariaLabel", "type": "string", "required": false },
+    { "name": "resultSummary", "type": "string", "required": false },
+    { "name": "pending", "type": "boolean", "required": false }
+  ],
+  "events": {
+    "removeFilter": { "payload": "filter id", "description": "Requests removal of one controlled filter." },
+    "clearAll": { "payload": "none", "description": "Requests one controlled reset of all active filters." }
+  },
+  "accessibility": {
+    "role": "named filter region",
+    "keyboard": "Controls, individual remove actions and clear-all are native keyboard targets.",
+    "focus": "No automatic focus movement occurs when results refresh.",
+    "screenReader": "Active-filter count, result summary and pending state are announced politely."
+  },
+  "motion": { "default": "State feedback only.", "reducedMotion": "No spatial motion is required." },
+  "invariants": [
+    "Visible filter labels are user-facing values rather than raw backend codes.",
+    "Filtering remains controlled by the owning screen and does not hide records only in browser memory.",
+    "A pending refresh disables destructive filter removal without hiding the current summary."
+  ]
+}

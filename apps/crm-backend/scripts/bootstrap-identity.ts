@@ -235,7 +235,6 @@ async function main(): Promise<void> {
               userAccountId: account.userAccountId,
               credentialTokenId: account.credentialTokenId,
               purpose: "invite",
-              destination: account.email,
             }),
             idempotency_key: `identity.bootstrap.invite:${account.userAccountId}`,
             occurred_at: now,

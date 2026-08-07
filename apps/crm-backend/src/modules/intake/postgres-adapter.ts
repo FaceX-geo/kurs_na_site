@@ -88,7 +88,7 @@ export class PostgresIntakeAdapter implements IntakeRepositoryPort, IntakeStorag
 
   async listVacancies(query: PublicVacancyQuery): Promise<CursorPage<Vacancy>> {
     const cursor = decodeCursor(query.cursor ?? undefined, this.config.cursorSigningKey);
-    const vacancies = (await this.readItems<Vacancy>("vacancies.json"))
+    const vacancies = (await this.mergedVacancies())
       .filter((vacancy) => vacancy.published && (!query.sector || vacancy.sector === query.sector))
       .sort((left, right) => left.id.localeCompare(right.id));
     const afterCursor = cursor ? vacancies.filter((vacancy) => vacancy.id > cursor.id) : vacancies;
@@ -106,7 +106,7 @@ export class PostgresIntakeAdapter implements IntakeRepositoryPort, IntakeStorag
   }
 
   async findPublishedVacancyById(vacancyId: string): Promise<Vacancy | null> {
-    const matches = (await this.readItems<Vacancy>("vacancies.json")).filter(
+    const matches = (await this.mergedVacancies()).filter(
       (vacancy) => vacancy.published && vacancy.id === vacancyId,
     );
     if (matches.length > 1) {
@@ -117,6 +117,27 @@ export class PostgresIntakeAdapter implements IntakeRepositoryPort, IntakeStorag
       );
     }
     return matches[0] ?? null;
+  }
+
+  private async mergedVacancies(): Promise<Vacancy[]> {
+    const fallback = await this.readItems<Vacancy>("vacancies.json");
+    const byPublicId = new Map(fallback.map((vacancy) => [vacancy.id, vacancy]));
+    const managed = await this.db
+      .selectFrom("content.vacancy")
+      .select(["public_id", "document", "publication_state", "archived_at"])
+      .execute();
+    for (const row of managed) {
+      if (row.publication_state !== "published" || row.archived_at) {
+        byPublicId.delete(row.public_id);
+        continue;
+      }
+      byPublicId.set(row.public_id, {
+        id: row.public_id,
+        ...(row.document as Omit<Vacancy, "id" | "published">),
+        published: true,
+      });
+    }
+    return [...byPublicId.values()];
   }
 
   async createApplication(

@@ -44,6 +44,13 @@ describe("production runtime configuration", () => {
     expect(loadConfig(productionEnvironment()).nodeEnv).toBe("production");
   });
 
+  it("allows the MFA bypass only in an explicit test runtime", () => {
+    expect(loadConfig({ NODE_ENV: "test", CRM_TEST_AUTH_BYPASS: "true" }).auth.testMfaBypass).toBe(true);
+    expect(() => loadConfig(productionEnvironment({ CRM_TEST_AUTH_BYPASS: "true" }))).toThrow(
+      /allowed only when NODE_ENV=test/u,
+    );
+  });
+
   it("rejects a runtime upload limit above the durable storage ceiling", () => {
     expect(() =>
       loadConfig({

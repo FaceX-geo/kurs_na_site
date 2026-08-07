@@ -1,0 +1,309 @@
+{
+  "schemaVersion": "1.0.0",
+  "product": "kurs-na-sever-crm",
+  "topLevelNavigation": [
+    {
+      "id": "work",
+      "label": "Моя работа",
+      "href": "/cabinet/crm/dashboard",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.dashboard.read"
+    },
+    {
+      "id": "relocation",
+      "label": "Заявки и воронки",
+      "href": "/cabinet/crm/relocation",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.case.list"
+    },
+    {
+      "id": "people",
+      "label": "Участники",
+      "href": "/cabinet/crm/people",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.case.list"
+    },
+    {
+      "id": "tasks",
+      "label": "Задачи",
+      "href": "/cabinet/crm/tasks",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.task.read"
+    },
+    {
+      "id": "employers",
+      "label": "Работодатели",
+      "href": "/cabinet/crm/employers",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.employer.read"
+    },
+    {
+      "id": "reports",
+      "label": "Отчёты",
+      "href": "/cabinet/crm/reports",
+      "kind": "route",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
+      "requiredPermission": "crm.report.build"
+    },
+    {
+      "id": "assistant",
+      "label": "Помощник",
+      "href": null,
+      "kind": "separate-action",
+      "businessRoles": ["SPECIALIST", "SUPER_ADMIN"]
+    },
+    {
+      "id": "admin-users",
+      "label": "Пользователи",
+      "href": "/cabinet/crm/admin/users",
+      "kind": "gated-route",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermission": "identity.users.read"
+    },
+    {
+      "id": "admin-vacancies",
+      "label": "Вакансии лендинга",
+      "href": "/cabinet/crm/admin/vacancies",
+      "kind": "gated-route",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermission": "content.vacancy.read"
+    },
+    {
+      "id": "admin-stories",
+      "label": "Истории лендинга",
+      "href": "/cabinet/crm/admin/stories",
+      "kind": "gated-route",
+      "businessRoles": ["SUPER_ADMIN"],
+      "requiredPermission": "content.story.read"
+    }
+  ],
+  "recipes": [
+    {
+      "id": "recipe.authenticated-shell",
+      "purpose": "Единый каркас рабочих экранов с явной навигацией, поиском, уведомлениями и пользовательским контекстом.",
+      "screenIds": [
+        "crm.screen.work.specialist",
+        "crm.screen.work.manager",
+        "crm.screen.people.registry",
+        "crm.screen.relocation.kanban",
+        "crm.screen.relocation.list",
+        "crm.screen.students.kanban",
+        "crm.screen.students.list",
+        "crm.screen.candidate.summary",
+        "crm.screen.candidate.application",
+        "crm.screen.candidate.lighthouse",
+        "crm.screen.candidate.referrals",
+        "crm.screen.candidate.relocation",
+        "crm.screen.candidate.duplicate-review",
+        "crm.screen.case.stage-transition",
+        "crm.screen.employers.registry",
+        "crm.screen.employer.detail",
+        "crm.screen.referrals.kanban",
+        "crm.screen.referral.detail",
+        "crm.screen.tasks.list",
+        "crm.screen.tasks.kanban",
+        "crm.screen.task.detail",
+        "crm.screen.communications.center",
+        "crm.screen.task.communication",
+        "crm.screen.communications.bulk-preview",
+        "crm.screen.communications.bulk-result",
+        "crm.screen.notifications.center",
+        "crm.screen.reports.catalog",
+        "crm.screen.report.relocation-employers",
+        "crm.screen.report.students-practice",
+        "crm.screen.report.tasks-team",
+        "crm.screen.settings.funnels",
+        "crm.screen.settings.dictionaries",
+        "crm.screen.settings.access",
+        "crm.screen.settings.integrations",
+        "crm.surface.assistant.context",
+        "crm.surface.assistant.task-draft",
+        "crm.screen.assistant.report-result",
+        "crm.screen.recommender.detail",
+        "crm.screen.report.preview",
+        "crm.surface.task-created-receipt",
+        "crm.screen.tasks.batch-preview",
+        "crm.screen.tasks.batch-result",
+        "crm.surface.assistant.context-summary",
+        "crm.screen.settings.email-connect",
+        "crm.screen.data-quality.unlinked",
+        "identity.screen.security-sessions"
+      ],
+      "componentIds": ["ui.app-shell", "ui.page-header", "ui.state-message"],
+      "entryStates": ["loading", "ready", "denied", "stale"],
+      "exitEvidence": ["route is visible", "permission restrictions remain explicit"],
+      "invariants": [
+        "The shell never exposes a route merely because its navigation label exists.",
+        "The assistant is a separate action and not a competing top-level work area.",
+        "Settings stay capability-gated."
+      ]
+    },
+    {
+      "id": "recipe.registry-master-detail",
+      "purpose": "Повторяемый контур поиска, фильтрации, выбора строки и открытия доказанной карточки.",
+      "screenIds": [
+        "crm.screen.people.registry",
+        "crm.screen.relocation.list",
+        "crm.screen.students.list",
+        "crm.screen.employers.registry",
+        "crm.screen.tasks.list",
+        "crm.screen.communications.center",
+        "crm.screen.notifications.center",
+        "crm.screen.reports.catalog",
+        "crm.screen.settings.dictionaries",
+        "crm.screen.settings.access",
+        "crm.screen.data-quality.unlinked",
+        "identity.screen.security-sessions"
+      ],
+      "componentIds": [
+        "ui.page-header",
+        "ui.filter-chip",
+        "ui.data-table",
+        "ui.entity-360",
+        "ui.state-message"
+      ],
+      "entryStates": ["loading", "ready", "empty", "error", "denied", "archived"],
+      "exitEvidence": ["selected record id", "active filters", "current sort"],
+      "invariants": [
+        "Filters and selection are controlled by the route or feature layer.",
+        "The table does not fetch data and does not infer permissions.",
+        "Hidden records and hidden totals are never reconstructed in the client."
+      ]
+    },
+    {
+      "id": "recipe.kanban-list",
+      "purpose": "Два равноправных представления одного набора: цветная доска и доступный список.",
+      "screenIds": [
+        "crm.screen.relocation.kanban",
+        "crm.screen.students.kanban",
+        "crm.screen.referrals.kanban",
+        "crm.screen.tasks.kanban"
+      ],
+      "componentIds": [
+        "ui.view-switcher",
+        "ui.filter-chip",
+        "ui.kanban-board",
+        "ui.data-table",
+        "ui.status-pill",
+        "ui.preview-confirm-receipt"
+      ],
+      "entryStates": ["ready", "empty", "selected", "move-requested"],
+      "exitEvidence": ["selected card id", "requested destination stage", "operation receipt"],
+      "invariants": [
+        "Colour is always repeated by stage number and text.",
+        "A stage change is a request for preview, never a drag-only write.",
+        "The list alternative preserves every actionable field."
+      ]
+    },
+    {
+      "id": "recipe.entity-360",
+      "purpose": "Целостная карточка участника, компании, направления, задачи или рекомендателя с происхождением данных.",
+      "screenIds": [
+        "crm.screen.candidate.summary",
+        "crm.screen.candidate.application",
+        "crm.screen.candidate.lighthouse",
+        "crm.screen.candidate.referrals",
+        "crm.screen.candidate.relocation",
+        "crm.screen.employer.detail",
+        "crm.screen.referral.detail",
+        "crm.screen.task.detail",
+        "crm.screen.task.communication",
+        "crm.screen.recommender.detail",
+        "crm.surface.assistant.context-summary"
+      ],
+      "componentIds": [
+        "ui.entity-360",
+        "ui.status-pill",
+        "ui.data-table",
+        "ui.state-message",
+        "ui.preview-confirm-receipt"
+      ],
+      "entryStates": ["loading", "ready", "restricted", "stale", "archived"],
+      "exitEvidence": ["record id", "source labels", "timeline ids", "operation receipt"],
+      "invariants": [
+        "Sensitive values are masked by the API contract before presentation.",
+        "Facts and timeline entries retain their source labels.",
+        "The component never collapses distinct domain records into one client-side identity."
+      ]
+    },
+    {
+      "id": "recipe.guarded-operation",
+      "purpose": "Единый human-in-the-loop цикл для изменений: черновик, preview, подтверждение, выполнение и квитанция.",
+      "screenIds": [
+        "crm.screen.candidate.duplicate-review",
+        "crm.screen.case.stage-transition",
+        "crm.screen.communications.bulk-preview",
+        "crm.screen.communications.bulk-result",
+        "crm.screen.report.relocation-employers",
+        "crm.screen.report.students-practice",
+        "crm.screen.report.tasks-team",
+        "crm.screen.settings.funnels",
+        "crm.screen.settings.access",
+        "crm.surface.assistant.task-draft",
+        "crm.screen.assistant.report-result",
+        "crm.screen.report.preview",
+        "crm.surface.task-created-receipt",
+        "crm.screen.tasks.batch-preview",
+        "crm.screen.tasks.batch-result",
+        "crm.screen.settings.email-connect",
+        "identity.screen.security-sessions"
+      ],
+      "componentIds": ["ui.modal", "ui.preview-confirm-receipt", "ui.state-message", "ui.data-table"],
+      "entryStates": ["draft", "preview", "confirming", "executing", "receipt"],
+      "exitEvidence": ["operationId", "request id", "receipt id", "per-item outcome when available"],
+      "invariants": [
+        "Draft and preview cannot execute the mutation.",
+        "Retries start from a new preview and include only retryable items.",
+        "Queued communication is not called delivered without provider evidence."
+      ]
+    },
+    {
+      "id": "recipe.auth-max-test-boundary",
+      "purpose": "Тестовый вход по реальным учётным данным, provider-aware verification и production TOTP bridge без ложного MAX-контракта.",
+      "screenIds": [
+        "identity.screen.login",
+        "identity.screen.mfa-verify",
+        "identity.screen.mfa-failed",
+        "identity.screen.mfa-enroll"
+      ],
+      "componentIds": ["ui.auth-max", "ui.state-message"],
+      "entryStates": [
+        "idle",
+        "incomplete",
+        "pending",
+        "cooldown",
+        "expired",
+        "exhausted",
+        "mismatch",
+        "unavailable",
+        "locked",
+        "enrollment-pending"
+      ],
+      "exitEvidence": ["backend session only after Login, VerifyMfa or confirmed EnrollMfa", "visible test-mode marker when the server has CRM_TEST_AUTH_BYPASS=true"],
+      "invariants": [
+        "Mock bypass is forbidden in production; production uses the versioned TOTP bridge until MAX has its own contract.",
+        "A password-only test session requires the explicit server-side NODE_ENV=test and CRM_TEST_AUTH_BYPASS=true configuration; the frontend marker does not bypass authentication.",
+        "Auth screens never render CRM shell, records, counts or notifications.",
+        "TOTP enrollment is not relabelled as MAX enrollment."
+      ]
+    },
+    {
+      "id": "recipe.system-states",
+      "purpose": "Проверяемый набор обязательных состояний без подмены ошибки пустым экраном.",
+      "screenIds": ["crm.surface.system-states"],
+      "componentIds": ["ui.state-message", "ui.data-table"],
+      "entryStates": ["loading", "empty", "error", "validation", "stale", "denied", "conflict", "archived"],
+      "exitEvidence": ["state name", "recovery action when allowed"],
+      "invariants": [
+        "Every async surface distinguishes empty from error and denied.",
+        "Conflict and stale states require a fresh server read before another write.",
+        "Restricted content is not leaked through secondary copy or totals."
+      ]
+    }
+  ]
+}

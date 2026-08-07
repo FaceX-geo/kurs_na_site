@@ -1,0 +1,4 @@
+{
+  "extends": "../tsconfig.json",
+  "include": ["snippets/**/*.tsx", "../src/shared/ui/**/*.tsx"]
+}

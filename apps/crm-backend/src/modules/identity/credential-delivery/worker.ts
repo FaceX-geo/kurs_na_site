@@ -2,6 +2,7 @@ import {
   CREDENTIAL_DELIVERY_WEBHOOK_SCHEMA,
   credentialRetryDelayMs,
   deriveCredentialToken,
+  parseCredentialDeliveryDestination,
   parseCredentialDeliveryPayload,
 } from "./contracts.js";
 import {
@@ -40,10 +41,6 @@ function normalizeProviderFailure(error: unknown): CredentialDeliveryProviderErr
   return new CredentialDeliveryProviderError("CREDENTIAL_PROVIDER_FAILURE", true);
 }
 
-function normalizeEmail(value: string): string {
-  return value.trim().toLocaleLowerCase("en-US");
-}
-
 function credentialIsDeliverable(
   claim: ClaimedCredentialDelivery,
   payload: NonNullable<ReturnType<typeof parseCredentialDeliveryPayload>>,
@@ -64,8 +61,7 @@ function credentialIsDeliverable(
     credential.accountArchivedAt === null &&
     credential.usedAt === null &&
     credential.revokedAt === null &&
-    credential.expiresAt > now &&
-    normalizeEmail(credential.accountEmail) === normalizeEmail(payload.destination)
+    credential.expiresAt > now
   );
 }
 
@@ -124,6 +120,11 @@ export class CredentialDeliveryWorker {
       await this.queue.recordDeadLetter(claim, "CREDENTIAL_TOKEN_UNAVAILABLE");
       return "dead_lettered";
     }
+    const destination = parseCredentialDeliveryDestination(credential.accountEmail);
+    if (!destination) {
+      await this.queue.recordDeadLetter(claim, "CREDENTIAL_DESTINATION_INVALID");
+      return "dead_lettered";
+    }
 
     const oneTimeCredential = deriveCredentialToken(
       payload.credentialTokenId,
@@ -139,7 +140,7 @@ export class CredentialDeliveryWorker {
           idempotencyKey: claim.idempotencyKey,
           userAccountId: payload.userAccountId,
           purpose: payload.purpose,
-          destination: payload.destination,
+          destination,
           oneTimeCredential,
           expiresAt: credential.expiresAt.toISOString(),
         },
