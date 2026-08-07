@@ -157,6 +157,32 @@ export class IdentityService {
       .where("id", "=", account.id)
       .execute();
 
+    if (this.config.auth.testMfaBypass) {
+      const receipt = await this.db.transaction().execute(async (transaction) => {
+        await appendAuditEvent(transaction, {
+          eventType: "identity.session.test_mfa_bypass_authenticated",
+          actorType: "user_account",
+          actorId: account.id,
+          subjectType: "user_account",
+          subjectId: account.id,
+          reason: "explicit_test_runtime_configuration",
+          afterState: { authenticationLevel: "fresh_mfa" },
+          metadata: { nodeEnv: this.config.nodeEnv },
+          scopeSnapshot: { scope: "self" },
+        });
+        return this.createSessionWithDatabase(
+          transaction,
+          account.id,
+          account.person_id,
+          account.email,
+          `${account.given_name} ${account.surname}`,
+          "fresh_mfa",
+        );
+      });
+
+      return { status: "authenticated", receipt };
+    }
+
     const privilegedAssignment = await this.db
       .selectFrom("identity.user_role_assignment as assignment")
       .innerJoin("identity.role as role", "role.code", "assignment.role_code")

@@ -53,7 +53,7 @@
 }
 
 .auth-card {
-  width: min(100%, 420px);
+  width: min(100%, 460px);
 }
 
 .auth-test-badge {
@@ -85,7 +85,7 @@
 .auth-heading h2 {
   margin: 0;
   color: #071b4b;
-  font-size: clamp(32px, 2.3vw, 36px);
+  font-size: clamp(30px, 2.3vw, 36px);
   font-weight: 720;
   letter-spacing: -0.03em;
 }
@@ -234,8 +234,8 @@
   display: flex;
   align-items: flex-start;
   gap: 10px;
-  padding: 13px 15px;
-  border: 1px solid #ef9b92;
+  padding: 12px 14px;
+  border: 1px solid #e9a09a;
   border-radius: 10px;
   background: #fff4f2;
   color: #9d271c;
@@ -477,9 +477,92 @@
 
 .auth-enroll-callout {
   margin: 0 0 20px;
-  border: 1px solid #cbd6e8;
-  background: #f7f9fd;
+  border: 1px solid #ccd8eb;
+  background: #f4f8ff;
   color: #18376f;
+}
+
+.auth-enrollment-data {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  gap: 13px;
+  margin: 0 0 18px;
+  padding: 17px;
+  border: 1px solid #c8d8ee;
+  border-radius: 14px;
+  background: #f8fbff;
+  color: #173b78;
+}
+
+.auth-enrollment-data > svg {
+  margin-top: 2px;
+}
+
+.auth-enrollment-data strong {
+  display: block;
+  margin-bottom: 4px;
+}
+
+.auth-enrollment-data p {
+  margin: 0 0 12px;
+  color: #5d7195;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.auth-secret-value,
+.auth-enrollment-uri code {
+  display: block;
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+}
+
+.auth-secret-value {
+  padding: 10px 12px;
+  border: 1px solid #b9cae3;
+  border-radius: 9px;
+  background: #fff;
+  color: #0a2c63;
+  font-size: 15px;
+  line-height: 1.45;
+}
+
+.auth-copy-button {
+  width: fit-content;
+  min-height: 40px;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  margin-top: 8px;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #095fe5;
+  font: inherit;
+  font-weight: 680;
+  cursor: pointer;
+}
+
+.auth-enrollment-uri {
+  margin-top: 11px;
+  color: #355a94;
+  font-size: 14px;
+}
+
+.auth-enrollment-uri summary {
+  width: fit-content;
+  cursor: pointer;
+  font-weight: 650;
+}
+
+.auth-enrollment-uri code {
+  margin-top: 9px;
+  padding: 9px 10px;
+  border-radius: 8px;
+  background: #eaf1fb;
+  font-size: 12px;
+  line-height: 1.4;
 }
 
 .auth-enroll-meta {

@@ -9,6 +9,7 @@ services:
         RELEASE_SHA: ${RELEASE_SHA:-development}
         CRM_API_UPSTREAM: ${CRM_API_UPSTREAM:-crm-api:8080}
         CRM_TRUSTED_EDGE_HEADERS: ${CRM_TRUSTED_EDGE_HEADERS:-false}
+        CRM_TEST_AUTH_BYPASS: ${CRM_TEST_AUTH_BYPASS:-false}
     env_file:
       - path: .env.local
         required: false

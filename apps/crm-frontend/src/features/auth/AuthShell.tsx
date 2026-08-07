@@ -1,7 +1,7 @@
 import { IconCompass, IconHeadset, IconShieldCheck, IconTestPipe } from "@tabler/icons-react";
 import type { ReactNode } from "react";
 import { MOCK_AUTH_COPY } from "@/mocks/auth-fixtures";
-import { useAuth } from "@/shared/auth";
+import { isTestMfaBypassEnabled, useAuth } from "@/shared/auth";
 import "@/features/auth/auth.css";
 
 interface AuthShellProps {
@@ -16,6 +16,13 @@ export function AuthShell({
   visualTitle = "Курс на Север",
 }: AuthShellProps) {
   const { authMode } = useAuth();
+  const testMfaBypassEnabled = isTestMfaBypassEnabled();
+  const testBadge =
+    authMode === "mock"
+      ? MOCK_AUTH_COPY.badge
+      : testMfaBypassEnabled
+        ? "ТЕСТОВАЯ СРЕДА · ВТОРОЙ ФАКТОР ОТКЛЮЧЁН"
+        : null;
 
   return (
     <main className="auth-page">
@@ -28,10 +35,10 @@ export function AuthShell({
       </section>
 
       <section className="auth-content">
-        {authMode === "mock" ? (
+        {testBadge ? (
           <div className="auth-test-badge" role="status">
             <IconTestPipe aria-hidden="true" size={18} />
-            {MOCK_AUTH_COPY.badge}
+            {testBadge}
           </div>
         ) : null}
 
@@ -47,7 +54,9 @@ export function AuthShell({
 
         <div className="auth-security-note">
           <IconShieldCheck aria-hidden="true" size={20} />
-          Доступ открывается только после подтверждения второго фактора.
+          {testMfaBypassEnabled
+            ? "Тестовый контур: доступ открывается после проверки пароля CRM."
+            : "Доступ открывается только после подтверждения второго фактора."}
         </div>
       </section>
     </main>

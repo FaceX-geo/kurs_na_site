@@ -264,7 +264,7 @@
     },
     {
       "id": "recipe.auth-max-test-boundary",
-      "purpose": "Тестовый вход, provider-aware verification и production TOTP bridge без доступа к данным CRM или ложного MAX-контракта.",
+      "purpose": "Тестовый вход по реальным учётным данным, provider-aware verification и production TOTP bridge без ложного MAX-контракта.",
       "screenIds": [
         "identity.screen.login",
         "identity.screen.mfa-verify",
@@ -284,10 +284,10 @@
         "locked",
         "enrollment-pending"
       ],
-      "exitEvidence": ["backend session only after Login, VerifyMfa or confirmed EnrollMfa", "visible test-mode marker"],
+      "exitEvidence": ["backend session only after Login, VerifyMfa or confirmed EnrollMfa", "visible test-mode marker when the server has CRM_TEST_AUTH_BYPASS=true"],
       "invariants": [
         "Mock bypass is forbidden in production; production uses the versioned TOTP bridge until MAX has its own contract.",
-        "Development continue exists only behind an explicit local test flag.",
+        "A password-only test session requires the explicit server-side NODE_ENV=test and CRM_TEST_AUTH_BYPASS=true configuration; the frontend marker does not bypass authentication.",
         "Auth screens never render CRM shell, records, counts or notifications.",
         "TOTP enrollment is not relabelled as MAX enrollment."
       ]

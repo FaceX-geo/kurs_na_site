@@ -1,6 +1,8 @@
 FROM node:22-alpine AS crm-frontend-build
 
 ENV CI=true
+ARG CRM_TEST_AUTH_BYPASS=false
+ENV VITE_CRM_TEST_AUTH_BYPASS=$CRM_TEST_AUTH_BYPASS
 WORKDIR /workspace/apps/crm-frontend
 
 COPY apps/crm-frontend/package.json apps/crm-frontend/package-lock.json ./

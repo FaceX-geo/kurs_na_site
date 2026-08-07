@@ -43,10 +43,10 @@ export function MaxEnrollPage() {
   }
 
   return (
-    <AuthShell visualSubtitle="Подключение обязательной защиты">
+    <AuthShell visualSubtitle="Настройка защиты доступа">
       <header className="auth-heading auth-heading--left">
         <h2>Подключите второй фактор</h2>
-        <p>Временный TOTP-контур работает до production-интеграции MAX.</p>
+        <p>Для этого пользователя требуется временная TOTP-защита до отдельной интеграции MAX.</p>
       </header>
 
       <ol className="auth-steps" aria-label="Этапы привязки">
@@ -65,14 +65,16 @@ export function MaxEnrollPage() {
         <IconShieldCheck aria-hidden size={38} />
         <div>
           <strong>
-            {authMode === "mock" ? "Тестовый TOTP-контур" : "Временный TOTP-контур до MAX"}
+            {authMode === "mock" ? "Тестовый TOTP-контур" : "Приложение-аутентификатор"}
           </strong>
           <p>
-            Production не bypass-ит MFA: сервер создаёт одноразовый secret, проверяет реальный код
-            приложения-аутентификатора и только затем открывает CRM.
+            Откройте приложение-аутентификатор, добавьте ключ и подтвердите первый код. CRM не
+            сохраняет ключ и коды восстановления в браузере.
           </p>
         </div>
       </section>
+
+      <AuthErrorMessage />
 
       {!setup ? (
         <button
@@ -88,48 +90,41 @@ export function MaxEnrollPage() {
 
       {setup && !recoveryCodes ? (
         <>
-          <section className="auth-test-panel" aria-label="Данные привязки TOTP">
+          <section className="auth-enrollment-data" aria-label="Данные привязки TOTP">
             <IconKey aria-hidden size={24} />
             <div>
-              <strong>Добавьте ключ в приложение-аутентификатор</strong>
-              <p>Ключ действует до {new Date(setup.expiresAt).toLocaleString("ru-RU")}.</p>
-              <label>
-                Secret
-                <input
-                  readOnly
-                  value={setup.secret}
-                  onFocus={(event) => event.currentTarget.select()}
-                />
-              </label>
+              <strong>Добавьте ключ</strong>
+              <p>
+                Ключ действует до{" "}
+                <time dateTime={setup.expiresAt}>
+                  {new Date(setup.expiresAt).toLocaleString("ru-RU")}
+                </time>
+                .
+              </p>
+              <code className="auth-secret-value">{setup.secret}</code>
               <button
                 type="button"
-                className="auth-link-button"
+                className="auth-copy-button"
                 onClick={() => void copy(setup.secret)}
               >
-                <IconCopy aria-hidden size={17} /> Копировать secret
+                <IconCopy aria-hidden size={17} /> Скопировать ключ
               </button>
-              <label>
-                otpauth URI
-                <textarea
-                  readOnly
-                  rows={3}
-                  value={setup.uri}
-                  onFocus={(event) => event.currentTarget.select()}
-                />
-              </label>
-              <button
-                type="button"
-                className="auth-link-button"
-                onClick={() => void copy(setup.uri)}
-              >
-                <IconCopy aria-hidden size={17} /> Копировать URI
-              </button>
+              <details className="auth-enrollment-uri">
+                <summary>Нужен URI для ручного добавления</summary>
+                <code>{setup.uri}</code>
+                <button
+                  type="button"
+                  className="auth-link-button"
+                  onClick={() => void copy(setup.uri)}
+                >
+                  <IconCopy aria-hidden size={17} /> Скопировать URI
+                </button>
+              </details>
             </div>
           </section>
 
           <form className="auth-form" onSubmit={(event) => void confirm(event)}>
             <OtpInput disabled={submitting} value={code} onChange={setCode} />
-            <AuthErrorMessage />
             <button
               className="auth-primary-button"
               disabled={code.length !== 6 || submitting}
@@ -173,10 +168,9 @@ export function MaxEnrollPage() {
         </section>
       ) : null}
 
-      <AuthErrorMessage />
       <p className="auth-form-hint auth-info-line">
         <IconInfoCircle aria-hidden size={19} />
-        MAX пока остаётся маркированной UI-заглушкой. Secret и recovery codes не логируются и не
+        MAX пока не участвует в этом сценарии. Secret и recovery codes не логируются и не
         сохраняются в браузере.
       </p>
 

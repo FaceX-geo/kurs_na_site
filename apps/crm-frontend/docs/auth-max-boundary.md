@@ -23,6 +23,21 @@ Backend уже публикует `Login`, `VerifyMfa` и `EnrollMfa`. В produc
 - stub не вызывает MAX, не пишет OTP/пароли и не создаёт production session;
 - auth shell не загружает CRM records, counts или notifications.
 
+## Тестовый контур с реальными данными
+
+Для изолированной тестовой базы допускается password-only вход по реальной
+учётной записи CRM. Он включается только парой переменных на API:
+
+- `NODE_ENV=test`;
+- `CRM_TEST_AUTH_BYPASS=true`.
+
+Конфигурация аварийно отклоняется при любом другом `NODE_ENV`, в том числе
+`production`. При успешном тестовом входе сервер создаёт сессию с уровнем
+`fresh_mfa` и пишет отдельное audit-событие
+`identity.session.test_mfa_bypass_authenticated`. Собранный frontend получает
+`VITE_CRM_TEST_AUTH_BYPASS=true` исключительно для заметной маркировки; эта
+переменная не открывает сессию и не заменяет серверную проверку пароля.
+
 ## Fresh MFA для критичных действий
 
 Обычный вход даёт `authenticationLevel=mfa`. Создание специалиста и другие

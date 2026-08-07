@@ -14,6 +14,7 @@ export {
 export { RequireAuth } from "@/shared/auth/RequireAuth";
 export { RequireBusinessRole } from "@/shared/auth/RequireBusinessRole";
 export { RequirePermission } from "@/shared/auth/RequirePermission";
+export { isTestMfaBypassEnabled } from "@/shared/auth/test-runtime";
 export type {
   AuthContextValue,
   AuthMode,

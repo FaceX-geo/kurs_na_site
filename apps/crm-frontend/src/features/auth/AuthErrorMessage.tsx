@@ -10,7 +10,7 @@ export function AuthErrorMessage() {
       <IconAlertCircle aria-hidden="true" size={20} />
       <span>
         {error.message}
-        {error.requestId ? <small>ID запроса: {error.requestId}</small> : null}
+        {error.requestId ? <small>Код для поддержки: {error.requestId}</small> : null}
       </span>
     </div>
   );

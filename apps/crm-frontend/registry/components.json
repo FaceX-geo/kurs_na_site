@@ -170,9 +170,9 @@
       "implementationPath": "src/shared/ui/AuthMaxPanel.tsx",
       "contractPath": "registry/contracts/auth-max.contract.json",
       "snippetPath": "registry/snippets/auth-max.tsx",
-      "variants": ["login", "verify", "recovery", "enroll"],
-      "states": ["idle", "incomplete", "pending", "cooldown", "expired", "exhausted", "mismatch", "unavailable", "locked", "enrollment-pending"],
-      "inputs": ["mode", "status", "title", "description", "children", "submitLabel", "pending", "developmentStub"],
+      "variants": ["login", "verify", "recovery", "enroll", "test-password-only"],
+      "states": ["idle", "incomplete", "pending", "cooldown", "expired", "exhausted", "mismatch", "unavailable", "locked", "enrollment-pending", "test-password-only"],
+      "inputs": ["mode", "status", "title", "description", "children", "submitLabel", "pending", "developmentStub", "testRuntime"],
       "events": ["submit", "developmentContinue"],
       "accessibility": ["auth screens contain no CRM data", "test mode is visibly labelled", "error status is announced"],
       "motion": ["no required motion"]

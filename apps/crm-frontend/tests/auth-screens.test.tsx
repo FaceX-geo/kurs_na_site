@@ -136,7 +136,7 @@ describe("auth screens", () => {
     expect(await screen.findByText("Подключите второй фактор")).not.toBeNull();
     expect(screen.getByText("Тестовый TOTP-контур")).not.toBeNull();
     fireEvent.click(screen.getByRole("button", { name: "Создать ключ TOTP" }));
-    expect(await screen.findByDisplayValue("mock-placeholder-not-a-real-secret")).not.toBeNull();
+    expect(await screen.findByText("mock-placeholder-not-a-real-secret")).not.toBeNull();
     for (let index = 1; index <= 6; index += 1) {
       fireEvent.change(screen.getByLabelText(`Цифра ${index}`), {
         target: { value: String(index) },

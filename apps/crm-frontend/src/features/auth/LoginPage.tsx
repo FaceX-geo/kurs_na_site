@@ -4,11 +4,12 @@ import { Link, useNavigate } from "react-router";
 import { AuthErrorMessage } from "@/features/auth/AuthErrorMessage";
 import { AuthShell } from "@/features/auth/AuthShell";
 import { MOCK_AUTH_COPY } from "@/mocks/auth-fixtures";
-import { AUTH_PATHS, useAuth } from "@/shared/auth";
+import { AUTH_PATHS, isTestMfaBypassEnabled, useAuth } from "@/shared/auth";
 
 export function LoginPage() {
   const navigate = useNavigate();
   const { authMode, clearError, instantSignIn, signInWithPassword, status } = useAuth();
+  const testMfaBypassEnabled = isTestMfaBypassEnabled();
   const [login, setLogin] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -48,10 +49,16 @@ export function LoginPage() {
   }
 
   return (
-    <AuthShell visualSubtitle="Безопасная рабочая CRM">
+    <AuthShell
+      visualSubtitle={testMfaBypassEnabled ? "Тестовая рабочая CRM" : "Безопасная рабочая CRM"}
+    >
       <header className="auth-heading">
         <h2>Вход в CRM</h2>
-        <p>Сначала пароль, затем второй фактор. Подключение MAX пока готовится.</p>
+        <p>
+          {testMfaBypassEnabled
+            ? "Введите выданные логин и пароль. Второй фактор отключён только для этого тестового контура."
+            : "Сначала пароль, затем второй фактор. Подключение MAX пока готовится."}
+        </p>
       </header>
 
       <form className="auth-form" onSubmit={(event) => void submit(event)}>
@@ -122,8 +129,16 @@ export function LoginPage() {
       <div className="auth-trust-card">
         <IconLock aria-hidden="true" size={28} />
         <span>
-          <strong>CRM не откроется до подтверждения второго фактора</strong>
-          <small>Пароль сам по себе не даёт доступ к рабочим данным.</small>
+          <strong>
+            {testMfaBypassEnabled
+              ? "Второй фактор отключён для тестовой базы"
+              : "CRM не откроется до подтверждения второго фактора"}
+          </strong>
+          <small>
+            {testMfaBypassEnabled
+              ? "В production это правило не применяется: там пароль сам по себе не даёт доступ."
+              : "Пароль сам по себе не даёт доступ к рабочим данным."}
+          </small>
         </span>
       </div>
     </AuthShell>

@@ -37,14 +37,14 @@ describe("CRM UI registry", () => {
     expect(authScreens.flatMap((screen) => screen.operationIds)).toContain("EnrollMfa");
   });
 
-  it("documents that the MAX shortcut is visible, test-only and not production auth", async () => {
+  it("documents that a test MFA bypass is visible and server-gated", async () => {
     const contract = await readJson("registry/contracts/auth-max.contract.json");
     const implementation = await readFile(
       path.resolve(appRoot, "src/shared/ui/AuthMaxPanel.tsx"),
       "utf8",
     );
 
-    expect(contract.invariants.join(" ")).toContain("productionAllowed=false");
+    expect(contract.invariants.join(" ")).toContain("CRM_TEST_AUTH_BYPASS=true");
     expect(contract.invariants.join(" ")).toContain("TOTP");
     expect(implementation).toContain("Тестовый режим");
     expect(implementation).toContain("недоступно в production");

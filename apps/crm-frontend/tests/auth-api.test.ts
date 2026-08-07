@@ -6,7 +6,7 @@ import { csrfTokenStore } from "@/shared/api/csrf";
 import { normalizeApiError } from "@/shared/api/errors";
 import { createLiveAuthTransport } from "@/shared/api/live-auth-transport";
 import { buildMutationHeaders, createIdempotencyKey } from "@/shared/api/request-descriptor";
-import { resolveAuthMode } from "@/shared/auth";
+import { isTestMfaBypassEnabled, resolveAuthMode } from "@/shared/auth";
 
 describe("auth API contracts", () => {
   beforeEach(() => {
@@ -18,6 +18,14 @@ describe("auth API contracts", () => {
     expect(resolveAuthMode({ PROD: false })).toBe("mock");
     expect(resolveAuthMode({ PROD: true })).toBe("live");
     expect(() => resolveAuthMode({ PROD: true, VITE_CRM_AUTH_MODE: "mock" })).toThrow("запрещена");
+  });
+
+  it("treats the test MFA marker as display-only configuration", () => {
+    expect(isTestMfaBypassEnabled({ VITE_CRM_TEST_AUTH_BYPASS: "true" })).toBe(true);
+    expect(isTestMfaBypassEnabled({ VITE_CRM_TEST_AUTH_BYPASS: "false" })).toBe(false);
+    expect(() => isTestMfaBypassEnabled({ VITE_CRM_TEST_AUTH_BYPASS: "enabled" })).toThrow(
+      "должен быть true или false",
+    );
   });
 
   it("builds explicit CSRF, idempotency and ETag mutation headers", () => {
