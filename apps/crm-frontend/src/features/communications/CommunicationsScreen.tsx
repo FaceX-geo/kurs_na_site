@@ -1,9 +1,21 @@
 import { IconAlertTriangle } from "@tabler/icons-react";
-import { useQuery } from "@tanstack/react-query";
+import { useInfiniteQuery } from "@tanstack/react-query";
 import { useState } from "react";
-import { type ActivitiesResponse, crmApi } from "@/shared/api";
+import {
+  type ActivitiesResponse,
+  crmApi,
+  hasRepeatedNextCursor,
+  nextCursorForPage,
+} from "@/shared/api";
 import { ApiError } from "@/shared/api/errors";
-import { DataTable, type DataTableColumn, PageHeader, StateMessage, StatusPill } from "@/shared/ui";
+import {
+  CursorPagination,
+  DataTable,
+  type DataTableColumn,
+  PageHeader,
+  StateMessage,
+  StatusPill,
+} from "@/shared/ui";
 import "./communications.css";
 
 type ActivityRow = ActivitiesResponse["items"][number];
@@ -18,16 +30,25 @@ function formatTimestamp(value: string): string {
 export function CommunicationsScreen() {
   const [direction, setDirection] = useState("");
   const [activityType, setActivityType] = useState("");
-  const activities = useQuery({
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const activities = useInfiniteQuery({
     queryKey: ["crm", "activities", direction, activityType],
-    queryFn: () =>
+    initialPageParam: "",
+    queryFn: ({ pageParam }) =>
       crmApi.listActivities({
-        limit: 100,
+        limit: 50,
+        ...(pageParam ? { cursor: pageParam } : {}),
         ...(direction ? { direction } : {}),
         ...(activityType ? { activityType } : {}),
       }),
+    getNextPageParam: nextCursorForPage,
   });
-  const rows = activities.data?.items ?? [];
+  const loadedPages = activities.data?.pages ?? [];
+  const safePageIndex = Math.min(currentPageIndex, Math.max(loadedPages.length - 1, 0));
+  const rows = loadedPages[safePageIndex]?.items ?? [];
+  const loadedItemCount = loadedPages.reduce((total, page) => total + page.items.length, 0);
+  const repeatedCursor = hasRepeatedNextCursor(loadedPages);
+  const hasVisibleData = rows.length > 0;
   const columns: readonly DataTableColumn<ActivityRow>[] = [
     {
       id: "occurredAt",
@@ -69,13 +90,21 @@ export function CommunicationsScreen() {
   ];
   const state = activities.isPending
     ? "loading"
-    : activities.isError
+    : activities.isError && !hasVisibleData
       ? activities.error instanceof ApiError && activities.error.status === 403
         ? "denied"
         : "error"
       : rows.length === 0
         ? "empty"
         : "ready";
+
+  const fetchNextAndAdvance = async () => {
+    if (repeatedCursor) return;
+    const before = loadedPages.length;
+    const result = await activities.fetchNextPage();
+    const after = result.data?.pages.length ?? before;
+    if (after > before) setCurrentPageIndex(after - 1);
+  };
 
   return (
     <div className="communications-screen">
@@ -98,12 +127,21 @@ export function CommunicationsScreen() {
             type="search"
             value={activityType}
             placeholder="Например, communication"
-            onChange={(event) => setActivityType(event.currentTarget.value)}
+            onChange={(event) => {
+              setCurrentPageIndex(0);
+              setActivityType(event.currentTarget.value);
+            }}
           />
         </label>
         <label>
           <span>Направление</span>
-          <select value={direction} onChange={(event) => setDirection(event.currentTarget.value)}>
+          <select
+            value={direction}
+            onChange={(event) => {
+              setCurrentPageIndex(0);
+              setDirection(event.currentTarget.value);
+            }}
+          >
             <option value="">Все направления</option>
             <option value="inbound">Входящие</option>
             <option value="outbound">Исходящие</option>
@@ -120,6 +158,30 @@ export function CommunicationsScreen() {
         getRowLabel={(row) => row.subject ?? row.activityType}
         state={state}
       />
+
+      {loadedPages.length > 0 ? (
+        <CursorPagination
+          ariaLabel="Пагинация коммуникаций и активностей"
+          loadedPageCount={loadedPages.length}
+          currentPageIndex={safePageIndex}
+          hasNextPage={Boolean(activities.hasNextPage)}
+          loadedItemCount={loadedItemCount}
+          visibleItemCount={rows.length}
+          isFetchingNextPage={activities.isFetchingNextPage}
+          repeatedCursor={repeatedCursor}
+          onPageChange={setCurrentPageIndex}
+          onFetchNextPage={fetchNextAndAdvance}
+        />
+      ) : null}
+
+      {activities.isFetchNextPageError && hasVisibleData ? (
+        <StateMessage
+          state="error"
+          title="Следующая страница не загружена"
+          message={activities.error.message}
+          action={{ label: "Повторить", onPress: () => void fetchNextAndAdvance() }}
+        />
+      ) : null}
 
       {activities.isError && state === "error" ? (
         <button

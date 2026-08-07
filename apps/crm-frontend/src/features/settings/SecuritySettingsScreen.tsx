@@ -6,11 +6,17 @@ import {
   IconLogout,
   IconShieldCheck,
 } from "@tabler/icons-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
-import { crmApi, type OwnSessionListResponse } from "@/shared/api";
+import {
+  crmApi,
+  hasRepeatedNextCursor,
+  nextCursorForPage,
+  type OwnSessionListResponse,
+} from "@/shared/api";
 import { ApiError } from "@/shared/api/errors";
 import {
+  CursorPagination,
   Modal,
   type OperationPhase,
   PageHeader,
@@ -33,10 +39,22 @@ export function SecuritySettingsScreen() {
   const queryClient = useQueryClient();
   const [selectedSession, setSelectedSession] = useState<SessionRow | null>(null);
   const [phase, setPhase] = useState<OperationPhase>("draft");
-  const sessions = useQuery({
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const sessions = useInfiniteQuery({
     queryKey: ["auth", "sessions"],
-    queryFn: () => crmApi.listOwnSessions(100),
+    initialPageParam: "",
+    queryFn: ({ pageParam }) =>
+      crmApi.listOwnSessions({
+        limit: 100,
+        ...(pageParam ? { cursor: pageParam } : {}),
+      }),
+    getNextPageParam: nextCursorForPage,
   });
+  const loadedPages = sessions.data?.pages ?? [];
+  const safePageIndex = Math.min(currentPageIndex, Math.max(loadedPages.length - 1, 0));
+  const rows = loadedPages[safePageIndex]?.items ?? [];
+  const loadedItemCount = loadedPages.reduce((total, page) => total + page.items.length, 0);
+  const repeatedCursor = hasRepeatedNextCursor(loadedPages);
   const revoke = useMutation({
     mutationFn: (session: SessionRow) =>
       crmApi.revokeOwnSession(session.id, "Пользователь завершил собственный сеанс через CRM"),
@@ -77,14 +95,14 @@ export function SecuritySettingsScreen() {
           <div>
             <IconDeviceDesktop aria-hidden size={24} />
             <h2 id="security-sessions-title">
-              Активные сеансы{sessions.data ? ` · ${sessions.data.items.length}` : ""}
+              Активные сеансы{loadedPages.length > 0 ? ` · загружено ${loadedItemCount}` : ""}
             </h2>
           </div>
           <p>Отзыв текущего сеанса завершит доступ в этом браузере.</p>
         </header>
 
         {sessions.isPending ? <StateMessage state="loading" title="Загружаем сеансы" /> : null}
-        {sessions.isError ? (
+        {sessions.isError && loadedPages.length === 0 ? (
           <StateMessage
             state={
               sessions.error instanceof ApiError && sessions.error.status === 401
@@ -96,13 +114,13 @@ export function SecuritySettingsScreen() {
             action={{ label: "Повторить", onPress: () => void sessions.refetch() }}
           />
         ) : null}
-        {sessions.data?.items.length === 0 ? (
+        {loadedPages.length > 0 && rows.length === 0 ? (
           <StateMessage state="empty" title="Активных сеансов нет" />
         ) : null}
 
-        {sessions.data?.items.length ? (
+        {rows.length > 0 ? (
           <ul>
-            {sessions.data.items.map((session) => (
+            {rows.map((session) => (
               <li key={session.id}>
                 <IconDeviceDesktop aria-hidden size={22} />
                 <div>
@@ -145,6 +163,36 @@ export function SecuritySettingsScreen() {
               </li>
             ))}
           </ul>
+        ) : null}
+
+        {loadedPages.length > 0 ? (
+          <CursorPagination
+            ariaLabel="Пагинация собственных сеансов"
+            loadedPageCount={loadedPages.length}
+            currentPageIndex={safePageIndex}
+            hasNextPage={Boolean(sessions.hasNextPage)}
+            loadedItemCount={loadedItemCount}
+            visibleItemCount={rows.length}
+            isFetchingNextPage={sessions.isFetchingNextPage}
+            repeatedCursor={repeatedCursor}
+            onPageChange={setCurrentPageIndex}
+            onFetchNextPage={async () => {
+              if (repeatedCursor) return;
+              const before = loadedPages.length;
+              const result = await sessions.fetchNextPage();
+              const after = result.data?.pages.length ?? before;
+              if (after > before) setCurrentPageIndex(after - 1);
+            }}
+          />
+        ) : null}
+
+        {sessions.isFetchNextPageError && rows.length > 0 ? (
+          <StateMessage
+            state="error"
+            title="Следующая страница сеансов не загружена"
+            message={sessions.error.message}
+            action={{ label: "Повторить", onPress: () => void sessions.fetchNextPage() }}
+          />
         ) : null}
       </section>
 

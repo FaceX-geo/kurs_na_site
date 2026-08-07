@@ -6,11 +6,16 @@ import {
   IconMail,
   IconUserPlus,
 } from "@tabler/icons-react";
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { type ReactNode, useMemo, useState } from "react";
-import { crmApi, type NotificationsResponse } from "@/shared/api";
+import {
+  crmApi,
+  hasRepeatedNextCursor,
+  type NotificationsResponse,
+  nextCursorForPage,
+} from "@/shared/api";
 import { ApiError } from "@/shared/api/errors";
-import { PageHeader, StateMessage, StatusPill } from "@/shared/ui";
+import { CursorPagination, PageHeader, StateMessage, StatusPill } from "@/shared/ui";
 import "./notifications.css";
 
 type NotificationRow = NotificationsResponse["items"][number];
@@ -67,14 +72,18 @@ export function NotificationsScreen() {
   const [typeCode, setTypeCode] = useState("");
   const [selectedId, setSelectedId] = useState("");
   const [announcement, setAnnouncement] = useState("");
-  const notifications = useQuery({
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
+  const notifications = useInfiniteQuery({
     queryKey: ["crm", "notifications", unreadOnly, typeCode],
-    queryFn: () =>
+    initialPageParam: "",
+    queryFn: ({ pageParam }) =>
       crmApi.listNotifications({
-        limit: 100,
+        limit: 50,
+        ...(pageParam ? { cursor: pageParam } : {}),
         ...(unreadOnly ? { unreadOnly: true } : {}),
         ...(typeCode ? { typeCode } : {}),
       }),
+    getNextPageParam: nextCursorForPage,
   });
   const markRead = useMutation({
     mutationFn: (item: NotificationRow) => crmApi.markNotificationRead(item.id, item.version),
@@ -84,29 +93,43 @@ export function NotificationsScreen() {
     },
   });
 
-  const items = notifications.data?.items ?? [];
+  const loadedPages = notifications.data?.pages ?? [];
+  const safePageIndex = Math.min(currentPageIndex, Math.max(loadedPages.length - 1, 0));
+  const items = loadedPages[safePageIndex]?.items ?? [];
+  const loadedItemCount = loadedPages.reduce((total, page) => total + page.items.length, 0);
+  const repeatedCursor = hasRepeatedNextCursor(loadedPages);
+  const hasVisibleData = items.length > 0;
   const selected = items.find((item) => item.id === selectedId) ?? items[0] ?? null;
   const types = useMemo(
-    () => Array.from(new Set(items.map((item) => item.typeCode))).sort(),
-    [items],
+    () =>
+      Array.from(
+        new Set([
+          ...(typeCode ? [typeCode] : []),
+          ...loadedPages.flatMap((page) => page.items.map((item) => item.typeCode)),
+        ]),
+      ).sort(),
+    [loadedPages, typeCode],
   );
+  const state = notifications.isPending
+    ? "loading"
+    : notifications.isError && !hasVisibleData
+      ? notifications.error instanceof ApiError && notifications.error.status === 403
+        ? "denied"
+        : "error"
+      : items.length === 0
+        ? "empty"
+        : "ready";
 
-  if (notifications.isPending) {
-    return <StateMessage state="loading" title="Загружаем уведомления" />;
-  }
-  if (notifications.isError) {
-    const denied = notifications.error instanceof ApiError && notifications.error.status === 403;
-    return (
-      <StateMessage
-        state={denied ? "denied" : "error"}
-        title={denied ? "Уведомления недоступны" : "Не удалось загрузить уведомления"}
-        message={notifications.error.message}
-        {...(denied
-          ? {}
-          : { action: { label: "Повторить", onPress: () => void notifications.refetch() } })}
-      />
-    );
-  }
+  const fetchNextAndAdvance = async () => {
+    if (repeatedCursor) return;
+    const before = loadedPages.length;
+    const result = await notifications.fetchNextPage();
+    const after = result.data?.pages.length ?? before;
+    if (after > before) {
+      setSelectedId("");
+      setCurrentPageIndex(after - 1);
+    }
+  };
 
   return (
     <div className="notifications-screen">
@@ -120,14 +143,25 @@ export function NotificationsScreen() {
           type="button"
           className={unreadOnly ? "is-active" : undefined}
           aria-pressed={unreadOnly}
-          onClick={() => setUnreadOnly((current) => !current)}
+          onClick={() => {
+            setSelectedId("");
+            setCurrentPageIndex(0);
+            setUnreadOnly((current) => !current);
+          }}
         >
           <IconBell aria-hidden size={18} />
           Только непрочитанные
         </button>
         <label>
           <span>Тип</span>
-          <select value={typeCode} onChange={(event) => setTypeCode(event.currentTarget.value)}>
+          <select
+            value={typeCode}
+            onChange={(event) => {
+              setSelectedId("");
+              setCurrentPageIndex(0);
+              setTypeCode(event.currentTarget.value);
+            }}
+          >
             <option value="">Все события</option>
             {types.map((value) => (
               <option value={value} key={value}>
@@ -138,8 +172,23 @@ export function NotificationsScreen() {
         </label>
       </section>
 
-      {items.length === 0 ? (
-        <StateMessage state="empty" title="Уведомлений по выбранным условиям нет" />
+      {state !== "ready" ? (
+        <StateMessage
+          state={state}
+          title={
+            state === "loading"
+              ? "Загружаем уведомления"
+              : state === "denied"
+                ? "Уведомления недоступны"
+                : state === "error"
+                  ? "Не удалось загрузить уведомления"
+                  : "Уведомлений по выбранным условиям нет"
+          }
+          {...(notifications.isError ? { message: notifications.error.message } : {})}
+          {...(state === "error"
+            ? { action: { label: "Повторить", onPress: () => void notifications.refetch() } }
+            : {})}
+        />
       ) : (
         <div className="notifications-layout">
           <div className="notifications-groups">
@@ -224,6 +273,31 @@ export function NotificationsScreen() {
           ) : null}
         </div>
       )}
+      {loadedPages.length > 0 ? (
+        <CursorPagination
+          ariaLabel="Пагинация уведомлений"
+          loadedPageCount={loadedPages.length}
+          currentPageIndex={safePageIndex}
+          hasNextPage={Boolean(notifications.hasNextPage)}
+          loadedItemCount={loadedItemCount}
+          visibleItemCount={items.length}
+          isFetchingNextPage={notifications.isFetchingNextPage}
+          repeatedCursor={repeatedCursor}
+          onPageChange={(pageIndex) => {
+            setSelectedId("");
+            setCurrentPageIndex(pageIndex);
+          }}
+          onFetchNextPage={fetchNextAndAdvance}
+        />
+      ) : null}
+      {notifications.isFetchNextPageError && hasVisibleData ? (
+        <StateMessage
+          state="error"
+          title="Следующая страница не загружена"
+          message={notifications.error.message}
+          action={{ label: "Повторить", onPress: () => void fetchNextAndAdvance() }}
+        />
+      ) : null}
       <p className="crm-sr-only" aria-live="polite">
         {announcement}
       </p>

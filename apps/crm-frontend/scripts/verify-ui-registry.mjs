@@ -255,9 +255,13 @@ export async function verifyUiRegistry({ appRoot = defaultAppRoot } = {}) {
       isPathInside(resolvedAppRoot, snippetPath),
       `${context} snippet escapes the CRM frontend root`,
     );
+    const isSharedUiImplementation = component?.implementationPath?.startsWith("src/shared/ui/");
+    const isRuntimeShellImplementation =
+      component?.id === "ui.app-shell" &&
+      component?.implementationPath === "src/app/layout/AppShell.tsx";
     check(
-      component?.implementationPath?.startsWith("src/shared/ui/"),
-      `${context} implementation must be CRM-owned shared UI`,
+      isSharedUiImplementation || isRuntimeShellImplementation,
+      `${context} implementation must be CRM-owned shared UI or the registered runtime shell`,
     );
     check(
       component?.contractPath?.startsWith("registry/contracts/"),
@@ -307,9 +311,12 @@ export async function verifyUiRegistry({ appRoot = defaultAppRoot } = {}) {
       snippet.includes(`// component-id: ${component.id}`),
       `${context} snippet needs its exact component-id marker`,
     );
+    const snippetConsumesRegisteredApi =
+      snippet.includes('from "@/shared/ui"') ||
+      (component?.id === "ui.app-shell" && snippet.includes('from "@/app/layout/AppShell"'));
     check(
-      snippet.includes('from "@/shared/ui"'),
-      `${context} snippet must consume the public @/shared/ui API`,
+      snippetConsumesRegisteredApi,
+      `${context} snippet must consume the public shared UI API or the registered runtime shell`,
     );
 
     for (const [fileLabel, source] of [

@@ -57,6 +57,19 @@
   gap: var(--crm-space-5);
 }
 
+.notifications-layout > *,
+.notifications-item__copy,
+.notifications-detail {
+  min-width: 0;
+}
+
+.notifications-item__copy strong,
+.notifications-item__copy small,
+.notifications-detail h2,
+.notifications-detail > span {
+  overflow-wrap: anywhere;
+}
+
 .notifications-groups {
   display: grid;
   gap: var(--crm-space-6);

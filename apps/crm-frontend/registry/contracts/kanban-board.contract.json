@@ -4,14 +4,15 @@
   "version": "1.0.0",
   "purpose": "Show CRM stage flow with numbered colour-coded columns, white cards and a complete list alternative.",
   "variants": ["kanban", "list"],
-  "states": ["ready", "empty", "selected", "move-requested"],
+  "states": ["ready", "empty", "selected", "dragging", "drop-target", "move-requested"],
   "inputs": [
     { "name": "columns", "type": "KanbanColumn[]", "required": true },
     { "name": "cards", "type": "KanbanCard[]", "required": true },
     { "name": "view", "type": "kanban|list", "required": false },
     { "name": "selectedId", "type": "string|null", "required": false },
     { "name": "ariaLabel", "type": "string", "required": false },
-    { "name": "empty", "type": "ReactNode", "required": false }
+    { "name": "empty", "type": "ReactNode", "required": false },
+    { "name": "onMoveRequest", "type": "(event: { card: KanbanCard; targetColumnId: string }) => void", "required": false }
   ],
   "events": {
     "openCard": { "payload": "KanbanCard", "description": "Requests card detail without hidden mutation." },
@@ -23,6 +24,6 @@
     "focus": "Preview close restores the originating card or list row.",
     "screenReader": "Column number, name, count and card status are text."
   },
-  "motion": { "default": "150ms selection feedback.", "reducedMotion": "No card translation." },
-  "invariants": ["List alternative exposes every card and action.", "Drag and drop is never required.", "Move request never mutates before preview and confirmation."]
+  "motion": { "default": "150ms selection, dragging and drop-target feedback.", "reducedMotion": "No card translation." },
+  "invariants": ["Pointer drag is progressive enhancement over the native stage selector.", "List alternative exposes every card and action.", "Drag and drop is never required.", "Move request never mutates before preview and confirmation."]
 }

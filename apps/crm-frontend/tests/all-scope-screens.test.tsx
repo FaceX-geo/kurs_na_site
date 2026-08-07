@@ -1,7 +1,7 @@
 // @vitest-environment jsdom
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { cleanup, render, screen } from "@testing-library/react";
+import { cleanup, render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { CasesScreen } from "@/features/cases";
@@ -65,16 +65,56 @@ describe("SUPER_ADMIN all-scope screens", () => {
 
     renderAllScopeCases();
 
-    expect(await screen.findByRole("heading", { name: "Все заявки и воронки" })).not.toBeNull();
+    expect(
+      await screen.findByRole("heading", { name: "Заявки на переезд · вся CRM" }),
+    ).not.toBeNull();
     expect(await screen.findByText("Заявка из мигрированной БД")).not.toBeNull();
     const transition = screen.getByRole("combobox", {
       name: "Изменить этап заявки CASE-111 через preview",
     }) as HTMLSelectElement;
     expect(transition.disabled).toBe(true);
   });
+
+  it("keeps the student funnel isolated in the backend query", async () => {
+    const listCases = vi.spyOn(crmApi, "listCases").mockResolvedValue({
+      items: [],
+      page: { limit: 200, nextCursor: null, hasMore: false },
+    });
+    vi.spyOn(crmApi, "listFunnels").mockResolvedValue({
+      items: [
+        {
+          code: "student",
+          version: 1,
+          title: "Студенты",
+          status: "active",
+          source: "registry",
+          initialState: "new",
+          states: [{ code: "new", title: "Новая", order: 1, aggregateStatus: "open" }],
+          transitions: [],
+        },
+      ],
+    });
+
+    renderAllScopeCases({ funnelCode: "student", path: "/cabinet/crm/students?view=list" });
+
+    expect(
+      await screen.findByRole("heading", { name: "Заявки студентов · вся CRM" }),
+    ).not.toBeNull();
+    await waitFor(() =>
+      expect(listCases).toHaveBeenCalledWith(
+        expect.objectContaining({ funnelCode: "student", limit: 40 }),
+      ),
+    );
+  });
 });
 
-function renderAllScopeCases() {
+function renderAllScopeCases({
+  funnelCode = "relocation",
+  path = "/cabinet/crm/relocation?view=list",
+}: {
+  funnelCode?: "relocation" | "student";
+  path?: string;
+} = {}) {
   const base = createMockAuthTransport();
   const transport = {
     ...base,
@@ -97,9 +137,9 @@ function renderAllScopeCases() {
 
   return render(
     <QueryClientProvider client={queryClient}>
-      <MemoryRouter initialEntries={["/cabinet/crm/relocation?view=list"]}>
+      <MemoryRouter initialEntries={[path]}>
         <AuthProvider mode="mock" transport={transport}>
-          <CasesScreen />
+          <CasesScreen funnelCode={funnelCode} />
         </AuthProvider>
       </MemoryRouter>
     </QueryClientProvider>,

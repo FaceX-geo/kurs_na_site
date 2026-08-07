@@ -1,6 +1,7 @@
 import { IconArchive, IconEdit, IconPlus, IconSend } from "@tabler/icons-react";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { type Dispatch, type ReactNode, type SetStateAction, useState } from "react";
+import { useSearchParams } from "react-router";
 import {
   type AdminContentQuery,
   type AdminStory,
@@ -15,6 +16,7 @@ import {
 import { ApiError } from "@/shared/api/errors";
 import { FreshMfaGate, hasPermission, useAuth } from "@/shared/auth";
 import {
+  CursorPagination,
   DataTable,
   type DataTableColumn,
   Modal,
@@ -99,6 +101,10 @@ function stateTone(state: ContentState): "neutral" | "success" | "attention" {
   return "neutral";
 }
 
+function isContentState(value: string | null): value is ContentState {
+  return value === "draft" || value === "published" || value === "archived";
+}
+
 function errorState(error: Error): "conflict" | "denied" | "error" {
   if (error instanceof ApiError && error.status === 409) return "conflict";
   if (error instanceof ApiError && error.status === 403) return "denied";
@@ -112,13 +118,19 @@ function AdminContentScreen<T extends ContentRecord, D extends DraftWithReason, 
 }) {
   const { session } = useAuth();
   const queryClient = useQueryClient();
-  const [stateFilter, setStateFilter] = useState<ContentState | "all">("all");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const stateParam = searchParams.get("state");
+  const stateFilter: ContentState | "all" = isContentState(stateParam) ? stateParam : "all";
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [dialog, setDialog] = useState<DialogState<T> | null>(null);
   const [draft, setDraft] = useState<D>(() => config.emptyDraft());
   const [phase, setPhase] = useState<OperationPhase>("draft");
   const [intent, setIntent] = useState<ContentIntent<T, B> | null>(null);
   const [validationMessage, setValidationMessage] = useState<string | null>(null);
   const [freshMfaOpen, setFreshMfaOpen] = useState(false);
+  const canRead = hasPermission(session, config.readPermission);
+  const canManage = hasPermission(session, config.managePermission);
+  const mutationReady = session?.mutationAccess === "ready";
 
   const content = useInfiniteQuery({
     queryKey: [...config.queryKey, stateFilter],
@@ -130,21 +142,24 @@ function AdminContentScreen<T extends ContentRecord, D extends DraftWithReason, 
         ...(stateFilter === "all" ? {} : { state: stateFilter }),
       }),
     getNextPageParam: nextCursorForPage,
+    enabled: canRead,
   });
-  const rows = content.data?.pages.flatMap((page) => page.items) ?? [];
-  const repeatedCursor = hasRepeatedNextCursor(content.data?.pages ?? []);
-  const canRead = hasPermission(session, config.readPermission);
-  const canManage = hasPermission(session, config.managePermission);
-  const mutationReady = session?.mutationAccess === "ready";
-  const tableState = content.isPending
-    ? "loading"
-    : content.isError
-      ? content.error instanceof ApiError && content.error.status === 403
-        ? "denied"
-        : "error"
-      : rows.length === 0
-        ? "empty"
-        : "ready";
+  const loadedPages = content.data?.pages ?? [];
+  const safePageIndex = Math.min(currentPageIndex, Math.max(loadedPages.length - 1, 0));
+  const rows = loadedPages[safePageIndex]?.items ?? [];
+  const loadedItemCount = loadedPages.reduce((total, page) => total + page.items.length, 0);
+  const repeatedCursor = hasRepeatedNextCursor(loadedPages);
+  const tableState = !canRead
+    ? "denied"
+    : content.isPending
+      ? "loading"
+      : content.isError && loadedPages.length === 0
+        ? content.error instanceof ApiError && content.error.status === 403
+          ? "denied"
+          : "error"
+        : rows.length === 0
+          ? "empty"
+          : "ready";
 
   const mutation = useMutation({
     mutationFn: async (nextIntent: ContentIntent<T, B>) => {
@@ -229,6 +244,14 @@ function AdminContentScreen<T extends ContentRecord, D extends DraftWithReason, 
     setIntent(null);
     setValidationMessage(null);
     mutation.reset();
+  }
+
+  function changeStateFilter(nextState: ContentState | "all"): void {
+    const params = new URLSearchParams(searchParams);
+    if (nextState === "all") params.delete("state");
+    else params.set("state", nextState);
+    setCurrentPageIndex(0);
+    setSearchParams(params, { replace: true });
   }
 
   function openCreate(): void {
@@ -384,7 +407,7 @@ function AdminContentScreen<T extends ContentRecord, D extends DraftWithReason, 
         <span>Статус материала</span>
         <select
           value={stateFilter}
-          onChange={(event) => setStateFilter(event.currentTarget.value as ContentState | "all")}
+          onChange={(event) => changeStateFilter(event.currentTarget.value as ContentState | "all")}
         >
           <option value="all">Все статусы</option>
           <option value="draft">Черновики</option>
@@ -409,23 +432,32 @@ function AdminContentScreen<T extends ContentRecord, D extends DraftWithReason, 
           action={{ label: "Повторить", onPress: () => void content.refetch() }}
         />
       ) : null}
-      {content.hasNextPage ? (
-        <button
-          type="button"
-          className="crm-button crm-button--quiet"
-          disabled={repeatedCursor || content.isFetchingNextPage}
-          onClick={() => {
-            if (!repeatedCursor) void content.fetchNextPage();
+      {loadedPages.length > 0 ? (
+        <CursorPagination
+          ariaLabel={`Пагинация: ${config.title}`}
+          loadedPageCount={loadedPages.length}
+          currentPageIndex={safePageIndex}
+          hasNextPage={Boolean(content.hasNextPage)}
+          loadedItemCount={loadedItemCount}
+          visibleItemCount={rows.length}
+          isFetchingNextPage={content.isFetchingNextPage}
+          repeatedCursor={repeatedCursor}
+          onPageChange={setCurrentPageIndex}
+          onFetchNextPage={async () => {
+            if (repeatedCursor) return;
+            const before = loadedPages.length;
+            const result = await content.fetchNextPage();
+            const after = result.data?.pages.length ?? before;
+            if (after > before) setCurrentPageIndex(after - 1);
           }}
-        >
-          {content.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё"}
-        </button>
+        />
       ) : null}
-      {repeatedCursor ? (
+      {content.isFetchNextPageError && rows.length > 0 ? (
         <StateMessage
-          state="stale"
-          title="Пагинация остановлена безопасно"
-          message="Backend повторил cursor; повторный запрос той же страницы не выполняется."
+          state="error"
+          title="Следующая страница материалов не загружена"
+          message={content.error.message}
+          action={{ label: "Повторить", onPress: () => void content.fetchNextPage() }}
         />
       ) : null}
 

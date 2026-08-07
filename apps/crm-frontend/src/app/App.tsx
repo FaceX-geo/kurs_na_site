@@ -2,12 +2,7 @@ import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router";
 import { AppShell } from "@/app/layout/AppShell";
 import { CRM_PATHS } from "@/app/paths";
-import {
-  AccessDeniedScreen,
-  NotFoundScreen,
-  RoleHomeRedirect,
-  StudentsBoundaryScreen,
-} from "@/app/screens/RouteFallbacks";
+import { AccessDeniedScreen, NotFoundScreen, RoleHomeRedirect } from "@/app/screens/RouteFallbacks";
 import {
   CredentialSetupPage,
   LoginPage,
@@ -119,7 +114,7 @@ export function CrmRoutes() {
               path="students"
               element={
                 <RequirePermission allOf={["crm.case.list"]}>
-                  <StudentsBoundaryScreen />
+                  <CasesScreen funnelCode="student" />
                 </RequirePermission>
               }
             />

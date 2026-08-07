@@ -69,6 +69,7 @@ describe("two-role access policy", () => {
     expect(specialist.map((item) => item.id)).toEqual([
       "work",
       "relocation",
+      "students",
       "people",
       "tasks",
       "employers",
@@ -91,6 +92,7 @@ describe("two-role access policy", () => {
     expect(admin.map((item) => item.id)).toEqual([
       "work",
       "relocation",
+      "students",
       "people",
       "tasks",
       "employers",

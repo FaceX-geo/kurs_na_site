@@ -14,13 +14,21 @@ const cards = [
 
 export function KanbanBoardSnippet() {
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [pendingMove, setPendingMove] = useState<string | null>(null);
   return (
-    <KanbanBoard
-      columns={columns}
-      cards={cards}
-      selectedId={selectedId}
-      onOpenCard={(card) => setSelectedId(card.id)}
-      onMoveRequest={() => undefined}
-    />
+    <>
+      <KanbanBoard
+        columns={columns}
+        cards={cards}
+        selectedId={selectedId}
+        onOpenCard={(card) => setSelectedId(card.id)}
+        onMoveRequest={({ card, targetColumnId }) =>
+          setPendingMove(`${card.id}:${targetColumnId}`)
+        }
+      />
+      {pendingMove ? (
+        <p role="status">Запрос {pendingMove} готов к обязательному preview.</p>
+      ) : null}
+    </>
   );
 }

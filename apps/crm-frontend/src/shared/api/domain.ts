@@ -27,6 +27,13 @@ export type PeopleResponse = JsonResponse<operations["ListCrmPeople"], 200>;
 export type TasksResponse = JsonResponse<operations["ListCrmTasks"], 200>;
 export type EmployersResponse = JsonResponse<operations["ListEmployers"], 200>;
 export type ReportRunsResponse = JsonResponse<operations["ListCrmReportRuns"], 200>;
+export type ReportRunResponse = JsonResponse<operations["GetCrmReportRun"], 200>;
+export type BuildReportRequest = JsonRequestBody<operations["BuildCrmReport"]>;
+export type BuildReportResponse =
+  | JsonResponse<operations["BuildCrmReport"], 200>
+  | JsonResponse<operations["BuildCrmReport"], 201>;
+export type ReportCode = ReportRunResponse["reportCode"];
+export type ReportRunState = ReportRunResponse["state"];
 export type UsersResponse = JsonResponse<operations["ListUsers"], 200>;
 export type InviteUserRequest = JsonRequestBody<operations["InviteUser"]>;
 export type InviteUserResponse = JsonResponse<operations["InviteUser"], 202>;
@@ -52,7 +59,10 @@ export type ActivitiesResponse = JsonResponse<operations["ListCrmActivities"], 2
 export interface CasesQuery {
   cursor?: string;
   funnelCode?: string;
+  funnelVersion?: number;
   limit?: number;
+  ownerEmployeeProfileId?: string;
+  personId?: string;
   search?: string;
   stageCode?: string;
   status?: string;
@@ -68,9 +78,12 @@ export interface PeopleQuery {
 }
 
 export interface TasksQuery {
+  caseId?: string;
   cursor?: string;
   limit?: number;
   overdue?: boolean;
+  referralId?: string;
+  responsibleEmployeeProfileId?: string;
   state?: string;
 }
 
@@ -79,6 +92,13 @@ export interface EmployersQuery {
   limit?: number;
   search?: string;
   status?: string;
+}
+
+export interface ReportRunsQuery {
+  cursor?: string;
+  limit?: number;
+  reportCode?: ReportCode;
+  state?: ReportRunState;
 }
 
 export interface UsersQuery {
@@ -102,13 +122,20 @@ export interface AdminContentQuery {
 }
 
 export interface NotificationsQuery {
+  cursor?: string;
   limit?: number;
   typeCode?: string;
   unreadOnly?: boolean;
 }
 
+export interface OwnSessionsQuery {
+  cursor?: string;
+  limit?: number;
+}
+
 export interface ActivitiesQuery {
   activityType?: string;
+  cursor?: string;
   direction?: string;
   limit?: number;
 }
@@ -230,10 +257,41 @@ export const crmApi = {
     );
   },
 
-  async listReportRuns(limit = 50): Promise<ReportRunsResponse> {
+  async listReportRuns(query: ReportRunsQuery = {}): Promise<ReportRunsResponse> {
     return requireApiData(
       await crmApiClient.GET("/internal/v1/crm/report-runs", {
-        params: { query: { limit } },
+        params: { query },
+      }),
+    );
+  },
+
+  async getReportRun(reportRunId: string): Promise<ReportRunResponse> {
+    return requireApiData(
+      await crmApiClient.GET("/internal/v1/crm/report-runs/{reportRunId}", {
+        params: { path: { reportRunId } },
+      }),
+    );
+  },
+
+  async buildReport(
+    body: BuildReportRequest,
+    idempotencyKey = createIdempotencyKey(),
+  ): Promise<BuildReportResponse> {
+    const headers = buildMutationHeaders({ csrf: "required", idempotencyKey });
+    const csrfToken = headers["x-csrf-token"];
+    const idempotencyHeader = headers["idempotency-key"];
+    if (!csrfToken || !idempotencyHeader) {
+      throw new Error("Report build header invariant failed");
+    }
+    return requireApiData(
+      await crmApiClient.POST("/internal/v1/crm/report-runs", {
+        body,
+        params: {
+          header: {
+            "idempotency-key": idempotencyHeader,
+            "x-csrf-token": csrfToken,
+          },
+        },
       }),
     );
   },
@@ -503,10 +561,10 @@ export const crmApi = {
     );
   },
 
-  async listOwnSessions(limit = 100): Promise<OwnSessionListResponse> {
+  async listOwnSessions(query: OwnSessionsQuery = {}): Promise<OwnSessionListResponse> {
     return requireApiData(
       await crmApiClient.GET("/internal/v1/auth/sessions", {
-        params: { query: { limit } },
+        params: { query },
       }),
     );
   },

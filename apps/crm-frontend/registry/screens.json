@@ -362,15 +362,15 @@
       "number": 27,
       "id": "crm.screen.reports.catalog",
       "title": "Каталог отчётов",
-      "purpose": "Выбрать одну из семи договорных групп.",
+      "purpose": "Выбрать один из семи серверных отчётов, проверить черновик, запустить расчёт и открыть сохранённый результат.",
       "route": "/cabinet/crm/reports",
       "kind": "catalog",
       "shell": "authenticated",
       "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.report.build"],
-      "backendStatus": "partial",
+      "backendStatus": "connected",
       "operationIds": ["BuildCrmReport", "ListCrmReportRuns", "GetCrmReportRun"],
-      "componentIds": ["ui.app-shell", "ui.page-header", "ui.filter-chip", "ui.data-table", "ui.state-message"],
+      "componentIds": ["ui.app-shell", "ui.page-header", "ui.filter-chip", "ui.data-table", "ui.cursor-pagination", "ui.status-pill", "ui.preview-confirm-receipt", "ui.state-message"],
       "referenceImage": "27-reports-catalog.png"
     },
     {

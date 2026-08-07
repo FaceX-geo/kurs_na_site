@@ -1,6 +1,8 @@
 .dashboard-screen {
   display: grid;
-  gap: 0;
+  width: 100%;
+  min-width: 0;
+  gap: 20px;
   max-width: 1240px;
 }
 
@@ -10,26 +12,32 @@
 }
 
 .dashboard-screen .crm-page-header h1 {
-  font-size: 56px;
+  font-size: clamp(38px, 4vw, 52px);
 }
 
 .dashboard-metrics {
   display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-template-columns: repeat(5, minmax(0, 1fr));
   border: 1px solid var(--crm-color-border, #dce5f3);
   border-radius: 13px;
   background: #fff;
-  margin-top: 11px;
+  margin-top: 0;
 }
 
 .dashboard-metric {
-  display: flex;
-  min-height: 92px;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr);
+  min-height: 96px;
+  align-content: center;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
+  gap: 4px 9px;
+  padding: 14px 16px;
   color: #53668e;
-  font-size: 17px;
+  font-size: 13px;
+}
+
+.dashboard-metric span {
+  grid-column: 2;
 }
 
 .dashboard-metric + .dashboard-metric {
@@ -41,8 +49,157 @@
 }
 
 .dashboard-metric strong {
+  grid-column: 2;
   color: #071942;
-  font-size: 18px;
+  font-size: 24px;
+}
+
+.dashboard-focus {
+  display: grid;
+  gap: 14px;
+  margin-top: 4px;
+}
+
+.dashboard-focus > header {
+  display: flex;
+  align-items: end;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.dashboard-focus > header p,
+.dashboard-focus > header h2 {
+  margin: 0;
+}
+
+.dashboard-focus > header p {
+  color: var(--crm-color-work);
+  font-size: var(--crm-font-size-meta);
+  font-weight: var(--crm-font-weight-semibold);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.dashboard-focus > header h2 {
+  margin-top: 3px;
+  font-size: var(--crm-font-size-section);
+}
+
+.dashboard-focus > header > span {
+  padding: 7px 10px;
+  border-radius: var(--crm-radius-pill);
+  color: var(--crm-color-text-secondary);
+  background: var(--crm-color-surface-subtle);
+  font-size: var(--crm-font-size-meta);
+}
+
+.dashboard-focus-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+}
+
+.dashboard-panel {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-panel);
+  background: var(--crm-color-surface);
+  box-shadow: var(--crm-shadow-control);
+}
+
+.dashboard-panel > header {
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  min-height: 62px;
+  padding: 0 16px;
+  border-bottom: 1px solid var(--crm-color-border);
+}
+
+.dashboard-panel > header > span {
+  display: grid;
+  width: 34px;
+  height: 34px;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--crm-color-work);
+  background: var(--crm-color-selection);
+}
+
+.dashboard-panel h3 {
+  margin: 0;
+  font-size: 16px;
+}
+
+.dashboard-panel header button {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 8px;
+  border: 0;
+  border-radius: 8px;
+  color: var(--crm-color-work);
+  background: transparent;
+  font-weight: 600;
+}
+
+.dashboard-panel ul {
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.dashboard-panel li + li {
+  border-top: 1px solid var(--crm-color-border);
+}
+
+.dashboard-panel li > button {
+  display: flex;
+  width: 100%;
+  min-height: 68px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 16px;
+  border: 0;
+  background: transparent;
+  text-align: left;
+  transition: background-color var(--crm-motion-state);
+}
+
+.dashboard-panel li > button:hover {
+  background: var(--crm-color-surface-hover);
+}
+
+.dashboard-panel li > button span {
+  display: grid;
+  min-width: 0;
+  gap: 2px;
+}
+
+.dashboard-panel li strong,
+.dashboard-panel li small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.dashboard-panel li small {
+  color: var(--crm-color-text-muted);
+}
+
+.dashboard-panel-state {
+  min-height: 80px;
+  margin: 0;
+  padding: 20px 16px;
+  color: var(--crm-color-text-muted);
+}
+
+.dashboard-panel-state.is-error {
+  color: var(--crm-color-danger);
 }
 
 .dashboard-metric.is-danger svg {
@@ -231,6 +388,18 @@
   }
   .dashboard-metric:nth-child(4) {
     border-top: 1px solid var(--crm-color-border, #dce5f3);
+  }
+  .dashboard-metric:nth-child(5) {
+    grid-column: 1 / -1;
+    border-top: 1px solid var(--crm-color-border, #dce5f3);
+    border-left: 0;
+  }
+  .dashboard-focus > header {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .dashboard-focus-grid {
+    grid-template-columns: 1fr;
   }
   .dashboard-priority {
     grid-template-columns: 56px 1fr;

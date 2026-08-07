@@ -1,6 +1,12 @@
-import { IconLayoutKanban, IconList, IconSearch } from "@tabler/icons-react";
+import {
+  IconAdjustmentsHorizontal,
+  IconLayoutKanban,
+  IconList,
+  IconSearch,
+  IconX,
+} from "@tabler/icons-react";
 import { useInfiniteQuery, useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router";
 import { CRM_PATHS } from "@/app/paths";
 import {
@@ -13,6 +19,7 @@ import {
 import { ApiError } from "@/shared/api/errors";
 import { type AuthSession, hasPermission, useAuth } from "@/shared/auth";
 import {
+  CursorPagination,
   DataTable,
   type DataTableColumn,
   KanbanBoard,
@@ -39,6 +46,27 @@ type Funnel = FunnelsResponse["items"][number];
 type FunnelTransition = Funnel["transitions"][number];
 type CaseView = "kanban" | "list";
 
+type CaseFunnelCode = "relocation" | "student";
+const CASE_PAGE_SIZE = 40;
+
+const FUNNEL_COPY: Record<
+  CaseFunnelCode,
+  { eyebrow: string; title: string; empty: string; collection: string }
+> = {
+  relocation: {
+    eyebrow: "Воронка · Переезд",
+    title: "Заявки на переезд",
+    empty: "Заявок на переезд нет",
+    collection: "заявок на переезд",
+  },
+  student: {
+    eyebrow: "Воронка · Студенты",
+    title: "Заявки студентов",
+    empty: "Заявок студентов нет",
+    collection: "заявок студентов",
+  },
+};
+
 interface PendingCaseTransition {
   row: CaseRow;
   targetStageCode: string;
@@ -58,29 +86,53 @@ const TONES: readonly KanbanColumn["tone"][] = [
   "done",
 ];
 
-export function CasesScreen() {
+const CASE_STATUS_LABELS: Record<string, string> = {
+  open: "Открыта",
+  completed: "Завершена",
+  closed_unsuccessful: "Закрыта без результата",
+  archived: "В архиве",
+};
+
+function caseStatusLabel(value: string): string {
+  return CASE_STATUS_LABELS[value] ?? value.replaceAll("_", " ");
+}
+
+export function CasesScreen({ funnelCode = "relocation" }: { funnelCode?: CaseFunnelCode }) {
   const navigate = useNavigate();
   const queryClient = useQueryClient();
   const { session } = useAuth();
   const [searchParams, setSearchParams] = useSearchParams();
-  const [query, setQuery] = useState(searchParams.get("search") ?? "");
-  const [stage, setStage] = useState(searchParams.get("stage") ?? "");
+  const query = searchParams.get("search") ?? "";
+  const stage = searchParams.get("stage") ?? "";
+  const statusFilter = searchParams.get("status") ?? "";
+  const ownerFilter = searchParams.get("owner") ?? "";
+  const [searchDraft, setSearchDraft] = useState(query);
+  const [advancedFiltersOpen, setAdvancedFiltersOpen] = useState(
+    Boolean(statusFilter || ownerFilter),
+  );
+  const [currentPageIndex, setCurrentPageIndex] = useState(0);
   const [pendingTransition, setPendingTransition] = useState<PendingCaseTransition | null>(null);
   const [transitionPhase, setTransitionPhase] = useState<OperationPhase>("draft");
   const [reasonText, setReasonText] = useState("");
   const [previewValidation, setPreviewValidation] = useState<string | null>(null);
   const hasAllScope = session?.scopeVisibility === "all";
-  const caseCollectionLabel = hasAllScope ? "Все заявки" : "Доступные заявки";
+  const screenCopy = FUNNEL_COPY[funnelCode];
+  const caseCollectionLabel = hasAllScope
+    ? `Все ${screenCopy.collection}`
+    : `Доступные ${screenCopy.collection}`;
   const view: CaseView = searchParams.get("view") === "list" ? "list" : "kanban";
   const cases = useInfiniteQuery({
-    queryKey: ["crm", "cases", { query, stage }],
+    queryKey: ["crm", "cases", { funnelCode, query, stage, statusFilter, ownerFilter }],
     initialPageParam: "",
     queryFn: ({ pageParam }) =>
       crmApi.listCases({
-        limit: 200,
+        limit: CASE_PAGE_SIZE,
+        funnelCode,
         ...(pageParam ? { cursor: pageParam } : {}),
         ...(query.trim() ? { search: query.trim() } : {}),
         ...(stage ? { stageCode: stage } : {}),
+        ...(statusFilter ? { status: statusFilter } : {}),
+        ...(ownerFilter ? { ownerEmployeeProfileId: ownerFilter } : {}),
       }),
     getNextPageParam: nextCursorForPage,
   });
@@ -88,6 +140,21 @@ export function CasesScreen() {
     queryKey: ["crm", "funnels"],
     queryFn: () => crmApi.listFunnels(),
   });
+
+  useEffect(() => setSearchDraft(query), [query]);
+
+  useEffect(() => {
+    const normalized = searchDraft.trim();
+    if (normalized === query) return undefined;
+    const timeout = window.setTimeout(() => {
+      const params = new URLSearchParams(searchParams);
+      if (normalized) params.set("search", normalized);
+      else params.delete("search");
+      setCurrentPageIndex(0);
+      setSearchParams(params, { replace: true });
+    }, 300);
+    return () => window.clearTimeout(timeout);
+  }, [query, searchDraft, searchParams, setSearchParams]);
   const caseTransition = useMutation({
     mutationFn: transitionCase,
     onSuccess: () => {
@@ -97,9 +164,15 @@ export function CasesScreen() {
     onError: () => setTransitionPhase("preview"),
   });
 
-  const rows = cases.data?.pages.flatMap((page) => page.items) ?? [];
-  const repeatedCursor = hasRepeatedNextCursor(cases.data?.pages ?? []);
-  const columns = useMemo(() => buildColumns(funnels.data?.items, rows), [funnels.data, rows]);
+  const loadedPages = cases.data?.pages ?? [];
+  const safePageIndex = Math.min(currentPageIndex, Math.max(loadedPages.length - 1, 0));
+  const rows = loadedPages[safePageIndex]?.items ?? [];
+  const loadedItemCount = loadedPages.reduce((total, page) => total + page.items.length, 0);
+  const repeatedCursor = hasRepeatedNextCursor(loadedPages);
+  const columns = useMemo(
+    () => buildColumns(funnels.data?.items, rows, funnelCode),
+    [funnels.data, funnelCode, rows],
+  );
   const canRequestTransition =
     hasPermission(session, "crm.case.transition") || hasPermission(session, "crm.case.reopen");
   const canStartTransition = canRequestTransition && funnels.isSuccess && !caseTransition.isPending;
@@ -110,7 +183,7 @@ export function CasesScreen() {
         columnId: item.stageCode,
         title: item.title,
         subtitle: item.publicId,
-        badge: <StatusPill status={item.status} label={item.status} />,
+        badge: <StatusPill status={item.status} label={caseStatusLabel(item.status)} />,
         meta: [
           { label: "Следующий шаг", value: item.nextStep ?? "Не назначен" },
           { label: "Обновлено", value: new Date(item.updatedAt).toLocaleDateString("ru-RU") },
@@ -121,12 +194,17 @@ export function CasesScreen() {
   const tableColumns: readonly DataTableColumn<CaseRow>[] = [
     { id: "title", label: "Заявка", render: (row) => <strong>{row.title}</strong> },
     { id: "publicId", label: "Номер", render: (row) => row.publicId },
-    { id: "stage", label: "Этап", render: (row) => row.stageCode },
+    {
+      id: "stage",
+      label: "Этап",
+      render: (row) =>
+        columns.find((column) => column.id === row.stageCode)?.title ?? row.stageCode,
+    },
     { id: "next", label: "Следующий шаг", render: (row) => row.nextStep ?? "Не назначен" },
     {
       id: "status",
       label: "Статус",
-      render: (row) => <StatusPill status={row.status} label={row.status} />,
+      render: (row) => <StatusPill status={row.status} label={caseStatusLabel(row.status)} />,
     },
     {
       id: "transition",
@@ -158,6 +236,22 @@ export function CasesScreen() {
   function changeView(next: string) {
     const params = new URLSearchParams(searchParams);
     params.set("view", next === "list" ? "list" : "kanban");
+    setSearchParams(params, { replace: true });
+  }
+
+  function setFilter(key: "stage" | "status" | "owner", value: string) {
+    const params = new URLSearchParams(searchParams);
+    if (value) params.set(key, value);
+    else params.delete(key);
+    setCurrentPageIndex(0);
+    setSearchParams(params, { replace: true });
+  }
+
+  function resetFilters() {
+    const params = new URLSearchParams();
+    params.set("view", view);
+    setSearchDraft("");
+    setCurrentPageIndex(0);
     setSearchParams(params, { replace: true });
   }
 
@@ -246,45 +340,108 @@ export function CasesScreen() {
   return (
     <div className="cases-screen">
       <PageHeader
-        title={hasAllScope ? "Все заявки и воронки" : "Доступные заявки и воронки"}
+        eyebrow={screenCopy.eyebrow}
+        title={hasAllScope ? `${screenCopy.title} · вся CRM` : screenCopy.title}
         description={
           hasAllScope
-            ? "Backend подтвердил scope all и вернул полный разрешённый реестр CRM. Frontend не расширяет выборку и не восстанавливает скрытые итоги."
-            : "Список уже ограничен backend effective scope. Frontend не расширяет выборку и не восстанавливает скрытые итоги."
+            ? "Scope all подтверждён backend. Фильтры и переходы применяются к разрешённому реестру этой воронки."
+            : "Backend показывает только назначенные вам записи. Перетаскивание создаёт preview и никогда не меняет этап напрямую."
         }
       />
 
-      <div className="cases-toolbar">
-        <ViewSwitcher
-          value={view}
-          options={[
-            { value: "kanban", label: "Канбан", icon: <IconLayoutKanban aria-hidden size={17} /> },
-            { value: "list", label: "Список", icon: <IconList aria-hidden size={17} /> },
-          ]}
-          onChange={changeView}
-        />
-        <label className="cases-search">
-          <span className="sr-only">Найти заявку в разрешённом реестре</span>
-          <IconSearch aria-hidden size={18} />
-          <input
-            type="search"
-            placeholder="Номер или имя"
-            value={query}
-            onChange={(event) => setQuery(event.currentTarget.value)}
+      <section className="cases-filter-panel" aria-label="Фильтры заявок">
+        <div className="cases-toolbar">
+          <ViewSwitcher
+            value={view}
+            options={[
+              {
+                value: "kanban",
+                label: "Канбан",
+                icon: <IconLayoutKanban aria-hidden size={17} />,
+              },
+              { value: "list", label: "Список", icon: <IconList aria-hidden size={17} /> },
+            ]}
+            onChange={changeView}
           />
-        </label>
-        <label>
-          <span className="sr-only">Этап</span>
-          <select value={stage} onChange={(event) => setStage(event.currentTarget.value)}>
-            <option value="">Все разрешённые этапы</option>
-            {columns.map((column) => (
-              <option value={column.id} key={column.id}>
-                {column.title}
-              </option>
-            ))}
-          </select>
-        </label>
-      </div>
+          <label className="cases-search">
+            <span className="sr-only">Найти заявку в разрешённом реестре</span>
+            <IconSearch aria-hidden size={18} />
+            <input
+              type="search"
+              placeholder="Номер, имя или название"
+              value={searchDraft}
+              onChange={(event) => setSearchDraft(event.currentTarget.value)}
+            />
+          </label>
+          <label className="cases-filter-control">
+            <span>Этап</span>
+            <select
+              value={stage}
+              onChange={(event) => setFilter("stage", event.currentTarget.value)}
+            >
+              <option value="">Все этапы</option>
+              {columns.map((column) => (
+                <option value={column.id} key={column.id}>
+                  {column.title}
+                </option>
+              ))}
+            </select>
+          </label>
+          <button
+            type="button"
+            className={`cases-advanced-toggle${advancedFiltersOpen ? " is-active" : ""}`}
+            aria-expanded={advancedFiltersOpen}
+            onClick={() => setAdvancedFiltersOpen((value) => !value)}
+          >
+            <IconAdjustmentsHorizontal aria-hidden size={18} />
+            Ещё фильтры
+            {statusFilter || ownerFilter ? (
+              <>
+                <span aria-hidden="true">•</span>
+                <span className="sr-only">Есть активные дополнительные фильтры</span>
+              </>
+            ) : null}
+          </button>
+        </div>
+
+        {advancedFiltersOpen ? (
+          <div className="cases-advanced-filters">
+            <label className="cases-filter-control">
+              <span>Статус</span>
+              <select
+                value={statusFilter}
+                onChange={(event) => setFilter("status", event.currentTarget.value)}
+              >
+                <option value="">Все статусы</option>
+                <option value="open">Открытые</option>
+                <option value="completed">Завершённые</option>
+                <option value="closed_unsuccessful">Без результата</option>
+              </select>
+            </label>
+            <label className="cases-filter-control cases-owner-filter">
+              <span>ID ответственного</span>
+              <input
+                type="text"
+                value={ownerFilter}
+                placeholder="UUID профиля сотрудника"
+                onChange={(event) => setFilter("owner", event.currentTarget.value.trim())}
+              />
+            </label>
+          </div>
+        ) : null}
+
+        {query || stage || statusFilter || ownerFilter ? (
+          <div className="cases-active-filters" role="status">
+            <span>
+              Активно фильтров: {[query, stage, statusFilter, ownerFilter].filter(Boolean).length}
+            </span>
+            <button type="button" onClick={resetFilters}>
+              <IconX aria-hidden size={16} />
+              Сбросить
+            </button>
+          </div>
+        ) : null}
+      </section>
 
       {funnels.isError ? (
         <StateMessage
@@ -328,8 +485,8 @@ export function CasesScreen() {
                   : state === "loading"
                     ? "Загружаем заявки"
                     : hasAllScope
-                      ? "Заявок в CRM нет"
-                      : "Доступных заявок нет"
+                      ? screenCopy.empty
+                      : `Доступных ${screenCopy.collection} нет`
             }
             {...(cases.isError ? { message: cases.error.message } : {})}
             {...(state === "error"
@@ -349,26 +506,24 @@ export function CasesScreen() {
         />
       )}
 
-      {cases.hasNextPage ? (
-        <div className="cases-pagination" aria-live="polite">
-          <span>Загружено заявок: {rows.length}</span>
-          <button
-            type="button"
-            className="crm-button crm-button--quiet"
-            disabled={repeatedCursor || cases.isFetchingNextPage}
-            onClick={() => {
-              if (!repeatedCursor) void cases.fetchNextPage();
-            }}
-          >
-            {cases.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё заявки"}
-          </button>
-        </div>
-      ) : null}
-      {repeatedCursor ? (
-        <StateMessage
-          state="stale"
-          title="Пагинация остановлена безопасно"
-          message="Backend повторил cursor. Frontend не запрашивает ту же страницу повторно."
+      {loadedPages.length > 0 ? (
+        <CursorPagination
+          ariaLabel={`Пагинация ${screenCopy.collection}`}
+          loadedPageCount={loadedPages.length}
+          currentPageIndex={safePageIndex}
+          hasNextPage={Boolean(cases.hasNextPage)}
+          loadedItemCount={loadedItemCount}
+          visibleItemCount={rows.length}
+          isFetchingNextPage={cases.isFetchingNextPage}
+          repeatedCursor={repeatedCursor}
+          onPageChange={setCurrentPageIndex}
+          onFetchNextPage={async () => {
+            if (repeatedCursor) return;
+            const previousPageCount = loadedPages.length;
+            const result = await cases.fetchNextPage();
+            const nextPageCount = result.data?.pages.length ?? previousPageCount;
+            if (nextPageCount > previousPageCount) setCurrentPageIndex(nextPageCount - 1);
+          }}
         />
       ) : null}
       {cases.isFetchNextPageError && hasVisibleData ? (
@@ -471,11 +626,11 @@ export function CasesScreen() {
 function buildColumns(
   funnels: readonly Funnel[] | undefined,
   rows: readonly CaseRow[],
+  funnelCode: CaseFunnelCode,
 ): KanbanColumn[] {
-  const rowFunnels = new Set(rows.map((row) => `${row.funnelCode}:${row.funnelVersion}`));
   const stateByCode = new Map<string, { code: string; title: string; order: number }>();
   for (const funnel of funnels ?? []) {
-    if (!rowFunnels.has(`${funnel.code}:${funnel.version}`)) continue;
+    if (funnel.code !== funnelCode || funnel.status === "retired") continue;
     for (const state of funnel.states) {
       const existing = stateByCode.get(state.code);
       if (!existing || state.order < existing.order) stateByCode.set(state.code, state);

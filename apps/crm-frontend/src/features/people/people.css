@@ -8,6 +8,47 @@
   gap: 28px;
 }
 
+.people-screen .crm-filter-bar__controls > label {
+  min-width: 0;
+  min-height: var(--crm-hit-target);
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+}
+
+.people-screen .crm-filter-bar__controls > label:focus-within {
+  border-color: var(--crm-color-work);
+  box-shadow: var(--crm-focus-ring);
+}
+
+.people-screen .crm-filter-bar__controls .people-search {
+  flex: 1 1 280px;
+}
+
+.people-filter-field {
+  display: grid;
+  flex: 1 1 180px;
+  grid-template-columns: auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--crm-space-2);
+  padding-left: var(--crm-space-3);
+}
+
+.people-filter-field > span {
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+  white-space: nowrap;
+}
+
+.people-filter-field select {
+  width: 100%;
+  min-width: 0;
+  min-height: 46px;
+  padding: 0 var(--crm-space-3);
+  border: 0;
+  background: transparent;
+}
+
 .people-pagination {
   display: flex;
   flex-wrap: wrap;
@@ -252,6 +293,20 @@
 @media (max-width: 720px) {
   .people-toolbar {
     grid-template-columns: 1fr;
+  }
+
+  .people-screen .crm-filter-bar__controls > label {
+    flex-basis: 100%;
+  }
+
+  .people-filter-field {
+    grid-template-columns: 1fr;
+    gap: 0;
+    padding: var(--crm-space-2) var(--crm-space-3) 0;
+  }
+
+  .people-filter-field select {
+    padding: 0;
   }
 }
 

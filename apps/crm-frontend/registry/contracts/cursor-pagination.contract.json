@@ -1,0 +1,34 @@
+{
+  "schemaVersion": "1.0.0",
+  "componentId": "ui.cursor-pagination",
+  "version": "1.0.0",
+  "purpose": "Navigate already cached cursor pages and request only the next opaque-cursor page without inventing a total.",
+  "variants": ["compact", "with-item-counts"],
+  "states": ["ready", "fetching", "end", "repeated-cursor", "empty-cache"],
+  "inputs": [
+    { "name": "loadedPageCount", "type": "number", "required": true },
+    { "name": "currentPageIndex", "type": "number", "required": true },
+    { "name": "hasNextPage", "type": "boolean", "required": true },
+    { "name": "loadedItemCount", "type": "number", "required": false },
+    { "name": "visibleItemCount", "type": "number", "required": false },
+    { "name": "isFetchingNextPage", "type": "boolean", "required": false },
+    { "name": "repeatedCursor", "type": "boolean", "required": false },
+    { "name": "ariaLabel", "type": "string", "required": false }
+  ],
+  "events": {
+    "pageChange": { "payload": "cached page index", "description": "Moves to a previously loaded page without a network request." },
+    "fetchNextPage": { "payload": "none", "description": "Requests the next page through the owning query adapter." }
+  },
+  "accessibility": {
+    "role": "named pagination navigation",
+    "keyboard": "Previous and next actions are native buttons with deterministic disabled states.",
+    "focus": "Cached-page navigation keeps focus on the invoked control.",
+    "screenReader": "Current loaded page, busy state, item counts and repeated-cursor stop are announced."
+  },
+  "motion": { "default": "State and focus feedback only.", "reducedMotion": "No spatial motion is required." },
+  "invariants": [
+    "The component never derives or displays an unknown total page count.",
+    "Previous navigation is limited to cached pages and never performs a request.",
+    "A repeated next cursor disables fetching and its opaque value is never rendered."
+  ]
+}

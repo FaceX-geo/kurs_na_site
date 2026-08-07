@@ -1,4 +1,5 @@
 import {
+  IconArrowRight,
   IconBell,
   IconBriefcase,
   IconCalendar,
@@ -6,6 +7,7 @@ import {
   IconFileDescription,
 } from "@tabler/icons-react";
 import { useQuery } from "@tanstack/react-query";
+import type { ReactNode } from "react";
 import { useNavigate } from "react-router";
 import { CRM_PATHS } from "@/app/paths";
 import { crmApi } from "@/shared/api";
@@ -27,6 +29,14 @@ export function DashboardScreen() {
   const dashboard = useQuery({
     queryKey: ["crm", "dashboard", "Europe/Moscow"],
     queryFn: () => crmApi.getDashboard(),
+  });
+  const caseQueue = useQuery({
+    queryKey: ["crm", "dashboard", "cases", "relocation"],
+    queryFn: () => crmApi.listCases({ funnelCode: "relocation", status: "open", limit: 5 }),
+  });
+  const taskQueue = useQuery({
+    queryKey: ["crm", "dashboard", "tasks", "overdue"],
+    queryFn: () => crmApi.listTasks({ overdue: true, limit: 5 }),
   });
   const firstName =
     session?.displayName?.split(" ")[0] ??
@@ -66,6 +76,7 @@ export function DashboardScreen() {
   return (
     <div className="dashboard-screen">
       <PageHeader
+        eyebrow="Моя работа"
         title={`Добрый день, ${firstName}.`}
         description={`${SCOPE_LABEL[data.scopeVisibility]}. Данные обновлены ${new Date(data.dataFreshAt).toLocaleString("ru-RU")}.`}
       />
@@ -91,27 +102,100 @@ export function DashboardScreen() {
         />
       </section>
 
-      <div className="dashboard-queues">
-        <button
-          type="button"
-          className="dashboard-queue"
-          onClick={() => navigate(CRM_PATHS.relocation)}
-        >
-          <IconBriefcase aria-hidden size={22} />
-          <strong>
-            {data.scopeVisibility === "all" ? "Открыть все заявки" : "Открыть доступные заявки"}
-          </strong>
-        </button>
-        <button
-          type="button"
-          className="dashboard-queue"
-          onClick={() => navigate(`${CRM_PATHS.tasks}?filter=overdue`)}
-        >
-          <IconClock aria-hidden size={22} />
-          <strong>Разобрать просроченные задачи</strong>
-        </button>
-      </div>
+      <section className="dashboard-focus" aria-label="Очередь решений">
+        <header>
+          <div>
+            <p>Очередь решений</p>
+            <h2>С чего начать сегодня</h2>
+          </div>
+          <span>{SCOPE_LABEL[data.scopeVisibility]}</span>
+        </header>
+        <div className="dashboard-focus-grid">
+          <QueuePanel
+            title="Открытые заявки на переезд"
+            icon={<IconBriefcase aria-hidden size={20} />}
+            loading={caseQueue.isPending}
+            error={caseQueue.isError}
+            empty="Открытых заявок в доступном scope нет."
+            items={(caseQueue.data?.items ?? []).map((item) => ({
+              id: item.id,
+              title: item.title,
+              meta: `${item.publicId} · ${item.stageCode}`,
+              onOpen: () => navigate(CRM_PATHS.case(item.id)),
+            }))}
+            onOpenAll={() => navigate(`${CRM_PATHS.relocation}?view=list&status=open`)}
+          />
+          <QueuePanel
+            title="Просроченные задачи"
+            icon={<IconClock aria-hidden size={20} />}
+            loading={taskQueue.isPending}
+            error={taskQueue.isError}
+            empty="Просроченных задач в доступном scope нет."
+            items={(taskQueue.data?.items ?? []).map((item) => ({
+              id: item.id,
+              title: item.title,
+              meta: item.dueAt
+                ? `${item.publicId} · срок ${new Date(item.dueAt).toLocaleDateString("ru-RU")}`
+                : `${item.publicId} · без срока`,
+              onOpen: () => navigate(`${CRM_PATHS.tasks}?view=list&overdue=true`),
+            }))}
+            onOpenAll={() => navigate(`${CRM_PATHS.tasks}?view=list&overdue=true`)}
+          />
+        </div>
+      </section>
     </div>
+  );
+}
+
+function QueuePanel({
+  title,
+  icon,
+  items,
+  loading,
+  error,
+  empty,
+  onOpenAll,
+}: {
+  title: string;
+  icon: ReactNode;
+  items: readonly { id: string; title: string; meta: string; onOpen: () => void }[];
+  loading: boolean;
+  error: boolean;
+  empty: string;
+  onOpenAll: () => void;
+}) {
+  return (
+    <article className="dashboard-panel">
+      <header>
+        <span>{icon}</span>
+        <h3>{title}</h3>
+        <button type="button" onClick={onOpenAll}>
+          Все
+          <IconArrowRight aria-hidden size={16} />
+        </button>
+      </header>
+      {loading ? (
+        <p className="dashboard-panel-state">Загружаем очередь…</p>
+      ) : error ? (
+        <p className="dashboard-panel-state is-error">Очередь временно недоступна.</p>
+      ) : items.length === 0 ? (
+        <p className="dashboard-panel-state">{empty}</p>
+      ) : (
+        <ul>
+          {items.slice(0, 4).map((item) => (
+            <li key={item.id}>
+              <button type="button" onClick={item.onOpen}>
+                <span>
+                  <strong>{item.title}</strong>
+                  <small>{item.meta}</small>
+                </span>
+                <IconArrowRight aria-hidden size={16} />
+              </button>
+            </li>
+          ))}
+        </ul>
+      )}
+    </article>
   );
 }
 

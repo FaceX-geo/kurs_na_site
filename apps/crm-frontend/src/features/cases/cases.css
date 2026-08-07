@@ -1,7 +1,13 @@
 .cases-screen {
   display: grid;
-  max-width: 1400px;
-  gap: 24px;
+  width: 100%;
+  min-width: 0;
+  max-width: var(--crm-content-max);
+  gap: 18px;
+}
+
+.cases-screen > * {
+  min-width: 0;
 }
 
 .cases-create {
@@ -20,9 +26,89 @@
 }
 
 .cases-toolbar {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto minmax(240px, 1fr) minmax(180px, 240px) auto;
+  align-items: end;
   gap: 12px;
+}
+
+.cases-filter-panel {
+  display: grid;
+  gap: 12px;
+  padding: 14px;
+  border: 1px solid var(--crm-color-border);
+  border-radius: var(--crm-radius-panel);
+  background: rgba(255, 255, 255, 0.9);
+  box-shadow: var(--crm-shadow-control);
+}
+
+.cases-filter-control {
+  display: grid;
+  min-width: 0;
+  gap: 5px;
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.cases-filter-control select,
+.cases-filter-control input {
+  width: 100%;
+  min-width: 0;
+  min-height: var(--crm-hit-target);
+  padding: 0 12px;
+  border: 1px solid var(--crm-color-border-strong);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+}
+
+.cases-advanced-toggle {
+  display: inline-flex;
+  min-height: var(--crm-hit-target);
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 0 14px;
+  border: 1px solid var(--crm-color-border-strong);
+  border-radius: var(--crm-radius-control);
+  background: var(--crm-color-surface);
+  font-weight: 600;
+}
+
+.cases-advanced-toggle.is-active {
+  border-color: var(--crm-color-work);
+  color: var(--crm-color-work);
+  background: var(--crm-color-selection);
+}
+
+.cases-advanced-filters {
+  display: grid;
+  grid-template-columns: minmax(180px, 240px) minmax(260px, 1fr);
+  gap: 12px;
+  padding-top: 12px;
+  border-top: 1px solid var(--crm-color-border);
+  animation: crm-filter-enter var(--crm-motion-state) var(--crm-motion-ease) both;
+}
+
+.cases-active-filters {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  color: var(--crm-color-text-muted);
+  font-size: var(--crm-font-size-meta);
+}
+
+.cases-active-filters button {
+  display: inline-flex;
+  min-height: 36px;
+  align-items: center;
+  gap: 6px;
+  padding: 0 10px;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--crm-color-work);
+  font-weight: 600;
 }
 
 .cases-pagination {
@@ -88,7 +174,7 @@
 }
 
 .cases-search {
-  min-width: 220px;
+  min-width: 0;
   gap: 8px;
   padding: 0 12px;
   color: #607299;
@@ -103,11 +189,31 @@
 
 .cases-search input {
   width: 100%;
+  min-width: 0;
 }
 
 .cases-toolbar select {
   min-width: 170px;
   padding: 0 12px;
+}
+
+.cases-screen .crm-kanban {
+  width: 100%;
+  min-width: 0;
+  max-width: 100%;
+  overscroll-behavior-x: contain;
+  scrollbar-gutter: stable;
+}
+
+@keyframes crm-filter-enter {
+  from {
+    transform: translateY(-4px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .cases-reference-note {
@@ -339,5 +445,24 @@
   }
   .cases-board {
     margin-right: -18px;
+  }
+
+  .cases-advanced-filters {
+    grid-template-columns: 1fr;
+  }
+
+  .cases-active-filters {
+    align-items: flex-start;
+  }
+}
+
+@media (min-width: 721px) and (max-width: 1120px) {
+  .cases-toolbar {
+    grid-template-columns: auto minmax(220px, 1fr);
+  }
+
+  .cases-filter-control,
+  .cases-advanced-toggle {
+    width: 100%;
   }
 }

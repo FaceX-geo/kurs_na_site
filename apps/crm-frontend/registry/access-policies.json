@@ -56,7 +56,7 @@
       "businessRoles": ["SPECIALIST", "SUPER_ADMIN"],
       "requiredPermissions": ["crm.report.build"],
       "scopePolicy": "backend-effective-scope",
-      "operationIds": ["ListCrmReportRuns", "BuildCrmReport"]
+      "operationIds": ["ListCrmReportRuns", "BuildCrmReport", "GetCrmReportRun"]
     },
     {
       "id": "access.super-admin.users",

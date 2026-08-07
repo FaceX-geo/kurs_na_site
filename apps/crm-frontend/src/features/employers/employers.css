@@ -22,6 +22,7 @@
 
 .employers-search,
 .employers-select {
+  min-width: 0;
   min-height: var(--crm-control-height);
   border: 1px solid var(--crm-color-border);
   border-radius: var(--crm-radius-control);
@@ -30,6 +31,7 @@
 
 .employers-search {
   display: flex;
+  flex: 1 1 320px;
   align-items: center;
   gap: var(--crm-space-3);
   padding: 0 var(--crm-space-4);
@@ -52,6 +54,7 @@
 
 .employers-select {
   display: grid;
+  flex: 1 1 220px;
   grid-template-columns: auto minmax(0, 1fr);
   align-items: center;
   gap: var(--crm-space-2);
@@ -64,7 +67,15 @@
 }
 
 .employers-select select {
+  min-width: 0;
   padding: 0 var(--crm-space-3);
+}
+
+@media (max-width: 620px) {
+  .employers-search,
+  .employers-select {
+    flex-basis: 100%;
+  }
 }
 
 .employers-count {

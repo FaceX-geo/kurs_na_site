@@ -142,7 +142,11 @@ export function DataTable<T>({
                       key={rowId}
                     >
                       {columns.map((column) => (
-                        <td className={column.cellClassName} key={column.id}>
+                        <td
+                          className={column.cellClassName}
+                          data-label={column.label}
+                          key={column.id}
+                        >
                           {column.render(row)}
                         </td>
                       ))}

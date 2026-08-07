@@ -41,6 +41,7 @@
 
 .communications-list__filters {
   display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: var(--crm-space-2);
   margin-bottom: var(--crm-space-3);
 }
@@ -59,9 +60,16 @@
 .communications-list__filters input,
 .communications-list__filters select {
   width: 100%;
+  min-width: 0;
   min-height: 42px;
   border: 0;
   background: transparent;
+}
+
+@media (max-width: 720px) {
+  .communications-list__filters {
+    grid-template-columns: 1fr;
+  }
 }
 
 .communications-list ul {

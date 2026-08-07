@@ -15,7 +15,7 @@ describe("CRM UI registry", () => {
   it("connects all 51 reference screens to registered UI and verified backend operations", async () => {
     const result = await verifyUiRegistry({ appRoot });
 
-    expect(result).toMatchObject({ components: 13, screens: 51, recipes: 7 });
+    expect(result).toMatchObject({ components: 15, screens: 51, recipes: 7 });
     expect(result.operationIds).toBeGreaterThan(0);
   });
 
@@ -48,5 +48,15 @@ describe("CRM UI registry", () => {
     expect(contract.invariants.join(" ")).toContain("TOTP");
     expect(implementation).toContain("Тестовый режим");
     expect(implementation).toContain("недоступно в production");
+  });
+
+  it("registers the actual runtime AppShell instead of a disconnected sample", async () => {
+    const registry = await readJson("registry/components.json");
+    const shell = registry.components.find((component) => component.id === "ui.app-shell");
+
+    expect(shell.implementationPath).toBe("src/app/layout/AppShell.tsx");
+    const implementation = await readFile(path.resolve(appRoot, shell.implementationPath), "utf8");
+    expect(implementation).toContain("navigationForSession(session)");
+    expect(implementation).toContain("Быстрый переход");
   });
 });

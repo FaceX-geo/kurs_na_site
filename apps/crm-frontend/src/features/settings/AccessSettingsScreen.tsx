@@ -1,6 +1,7 @@
 import { IconIdBadge2, IconUserPlus } from "@tabler/icons-react";
 import { useInfiniteQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useMemo, useState } from "react";
+import { useState } from "react";
+import { useSearchParams } from "react-router";
 import {
   createIdempotencyKey,
   crmApi,
@@ -12,6 +13,7 @@ import {
 import { ApiError } from "@/shared/api/errors";
 import { FreshMfaGate, hasPermission, useAuth } from "@/shared/auth";
 import {
+  CursorPagination,
   DataTable,
   type DataTableColumn,
   Modal,
@@ -37,9 +39,12 @@ function roleLabel(role: UserRow["businessRole"]): string {
 export function AccessSettingsScreen() {
   const { session } = useAuth();
   const queryClient = useQueryClient();
-  const [search, setSearch] = useState("");
+  const [searchParams, setSearchParams] = useSearchParams();
+  const search = searchParams.get("userSearch") ?? "";
+  const employeeSearch = searchParams.get("employeeSearch") ?? "";
+  const [userPageIndex, setUserPageIndex] = useState(0);
+  const [employeePageIndex, setEmployeePageIndex] = useState(0);
   const [dialogOpen, setDialogOpen] = useState(false);
-  const [employeeSearch, setEmployeeSearch] = useState("");
   const [selectedEmployeeId, setSelectedEmployeeId] = useState("");
   const [email, setEmail] = useState("");
   const [reason, setReason] = useState("");
@@ -77,10 +82,17 @@ export function AccessSettingsScreen() {
     getNextPageParam: nextCursorForPage,
   });
 
-  const employeeRows = employees.data?.pages.flatMap((page) => page.items) ?? [];
-  const selectedEmployee = useMemo(
-    () => employeeRows.find((employee) => employee.employeeProfileId === selectedEmployeeId),
-    [employeeRows, selectedEmployeeId],
+  const userPages = users.data?.pages ?? [];
+  const safeUserPageIndex = Math.min(userPageIndex, Math.max(userPages.length - 1, 0));
+  const rows = userPages[safeUserPageIndex]?.items ?? [];
+  const loadedUserCount = userPages.reduce((total, page) => total + page.items.length, 0);
+  const employeePages = employees.data?.pages ?? [];
+  const safeEmployeePageIndex = Math.min(employeePageIndex, Math.max(employeePages.length - 1, 0));
+  const employeeRows = employeePages[safeEmployeePageIndex]?.items ?? [];
+  const loadedEmployeeRows = employeePages.flatMap((page) => page.items);
+  const loadedEmployeeCount = loadedEmployeeRows.length;
+  const selectedEmployee = loadedEmployeeRows.find(
+    (employee) => employee.employeeProfileId === selectedEmployeeId,
   );
   const provision = useMutation({
     mutationFn: () => {
@@ -106,14 +118,13 @@ export function AccessSettingsScreen() {
     },
   });
 
-  const rows = users.data?.pages.flatMap((page) => page.items) ?? [];
-  const repeatedCursor = hasRepeatedNextCursor(users.data?.pages ?? []);
-  const repeatedEmployeeCursor = hasRepeatedNextCursor(employees.data?.pages ?? []);
+  const repeatedCursor = hasRepeatedNextCursor(userPages);
+  const repeatedEmployeeCursor = hasRepeatedNextCursor(employeePages);
   const state = !canReadUsers
     ? "denied"
     : users.isPending
       ? "loading"
-      : users.isError
+      : users.isError && userPages.length === 0
         ? users.error instanceof ApiError && users.error.status === 403
           ? "denied"
           : "error"
@@ -124,7 +135,7 @@ export function AccessSettingsScreen() {
     ? "denied"
     : employees.isPending
       ? "loading"
-      : employees.isError
+      : employees.isError && employeePages.length === 0
         ? employees.error instanceof ApiError && employees.error.status === 403
           ? "denied"
           : "error"
@@ -207,6 +218,24 @@ export function AccessSettingsScreen() {
     setPhase("draft");
     setValidationMessage(null);
     provision.reset();
+  }
+
+  function updateSearchParam(key: "userSearch" | "employeeSearch", value: string): void {
+    const params = new URLSearchParams(searchParams);
+    if (value) params.set(key, value);
+    else params.delete(key);
+    if (key === "userSearch") {
+      setUserPageIndex(0);
+    } else {
+      setEmployeePageIndex(0);
+      setSelectedEmployeeId("");
+      setEmail("");
+      setProvisionIdempotencyKey(null);
+      setPhase("draft");
+      setValidationMessage(null);
+      provision.reset();
+    }
+    setSearchParams(params, { replace: true });
   }
 
   function chooseEmployee(employee: EmployeeRow): void {
@@ -294,7 +323,7 @@ export function AccessSettingsScreen() {
           type="search"
           value={search}
           placeholder="Имя или email"
-          onChange={(event) => setSearch(event.currentTarget.value)}
+          onChange={(event) => updateSearchParam("userSearch", event.currentTarget.value)}
         />
       </label>
 
@@ -308,31 +337,39 @@ export function AccessSettingsScreen() {
       />
 
       {users.isError && state === "error" ? (
-        <button
-          type="button"
-          className="crm-button crm-button--quiet"
-          onClick={() => void users.refetch()}
-        >
-          Повторить загрузку
-        </button>
-      ) : null}
-      {users.hasNextPage ? (
-        <button
-          type="button"
-          className="crm-button crm-button--quiet"
-          disabled={repeatedCursor || users.isFetchingNextPage}
-          onClick={() => {
-            if (!repeatedCursor) void users.fetchNextPage();
-          }}
-        >
-          {users.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё пользователей"}
-        </button>
-      ) : null}
-      {repeatedCursor ? (
         <StateMessage
-          state="stale"
-          title="Пагинация остановлена безопасно"
-          message="Backend повторил cursor. Frontend не запрашивает одну страницу повторно."
+          state="error"
+          title="Пользователи не загружены"
+          message={users.error.message}
+          action={{ label: "Повторить", onPress: () => void users.refetch() }}
+        />
+      ) : null}
+      {userPages.length > 0 ? (
+        <CursorPagination
+          ariaLabel="Пагинация пользователей CRM"
+          loadedPageCount={userPages.length}
+          currentPageIndex={safeUserPageIndex}
+          hasNextPage={Boolean(users.hasNextPage)}
+          loadedItemCount={loadedUserCount}
+          visibleItemCount={rows.length}
+          isFetchingNextPage={users.isFetchingNextPage}
+          repeatedCursor={repeatedCursor}
+          onPageChange={setUserPageIndex}
+          onFetchNextPage={async () => {
+            if (repeatedCursor) return;
+            const before = userPages.length;
+            const result = await users.fetchNextPage();
+            const after = result.data?.pages.length ?? before;
+            if (after > before) setUserPageIndex(after - 1);
+          }}
+        />
+      ) : null}
+      {users.isFetchNextPageError && rows.length > 0 ? (
+        <StateMessage
+          state="error"
+          title="Следующая страница пользователей не загружена"
+          message={users.error.message}
+          action={{ label: "Повторить", onPress: () => void users.fetchNextPage() }}
         />
       ) : null}
 
@@ -351,7 +388,7 @@ export function AccessSettingsScreen() {
               type="search"
               value={employeeSearch}
               placeholder="ФИО, email или табельный номер"
-              onChange={(event) => setEmployeeSearch(event.currentTarget.value)}
+              onChange={(event) => updateSearchParam("employeeSearch", event.currentTarget.value)}
             />
           </label>
         </div>
@@ -380,23 +417,32 @@ export function AccessSettingsScreen() {
             action={{ label: "Повторить", onPress: () => void employees.refetch() }}
           />
         ) : null}
-        {employees.hasNextPage ? (
-          <button
-            type="button"
-            className="crm-button crm-button--quiet"
-            disabled={repeatedEmployeeCursor || employees.isFetchingNextPage}
-            onClick={() => {
-              if (!repeatedEmployeeCursor) void employees.fetchNextPage();
+        {employeePages.length > 0 ? (
+          <CursorPagination
+            ariaLabel="Пагинация сотрудников из мигрированной БД"
+            loadedPageCount={employeePages.length}
+            currentPageIndex={safeEmployeePageIndex}
+            hasNextPage={Boolean(employees.hasNextPage)}
+            loadedItemCount={loadedEmployeeCount}
+            visibleItemCount={employeeRows.length}
+            isFetchingNextPage={employees.isFetchingNextPage}
+            repeatedCursor={repeatedEmployeeCursor}
+            onPageChange={setEmployeePageIndex}
+            onFetchNextPage={async () => {
+              if (repeatedEmployeeCursor) return;
+              const before = employeePages.length;
+              const result = await employees.fetchNextPage();
+              const after = result.data?.pages.length ?? before;
+              if (after > before) setEmployeePageIndex(after - 1);
             }}
-          >
-            {employees.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё сотрудников"}
-          </button>
+          />
         ) : null}
-        {repeatedEmployeeCursor ? (
+        {employees.isFetchNextPageError && employeeRows.length > 0 ? (
           <StateMessage
-            state="stale"
-            title="Пагинация сотрудников остановлена безопасно"
-            message="Backend повторил cursor. Frontend не запрашивает одну страницу повторно."
+            state="error"
+            title="Следующая страница сотрудников не загружена"
+            message={employees.error.message}
+            action={{ label: "Повторить", onPress: () => void employees.fetchNextPage() }}
           />
         ) : null}
       </section>
@@ -471,7 +517,9 @@ export function AccessSettingsScreen() {
                     type="search"
                     value={employeeSearch}
                     placeholder="ФИО, email или табельный номер"
-                    onChange={(event) => setEmployeeSearch(event.currentTarget.value)}
+                    onChange={(event) =>
+                      updateSearchParam("employeeSearch", event.currentTarget.value)
+                    }
                   />
                 </label>
 
@@ -535,17 +583,35 @@ export function AccessSettingsScreen() {
                   </fieldset>
                 )}
 
-                {employees.hasNextPage ? (
-                  <button
-                    type="button"
-                    className="crm-button crm-button--quiet"
-                    disabled={repeatedEmployeeCursor || employees.isFetchingNextPage}
-                    onClick={() => {
-                      if (!repeatedEmployeeCursor) void employees.fetchNextPage();
+                {employeePages.length > 0 ? (
+                  <CursorPagination
+                    ariaLabel="Пагинация выбора сотрудника"
+                    loadedPageCount={employeePages.length}
+                    currentPageIndex={safeEmployeePageIndex}
+                    hasNextPage={Boolean(employees.hasNextPage)}
+                    loadedItemCount={loadedEmployeeCount}
+                    visibleItemCount={employeeRows.length}
+                    isFetchingNextPage={employees.isFetchingNextPage}
+                    repeatedCursor={repeatedEmployeeCursor}
+                    onPageChange={setEmployeePageIndex}
+                    onFetchNextPage={async () => {
+                      if (repeatedEmployeeCursor) return;
+                      const before = employeePages.length;
+                      const result = await employees.fetchNextPage();
+                      const after = result.data?.pages.length ?? before;
+                      if (after > before) setEmployeePageIndex(after - 1);
                     }}
-                  >
-                    {employees.isFetchingNextPage ? "Загружаем…" : "Загрузить ещё сотрудников"}
-                  </button>
+                  />
+                ) : null}
+
+                {employees.isFetchNextPageError && employeeRows.length > 0 ? (
+                  <StateMessage
+                    compact
+                    state="error"
+                    title="Следующая страница сотрудников не загружена"
+                    message={employees.error.message}
+                    action={{ label: "Повторить", onPress: () => void employees.fetchNextPage() }}
+                  />
                 ) : null}
 
                 <div className="access-provision-fields">

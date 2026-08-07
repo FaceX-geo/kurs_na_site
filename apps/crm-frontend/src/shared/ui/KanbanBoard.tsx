@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+import { type DragEvent, type ReactNode, useId, useState } from "react";
 
 export type KanbanTone = "new" | "review" | "documents" | "selection" | "waiting" | "work" | "done";
 
@@ -39,6 +39,10 @@ export function KanbanBoard({
   ariaLabel = "Доска",
   empty,
 }: KanbanBoardProps) {
+  const [draggedCardId, setDraggedCardId] = useState<string | null>(null);
+  const [dropColumnId, setDropColumnId] = useState<string | null>(null);
+  const instructionId = useId();
+
   if (cards.length === 0) {
     return <div className="crm-kanban__empty">{empty ?? "Нет записей для выбранных условий."}</div>;
   }
@@ -81,14 +85,42 @@ export function KanbanBoard({
   }
 
   return (
-    <section className="crm-kanban" aria-label={ariaLabel}>
+    <section className="crm-kanban" aria-label={ariaLabel} aria-describedby={instructionId}>
+      <p id={instructionId} className="crm-sr-only">
+        {onMoveRequest
+          ? "Карточку можно перетащить в другой столбец. Это только запрос: перед изменением откроется preview. Для клавиатуры используйте список выбора этапа внутри карточки."
+          : "Доска доступна только для чтения. Для последовательного просмотра используйте режим списка."}
+      </p>
       {columns.map((column, columnIndex) => {
         const columnCards = cards.filter((card) => card.columnId === column.id);
         return (
           <section
-            className={`crm-kanban-column crm-kanban-column--${column.tone}`}
+            className={`crm-kanban-column crm-kanban-column--${column.tone}${dropColumnId === column.id ? " is-drop-target" : ""}`}
             aria-labelledby={`crm-kanban-column-${column.id}`}
             key={column.id}
+            onDragEnter={() => {
+              if (draggedCardId) setDropColumnId(column.id);
+            }}
+            onDragOver={(event: DragEvent<HTMLElement>) => {
+              if (!draggedCardId || !onMoveRequest) return;
+              event.preventDefault();
+              event.dataTransfer.dropEffect = "move";
+              setDropColumnId(column.id);
+            }}
+            onDragLeave={(event) => {
+              if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+                setDropColumnId((current) => (current === column.id ? null : current));
+              }
+            }}
+            onDrop={(event: DragEvent<HTMLElement>) => {
+              event.preventDefault();
+              const card = cards.find((item) => item.id === draggedCardId);
+              if (card && card.columnId !== column.id) {
+                onMoveRequest?.({ card, targetColumnId: column.id });
+              }
+              setDraggedCardId(null);
+              setDropColumnId(null);
+            }}
           >
             <header>
               <div>
@@ -107,8 +139,22 @@ export function KanbanBoard({
               {columnCards.length > 0 ? (
                 columnCards.map((card) => (
                   <article
-                    className={`crm-kanban-card${card.id === selectedId ? " is-selected" : ""}`}
+                    className={`crm-kanban-card${card.id === selectedId ? " is-selected" : ""}${card.id === draggedCardId ? " is-dragging" : ""}`}
+                    draggable={Boolean(onMoveRequest)}
                     key={card.id}
+                    onDragStart={(event: DragEvent<HTMLElement>) => {
+                      if (!onMoveRequest) {
+                        event.preventDefault();
+                        return;
+                      }
+                      event.dataTransfer.effectAllowed = "move";
+                      event.dataTransfer.setData("text/plain", card.id);
+                      setDraggedCardId(card.id);
+                    }}
+                    onDragEnd={() => {
+                      setDraggedCardId(null);
+                      setDropColumnId(null);
+                    }}
                   >
                     <button
                       type="button"

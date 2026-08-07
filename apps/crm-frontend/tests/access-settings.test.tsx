@@ -68,9 +68,19 @@ describe("SUPER_ADMIN access registries", () => {
     expect(employees).toHaveBeenCalledWith({ limit: 100 });
     expect(screen.getAllByText("Не указан").length).toBeGreaterThan(0);
 
-    fireEvent.click(screen.getByRole("button", { name: "Загрузить ещё сотрудников" }));
+    const employeePagination = screen.getByRole("navigation", {
+      name: "Пагинация сотрудников из мигрированной БД",
+    });
+    fireEvent.click(
+      within(employeePagination).getByRole("button", { name: "Загрузить следующую" }),
+    );
     expect(await screen.findByText("Пётр Соколов")).not.toBeNull();
+    expect(screen.queryByText("Ирина Волкова")).toBeNull();
     expect(employees).toHaveBeenLastCalledWith({ limit: 100, cursor: "employees-cursor-2" });
+
+    fireEvent.click(within(employeePagination).getByRole("button", { name: "Предыдущая" }));
+    expect(await screen.findByText("Ирина Волкова")).not.toBeNull();
+    expect(screen.queryByText("Пётр Соколов")).toBeNull();
 
     fireEvent.click(screen.getByRole("button", { name: "Создать специалиста" }));
     const dialog = await screen.findByRole("dialog", { name: "Создать специалиста" });
@@ -81,6 +91,24 @@ describe("SUPER_ADMIN access registries", () => {
         (within(dialog).getByRole("textbox", { name: "Рабочий email" }) as HTMLInputElement).value,
       ).toBe("");
     });
+  });
+
+  it("keeps the cached user page visible when loading the next cursor fails", async () => {
+    vi.spyOn(crmApi, "listProvisionableEmployees").mockResolvedValue(employeePage([], null));
+    const users = vi
+      .spyOn(crmApi, "listUsers")
+      .mockResolvedValueOnce(userPage("Анна Смирнова", "users-cursor-2"))
+      .mockRejectedValueOnce(new Error("Временная ошибка продолжения"));
+
+    renderAccessSettings();
+
+    expect(await screen.findByText("Анна Смирнова")).not.toBeNull();
+    const pagination = screen.getByRole("navigation", { name: "Пагинация пользователей CRM" });
+    fireEvent.click(within(pagination).getByRole("button", { name: "Загрузить следующую" }));
+
+    expect(await screen.findByText("Следующая страница пользователей не загружена")).not.toBeNull();
+    expect(screen.getByText("Анна Смирнова")).not.toBeNull();
+    expect(users).toHaveBeenLastCalledWith({ limit: 200, cursor: "users-cursor-2" });
   });
 });
 
@@ -127,6 +155,32 @@ function emptyUsersPage(): UsersResponse {
   return {
     items: [],
     page: { limit: 200, nextCursor: null, hasMore: false },
+  };
+}
+
+function userPage(displayName: string, nextCursor: string | null): UsersResponse {
+  return {
+    items: [
+      {
+        id: "00000000-0000-4000-8000-000000000601",
+        displayName,
+        email: "anna@example.test",
+        username: "anna",
+        accountState: "active",
+        credentialState: "active",
+        riskState: "normal",
+        mfaState: "enrolled",
+        employmentState: "active",
+        roles: ["crm_specialist"],
+        businessRole: "SPECIALIST",
+        employeeProfileId: "00000000-0000-4000-8000-000000000701",
+        activeSessions: 1,
+        version: 1,
+        createdAt: "2026-08-06T08:00:00.000Z",
+        updatedAt: "2026-08-07T08:00:00.000Z",
+      },
+    ],
+    page: { limit: 200, nextCursor, hasMore: nextCursor !== null },
   };
 }
 
